@@ -1,3 +1,15 @@
+//! An API that calculates astronomical times such as sunrise, sunset and
+//! twilight times.
+//!
+//! **Note:** There are times when the algorithms can't calculate proper values
+//! for sunrise, sunset and twilight. This is usually caused by trying to
+//! calculate times for areas either very far North or South, where sunrise /
+//! sunset never happen on that date. This is common when calculating twilight
+//! with a deep dip below the horizon for locations as far south of the North
+//! Pole as London, in the northern hemisphere. The sun never reaches this dip
+//! at certain times of the year. When the calculations encounter this condition
+//! they will panic 😬. I hope to fix that in a future version
+
 use chrono::{TimeDelta, prelude::*};
 
 use crate::util::geolocation::GeoLocation;
@@ -9,11 +21,13 @@ pub const CIVIL_ZENITH: f64 = 96.0;
 pub const NAUTICAL_ZENITH: f64 = 102.0;
 pub const ASTRONOMICAL_ZENITH: f64 = 108.0;
 
-/// This function returns a `DateTime` representing the elevation adjusted sunrise time. The zenith
-/// used for the calculation uses [geometric zenith](GEOMETRIC_ZENITH) of 90&deg;, plus
-/// [extra adjustments](crate::util::astronomical_calculations::adjusted_zenith). This is adjusted
-/// to add approximately 50/60 of a degree to account for 34 archminutes of refraction and 16
-/// archminutes for the sun's radius for a total of 90.83333&deg;.
+/// Returns a `DateTime` representing the elevation-adjusted sunrise time.
+///
+/// The zenith used for the calculation uses [geometric
+/// zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
+/// [adjusted](crate::util::astronomical_calculations::adjusted_zenith) to add
+/// approximately 50/60 of a degree to account for 34 archminutes of refraction
+/// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
 pub fn sunrise(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
     date_time_from_time_of_day(
         date,
@@ -21,14 +35,15 @@ pub fn sunrise(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc
     )
 }
 
-/// A function that returns the sunrise without elevation adjustment, i.e. at sea level
+/// Returns the sunrise without elevation adjustment, i.e. at sea level
 pub fn sea_level_sunrise(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
     sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
-/// A utility function that returns the time of an offset by degrees below or above the horizon of
-/// sunrise. Note that the degree offset is from the vertical, so for a calculation of 14&deg;
-/// before sunrise, an offset of 14 + [GEOMETRIC_ZENITH] = 104 would have to be passed as a parameter.
+/// A utility function that returns the time of an offset by degrees below or
+/// above the horizon of sunrise. Note that the degree offset is from the
+/// vertical, so for a calculation of 14&deg; before sunrise, an offset of 14 +
+/// [GEOMETRIC_ZENITH] = 104 would have to be passed as a parameter
 pub fn sunrise_offset_by_degrees(
     date: &DateTime<Utc>,
     geo_location: &GeoLocation,
@@ -40,11 +55,12 @@ pub fn sunrise_offset_by_degrees(
     )
 }
 
-/// This function returns a `DateTime` representing the elevation adjusted sunset time. The zenith
-/// used for the calculation uses [geometric zenith](GEOMETRIC_ZENITH) of 90&deg;, plus
-/// [extra adjustments](crate::util::astronomical_calculations::adjusted_zenith). This is adjusted
-/// to add approximately 50/60 of a degree to account for 34 archminutes of refraction and 16
-/// archminutes for the sun's radius for a total of 90.83333&deg;.
+/// Returns a `DateTime` representing the elevation-adjusted
+/// sunset time. The zenith used for the calculation uses
+/// [geometric zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
+/// [adjusted](crate::util::astronomical_calculations::adjusted_zenith) to add
+/// approximately 50/60 of a degree to account for 34 archminutes of refraction
+/// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
 pub fn sunset(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
     date_time_from_time_of_day(
         date,
@@ -52,14 +68,16 @@ pub fn sunset(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc>
     )
 }
 
-/// A function that returns the sunset without elevation adjustment, i.e. at sea level
+/// Returns the sunset without elevation adjustment, i.e. at sea
+/// level
 pub fn sea_level_sunset(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
     sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
-/// A utility function that returns the time of an offset by degrees below or above the horizon of
-/// sunset. Note that the degree offset is from the vertical, so for a calculation of 14&deg;
-/// after sunset, an offset of 14 + [GEOMETRIC_ZENITH] = 104 would have to be passed as a parameter.
+/// A utility function that returns the time of an offset by degrees below or
+/// above the horizon of sunset. Note that the degree offset is from the
+/// vertical, so for a calculation of 14&deg; after sunset, an offset of 14 +
+/// [GEOMETRIC_ZENITH] = 104 would have to be passed as a parameter
 pub fn sunset_offset_by_degrees(
     date: &DateTime<Utc>,
     geo_location: &GeoLocation,
@@ -71,41 +89,44 @@ pub fn sunset_offset_by_degrees(
     )
 }
 
-/// A function that returns the sunrise in UTC time without correction for time zone offset from GMT
-/// and without using daylight savings time.
+/// Returns the sunrise in UTC time without correction for time
+/// zone offset from GMT and without using daylight savings time
 pub fn utc_elevation_sunrise(date: &DateTime<Utc>, zenith: f64, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, true)
 }
 
-/// A function that returns the sunrise in UTC time without correction for elevation, time zone offset
-/// from GMT and without using daylight savings time.
+/// Returns the sunrise in UTC time without correction for
+/// elevation, time zone offset from GMT and without using daylight savings
+/// time
 pub fn utc_sea_level_sunrise(date: &DateTime<Utc>, zenith: f64, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, false)
 }
 
-/// A function that returns the sunset in UTC time without correction for time zone offset from GMT
-/// and without using daylight savings time.
+/// Returns the sunset in UTC time without correction for time
+/// zone offset from GMT and without using daylight savings time
 pub fn utc_elevation_sunset(date: &DateTime<Utc>, zenith: f64, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::utc_sunset(date, geo_location, zenith, true)
 }
 
-/// A function that returns the sunset in UTC time without correction for elevation, time zone offset
-/// from GMT and without using daylight savings time.
+/// Returns the sunset in UTC time without correction for
+/// elevation, time zone offset from GMT and without using daylight savings
+/// time
 pub fn utc_sea_level_sunset(date: &DateTime<Utc>, zenith: f64, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::utc_sunset(date, geo_location, zenith, false)
 }
 
-/// A utility function that will allow the calculation of a temporal (solar) hour based on the
-/// sunrise and sunset passed as parameters to this function.
+/// A utility function that will allow the calculation of a temporal (solar)
+/// hour based on the sunrise and sunset passed as parameters to this function
 pub fn temporal_hour(sunrise: &DateTime<Utc>, sunset: &DateTime<Utc>) -> f64 {
-    let daytime_hours = (*sunset - *sunrise).as_seconds_f64() / 3600.0;
+    let daytime_hours = (*sunset - *sunrise).as_seconds_f64() / 3_600.0;
     (daytime_hours / 12.0) * HOUR_MILLIS
 }
 
-/// A function that returns sundial or solar noon. It occurs when the Sun is transiting the
-/// celestial meridian. It is calculated as halfway between the sunrise and sunset passed
-/// to this function. This time can be slightly off the real transit time due to changes
-/// in declination (the lengthening or shortening day).
+/// Returns sundial or solar noon. It occurs when the Sun is
+/// transiting the celestial meridian. It is calculated as halfway between the
+/// sunrise and sunset passed to this function. This time can be slightly off
+/// the real transit time due to changes in declination (the lengthening or
+/// shortening day)
 pub fn sun_transit(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
     let sunrise = sea_level_sunrise(date, geo_location);
     let sunset = sea_level_sunset(date, geo_location);
@@ -113,11 +134,12 @@ pub fn sun_transit(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime
     sunrise + TimeDelta::microseconds(((noon_hour / 24.0) * DAY_MICROS).round() as i64)
 }
 
-/// A function that creates a `DateTime` from the returned `f64` of [utc_elevation_sunrise], etc.
+/// A function that creates a `DateTime` from the returned `f64` of
+/// [utc_elevation_sunrise], etc
 pub fn date_time_from_time_of_day(date: &DateTime<Utc>, time_of_day: f64) -> DateTime<Utc> {
-    let total_seconds = time_of_day * 3600.0;
-    let hour = (total_seconds / 3600.0).floor() as u32;
-    let remainder = total_seconds % 3600.0;
+    let total_seconds = time_of_day * 3_600.0;
+    let hour = (total_seconds / 3_600.0).floor() as u32;
+    let remainder = total_seconds % 3_600.0;
     let minute = (remainder / 60.0).floor() as u32;
     let remainder = remainder % 60.0;
     let second = (remainder).floor() as u32;
@@ -220,11 +242,11 @@ mod tests {
     fn test_temporal_hour() {
         let start1 = Utc.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
         let end1 = Utc.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
-        assert_eq!(temporal_hour(&start1, &end1), 3600000.0);
+        assert_eq!(temporal_hour(&start1, &end1), 3_600_000.0);
 
         let start2 = Utc.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end2 = Utc.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
-        assert_eq!(temporal_hour(&start2, &end2), 4041083.3333333335);
+        assert_eq!(temporal_hour(&start2, &end2), 4_041_083.3333333335);
     }
 
     fn date_loc() -> (DateTime<Utc>, GeoLocation) {
