@@ -103,9 +103,8 @@ pub fn alos(
     offset: ZmanOffset,
 ) -> DateTime<Utc> {
     match offset {
-        ZmanOffset::Degrees(deg) => DateTime::from_timestamp(
-            utc_sea_level_sunrise(date, GEOMETRIC_ZENITH + deg, geo_location) as i64,
-            0,
+        ZmanOffset::Degrees(deg) => DateTime::from_timestamp_micros(
+            (utc_sea_level_sunrise(date, GEOMETRIC_ZENITH + deg, geo_location) * SECOND_MICROS).round() as i64,
         )
         .unwrap(),
         ZmanOffset::Minutes(min) => offset_by_minutes(

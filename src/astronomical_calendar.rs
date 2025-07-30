@@ -110,7 +110,7 @@ pub fn sun_transit(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime
     let sunrise = sea_level_sunrise(date, geo_location);
     let sunset = sea_level_sunset(date, geo_location);
     let noon_hour = (temporal_hour(&sunrise, &sunset) / HOUR_MILLIS) * 6.0;
-    sunrise + TimeDelta::microseconds(((noon_hour / 24.0) * DAY_MICROS) as i64)
+    sunrise + TimeDelta::microseconds(((noon_hour / 24.0) * DAY_MICROS).round() as i64)
 }
 
 /// A function that creates a `DateTime` from the returned `f64` of [utc_elevation_sunrise], etc.
@@ -121,7 +121,7 @@ pub fn date_time_from_time_of_day(date: &DateTime<Utc>, time_of_day: f64) -> Dat
     let minute = (remainder / 60.0).floor() as u32;
     let remainder = remainder % 60.0;
     let second = (remainder).floor() as u32;
-    let microsecond = (remainder.fract() * 1_000_000.0).round() as u32;
+    let microsecond = (remainder.fract() * SECOND_MICROS).round() as u32;
 
     let (year, month, day) = (date.year(), date.month(), date.day());
 
