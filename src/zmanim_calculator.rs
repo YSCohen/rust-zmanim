@@ -14,13 +14,13 @@
 
 use chrono::{TimeDelta, prelude::*};
 
-use crate::astronomical_calendar::*;
+use crate::astronomical_calculator::*;
 use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::*;
 
 /// Returns [sea level sunrise](sea_level_sunrise) if `use_elevation` is false,
-/// or [elevation-adjusted sunrise](crate::astronomical_calendar::sunrise) if it
-/// is true. This allows relevant *zmanim* to automatically adjust to the
+/// or [elevation-adjusted sunrise](crate::astronomical_calculator::sunrise) if
+/// it is true. This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
 pub fn elevation_adjusted_sunrise(
     date: &DateTime<Utc>,
@@ -44,8 +44,9 @@ pub fn hanetz(
 }
 
 /// Returns [sea level sunset](sea_level_sunset) if `use_elevation` is false, or
-/// [elevation-adjusted sunset](crate::astronomical_calendar::sea_level_sunset)
-/// if it is true. This allows relevant *zmanim* to automatically adjust to the
+/// [elevation-adjusted
+/// sunset](crate::astronomical_calculator::sea_level_sunset) if it is true.
+/// This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
 pub fn elevation_adjusted_sunset(
     date: &DateTime<Utc>,
@@ -162,7 +163,8 @@ pub fn alos_72(
     alos(date, geo_location, use_elevation, ZmanOffset::Minutes(72.0))
 }
 
-/// Returns [Astronomical *chatzos*](crate::astronomical_calendar::sun_transit).
+/// Returns [Astronomical
+/// *chatzos*](crate::astronomical_calculator::sun_transit).
 pub fn chatzos(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
     // TODO: implement half-day chatzos and add an option here
     sun_transit(date, geo_location)
@@ -305,7 +307,8 @@ pub fn plag_hamincha(day_start: &DateTime<Utc>, day_end: &DateTime<Utc>) -> Date
     shaos_into_day(day_start, day_end, 10.75)
 }
 
-/// An alias for [temporal_hour()](crate::astronomical_calendar::temporal_hour)
+/// An alias for
+/// [temporal_hour()](crate::astronomical_calculator::temporal_hour)
 pub fn shaah_zmanis(day_start: &DateTime<Utc>, day_end: &DateTime<Utc>) -> f64 {
     temporal_hour(day_start, day_end)
 }
@@ -399,12 +402,12 @@ mod tests {
     fn test_sof_zman_tefila() {
         let start = Utc.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
         let end = Utc.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
-        let result1 = format!("{}", sof_zman_tefila(&start, &end));
+        let result1 = sof_zman_tefila(&start, &end).to_string();
         assert_eq!(result1, "2025-07-29 10:00:00 UTC");
 
         let start = Utc.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end = Utc.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
-        let result2 = format!("{}", sof_zman_tefila(&start, &end));
+        let result2 = sof_zman_tefila(&start, &end).to_string();
         assert_eq!(result2, "2025-07-29 10:16:53.333333 UTC");
     }
 
@@ -412,36 +415,36 @@ mod tests {
     fn test_shaos_into_day() {
         let start1 = Utc.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
         let end1 = Utc.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
-        let result1 = format!("{}", shaos_into_day(&start1, &end1, 4.34));
+        let result1 = shaos_into_day(&start1, &end1, 4.34).to_string();
         assert_eq!(result1, "2025-07-29 10:20:24 UTC");
 
         let start2 = Utc.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end2 = Utc.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
         // let result2 = Utc.with_ymd_and_hms(2025, 7, 29, 10, 39, 47).unwrap();
-        let result2 = format!("{}", shaos_into_day(&start2, &end2, 4.34));
+        let result2 = shaos_into_day(&start2, &end2, 4.34).to_string();
         assert_eq!(result2, "2025-07-29 10:39:47.301667 UTC");
     }
 
     #[test]
     fn test_sof_zman_shema_gra() {
         let (date, loc) = date_loc();
-        let result = format!("{}", sof_zman_shema_gra(&date, &loc, false));
+        let result = sof_zman_shema_gra(&date, &loc, false).to_string();
         assert_eq!(result, "2025-07-29 06:20:04.898816 UTC");
     }
 
     #[test]
     fn test_sof_zman_tefila_gra() {
         let (date, loc) = date_loc();
-        let result = format!("{}", sof_zman_tefila_gra(&date, &loc, false));
+        let result = sof_zman_tefila_gra(&date, &loc, false).to_string();
         assert_eq!(result, "2025-07-29 07:28:46.612436 UTC");
     }
 
     #[test]
     fn test_tzais() {
         let (date, loc) = date_loc();
-        let result1 = format!("{}", tzais(&date, &loc, false, ZmanOffset::Degrees(6.0)));
+        let result1 = tzais(&date, &loc, false, ZmanOffset::Degrees(6.0)).to_string();
         assert_eq!(result1, "2025-07-29 17:04:59.441464 UTC"); // cheated: added one microsecond
-        let result2 = format!("{}", tzais(&date, &loc, false, ZmanOffset::Minutes(6.0)));
+        let result2 = tzais(&date, &loc, false, ZmanOffset::Minutes(6.0)).to_string();
         assert_eq!(result2, "2025-07-29 16:44:20.321397 UTC");
         let start = sea_level_sunrise(&date, &loc);
         let end = sea_level_sunset(&date, &loc);
@@ -464,7 +467,7 @@ mod tests {
     #[test]
     fn test_chatzos() {
         let (date, loc) = date_loc();
-        let result = format!("{}", chatzos(&date, &loc));
+        let result = chatzos(&date, &loc).to_string();
         assert_eq!(result, "2025-07-29 09:46:10.039676 UTC")
     }
 
@@ -472,12 +475,12 @@ mod tests {
     fn test_plag_hamincha() {
         let start = Utc.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
         let end = Utc.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
-        let result1 = format!("{}", plag_hamincha(&start, &end));
+        let result1 = plag_hamincha(&start, &end).to_string();
         assert_eq!(result1, "2025-07-29 16:45:00 UTC");
 
         let start = Utc.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end = Utc.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
-        let result2 = format!("{}", plag_hamincha(&start, &end));
+        let result2 = plag_hamincha(&start, &end).to_string();
         assert_eq!(result2, "2025-07-29 17:51:30.645833 UTC");
     }
 

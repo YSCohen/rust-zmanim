@@ -12,7 +12,7 @@
 use chrono::prelude::*;
 use julian_day_converter::unixtime_to_julian_day;
 
-use crate::util::astronomical_calculations;
+use crate::util::astronomical_basics;
 use crate::util::geolocation::GeoLocation;
 
 /// The Julian day of January 1, 2000, known as J2000.0
@@ -66,7 +66,7 @@ fn julian_day_from_julian_centuries(julian_centuries: f64) -> f64 {
 }
 
 /// Wrapper for [calculate_utc_sun_position] that [adjusts the
-/// zenith](astronomical_calculations::adjusted_zenith) (including for
+/// zenith](astronomical_basics::adjusted_zenith) (including for
 /// elevation) and converts to hours
 fn utc_sun_position(
     target_date: &DateTime<Utc>,
@@ -80,7 +80,7 @@ fn utc_sun_position(
     } else {
         0.0
     };
-    let adjusted_zenith = astronomical_calculations::adjusted_zenith(zenith, elevation);
+    let adjusted_zenith = astronomical_basics::adjusted_zenith(zenith, elevation);
     let utc_time = calculate_utc_sun_position(
         unixtime_to_julian_day(target_date.timestamp()),
         geo_location.latitude,

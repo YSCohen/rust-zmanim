@@ -25,7 +25,7 @@ pub const ASTRONOMICAL_ZENITH: f64 = 108.0;
 ///
 /// The zenith used for the calculation uses [geometric
 /// zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
-/// [adjusted](crate::util::astronomical_calculations::adjusted_zenith) to add
+/// [adjusted](crate::util::astronomical_basics::adjusted_zenith) to add
 /// approximately 50/60 of a degree to account for 34 archminutes of refraction
 /// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
 pub fn sunrise(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
@@ -58,7 +58,7 @@ pub fn sunrise_offset_by_degrees(
 /// Returns a `DateTime` representing the elevation-adjusted
 /// sunset time. The zenith used for the calculation uses
 /// [geometric zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
-/// [adjusted](crate::util::astronomical_calculations::adjusted_zenith) to add
+/// [adjusted](crate::util::astronomical_basics::adjusted_zenith) to add
 /// approximately 50/60 of a degree to account for 34 archminutes of refraction
 /// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
 pub fn sunset(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
@@ -201,7 +201,7 @@ mod tests {
     #[test]
     fn test_sunrise() {
         let (date, loc) = date_loc();
-        let result = format!("{}", sunrise(&date, &loc));
+        let result = sunrise(&date, &loc).to_string();
 
         // result from python-zmanim. currently fails by 1 microsecond
         // assert_eq!(result, "2025-07-29 02:50:13.846322 UTC");
@@ -213,7 +213,7 @@ mod tests {
     #[test]
     fn test_sunset() {
         let (date, loc) = date_loc();
-        let result = format!("{}", sunset(&date, &loc));
+        let result = sunset(&date, &loc).to_string();
 
         // this one passes without cheating
         assert_eq!(result, "2025-07-29 16:42:05.737717 UTC");
@@ -222,14 +222,14 @@ mod tests {
     #[test]
     fn test_sun_transit() {
         let (date, loc) = date_loc();
-        let result = format!("{}", sun_transit(&date, &loc));
+        let result = sun_transit(&date, &loc).to_string();
         assert_eq!(result, "2025-07-29 09:46:10.039676 UTC")
     }
 
     #[test]
     fn test_sunset_offset_by_degrees() {
         let (date, loc) = date_loc();
-        let result = format!("{}", sunset_offset_by_degrees(&date, &loc, 96.0));
+        let result = sunset_offset_by_degrees(&date, &loc, 96.0).to_string();
 
         // fails by 1 microsecond
         // assert_eq!(result, "2025-07-29 17:04:59.441463 UTC")
