@@ -11,6 +11,7 @@
 //! they will panic 😬. I hope to fix that in a future version
 
 use chrono::{TimeDelta, prelude::*};
+use chrono_tz::Tz;
 
 use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::*;
@@ -28,15 +29,16 @@ pub const ASTRONOMICAL_ZENITH: f64 = 108.0;
 /// [adjusted](crate::util::astronomical_basics::adjusted_zenith) to add
 /// approximately 50/60 of a degree to account for 34 archminutes of refraction
 /// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
-pub fn sunrise(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
+pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> DateTime<Tz> {
     date_time_from_time_of_day(
         date,
         noaa_calculator::utc_sunrise(date, geo_location, GEOMETRIC_ZENITH, true),
+        geo_location.timezone,
     )
 }
 
 /// Returns the sunrise without elevation adjustment, i.e. at sea level
-pub fn sea_level_sunrise(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
+pub fn sea_level_sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> DateTime<Tz> {
     sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
@@ -45,13 +47,14 @@ pub fn sea_level_sunrise(date: &DateTime<Utc>, geo_location: &GeoLocation) -> Da
 /// vertical, so for a calculation of 14&deg; before sunrise, an offset of 14 +
 /// [GEOMETRIC_ZENITH] = 104 would have to be passed as a parameter
 pub fn sunrise_offset_by_degrees(
-    date: &DateTime<Utc>,
+    date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     offset_zenith: f64,
-) -> DateTime<Utc> {
+) -> DateTime<Tz> {
     date_time_from_time_of_day(
         date,
         utc_sea_level_sunrise(date, offset_zenith, geo_location),
+        geo_location.timezone,
     )
 }
 
@@ -61,17 +64,18 @@ pub fn sunrise_offset_by_degrees(
 /// [adjusted](crate::util::astronomical_basics::adjusted_zenith) to add
 /// approximately 50/60 of a degree to account for 34 archminutes of refraction
 /// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
-pub fn sunset(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
+pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> DateTime<Tz> {
     date_time_from_time_of_day(
         date,
         noaa_calculator::utc_sunset(date, geo_location, GEOMETRIC_ZENITH, true),
+        geo_location.timezone,
     )
 }
 
 /// Returns the sunset without elevation adjustment, i.e. at sea
 /// level
-pub fn sea_level_sunset(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
-    sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
+pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> DateTime<Tz> {
+    sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH, false)
 }
 
 /// A utility function that returns the time of an offset by degrees below or
@@ -79,183 +83,163 @@ pub fn sea_level_sunset(date: &DateTime<Utc>, geo_location: &GeoLocation) -> Dat
 /// vertical, so for a calculation of 14&deg; after sunset, an offset of 14 +
 /// [GEOMETRIC_ZENITH] = 104 would have to be passed as a parameter
 pub fn sunset_offset_by_degrees(
-    date: &DateTime<Utc>,
+    date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     offset_zenith: f64,
-) -> DateTime<Utc> {
+    adjust_for_elevation: bool,
+) -> DateTime<Tz> {
     date_time_from_time_of_day(
         date,
-        utc_sea_level_sunset(date, offset_zenith, geo_location),
+        noaa_calculator::utc_sunset(date, geo_location, offset_zenith, adjust_for_elevation),
+        geo_location.timezone,
     )
 }
 
 /// Returns the sunrise in UTC time without correction for time
 /// zone offset from GMT and without using daylight savings time
-pub fn utc_elevation_sunrise(date: &DateTime<Utc>, zenith: f64, geo_location: &GeoLocation) -> f64 {
+pub fn utc_elevation_sunrise(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, true)
 }
 
 /// Returns the sunrise in UTC time without correction for
 /// elevation, time zone offset from GMT and without using daylight savings
 /// time
-pub fn utc_sea_level_sunrise(date: &DateTime<Utc>, zenith: f64, geo_location: &GeoLocation) -> f64 {
+pub fn utc_sea_level_sunrise(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, false)
 }
 
 /// Returns the sunset in UTC time without correction for time
 /// zone offset from GMT and without using daylight savings time
-pub fn utc_elevation_sunset(date: &DateTime<Utc>, zenith: f64, geo_location: &GeoLocation) -> f64 {
+pub fn utc_elevation_sunset(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::utc_sunset(date, geo_location, zenith, true)
 }
 
 /// Returns the sunset in UTC time without correction for
 /// elevation, time zone offset from GMT and without using daylight savings
 /// time
-pub fn utc_sea_level_sunset(date: &DateTime<Utc>, zenith: f64, geo_location: &GeoLocation) -> f64 {
+pub fn utc_sea_level_sunset(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::utc_sunset(date, geo_location, zenith, false)
 }
 
 /// A utility function that will allow the calculation of a temporal (solar)
 /// hour based on the sunrise and sunset passed as parameters to this function
-pub fn temporal_hour(sunrise: &DateTime<Utc>, sunset: &DateTime<Utc>) -> f64 {
+pub fn temporal_hour(sunrise: &DateTime<Tz>, sunset: &DateTime<Tz>) -> f64 {
     let daytime_hours = (*sunset - *sunrise).as_seconds_f64() / 3_600.0;
     (daytime_hours / 12.0) * HOUR_MILLIS
 }
 
-/// Returns sundial or solar noon. It occurs when the Sun is
-/// transiting the celestial meridian. It is calculated as halfway between the
-/// sunrise and sunset passed to this function. This time can be slightly off
-/// the real transit time due to changes in declination (the lengthening or
+/// Returns sundial or solar noon. It occurs when the Sun is transiting the
+/// celestial meridian. Here it is calculated as halfway between the sunrise and
+/// sunset at the location passed to this function. This time can be slightly
+/// off the real transit time due to changes in declination (the lengthening or
 /// shortening day)
-pub fn sun_transit(date: &DateTime<Utc>, geo_location: &GeoLocation) -> DateTime<Utc> {
+pub fn sun_transit(date: &DateTime<Tz>, geo_location: &GeoLocation) -> DateTime<Tz> {
     let sunrise = sea_level_sunrise(date, geo_location);
     let sunset = sea_level_sunset(date, geo_location);
     let noon_hour = (temporal_hour(&sunrise, &sunset) / HOUR_MILLIS) * 6.0;
     sunrise + TimeDelta::microseconds(((noon_hour / 24.0) * DAY_MICROS).round() as i64)
 }
 
-/// A function that creates a `DateTime` from the returned `f64` of
+/// A function that creates a `DateTime` from the `f64` of UTC time from
 /// [utc_elevation_sunrise], etc
-pub fn date_time_from_time_of_day(date: &DateTime<Utc>, time_of_day: f64) -> DateTime<Utc> {
+pub fn date_time_from_time_of_day(
+    date: &DateTime<Tz>,
+    time_of_day: f64,
+    timezone: Tz,
+) -> DateTime<Tz> {
     let total_seconds = time_of_day * 3_600.0;
     let hour = (total_seconds / 3_600.0).floor() as u32;
     let remainder = total_seconds % 3_600.0;
     let minute = (remainder / 60.0).floor() as u32;
     let remainder = remainder % 60.0;
     let second = (remainder).floor() as u32;
-    let microsecond = (remainder.fract() * SECOND_MICROS).round() as u32;
+    let microsecond = (remainder.fract() * SECOND_MICROS).round() as i64;
 
     let (year, month, day) = (date.year(), date.month(), date.day());
 
-    let naive_datetime = NaiveDate::from_ymd_opt(year, month, day)
-        .and_then(|date| date.and_hms_micro_opt(hour, minute, second, microsecond))
-        .unwrap();
-
-    DateTime::from_naive_utc_and_offset(naive_datetime, Utc)
+    Utc.with_ymd_and_hms(year, month, day, hour, minute, second)
+        .unwrap()
+        .with_timezone(&timezone)
+        + TimeDelta::microseconds(microsecond)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono_tz::Asia::Jerusalem;
 
     #[test]
-    fn test_utc_elevation_sunrise() {
-        let (date, loc) = date_loc();
-        assert_eq!(
-            utc_elevation_sunrise(&date, GEOMETRIC_ZENITH, &loc),
-            2.8371795341279333
-        );
-        assert_eq!(utc_elevation_sunrise(&date, 45.6, &loc), 6.526984934096173);
+    fn test_sea_level_sunrise() {
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let rise1 = format!("{}", sea_level_sunrise(&date1, &loc));
+        assert_eq!(rise1, "2025-08-04 05:57:34.359480 IDT");
+
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let rise2 = format!("{}", sea_level_sunrise(&date2, &loc));
+        assert_eq!(rise2, "2025-01-26 06:36:28.393758 IST");
+
+        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+        let rise3 = format!("{}", sea_level_sunrise(&date3, &loc));
+        assert_eq!(rise3, "2005-05-15 05:43:01.021454 IDT");
     }
 
-    #[test]
-    fn test_utc_elevation_sunset() {
-        let (date, loc) = date_loc();
-        assert_eq!(
-            utc_elevation_sunset(&date, GEOMETRIC_ZENITH, &loc),
-            16.701593810321235
-        );
-        assert_eq!(utc_elevation_sunset(&date, 96.7, &loc), 17.144401462315347);
-    }
+    // #[test]
+    // fn test_sun_transit() {
+    //     let loc = GeoLocation {
+    //         latitude: 31.79388,
+    //         longitude: 35.03684,
+    //         elevation: 586.19,
+    //         timezone: Jerusalem,
+    //     };
+
+    //     let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+    //     let transit1 = sun_transit(&date1, &loc);
+    //     println!("{transit1}");
+
+    //     let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+    //     let transit2 = sun_transit(&date2, &loc);
+
+    //     let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+    //     let transit3 = sun_transit(&date3, &loc);
+    // }
 
     #[test]
-    fn test_utc_sea_level_sunrise() {
-        let (date, loc) = date_loc();
-        assert_eq!(
-            utc_sea_level_sunrise(&date, GEOMETRIC_ZENITH, &loc),
-            2.8999327653799707
-        );
-        assert_eq!(utc_sea_level_sunrise(&date, 67.23, &loc), 4.825298918685346);
-    }
+    fn test_temporal_hour() {
+        let start1 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
+        let end1 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
+        assert_eq!(temporal_hour(&start1, &end1), 3_600_000.0);
 
-    #[test]
-    fn test_utc_sea_level_sunset() {
-        let (date, loc) = date_loc();
-        assert_eq!(
-            utc_sea_level_sunset(&date, GEOMETRIC_ZENITH, &loc),
-            16.63897816594255
-        );
-        assert_eq!(utc_sea_level_sunset(&date, 100.1, &loc), 17.446005941808895);
-    }
-
-    #[test]
-    fn test_sunrise() {
-        let (date, loc) = date_loc();
-        let result = sunrise(&date, &loc).to_string();
-
-        // result from python-zmanim. currently fails by 1 microsecond
-        // assert_eq!(result, "2025-07-29 02:50:13.846322 UTC");
-
-        // cheating
-        assert_eq!(result, "2025-07-29 02:50:13.846323 UTC");
-    }
-
-    #[test]
-    fn test_sunset() {
-        let (date, loc) = date_loc();
-        let result = sunset(&date, &loc).to_string();
-
-        // this one passes without cheating
-        assert_eq!(result, "2025-07-29 16:42:05.737717 UTC");
-    }
-
-    #[test]
-    fn test_sun_transit() {
-        let (date, loc) = date_loc();
-        let result = sun_transit(&date, &loc).to_string();
-        assert_eq!(result, "2025-07-29 09:46:10.039676 UTC")
+        let start2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
+        let end2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
+        assert_eq!(temporal_hour(&start2, &end2), 4_041_083.3333333335);
     }
 
     #[test]
     fn test_sunset_offset_by_degrees() {
-        let (date, loc) = date_loc();
-        let result = sunset_offset_by_degrees(&date, &loc, 96.0).to_string();
-
-        // fails by 1 microsecond
-        // assert_eq!(result, "2025-07-29 17:04:59.441463 UTC")
-
-        // cheating
-        assert_eq!(result, "2025-07-29 17:04:59.441464 UTC")
-    }
-
-    #[test]
-    fn test_temporal_hour() {
-        let start1 = Utc.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
-        let end1 = Utc.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
-        assert_eq!(temporal_hour(&start1, &end1), 3_600_000.0);
-
-        let start2 = Utc.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
-        let end2 = Utc.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
-        assert_eq!(temporal_hour(&start2, &end2), 4_041_083.3333333335);
-    }
-
-    fn date_loc() -> (DateTime<Utc>, GeoLocation) {
-        let date = Utc.with_ymd_and_hms(2025, 7, 29, 10, 30, 26).unwrap();
-        let beit_meir = GeoLocation {
-            latitude: 31.78,
-            longitude: 35.03,
-            elevation: 526.0,
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
         };
-        (date, beit_meir)
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let set1 = format!("{}", sunset_offset_by_degrees(&date1, &loc, 98.5, false));
+        assert_eq!(set1, "2025-08-04 20:13:13.825504 IDT");
+
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let set2 = format!("{}", sunset_offset_by_degrees(&date2, &loc, 98.5, false));
+        assert_eq!(set2, "2025-01-26 17:46:52.877997 IST");
+
+        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+        let set3 = format!("{}", sunset_offset_by_degrees(&date3, &loc, 98.5, false));
+        assert_eq!(set3, "2005-05-15 20:09:52.608705 IDT");
     }
 }

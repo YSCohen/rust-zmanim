@@ -2,7 +2,7 @@
 name = "rust-zmanim"
 description = "Rust Zmanim API / Library"
 readme = "README.md"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2024"
 license = "LGPL-2.1-or-later"
 categories = ["date-and-time"]
@@ -10,4 +10,4 @@ keywords = ["zmanim", "library", "jewish"]
 
 [dependencies]
 chrono = "0.4"
-julian_day_converter = "0.4"
+chrono-tz = "0.10"
