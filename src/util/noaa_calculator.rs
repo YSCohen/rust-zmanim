@@ -28,7 +28,7 @@ pub fn utc_sunrise(
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
-) -> f64 {
+) -> Option<f64> {
     utc_sun_position(
         target_date,
         geo_location,
@@ -45,7 +45,7 @@ pub fn utc_sunset(
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
-) -> f64 {
+) -> Option<f64> {
     utc_sun_position(
         target_date,
         geo_location,
@@ -65,34 +65,59 @@ fn julian_day_from_julian_centuries(julian_centuries: f64) -> f64 {
     (julian_centuries * JULIAN_DAYS_PER_CENTURY) + JULIAN_DAY_JAN_1_2000
 }
 
-/// Wrapper for [calculate_utc_sun_position] that [adjusts the
-/// zenith](astronomical_basics::adjusted_zenith) (including for
-/// elevation) and converts to hours
+/// Return the UTC in minutes of a given sun position for the given day at the
+/// given location on earth, ([adjusts the
+/// zenith](astronomical_basics::adjusted_zenith) for refraction, solar radius
+/// and optionally elevation)
 fn utc_sun_position(
     target_date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
     mode: &Mode,
-) -> f64 {
+) -> Option<f64> {
     let elevation = if adjust_for_elevation {
         geo_location.elevation
     } else {
         0.0
     };
+
     let adjusted_zenith = adjusted_zenith(zenith, elevation);
-    let jd = datetime_to_julian_day(target_date);
-    let sunrise = calculate_utc_sun_position(
-        jd,
+    let julian_day = datetime_to_julian_day(target_date);
+
+    // first pass using solar noon
+    let noonmin = solar_noon_utc(
+        julian_centuries_from_julian_day(julian_day),
+        -geo_location.longitude,
+    );
+    let tnoon = julian_centuries_from_julian_day(julian_day + (noonmin / 1_440.0));
+    let first_pass = approximate_utc_sun_position(
+        tnoon,
+        geo_location.latitude,
+        -geo_location.longitude,
+        adjusted_zenith,
+        mode,
+    );
+
+    // refine using output of first pass
+    let trefinement = julian_centuries_from_julian_day(julian_day + (first_pass / 1_440.0));
+
+    let tim = approximate_utc_sun_position(
+        trefinement,
         geo_location.latitude,
         -geo_location.longitude,
         adjusted_zenith,
         mode,
     ) / 60.0;
-    if sunrise > 0.0 {
-        sunrise % 24.0
+
+    if tim.is_nan() {
+        None
     } else {
-        sunrise % 24.0 + 24.0
+        Some(if tim > 0.0 {
+            tim % 24.0
+        } else {
+            tim % 24.0 + 24.0
+        })
     } // ensure that the time is >= 0 and < 24
 }
 
@@ -109,27 +134,6 @@ fn datetime_to_julian_day(date: &DateTime<Tz>) -> f64 {
     let a = (year / 100.0).floor();
     let b = (2.0 - a + a / 4.0).floor();
     (365.25 * (year + 4716.0)).floor() + (30.6001 * (month + 1.0)).floor() + day + b - 1524.5
-}
-
-/// Return the UTC in minutes of a given sun position for the given day at the
-/// given location on earth
-fn calculate_utc_sun_position(
-    julian_day: f64,
-    latitude: f64,
-    longitude: f64,
-    zenith: f64,
-    mode: &Mode,
-) -> f64 {
-    let julian_centuries = julian_centuries_from_julian_day(julian_day);
-
-    // first pass using solar noon
-    let noonmin = solar_noon_utc(julian_centuries, longitude);
-    let tnoon = julian_centuries_from_julian_day(julian_day + (noonmin / 1_440.0));
-    let first_pass = approximate_utc_sun_position(tnoon, latitude, longitude, zenith, mode);
-
-    // refine using output of first pass
-    let trefinement = julian_centuries_from_julian_day(julian_day + (first_pass / 1_440.0));
-    approximate_utc_sun_position(trefinement, latitude, longitude, zenith, mode)
 }
 
 /// Return the approximate UTC in minutes of a given sun position for the given
@@ -360,23 +364,6 @@ mod tests {
     }
 
     #[test]
-    fn test_calculate_utc_sun_position() {
-        let rise1 = calculate_utc_sun_position(2460891.5, 31.79388, 35.03684, 90.0, &Mode::Sunrise);
-        assert_eq!(rise1, 462.1854177425057);
-        let rise2 = calculate_utc_sun_position(2460701.5, 31.79388, 35.03684, 90.0, &Mode::Sunrise);
-        assert_eq!(rise2, 560.8931069135946);
-        let rise3 = calculate_utc_sun_position(2453505.5, 31.79388, 35.03684, 90.0, &Mode::Sunrise);
-        assert_eq!(rise3, 447.43141101551083);
-
-        let set1 = calculate_utc_sun_position(2460891.5, 31.79388, 35.03684, 90.0, &Mode::Sunset);
-        assert_eq!(set1, 1269.8724686489763);
-        let set2 = calculate_utc_sun_position(2460701.5, 31.79388, 35.03684, 90.0, &Mode::Sunset);
-        assert_eq!(set2, 1184.9443420026246);
-        let set3 = calculate_utc_sun_position(2453505.5, 31.79388, 35.03684, 90.0, &Mode::Sunset);
-        assert_eq!(set3, 1265.920609165826);
-    }
-
-    #[test]
     fn test_datetime_to_julian_day() {
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
         let jd1 = datetime_to_julian_day(&date1);
@@ -405,15 +392,15 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let set1 = utc_sunset(&date1, &loc, 90.0, false);
+        let set1 = utc_sunset(&date1, &loc, 90.0, false).unwrap();
         assert_eq!(set1, 16.56541683664536);
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let set2 = utc_sunset(&date2, &loc, 90.0, false);
+        let set2 = utc_sunset(&date2, &loc, 90.0, false).unwrap();
         assert_eq!(set2, 15.14486178521462);
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let set3 = utc_sunset(&date3, &loc, 90.0, false);
+        let set3 = utc_sunset(&date3, &loc, 90.0, false).unwrap();
         assert_eq!(set3, 16.495841422194637);
     }
 
@@ -427,15 +414,15 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let rise1 = utc_sunrise(&date1, &loc, 90.0, false);
+        let rise1 = utc_sunrise(&date1, &loc, 90.0, false).unwrap();
         assert_eq!(rise1, 2.959544300030197);
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let rise2 = utc_sunrise(&date2, &loc, 90.0, false);
+        let rise2 = utc_sunrise(&date2, &loc, 90.0, false).unwrap();
         assert_eq!(rise2, 4.607887155117016);
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let rise3 = utc_sunrise(&date3, &loc, 90.0, false);
+        let rise3 = utc_sunrise(&date3, &loc, 90.0, false).unwrap();
         assert_eq!(rise3, 2.7169504039525774);
     }
 

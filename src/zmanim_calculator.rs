@@ -10,7 +10,10 @@
 //! the *Birur Halacha* Vol. 6 Ch. 58 Pages 34 and 42 is of the opinion that
 //! elevation should be accounted for in *zmanim* calculations. Related to this,
 //! Rabbi Yaakov Karp in *Shimush Zekeinim*, Ch. 1, page 17 states that
-//! obstructing horizons should be factored into *zmanim* calculations
+//! obstructing horizons should be factored into *zmanim* calculations.
+//!
+//! When a *zman* will not occur these functions return `None`. See note in
+//! [astronomical_calculator]
 
 use chrono::{TimeDelta, prelude::*};
 use chrono_tz::Tz;
@@ -27,7 +30,7 @@ pub fn elevation_adjusted_sunrise(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
+) -> Option<DateTime<Tz>> {
     if use_elevation {
         astronomical_calculator::sunrise(date, geo_location)
     } else {
@@ -40,7 +43,7 @@ pub fn hanetz(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
+) -> Option<DateTime<Tz>> {
     elevation_adjusted_sunrise(date, geo_location, use_elevation)
 }
 
@@ -53,7 +56,7 @@ pub fn elevation_adjusted_sunset(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
+) -> Option<DateTime<Tz>> {
     if use_elevation {
         astronomical_calculator::sunset(date, geo_location)
     } else {
@@ -62,7 +65,11 @@ pub fn elevation_adjusted_sunset(
 }
 
 /// An alias for [elevation_adjusted_sunset()](elevation_adjusted_sunset)
-pub fn shkia(date: &DateTime<Tz>, geo_location: &GeoLocation, use_elevation: bool) -> DateTime<Tz> {
+pub fn shkia(
+    date: &DateTime<Tz>,
+    geo_location: &GeoLocation,
+    use_elevation: bool,
+) -> Option<DateTime<Tz>> {
     elevation_adjusted_sunset(date, geo_location, use_elevation)
 }
 
@@ -74,7 +81,7 @@ pub fn tzais(
     geo_location: &GeoLocation,
     use_elevation: bool,
     offset: ZmanOffset,
-) -> DateTime<Tz> {
+) -> Option<DateTime<Tz>> {
     match offset {
         ZmanOffset::Degrees(deg) => astronomical_calculator::sunset_offset_by_degrees(
             date,
@@ -83,16 +90,16 @@ pub fn tzais(
             use_elevation,
         ),
         ZmanOffset::Minutes(min) => {
-            let sunset = elevation_adjusted_sunset(date, geo_location, use_elevation);
-            offset_by_minutes(&sunset, min)
+            let sunset = elevation_adjusted_sunset(date, geo_location, use_elevation)?;
+            Some(offset_by_minutes(&sunset, min))
         }
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
             day_start: start,
             day_end: end,
         } => {
-            let sunset = elevation_adjusted_sunset(date, geo_location, use_elevation);
-            offset_by_minutes_zmanis(&sunset, minz, &start, &end)
+            let sunset = elevation_adjusted_sunset(date, geo_location, use_elevation)?;
+            Some(offset_by_minutes_zmanis(&sunset, minz, &start, &end))
         }
     }
 }
@@ -111,7 +118,7 @@ pub fn tzais_72(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
+) -> Option<DateTime<Tz>> {
     tzais(date, geo_location, use_elevation, ZmanOffset::Minutes(72.0))
 }
 
@@ -123,27 +130,27 @@ pub fn alos(
     geo_location: &GeoLocation,
     use_elevation: bool,
     offset: ZmanOffset,
-) -> DateTime<Tz> {
+) -> Option<DateTime<Tz>> {
     match offset {
         ZmanOffset::Degrees(deg) => astronomical_calculator::sunrise_offset_by_degrees(
             date,
             geo_location,
             astronomical_calculator::GEOMETRIC_ZENITH + deg,
         ),
-        ZmanOffset::Minutes(min) => offset_by_minutes(
-            &elevation_adjusted_sunrise(date, geo_location, use_elevation),
+        ZmanOffset::Minutes(min) => Some(offset_by_minutes(
+            &elevation_adjusted_sunrise(date, geo_location, use_elevation)?,
             -min,
-        ),
+        )),
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
             day_start: start,
             day_end: end,
-        } => offset_by_minutes_zmanis(
-            &elevation_adjusted_sunrise(date, geo_location, use_elevation),
+        } => Some(offset_by_minutes_zmanis(
+            &elevation_adjusted_sunrise(date, geo_location, use_elevation)?,
             -minz,
             &start,
             &end,
-        ),
+        )),
     }
 }
 
@@ -159,14 +166,13 @@ pub fn alos_72(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
+) -> Option<DateTime<Tz>> {
     alos(date, geo_location, use_elevation, ZmanOffset::Minutes(72.0))
 }
 
 /// Returns [Astronomical
 /// *chatzos*](crate::astronomical_calculator::sun_transit).
-pub fn chatzos(date: &DateTime<Tz>, geo_location: &GeoLocation) -> DateTime<Tz> {
-    // TODO: implement half-day chatzos and add an option here
+pub fn chatzos(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     astronomical_calculator::sun_transit(date, geo_location)
 }
 
@@ -194,11 +200,11 @@ pub fn sof_zman_shema_gra(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
-    sof_zman_shema(
-        &elevation_adjusted_sunrise(date, geo_location, use_elevation),
-        &elevation_adjusted_sunset(date, geo_location, use_elevation),
-    )
+) -> Option<DateTime<Tz>> {
+    Some(sof_zman_shema(
+        &elevation_adjusted_sunrise(date, geo_location, use_elevation)?,
+        &elevation_adjusted_sunset(date, geo_location, use_elevation)?,
+    ))
 }
 
 /// Returns the latest *zman shema* (time to recite shema in the morning) that
@@ -213,11 +219,11 @@ pub fn sof_zman_shema_mga(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
-    sof_zman_shema(
-        &alos_72(date, geo_location, use_elevation),
-        &tzais_72(date, geo_location, use_elevation),
-    )
+) -> Option<DateTime<Tz>> {
+    Some(sof_zman_shema(
+        &alos_72(date, geo_location, use_elevation)?,
+        &tzais_72(date, geo_location, use_elevation)?,
+    ))
 }
 
 /// A generic function for calculating the latest *zman tefila* (time to recite
@@ -244,11 +250,11 @@ pub fn sof_zman_tefila_gra(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
-    sof_zman_tefila(
-        &elevation_adjusted_sunrise(date, geo_location, use_elevation),
-        &elevation_adjusted_sunset(date, geo_location, use_elevation),
-    )
+) -> Option<DateTime<Tz>> {
+    Some(sof_zman_tefila(
+        &elevation_adjusted_sunrise(date, geo_location, use_elevation)?,
+        &elevation_adjusted_sunset(date, geo_location, use_elevation)?,
+    ))
 }
 
 /// Returns the latest *zman tefila* (time to recite *shacharis* in the morning)
@@ -263,11 +269,11 @@ pub fn sof_zman_tefila_mga(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> DateTime<Tz> {
-    sof_zman_tefila(
-        &alos_72(date, geo_location, use_elevation),
-        &tzais_72(date, geo_location, use_elevation),
-    )
+) -> Option<DateTime<Tz>> {
+    Some(sof_zman_tefila(
+        &alos_72(date, geo_location, use_elevation)?,
+        &tzais_72(date, geo_location, use_elevation)?,
+    ))
 }
 
 /// A generic function for calculating *mincha gedola* (earliest time to recite
@@ -324,11 +330,11 @@ pub fn shaah_zmanis_gra(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> f64 {
-    shaah_zmanis(
-        &elevation_adjusted_sunrise(date, geo_location, use_elevation),
-        &elevation_adjusted_sunset(date, geo_location, use_elevation),
-    )
+) -> Option<f64> {
+    Some(shaah_zmanis(
+        &elevation_adjusted_sunrise(date, geo_location, use_elevation)?,
+        &elevation_adjusted_sunset(date, geo_location, use_elevation)?,
+    ))
 }
 
 /// Returns a *shaah zmanis* according to the opinion of the Magen Avraham
@@ -344,11 +350,11 @@ pub fn shaah_zmanis_mga(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-) -> f64 {
-    shaah_zmanis(
-        &alos_72(date, geo_location, use_elevation),
-        &tzais_72(date, geo_location, use_elevation),
-    )
+) -> Option<f64> {
+    Some(shaah_zmanis(
+        &alos_72(date, geo_location, use_elevation)?,
+        &tzais_72(date, geo_location, use_elevation)?,
+    ))
 }
 
 /// A generic function for calculating a given number of *shaos zmaniyos*
@@ -421,7 +427,6 @@ mod tests {
 
         let start2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
-        // let result2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 10, 39, 47).unwrap();
         let result2 = shaos_into_day(&start2, &end2, 4.34).to_string();
         assert_eq!(result2, "2025-07-29 10:39:47.301667 IDT");
     }
@@ -436,15 +441,24 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let tzais1 = format!("{}", tzais(&date1, &loc, false, ZmanOffset::Degrees(6.0)));
+        let tzais1 = format!(
+            "{}",
+            tzais(&date1, &loc, false, ZmanOffset::Degrees(6.0)).unwrap()
+        );
         assert_eq!(tzais1, "2025-08-04 20:00:13.884113 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let tzais2 = format!("{}", tzais(&date2, &loc, false, ZmanOffset::Degrees(6.0)));
+        let tzais2 = format!(
+            "{}",
+            tzais(&date2, &loc, false, ZmanOffset::Degrees(6.0)).unwrap()
+        );
         assert_eq!(tzais2, "2025-01-26 17:34:32.830038 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let tzais3 = format!("{}", tzais(&date3, &loc, false, ZmanOffset::Degrees(6.0)));
+        let tzais3 = format!(
+            "{}",
+            tzais(&date3, &loc, false, ZmanOffset::Degrees(6.0)).unwrap()
+        );
         assert_eq!(tzais3, "2005-05-15 19:56:34.656301 IDT");
     }
 }
