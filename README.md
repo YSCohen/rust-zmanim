@@ -5,6 +5,8 @@ The `astronomical_calculator` provides non-religious astronomical / solar calcul
 
 The `zmanim_calculator` contains the basics for *zmanim* calculations.
 
+The `complex_zmanim_calendar` provides a stateful struct and many premade *zmanim* calculations, both merely conveniences built on the [zmanim_calculator] API.
+
 This project is a port from pinnymz's [python-zmanim project](https://github.com/pinnymz/python-zmanim) and Eliyahu Hershfeld's [KosherJava project](https://github.com/KosherJava/zmanim). Almost all of the code is from `python-zmanim` and `KosherJava`, and almost all of the documentation, including some of this README, is from `KosherJava`
 
 See the [KosherJava site](https://kosherjava.com) for additional information on the original Java project and *zmanim* in general.
@@ -16,7 +18,7 @@ I did my best to get accurate results using standardized astronomical calculatio
 
 ## Example
 ```rust
-use chrono_tz::Asia::Jerusalem;
+use chrono_tz::{Asia::Jerusalem, UTC};
 use rust_zmanim::prelude::*;
 
 // the time in the DateTime will be ignored
@@ -28,10 +30,40 @@ let beit_meir = GeoLocation {
     elevation: 526.0,
     timezone: Jerusalem,
 };
-let tzais_baal_hatanya =
-    zmanim_calculator::tzais(&dt, &beit_meir, false, ZmanOffset::Degrees(6.0));
-assert_eq!(
-    format!("{tzais_baal_hatanya}"),
-    "2025-07-29 20:05:21.587287 IDT"
-)
+
+// the `zmanim_calculator` lets you make any custom tzais/alos
+if let Some(tzais_baal_hatanya) =
+    zmanim_calculator::tzais(&dt, &beit_meir, false, ZmanOffset::Degrees(6.0))
+{
+    assert_eq!(
+        format!("{tzais_baal_hatanya}"),
+        "2025-07-29 20:05:21.587287 IDT"
+    );
+}
+
+// there is also a `ComplexZmanimCalendar` for convenience
+let czc = ComplexZmanimCalendar {
+    geo_location: beit_meir,
+    date: dt,
+    use_elevation: UseElevation::No,
+};
+
+if let Some(alos120) = czc.alos_120_minutes() {
+    assert_eq!(format!("{alos120}"), "2025-07-29 03:53:39.574573 IDT");
+};
+
+if let Some(sz18) = czc.shaah_zmanis_18_degrees() {
+    // 1 hour 24 minutes 14 seconds in millis
+    assert_eq!(sz18, 5054106.0605);
+}
+
+// the calculations will return `None` if the specified solar event will not occur
+let north_pole = GeoLocation {
+    latitude: 90.0,
+    longitude: 0.0,
+    elevation: 0.0,
+    timezone: UTC,
+};
+let polar_sunset = zmanim_calculator::shkia(&dt, &north_pole, false);
+assert!(polar_sunset.is_none());
 ```
