@@ -1,11 +1,11 @@
 # [WIP] rust-zmanim
-The rust-zmanim library is an API that can calculate different astronomical times including sunrise and sunset and Jewish *zmanim* or religious times for prayers and other Jewish religious duties.
+The `rust-zmanim` library is an API that can calculate different astronomical times including sunrise and sunset and Jewish *zmanim* or religious times for prayers and other Jewish religious duties.
 
 The `astronomical_calculator` provides non-religious astronomical / solar calculations such as sunrise, sunset and twilight.
 
 The `zmanim_calculator` contains the basics for *zmanim* calculations.
 
-The `complex_zmanim_calendar` provides a stateful struct and many premade *zmanim* calculations, both merely conveniences built on the [zmanim_calculator] API.
+The `complex_zmanim_calendar` provides a stateful struct and many premade *zmanim* calculations, both built on the `zmanim_calculator` API.
 
 This project is a port from pinnymz's [python-zmanim project](https://github.com/pinnymz/python-zmanim) and Eliyahu Hershfeld's [KosherJava project](https://github.com/KosherJava/zmanim). Almost all of the code is from `python-zmanim` and `KosherJava`, and almost all of the documentation, including some of this README, is from `KosherJava`
 
