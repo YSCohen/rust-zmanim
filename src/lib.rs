@@ -12,7 +12,7 @@
 // License along with this library; if not, see:
 // <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>
 
-//! # rust-zmanim
+//! # \[WIP\] rust-zmanim
 //! The rust-zmanim library is an API that can calculate different astronomical
 //! times including sunrise and sunset and Jewish *zmanim* or religious times
 //! for prayers and other Jewish religious duties.

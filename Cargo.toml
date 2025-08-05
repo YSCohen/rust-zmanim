@@ -1,12 +1,14 @@
 [package]
 name = "rust-zmanim"
-description = "Rust Zmanim API / Library"
+description = "Rust Zmanim Library"
 readme = "README.md"
-version = "0.1.7"
+version = "0.1.8"
 edition = "2024"
 license = "LGPL-2.1-or-later"
 categories = ["date-and-time", "science", "mathematics"]
 keywords = ["zmanim", "jewish", "time", "sunset", "sunrise"]
+repository = "https://github.com/YSCohen/rust-zmanim"
+documentation = "https://docs.rs/rust-zmanim/"
 
 [dependencies]
 chrono = "0.4"

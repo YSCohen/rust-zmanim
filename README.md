@@ -1,4 +1,4 @@
-# rust-zmanim
+# [WIP] rust-zmanim
 The rust-zmanim library is an API that can calculate different astronomical times including sunrise and sunset and Jewish *zmanim* or religious times for prayers and other Jewish religious duties.
 
 The `astronomical_calculator` provides non-religious astronomical / solar calculations such as sunrise, sunset and twilight.
