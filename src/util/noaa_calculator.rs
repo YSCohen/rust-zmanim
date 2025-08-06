@@ -15,44 +15,26 @@ use chrono_tz::Tz;
 use crate::util::astronomical_basics::adjusted_zenith;
 use crate::util::geolocation::GeoLocation;
 
+// Julian Stuff
 /// The Julian day of January 1, 2000, known as J2000.0
 const JULIAN_DAY_JAN_1_2000: f64 = 2_451_545.0;
 
 /// Julian days per century
 const JULIAN_DAYS_PER_CENTURY: f64 = 36_525.0;
 
-/// Get the UTC of sunrise in hours, adjusting the zenith for refraction, solar
-/// radius, and optionally elevation
-pub fn utc_sunrise(
-    target_date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-    zenith: f64,
-    adjust_for_elevation: bool,
-) -> Option<f64> {
-    utc_sun_position(
-        target_date,
-        geo_location,
-        zenith,
-        adjust_for_elevation,
-        &Mode::Sunrise,
-    )
-}
-
-/// Get the UTC of sunset in hours, adjusting the zenith for refraction, solar
-/// radius, and optionally elevation
-pub fn utc_sunset(
-    target_date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-    zenith: f64,
-    adjust_for_elevation: bool,
-) -> Option<f64> {
-    utc_sun_position(
-        target_date,
-        geo_location,
-        zenith,
-        adjust_for_elevation,
-        &Mode::Sunset,
-    )
+/// Return the Julian day (at midnight) from a DateTime
+fn datetime_to_julian_day(date: &DateTime<Tz>) -> f64 {
+    // let date  = date.with_timezone(&Tz::UTC);
+    let mut year = date.year() as f64;
+    let mut month = date.month() as f64;
+    let day = date.day() as f64;
+    if month <= 2.0 {
+        year -= 1.0;
+        month += 12.0;
+    }
+    let a = (year / 100.0).floor();
+    let b = (2.0 - a + a / 4.0).floor();
+    (365.25 * (year + 4716.0)).floor() + (30.6001 * (month + 1.0)).floor() + day + b - 1524.5
 }
 
 /// Convert Julian day to centuries since J2000.0
@@ -65,12 +47,158 @@ fn julian_day_from_julian_centuries(julian_centuries: f64) -> f64 {
     (julian_centuries * JULIAN_DAYS_PER_CENTURY) + JULIAN_DAY_JAN_1_2000
 }
 
+// some astronomical functions that stand on their own
+/// Return the hour angle of the sun in radians at for the latitude
+fn sun_hour_angle_at_horizon(latitude: f64, solar_dec: f64, zenith: f64, mode: &Mode) -> f64 {
+    let lat_r = latitude.to_radians();
+    let solar_dec_r = solar_dec.to_radians();
+    let zenith_r = zenith.to_radians();
+
+    let mut hour_angle = ((zenith_r.cos() / (lat_r.cos() * solar_dec_r.cos()))
+        - (lat_r.tan() * solar_dec_r.tan()))
+    .acos();
+
+    if Mode::Sunset == *mode {
+        hour_angle *= -1.0;
+    }
+    hour_angle // in radians
+}
+
+/// Return the unitless eccentricity of earth's orbit
+fn earth_orbit_eccentricity(julian_centuries: f64) -> f64 {
+    0.016708634 - (julian_centuries * (0.000042037 + (0.0000001267 * julian_centuries))) // unitless
+}
+
+/// Return the Geometric Mean Anomaly of the Sun in degrees
+fn sun_geometric_mean_anomaly(julian_centuries: f64) -> f64 {
+    let anomaly = 357.52911 + (julian_centuries * (35999.05029 - (0.0001537 * julian_centuries))); // in degrees
+    anomaly % 360.0 // normalized (0...360)
+}
+
+/// Return the Geometric Mean Longitude of the Sun
+fn sun_geometric_mean_longitude(julian_centuries: f64) -> f64 {
+    let longitude = 280.46646 + (julian_centuries * (36000.76983 + (0.0003032 * julian_centuries))); // in degrees
+    longitude % 360.0 // normalized (0...360)
+}
+
+/// Return the mean obliquity of the ecliptic (Axial tilt)
+fn mean_obliquity_of_ecliptic(julian_centuries: f64) -> f64 {
+    let seconds = 21.448
+        - (julian_centuries
+            * (46.8150 + (julian_centuries * (0.00059 - (julian_centuries * 0.001813)))));
+    23.0 + ((26.0 + (seconds / 60.0)) / 60.0) // in degrees
+}
+
+// chain of functions relying on the ones before
+/// Return the corrected obliquity of the ecliptic (Axial tilt)
+fn obliquity_correction(julian_centuries: f64) -> f64 {
+    let obliquity_of_ecliptic = mean_obliquity_of_ecliptic(julian_centuries);
+
+    let omega = 125.04 - (1_934.136 * julian_centuries);
+    let correction = obliquity_of_ecliptic + (0.00256 * omega.to_radians().cos());
+    correction % 360.0 // normalized (0...360)
+}
+
+/// Return the Equation of Time - the difference between true solar time and
+/// mean solar time
+fn equation_of_time(julian_centuries: f64) -> f64 {
+    let epsilon = obliquity_correction(julian_centuries).to_radians();
+    let sgml = sun_geometric_mean_longitude(julian_centuries).to_radians();
+    let sgma = sun_geometric_mean_anomaly(julian_centuries).to_radians();
+    let eoe = earth_orbit_eccentricity(julian_centuries);
+
+    let mut y = (epsilon / 2.0).tan();
+    y *= y;
+
+    let sin2l0 = (2.0 * sgml).sin();
+    let sin4l0 = (4.0 * sgml).sin();
+    let cos2l0 = (2.0 * sgml).cos();
+    let sinm = (sgma).sin();
+    let sin2m = (2.0 * sgma).sin();
+
+    let eq_time = (y * sin2l0) - (2.0 * eoe * sinm) + (4.0 * eoe * y * sinm * cos2l0)
+        - (0.5 * y * y * sin4l0)
+        - (1.25 * eoe * eoe * sin2m);
+    eq_time.to_degrees() * 4.0 // minutes of time
+}
+
+/// Return the UTC of solar noon for the given day at the given location on
+/// earth. This implementation returns true solar noon as opposed to the time
+/// halfway between sunrise and sunset. Other calculators may return a more
+/// simplified calculation of halfway between sunrise and sunset
+fn solar_noon_utc(julian_centuries: f64, longitude: f64) -> f64 {
+    let century_start = julian_day_from_julian_centuries(julian_centuries);
+
+    // first pass to yield approximate solar noon
+    let approx_tnoon = julian_centuries_from_julian_day(century_start + (longitude / 360.0));
+    let approx_eq_time = equation_of_time(approx_tnoon);
+    let approx_sol_noon = 720.0 + (longitude * 4.0) - approx_eq_time;
+
+    // refinement using output of first pass
+    let tnoon = julian_centuries_from_julian_day(century_start - 0.5 + (approx_sol_noon / 1_440.0));
+    let eq_time = equation_of_time(tnoon);
+    720.0 + (longitude * 4.0) - eq_time
+}
+
+/// Return the equation of center for the sun in degrees
+fn sun_equation_of_center(julian_centuries: f64) -> f64 {
+    let mrad = sun_geometric_mean_anomaly(julian_centuries).to_radians();
+    let sinm = mrad.sin();
+    let sin2m = (2.0 * mrad).sin();
+    let sin3m = (3.0 * mrad).sin();
+
+    (sinm * (1.914602 - (julian_centuries * (0.004817 + (0.000014 * julian_centuries)))))
+        + (sin2m * (0.019993 - (0.000101 * julian_centuries)))
+        + (sin3m * 0.000289) // in degrees
+}
+
+/// Return the true longitude of the sun, in degrees
+fn sun_true_longitude(julian_centuries: f64) -> f64 {
+    let sgml = sun_geometric_mean_longitude(julian_centuries);
+    let center = sun_equation_of_center(julian_centuries);
+    sgml + center // in degrees
+}
+
+/// Return the apparent longitude of the sun, in degrees
+fn sun_apparent_longitude(julian_centuries: f64) -> f64 {
+    let true_longitude = sun_true_longitude(julian_centuries);
+    let omega = 125.04 - (1_934.136 * julian_centuries);
+    true_longitude - 0.00569 - (0.00478 * omega.to_radians().sin()) // in degrees
+}
+
+/// Return the declination of the sun, in degrees
+fn solar_declination(julian_centuries: f64) -> f64 {
+    let correction = obliquity_correction(julian_centuries).to_radians();
+    let apparent_longitude = sun_apparent_longitude(julian_centuries).to_radians();
+    let sint = correction.sin() * apparent_longitude.sin();
+    sint.asin().to_degrees() // in degrees
+}
+
+/// Return the approximate UTC in minutes of a given sun position for the given
+/// day at the given location on earth. Used twice within
+/// [calculate_utc_sun_position] for accuracy
+fn approximate_utc_sun_position(
+    approx_julian_centuries: f64,
+    latitude: f64,
+    longitude: f64,
+    zenith: f64,
+    mode: &Mode,
+) -> f64 {
+    let eq_time = equation_of_time(approx_julian_centuries);
+    let solar_dec = solar_declination(approx_julian_centuries);
+    let hour_angle = sun_hour_angle_at_horizon(latitude, solar_dec, zenith, mode);
+
+    let delta = longitude - hour_angle.to_degrees();
+    let time_delta = delta * 4.0;
+    720.0 + time_delta - eq_time
+}
+
 /// Return the UTC in minutes of a given sun position for the given day at the
 /// given location on earth, ([adjusts the
 /// zenith](astronomical_basics::adjusted_zenith) for refraction, solar radius
 /// and optionally elevation)
 fn utc_sun_position(
-    target_date: &DateTime<Tz>,
+    date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
@@ -83,7 +211,7 @@ fn utc_sun_position(
     };
 
     let adjusted_zenith = adjusted_zenith(zenith, elevation);
-    let julian_day = datetime_to_julian_day(target_date);
+    let julian_day = datetime_to_julian_day(date);
 
     // first pass using solar noon
     let noonmin = solar_noon_utc(
@@ -121,163 +249,39 @@ fn utc_sun_position(
     } // ensure that the time is >= 0 and < 24
 }
 
-/// Return the Julian day (at midnight) from a DateTime
-fn datetime_to_julian_day(date: &DateTime<Tz>) -> f64 {
-    // let date  = date.with_timezone(&Tz::UTC);
-    let mut year = date.year() as f64;
-    let mut month = date.month() as f64;
-    let day = date.day() as f64;
-    if month <= 2.0 {
-        year -= 1.0;
-        month += 12.0;
-    }
-    let a = (year / 100.0).floor();
-    let b = (2.0 - a + a / 4.0).floor();
-    (365.25 * (year + 4716.0)).floor() + (30.6001 * (month + 1.0)).floor() + day + b - 1524.5
-}
-
-/// Return the approximate UTC in minutes of a given sun position for the given
-/// day at the given location on earth. Used twice within
-/// [calculate_utc_sun_position] for accuracy
-fn approximate_utc_sun_position(
-    approx_julian_centuries: f64,
-    latitude: f64,
-    longitude: f64,
+// public interface for utc_sun_position
+/// Get the UTC of sunrise in hours, adjusting the zenith for refraction, solar
+/// radius, and optionally elevation
+pub fn utc_sunrise(
+    date: &DateTime<Tz>,
+    geo_location: &GeoLocation,
     zenith: f64,
-    mode: &Mode,
-) -> f64 {
-    let eq_time = equation_of_time(approx_julian_centuries);
-    let solar_dec = solar_declination(approx_julian_centuries);
-    let hour_angle = sun_hour_angle_at_horizon(latitude, solar_dec, zenith, mode);
-
-    let delta = longitude - hour_angle.to_degrees();
-    let time_delta = delta * 4.0;
-    720.0 + time_delta - eq_time
+    adjust_for_elevation: bool,
+) -> Option<f64> {
+    utc_sun_position(
+        date,
+        geo_location,
+        zenith,
+        adjust_for_elevation,
+        &Mode::Sunrise,
+    )
 }
 
-/// Return the hour angle of the sun in radians at for the latitude
-fn sun_hour_angle_at_horizon(latitude: f64, solar_dec: f64, zenith: f64, mode: &Mode) -> f64 {
-    let lat_r = latitude.to_radians();
-    let solar_dec_r = solar_dec.to_radians();
-    let zenith_r = zenith.to_radians();
-
-    let mut hour_angle = ((zenith_r.cos() / (lat_r.cos() * solar_dec_r.cos()))
-        - (lat_r.tan() * solar_dec_r.tan()))
-    .acos();
-
-    if Mode::Sunset == *mode {
-        hour_angle *= -1.0;
-    }
-    hour_angle // in radians
-}
-
-/// Return the declination of the sun, in degrees
-fn solar_declination(julian_centuries: f64) -> f64 {
-    let correction = obliquity_correction(julian_centuries).to_radians();
-    let apparent_longitude = sun_apparent_longitude(julian_centuries).to_radians();
-    let sint = correction.sin() * apparent_longitude.sin();
-    sint.asin().to_degrees() // in degrees
-}
-
-/// Return the apparent longitude of the sun, in degrees
-fn sun_apparent_longitude(julian_centuries: f64) -> f64 {
-    let true_longitude = sun_true_longitude(julian_centuries);
-    let omega = 125.04 - (1_934.136 * julian_centuries);
-    true_longitude - 0.00569 - (0.00478 * omega.to_radians().sin()) // in degrees
-}
-
-/// Return the true longitude of the sun, in degrees
-fn sun_true_longitude(julian_centuries: f64) -> f64 {
-    let sgml = sun_geometric_mean_longitude(julian_centuries);
-    let center = sun_equation_of_center(julian_centuries);
-    sgml + center // in degrees
-}
-
-/// Return the equation of center for the sun in degrees
-fn sun_equation_of_center(julian_centuries: f64) -> f64 {
-    let mrad = sun_geometric_mean_anomaly(julian_centuries).to_radians();
-    let sinm = mrad.sin();
-    let sin2m = (2.0 * mrad).sin();
-    let sin3m = (3.0 * mrad).sin();
-
-    (sinm * (1.914602 - (julian_centuries * (0.004817 + (0.000014 * julian_centuries)))))
-        + (sin2m * (0.019993 - (0.000101 * julian_centuries)))
-        + (sin3m * 0.000289) // in degrees
-}
-
-/// Return the UTC of solar noon for the given day at the given location on
-/// earth. This implementation returns true solar noon as opposed to the time
-/// halfway between sunrise and sunset. Other calculators may return a more
-/// simplified calculation of halfway between sunrise and sunset
-fn solar_noon_utc(julian_centuries: f64, longitude: f64) -> f64 {
-    let century_start = julian_day_from_julian_centuries(julian_centuries);
-
-    // first pass to yield approximate solar noon
-    let approx_tnoon = julian_centuries_from_julian_day(century_start + (longitude / 360.0));
-    let approx_eq_time = equation_of_time(approx_tnoon);
-    let approx_sol_noon = 720.0 + (longitude * 4.0) - approx_eq_time;
-
-    // refinement using output of first pass
-    let tnoon = julian_centuries_from_julian_day(century_start - 0.5 + (approx_sol_noon / 1_440.0));
-    let eq_time = equation_of_time(tnoon);
-    720.0 + (longitude * 4.0) - eq_time
-}
-
-/// Return the Equation of Time - the difference between true solar time and
-/// mean solar time
-fn equation_of_time(julian_centuries: f64) -> f64 {
-    let epsilon = obliquity_correction(julian_centuries).to_radians();
-    let sgml = sun_geometric_mean_longitude(julian_centuries).to_radians();
-    let sgma = sun_geometric_mean_anomaly(julian_centuries).to_radians();
-    let eoe = earth_orbit_eccentricity(julian_centuries);
-
-    let mut y = (epsilon / 2.0).tan();
-    y *= y;
-
-    let sin2l0 = (2.0 * sgml).sin();
-    let sin4l0 = (4.0 * sgml).sin();
-    let cos2l0 = (2.0 * sgml).cos();
-    let sinm = (sgma).sin();
-    let sin2m = (2.0 * sgma).sin();
-
-    let eq_time = (y * sin2l0) - (2.0 * eoe * sinm) + (4.0 * eoe * y * sinm * cos2l0)
-        - (0.5 * y * y * sin4l0)
-        - (1.25 * eoe * eoe * sin2m);
-    eq_time.to_degrees() * 4.0 // minutes of time
-}
-
-/// Return the unitless eccentricity of earth's orbit
-fn earth_orbit_eccentricity(julian_centuries: f64) -> f64 {
-    0.016708634 - (julian_centuries * (0.000042037 + (0.0000001267 * julian_centuries))) // unitless
-}
-
-/// Return the Geometric Mean Anomaly of the Sun in degrees
-fn sun_geometric_mean_anomaly(julian_centuries: f64) -> f64 {
-    let anomaly = 357.52911 + (julian_centuries * (35999.05029 - (0.0001537 * julian_centuries))); // in degrees
-    anomaly % 360.0 // normalized (0...360)
-}
-
-/// Return the Geometric Mean Longitude of the Sun
-fn sun_geometric_mean_longitude(julian_centuries: f64) -> f64 {
-    let longitude = 280.46646 + (julian_centuries * (36000.76983 + (0.0003032 * julian_centuries))); // in degrees
-    longitude % 360.0 // normalized (0...360)
-}
-
-/// Return the corrected obliquity of the ecliptic (Axial tilt)
-fn obliquity_correction(julian_centuries: f64) -> f64 {
-    let obliquity_of_ecliptic = mean_obliquity_of_ecliptic(julian_centuries);
-
-    let omega = 125.04 - (1_934.136 * julian_centuries);
-    let correction = obliquity_of_ecliptic + (0.00256 * omega.to_radians().cos());
-    correction % 360.0 // normalized (0...360)
-}
-
-/// Return the mean obliquity of the ecliptic (Axial tilt)
-fn mean_obliquity_of_ecliptic(julian_centuries: f64) -> f64 {
-    let seconds = 21.448
-        - (julian_centuries
-            * (46.8150 + (julian_centuries * (0.00059 - (julian_centuries * 0.001813)))));
-    23.0 + ((26.0 + (seconds / 60.0)) / 60.0) // in degrees
+/// Get the UTC of sunset in hours, adjusting the zenith for refraction, solar
+/// radius, and optionally elevation
+pub fn utc_sunset(
+    date: &DateTime<Tz>,
+    geo_location: &GeoLocation,
+    zenith: f64,
+    adjust_for_elevation: bool,
+) -> Option<f64> {
+    utc_sun_position(
+        date,
+        geo_location,
+        zenith,
+        adjust_for_elevation,
+        &Mode::Sunset,
+    )
 }
 
 #[derive(PartialEq)]

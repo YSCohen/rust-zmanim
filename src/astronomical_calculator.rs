@@ -22,7 +22,49 @@ pub const CIVIL_ZENITH: f64 = 96.0;
 pub const NAUTICAL_ZENITH: f64 = 102.0;
 pub const ASTRONOMICAL_ZENITH: f64 = 108.0;
 
-/// Returns a `DateTime` representing the elevation-adjusted sunrise time.
+/// Returns the sunrise in UTC time without correction for time
+/// zone offset from GMT and without using daylight savings time
+pub fn utc_elevation_sunrise(
+    date: &DateTime<Tz>,
+    zenith: f64,
+    geo_location: &GeoLocation,
+) -> Option<f64> {
+    noaa_calculator::utc_sunrise(date, geo_location, zenith, true)
+}
+
+/// Returns the sunset in UTC time without correction for time
+/// zone offset from GMT and without using daylight savings time
+pub fn utc_elevation_sunset(
+    date: &DateTime<Tz>,
+    zenith: f64,
+    geo_location: &GeoLocation,
+) -> Option<f64> {
+    noaa_calculator::utc_sunset(date, geo_location, zenith, true)
+}
+
+/// Returns the sunrise in UTC time without correction for
+/// elevation, time zone offset from GMT and without using daylight savings
+/// time
+pub fn utc_sea_level_sunrise(
+    date: &DateTime<Tz>,
+    zenith: f64,
+    geo_location: &GeoLocation,
+) -> Option<f64> {
+    noaa_calculator::utc_sunrise(date, geo_location, zenith, false)
+}
+
+/// Returns the sunset in UTC time without correction for
+/// elevation, time zone offset from GMT and without using daylight savings
+/// time
+pub fn utc_sea_level_sunset(
+    date: &DateTime<Tz>,
+    zenith: f64,
+    geo_location: &GeoLocation,
+) -> Option<f64> {
+    noaa_calculator::utc_sunset(date, geo_location, zenith, false)
+}
+
+/// Returns the elevation-adjusted sunrise time.
 ///
 /// The zenith used for the calculation uses [geometric
 /// zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
@@ -37,9 +79,18 @@ pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTi
     ))
 }
 
-/// Returns the sunrise without elevation adjustment, i.e. at sea level
-pub fn sea_level_sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
+/// Returns the elevation-adjusted
+/// sunset time. The zenith used for the calculation uses
+/// [geometric zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
+/// [adjusted](crate::util::astronomical_basics::adjusted_zenith) to add
+/// approximately 50/60 of a degree to account for 34 archminutes of refraction
+/// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
+pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+    Some(date_time_from_time_of_day(
+        date,
+        noaa_calculator::utc_sunset(date, geo_location, GEOMETRIC_ZENITH, true)?,
+        geo_location.timezone,
+    ))
 }
 
 /// A utility function that returns the time of an offset by degrees below or
@@ -58,26 +109,6 @@ pub fn sunrise_offset_by_degrees(
     ))
 }
 
-/// Returns a `DateTime` representing the elevation-adjusted
-/// sunset time. The zenith used for the calculation uses
-/// [geometric zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
-/// [adjusted](crate::util::astronomical_basics::adjusted_zenith) to add
-/// approximately 50/60 of a degree to account for 34 archminutes of refraction
-/// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
-pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    Some(date_time_from_time_of_day(
-        date,
-        noaa_calculator::utc_sunset(date, geo_location, GEOMETRIC_ZENITH, true)?,
-        geo_location.timezone,
-    ))
-}
-
-/// Returns the sunset without elevation adjustment, i.e. at sea
-/// level
-pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
-}
-
 /// A utility function that returns the time of an offset by degrees below or
 /// above the horizon of sunset. Note that the degree offset is from the
 /// vertical, so for a calculation of 14&deg; after sunset, an offset of 14 +
@@ -94,46 +125,15 @@ pub fn sunset_offset_by_degrees(
     ))
 }
 
-/// Returns the sunrise in UTC time without correction for time
-/// zone offset from GMT and without using daylight savings time
-pub fn utc_elevation_sunrise(
-    date: &DateTime<Tz>,
-    zenith: f64,
-    geo_location: &GeoLocation,
-) -> Option<f64> {
-    noaa_calculator::utc_sunrise(date, geo_location, zenith, true)
+/// Returns the sunrise without elevation adjustment, i.e. at sea level
+pub fn sea_level_sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+    sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
-/// Returns the sunrise in UTC time without correction for
-/// elevation, time zone offset from GMT and without using daylight savings
-/// time
-pub fn utc_sea_level_sunrise(
-    date: &DateTime<Tz>,
-    zenith: f64,
-    geo_location: &GeoLocation,
-) -> Option<f64> {
-    noaa_calculator::utc_sunrise(date, geo_location, zenith, false)
-}
-
-/// Returns the sunset in UTC time without correction for time
-/// zone offset from GMT and without using daylight savings time
-pub fn utc_elevation_sunset(
-    date: &DateTime<Tz>,
-    zenith: f64,
-    geo_location: &GeoLocation,
-) -> Option<f64> {
-    noaa_calculator::utc_sunset(date, geo_location, zenith, true)
-}
-
-/// Returns the sunset in UTC time without correction for
-/// elevation, time zone offset from GMT and without using daylight savings
-/// time
-pub fn utc_sea_level_sunset(
-    date: &DateTime<Tz>,
-    zenith: f64,
-    geo_location: &GeoLocation,
-) -> Option<f64> {
-    noaa_calculator::utc_sunset(date, geo_location, zenith, false)
+/// Returns the sunset without elevation adjustment, i.e. at sea
+/// level
+pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+    sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
 /// A utility function that will allow the calculation of a temporal (solar)
