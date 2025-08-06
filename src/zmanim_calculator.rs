@@ -191,7 +191,6 @@ pub fn tzais(
             date,
             geo_location,
             astronomical_calculator::GEOMETRIC_ZENITH + deg,
-            use_elevation,
         ),
         ZmanOffset::Minutes(min) => {
             let sunset = elevation_adjusted_sunset(date, geo_location, use_elevation)?;

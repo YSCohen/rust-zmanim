@@ -75,7 +75,7 @@ pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTim
 /// Returns the sunset without elevation adjustment, i.e. at sea
 /// level
 pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH, false)
+    sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
 /// A utility function that returns the time of an offset by degrees below or
@@ -86,11 +86,10 @@ pub fn sunset_offset_by_degrees(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     offset_zenith: f64,
-    adjust_for_elevation: bool,
 ) -> Option<DateTime<Tz>> {
     Some(date_time_from_time_of_day(
         date,
-        noaa_calculator::utc_sunset(date, geo_location, offset_zenith, adjust_for_elevation)?,
+        utc_sea_level_sunset(date, offset_zenith, geo_location)?,
         geo_location.timezone,
     ))
 }
@@ -229,21 +228,21 @@ mod tests {
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
         let set1 = format!(
             "{}",
-            sunset_offset_by_degrees(&date1, &loc, 98.5, false).unwrap()
+            sunset_offset_by_degrees(&date1, &loc, 98.5).unwrap()
         );
         assert_eq!(set1, "2025-08-04 20:13:13.825504 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let set2 = format!(
             "{}",
-            sunset_offset_by_degrees(&date2, &loc, 98.5, false).unwrap()
+            sunset_offset_by_degrees(&date2, &loc, 98.5).unwrap()
         );
         assert_eq!(set2, "2025-01-26 17:46:52.877997 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let set3 = format!(
             "{}",
-            sunset_offset_by_degrees(&date3, &loc, 98.5, false).unwrap()
+            sunset_offset_by_degrees(&date3, &loc, 98.5).unwrap()
         );
         assert_eq!(set3, "2005-05-15 20:09:52.608705 IDT");
     }
