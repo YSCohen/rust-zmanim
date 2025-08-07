@@ -3,7 +3,6 @@
 
 use crate::astronomical_calculator;
 use crate::util::geolocation::GeoLocation;
-use crate::util::math_helper::*;
 use crate::zmanim_calculator;
 use crate::zmanim_calculator::ZmanOffset::*;
 
@@ -13,7 +12,9 @@ use chrono_tz::Tz;
 
 /// Struct to store a 4-dimensional location and settings, to simplify getting
 /// many *zmanim* for the same location. Has premade methods for many common
-/// (and uncommon) zmanim
+/// (and uncommon) zmanim. **Elevation based *zmanim* (even sunrise and sunset)
+/// should not be used *lekula* without the guidance of a *posek***. See the
+/// documentation of [zmanim_calculator] for more details.
 pub struct ComplexZmanimCalendar {
     /// Location at which to calculate *zmanim*
     pub geo_location: GeoLocation,
@@ -94,9 +95,9 @@ impl ComplexZmanimCalendar {
     /// (solar hours) after sunrise or sea level sunrise (depending on
     /// `use_elevation`), according to the GRA.
     pub fn mincha_gedola_gra(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_gedola(
             &self.hanetz()?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * 6.5,
+            &self.shkia()?,
         ))
     }
 
@@ -121,9 +122,9 @@ impl ComplexZmanimCalendar {
     /// (solar hours) after sunrise or sea level sunrise (depending on
     /// `use_elevation`), according to the GRA.
     pub fn mincha_ketana_gra(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.hanetz()?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * 9.5,
+            &self.shkia()?,
         ))
     }
 
@@ -131,9 +132,9 @@ impl ComplexZmanimCalendar {
     /// (solar hours) after sunrise or sea level sunrise (depending on
     /// `use_elevation`), according to the GRA.
     pub fn plag_gra(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::plag_hamincha(
             &self.hanetz()?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * 10.75,
+            &self.shkia()?,
         ))
     }
 
@@ -215,9 +216,9 @@ impl ComplexZmanimCalendar {
     /// `self.sunrise_baal_hatanya() + (self.shaah_zmanis_baal_hatanya()? *
     /// 3.0)`
     pub fn sof_zman_shema_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.sunrise_baal_hatanya()?,
-            (self.shaah_zmanis_baal_hatanya()? / MINUTE_MILLIS) * 3.0,
+            &self.sunset_baal_hatanya()?,
         ))
     }
 
@@ -228,9 +229,9 @@ impl ComplexZmanimCalendar {
     /// sunset. This returns the time `self.sunrise_baal_hatanya() +
     /// (self.shaah_zmanis_baal_hatanya()? * 4.0)`
     pub fn sof_zman_tefila_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.sunrise_baal_hatanya()?,
-            (self.shaah_zmanis_baal_hatanya()? / MINUTE_MILLIS) * 4.0,
+            &self.sunset_baal_hatanya()?,
         ))
     }
 
@@ -245,9 +246,9 @@ impl ComplexZmanimCalendar {
     /// sunset. This returns the time `self.sunrise_baal_hatanya() +
     /// (self.shaah_zmanis_baal_hatanya()? * 6.5)`
     pub fn mincha_gedola_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_gedola(
             &self.sunrise_baal_hatanya()?,
-            (self.shaah_zmanis_baal_hatanya()? / MINUTE_MILLIS) * 6.5,
+            &self.sunset_baal_hatanya()?,
         ))
     }
 
@@ -278,9 +279,9 @@ impl ComplexZmanimCalendar {
     /// sunset. This returns the time `self.sunrise_baal_hatanya() +
     /// (self.shaah_zmanis_baal_hatanya()? * 9.5)`
     pub fn mincha_ketana_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.sunrise_baal_hatanya()?,
-            (self.shaah_zmanis_baal_hatanya()? / MINUTE_MILLIS) * 9.5,
+            &self.sunset_baal_hatanya()?,
         ))
     }
 
@@ -291,9 +292,9 @@ impl ComplexZmanimCalendar {
     /// the time `self.sunrise_baal_hatanya() +
     /// (self.shaah_zmanis_baal_hatanya()? * 10.75)`
     pub fn plag_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::plag_hamincha(
             &self.sunrise_baal_hatanya()?,
-            (self.shaah_zmanis_baal_hatanya()? / MINUTE_MILLIS) * 10.75,
+            &self.sunset_baal_hatanya()?,
         ))
     }
 
@@ -396,9 +397,9 @@ impl ComplexZmanimCalendar {
     /// zmaniyos* calculated based on a day starting at *alos* 16.1&deg; and
     /// ending at *tzais* 3.8&deg;.
     pub fn plag_ahavat_shalom(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::plag_hamincha(
+            &self.alos_16_1_degrees()?,
             &self.tzais_geonim_3_8_degrees()?,
-            -self.shaah_zmanis_alos_16_1_to_tzais_3_8()? * 1.25,
         ))
     }
 
@@ -437,13 +438,13 @@ impl ComplexZmanimCalendar {
     }
 
     // Ateret Torah
-    /// Returns *tzais* calculated as 40 minutes after sunset.
-    /// Please note that *Chacham* Yosef Harari-Raful of Yeshivat Ateret Torah
-    /// who uses this time, does so only for calculating various other
-    /// zmanei hayom such as *Sof Zman Krias Shema* and *Plag Hamincha*. His
-    /// calendars do not publish a zman for *Tzais*. It should also be noted
-    /// that Chacham Harari-Raful provided a 25 minute *zman* for Israel.
-    /// This API uses 40 minutes year round in any place on the globe.
+    /// Returns *tzais* calculated as 40 minutes after sunset. Please note that
+    /// *Chacham* Yosef Harari-Raful of Yeshivat Ateret Torah who uses this
+    /// time, does so only for calculating various other zmanei hayom such as
+    /// *Sof Zman Krias Shema* and *Plag Hamincha*. His calendars do not publish
+    /// a zman for *Tzais*. It should also be noted that Chacham Harari-Raful
+    /// provided a 25 minute *zman* for Israel. This API uses 40 minutes year
+    /// round in any place on the globe.
     pub fn tzais_ateret_torah(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::offset_by_minutes(&self.shkia()?, 40.0))
     }
@@ -511,9 +512,9 @@ impl ComplexZmanimCalendar {
     /// both being 16.1&deg; below sunrise or sunset. This returns the time of
     /// `self.alos_16_1_degrees()? + (self.shaah_zmanis_16_1_degrees()? * 3.0)`
     pub fn sof_zman_shema_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_16_1_degrees()?,
-            (self.shaah_zmanis_16_1_degrees()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_16_1_degrees()?,
         ))
     }
 
@@ -526,9 +527,9 @@ impl ComplexZmanimCalendar {
     /// `self.alos_16_1_degrees()? + (self.shaah_zmanis_16_1_degrees()? *
     /// 4.0)`
     pub fn sof_zman_tefila_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_16_1_degrees()?,
-            (self.shaah_zmanis_16_1_degrees()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_16_1_degrees()?,
         ))
     }
 
@@ -540,9 +541,9 @@ impl ComplexZmanimCalendar {
     /// 6.5 solar hours after *alos*. The calculation used is `self.
     /// alos_16_1_degrees()? + (self.shaah_zmanis_16_1_degrees()? * 6.5)`
     pub fn mincha_gedola_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_gedola(
             &self.alos_16_1_degrees()?,
-            (self.shaah_zmanis_16_1_degrees()? / MINUTE_MILLIS) * 6.5,
+            &self.tzais_16_1_degrees()?,
         ))
     }
 
@@ -556,9 +557,9 @@ impl ComplexZmanimCalendar {
     /// is `self.alos_16_1_degrees()? + (self.shaah_zmanis_16_1_degrees()? *
     /// 9.5)`
     pub fn mincha_ketana_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_16_1_degrees()?,
-            (self.shaah_zmanis_16_1_degrees()? / MINUTE_MILLIS) * 9.5,
+            &self.tzais_16_1_degrees()?,
         ))
     }
 
@@ -570,9 +571,9 @@ impl ComplexZmanimCalendar {
     /// 10.75)`. Since plag by this calculation can occur after sunset, it
     /// should only be used *lechumra*.
     pub fn plag_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_16_1_degrees()?,
-            (self.shaah_zmanis_16_1_degrees()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_16_1_degrees()?,
         ))
     }
 
@@ -678,9 +679,9 @@ impl ComplexZmanimCalendar {
     /// both being 18&deg; below sunrise or sunset. This returns the time of
     /// `self.alos_18_degrees()? + (self.shaah_zmanis_18_degrees()? * 3.0)`
     pub fn sof_zman_shema_mga_18_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_18_degrees()?,
-            (self.shaah_zmanis_18_degrees()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_18_degrees()?,
         ))
     }
 
@@ -692,9 +693,9 @@ impl ComplexZmanimCalendar {
     /// below sunrise or sunset. This returns the time of
     /// `self.alos_18_degrees()? + (self.shaah_zmanis_18_degrees()? * 4.0)`
     pub fn sof_zman_tefila_mga_18_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_18_degrees()?,
-            (self.shaah_zmanis_18_degrees()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_18_degrees()?,
         ))
     }
 
@@ -706,9 +707,9 @@ impl ComplexZmanimCalendar {
     /// calculation can occur after sunset, it should only be used
     /// *lechumra*.
     pub fn plag_mga_18_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_18_degrees()?,
-            (self.shaah_zmanis_18_degrees()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_18_degrees()?,
         ))
     }
 
@@ -766,9 +767,9 @@ impl ComplexZmanimCalendar {
     /// both being 19.8&deg; below sunrise or sunset. This returns the time of
     /// `self.alos_19_8_degrees()? + (self.shaah_zmanis_19_8_degrees()? * 3.0)`
     pub fn sof_zman_shema_mga_19_8_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_19_8_degrees()?,
-            (self.shaah_zmanis_19_8_degrees()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_19_8_degrees()?,
         ))
     }
 
@@ -781,9 +782,9 @@ impl ComplexZmanimCalendar {
     /// `self.alos_19_8_degrees()? + (self.shaah_zmanis_19_8_degrees()? *
     /// 4.0)`
     pub fn sof_zman_tefila_mga_19_8_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_19_8_degrees()?,
-            (self.shaah_zmanis_19_8_degrees()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_19_8_degrees()?,
         ))
     }
 
@@ -795,9 +796,9 @@ impl ComplexZmanimCalendar {
     /// 10.75)`. Since plag by this calculation can occur after sunset, it
     /// should only be used *lechumra*.
     pub fn plag_mga_19_8_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_19_8_degrees()?,
-            (self.shaah_zmanis_19_8_degrees()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_19_8_degrees()?,
         ))
     }
 
@@ -846,9 +847,9 @@ impl ComplexZmanimCalendar {
     /// calculation can occur after sunset, it should only be used
     /// *lechumra*.
     pub fn plag_mga_26_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_26_degrees()?,
-            (self.shaah_zmanis_26_degrees()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_26_degrees()?,
         ))
     }
 
@@ -907,9 +908,9 @@ impl ComplexZmanimCalendar {
     /// formula used is `self.alos_60_minutes()? +
     /// (self.shaah_zmanis_60_minutes()? * 10.75)`
     pub fn plag_mga_60_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_60_minutes()?,
-            (self.shaah_zmanis_60_minutes()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_60_minutes()?,
         ))
     }
 
@@ -963,9 +964,9 @@ impl ComplexZmanimCalendar {
     /// Returns the time of `self.alos_72_minutes() +
     /// (self.shaah_zmanis_72_minutes()? * 3.0)`
     pub fn sof_zman_shema_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_72_minutes()?,
-            (self.shaah_zmanis_72_minutes()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_72_minutes()?,
         ))
     }
 
@@ -977,9 +978,9 @@ impl ComplexZmanimCalendar {
     /// minutes after sunset. This returns the time of `self.alos_72_minutes()?
     /// + (self.shaah_zmanis_72_minutes()? * 4.0)`
     pub fn sof_zman_tefila_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_72_minutes()?,
-            (self.shaah_zmanis_72_minutes()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_72_minutes()?,
         ))
     }
 
@@ -991,9 +992,9 @@ impl ComplexZmanimCalendar {
     /// 6.5 solar hours after *alos*. The calculation used is `self.
     /// alos_72_minutes()? + (self.shaah_zmanis_72_minutes()? * 6.5)`
     pub fn mincha_gedola_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_gedola(
             &self.alos_72_minutes()?,
-            (self.shaah_zmanis_72_minutes()? / MINUTE_MILLIS) * 6.5,
+            &self.tzais_72_minutes()?,
         ))
     }
 
@@ -1005,9 +1006,9 @@ impl ComplexZmanimCalendar {
     /// gedola*](zmanim_calculator::mincha_gedola). This is calculated as
     /// `self.alos_72_minutes()? + (self.shaah_zmanis_72_minutes()? * 9.5)`
     pub fn mincha_ketana_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_72_minutes()?,
-            (self.shaah_zmanis_72_minutes()? / MINUTE_MILLIS) * 9.5,
+            &self.tzais_72_minutes()?,
         ))
     }
 
@@ -1018,9 +1019,9 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_72_minutes()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_72_minutes()?,
-            (self.shaah_zmanis_72_minutes()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_72_minutes()?,
         ))
     }
 
@@ -1061,10 +1062,15 @@ impl ComplexZmanimCalendar {
     /// calculation is used in the calendars published by the Hisachdus
     /// Harabanim D'Artzos Habris Ve'Canada.
     pub fn alos_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
-            &astronomical_calculator::sea_level_sunrise(&self.date, &self.geo_location)?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * -1.2,
-        ))
+        zmanim_calculator::alos(
+            &self.date,
+            &self.geo_location,
+            false,
+            MinutesZmaniyos {
+                minutes_zmaniyos: 72.0,
+                shaah_zmanis: self.shaah_zmanis_gra()?,
+            },
+        )
     }
 
     /// Returns the latest *zman krias shema* (time to recite
@@ -1078,9 +1084,9 @@ impl ComplexZmanimCalendar {
     /// `self.alos_72_minutes_zmanis()? +
     /// (self.shaah_zmanis_72_minutes_zmanis()? * 3.0)`
     pub fn sof_zman_shema_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_72_minutes_zmanis()?,
-            (self.shaah_zmanis_72_minutes_zmanis()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_72_minutes_zmanis()?,
         ))
     }
 
@@ -1093,9 +1099,9 @@ impl ComplexZmanimCalendar {
     /// This returns the time of `self.alos_72_minutes_zmanis()?
     /// + (self.shaah_zmanis_72_minutes_zmanis()? * 4.0)`
     pub fn sof_zman_tefila_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_72_minutes_zmanis()?,
-            (self.shaah_zmanis_72_minutes_zmanis()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_72_minutes_zmanis()?,
         ))
     }
 
@@ -1107,9 +1113,9 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_72_minutes_zmanis()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_72_minutes_zmanis()?,
-            (self.shaah_zmanis_72_minutes_zmanis()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_72_minutes_zmanis()?,
         ))
     }
 
@@ -1125,10 +1131,15 @@ impl ComplexZmanimCalendar {
     /// the summer solstice, and in the winter with the shortest daylight,
     /// the twilight period is longer than during the equinoxes.
     pub fn tzais_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
-            &astronomical_calculator::sea_level_sunset(&self.date, &self.geo_location)?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * 1.2,
-        ))
+        zmanim_calculator::tzais(
+            &self.date,
+            &self.geo_location,
+            false,
+            MinutesZmaniyos {
+                minutes_zmaniyos: 72.0,
+                shaah_zmanis: self.shaah_zmanis_gra()?,
+            },
+        )
     }
 
     /// Returns a *shaah zmanis* (temporal hour) according to the
@@ -1168,9 +1179,9 @@ impl ComplexZmanimCalendar {
     /// Returns the time of `self.alos_90_minutes() +
     /// (self.shaah_zmanis_90_minutes()? * 3.0)`
     pub fn sof_zman_shema_mga_90_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_90_minutes()?,
-            (self.shaah_zmanis_90_minutes()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_90_minutes()?,
         ))
     }
 
@@ -1182,9 +1193,9 @@ impl ComplexZmanimCalendar {
     /// minutes after sunset. This returns the time of `self.alos_90_minutes()?
     /// + (self.shaah_zmanis_90_minutes()? * 4.0)`
     pub fn sof_zman_tefila_mga_90_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_90_minutes()?,
-            (self.shaah_zmanis_90_minutes()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_90_minutes()?,
         ))
     }
 
@@ -1195,9 +1206,9 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_90_minutes()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_90_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_90_minutes()?,
-            (self.shaah_zmanis_90_minutes()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_90_minutes()?,
         ))
     }
 
@@ -1237,10 +1248,15 @@ impl ComplexZmanimCalendar {
     /// calculation used is `astronomical_calculator::sunrise(&self.date,
     /// &self.geo_location) - (&self.shaah_zmanis_gra()? * 1.5)`.
     pub fn alos_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
-            &astronomical_calculator::sunrise(&self.date, &self.geo_location)?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * -1.5,
-        ))
+        zmanim_calculator::alos(
+            &self.date,
+            &self.geo_location,
+            false,
+            MinutesZmaniyos {
+                minutes_zmaniyos: 90.0,
+                shaah_zmanis: self.shaah_zmanis_gra()?,
+            },
+        )
     }
 
     /// Returns the latest *zman krias shema* (time to recite
@@ -1253,9 +1269,9 @@ impl ComplexZmanimCalendar {
     /// of `self.alos_90_minutes_zmanis() +
     /// (self.shaah_zmanis_90_minutes_zmanis()? * 3.0)`
     pub fn sof_zman_shema_mga_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_90_minutes_zmanis()?,
-            (self.shaah_zmanis_90_minutes_zmanis()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_90_minutes_zmanis()?,
         ))
     }
 
@@ -1268,9 +1284,9 @@ impl ComplexZmanimCalendar {
     /// This returns the time of `self.alos_90_minutes_zmanis()?
     /// + (self.shaah_zmanis_90_minutes_zmanis()? * 4.0)`
     pub fn sof_zman_tefila_mga_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_90_minutes_zmanis()?,
-            (self.shaah_zmanis_90_minutes_zmanis()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_90_minutes_zmanis()?,
         ))
     }
 
@@ -1282,9 +1298,9 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_90_minutes_zmanis()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_90_minutes_zmanis()?,
-            (self.shaah_zmanis_90_minutes_zmanis()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_90_minutes_zmanis()?,
         ))
     }
 
@@ -1292,10 +1308,15 @@ impl ComplexZmanimCalendar {
     /// *zmaniyos* or 1/8th of the day after sea level sunset. This time is
     /// known in Yiddish as the *achtel* (an eighth) *zman*.
     pub fn tzais_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
-            &astronomical_calculator::sea_level_sunset(&self.date, &self.geo_location)?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * 1.2,
-        ))
+        zmanim_calculator::tzais(
+            &self.date,
+            &self.geo_location,
+            false,
+            MinutesZmaniyos {
+                minutes_zmaniyos: 90.0,
+                shaah_zmanis: self.shaah_zmanis_gra()?,
+            },
+        )
     }
 
     /// Returns a *shaah zmanis** (temporal hour) according to the
@@ -1335,9 +1356,9 @@ impl ComplexZmanimCalendar {
     /// Returns the time of `self.alos_96_minutes() +
     /// (self.shaah_zmanis_96_minutes()? * 3.0)`
     pub fn sof_zman_shema_mga_96_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_96_minutes()?,
-            (self.shaah_zmanis_96_minutes()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_96_minutes()?,
         ))
     }
 
@@ -1349,9 +1370,9 @@ impl ComplexZmanimCalendar {
     /// minutes after sunset. This returns the time of `self.alos_96_minutes()?
     /// + (self.shaah_zmanis_96_minutes()? * 4.0)`
     pub fn sof_zman_tefila_mga_96_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_96_minutes()?,
-            (self.shaah_zmanis_96_minutes()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_96_minutes()?,
         ))
     }
 
@@ -1362,9 +1383,9 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_96_minutes()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_96_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_96_minutes()?,
-            (self.shaah_zmanis_96_minutes()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_96_minutes()?,
         ))
     }
 
@@ -1400,10 +1421,15 @@ impl ComplexZmanimCalendar {
     /// calculation used is `astronomical_calculator::sunrise(&self.date,
     /// &self.geo_location) - (&self.shaah_zmanis_gra()? * 1.6)`.
     pub fn alos_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
-            &astronomical_calculator::sunrise(&self.date, &self.geo_location)?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * -1.6,
-        ))
+        zmanim_calculator::alos(
+            &self.date,
+            &self.geo_location,
+            false,
+            MinutesZmaniyos {
+                minutes_zmaniyos: 96.0,
+                shaah_zmanis: self.shaah_zmanis_gra()?,
+            },
+        )
     }
 
     /// Returns the latest *zman krias shema* (time to recite
@@ -1416,9 +1442,9 @@ impl ComplexZmanimCalendar {
     /// of `self.alos_96_minutes_zmanis()? +
     /// (self.shaah_zmanis_96_minutes_zmanis()? * 3.0)`
     pub fn sof_zman_shema_mga_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_96_minutes_zmanis()?,
-            (self.shaah_zmanis_96_minutes_zmanis()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_96_minutes_zmanis()?,
         ))
     }
 
@@ -1431,9 +1457,9 @@ impl ComplexZmanimCalendar {
     /// This returns the time of `self.alos_96_minutes_zmanis()?
     /// + (self.shaah_zmanis_96_minutes_zmanis()? * 4.0)`
     pub fn sof_zman_tefila_mga_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_96_minutes_zmanis()?,
-            (self.shaah_zmanis_96_minutes_zmanis()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_96_minutes_zmanis()?,
         ))
     }
 
@@ -1445,19 +1471,24 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_96_minutes_zmanis()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_96_minutes_zmanis()?,
-            (self.shaah_zmanis_96_minutes_zmanis()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_96_minutes_zmanis()?,
         ))
     }
 
     /// Method to return *tzais hakochavim* (dusk) calculated using 96 minutes
     /// *zmaniyos* or 1/7.5 of the day after sea level sunset.
     pub fn tzais_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
-            &astronomical_calculator::sunset(&self.date, &self.geo_location)?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * 1.6,
-        ))
+        zmanim_calculator::tzais(
+            &self.date,
+            &self.geo_location,
+            false,
+            MinutesZmaniyos {
+                minutes_zmaniyos: 96.0,
+                shaah_zmanis: self.shaah_zmanis_gra()?,
+            },
+        )
     }
 
     /// Returns a *shaah zmanis** (temporal hour) according to the
@@ -1501,9 +1532,9 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_120_minutes()? * 3.0)`.  This is an extremely early
     /// *zman* that is very much a *chumra*.
     pub fn sof_zman_shema_mga_120_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_shema(
             &self.alos_120_minutes()?,
-            (self.shaah_zmanis_120_minutes()? / MINUTE_MILLIS) * 3.0,
+            &self.tzais_120_minutes()?,
         ))
     }
 
@@ -1515,9 +1546,9 @@ impl ComplexZmanimCalendar {
     /// minutes after sunset. This returns the time of `self.alos_120_minutes()?
     /// + (self.shaah_zmanis_120_minutes()? * 4.0)`
     pub fn sof_zman_tefila_mga_120_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_120_minutes()?,
-            (self.shaah_zmanis_120_minutes()? / MINUTE_MILLIS) * 4.0,
+            &self.tzais_120_minutes()?,
         ))
     }
 
@@ -1529,9 +1560,9 @@ impl ComplexZmanimCalendar {
     /// extremely early *alos* and a very late *tzais*, it should only be
     /// used *lechumra*.
     pub fn plag_120_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_120_minutes()?,
-            (self.shaah_zmanis_120_minutes()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_120_minutes()?,
         ))
     }
 
@@ -1580,10 +1611,15 @@ impl ComplexZmanimCalendar {
     /// not eating after this time on a fast day, and **not** as the start
     /// time for *mitzvos* that can only be performed during the day.
     pub fn alos_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
-            &astronomical_calculator::sunrise(&self.date, &self.geo_location)?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * -2.0,
-        ))
+        zmanim_calculator::alos(
+            &self.date,
+            &self.geo_location,
+            false,
+            MinutesZmaniyos {
+                minutes_zmaniyos: 120.0,
+                shaah_zmanis: self.shaah_zmanis_gra()?,
+            },
+        )
     }
 
     /// This method should be used *lechumra* only and returns the time of *plag
@@ -1594,9 +1630,9 @@ impl ComplexZmanimCalendar {
     /// an extremely early *alos* and a very late *tzais*, it should only be
     /// used *lechumra*.
     pub fn plag_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
+        Some(zmanim_calculator::mincha_ketana(
             &self.alos_120_minutes_zmanis()?,
-            (self.shaah_zmanis_120_minutes_zmanis()? / MINUTE_MILLIS) * 10.75,
+            &self.tzais_120_minutes_zmanis()?,
         ))
     }
 
@@ -1607,10 +1643,15 @@ impl ComplexZmanimCalendar {
     /// globe, it should only be used *lechumra*, such as delaying the start
     /// of nighttime mitzvos.
     pub fn tzais_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(
-            &astronomical_calculator::sunset(&self.date, &self.geo_location)?,
-            (self.shaah_zmanis_gra()? / MINUTE_MILLIS) * 2.0,
-        ))
+        zmanim_calculator::tzais(
+            &self.date,
+            &self.geo_location,
+            false,
+            MinutesZmaniyos {
+                minutes_zmaniyos: 120.0,
+                shaah_zmanis: self.shaah_zmanis_gra()?,
+            },
+        )
     }
 
     /// Returns a *shaah zmanis* (temporal hour) calculated using a dip
@@ -1814,17 +1855,17 @@ impl ComplexZmanimCalendar {
     }
 
     /// Returns *tzais* (nightfall) when the sun is 8.5&deg; below the geometric
-    /// horizon (90&deg;) after sunset, a time that Rabbi Meir Posen in his the *Ohr
-    /// Meir* calculated that 3 small stars are visible, which is later than the
-    /// required 3 medium stars. This calculation is based on the sun's position
-    /// below the horizon 36 minutes after sunset in Jerusalem around the
-    /// equinox / equilux.
+    /// horizon (90&deg;) after sunset, a time that Rabbi Meir Posen in his the
+    /// *Ohr Meir* calculated that 3 small stars are visible, which is later
+    /// than the required 3 medium stars. This calculation is based on the sun's
+    /// position below the horizon 36 minutes after sunset in Jerusalem around
+    /// the equinox / equilux.
     pub fn tzais_geonim_8_5_degrees(&self) -> Option<DateTime<Tz>> {
         zmanim_calculator::tzais(&self.date, &self.geo_location, false, Degrees(8.5))
     }
 }
 
-/// When to use elevation for *zmanim* calculations. See
+/// When to use elevation for *zmanim* calculations. See the documentation of
 /// [zmanim_calculator] for some discussion of this
 pub enum UseElevation {
     /// Never use elevation

@@ -43,13 +43,11 @@ pub fn alos(
         )),
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
-            day_start: start,
-            day_end: end,
+            shaah_zmanis: shaah,
         } => Some(offset_by_minutes_zmanis(
             &elevation_adjusted_sunrise(date, geo_location, use_elevation)?,
             -minz,
-            &start,
-            &end,
+            shaah,
         )),
     }
 }
@@ -198,11 +196,10 @@ pub fn tzais(
         }
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
-            day_start: start,
-            day_end: end,
+            shaah_zmanis: shaah,
         } => {
             let sunset = elevation_adjusted_sunset(date, geo_location, use_elevation)?;
-            Some(offset_by_minutes_zmanis(&sunset, minz, &start, &end))
+            Some(offset_by_minutes_zmanis(&sunset, minz, shaah))
         }
     }
 }
@@ -236,14 +233,11 @@ pub fn offset_by_minutes(time: &DateTime<Tz>, minutes: f64) -> DateTime<Tz> {
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos* and the returned `DateTime` is `minutes` 60ths of those *shaos
 /// zmaniyos* after `time`
-fn offset_by_minutes_zmanis(
-    time: &DateTime<Tz>,
-    minutes: f64,
-    day_start: &DateTime<Tz>,
-    day_end: &DateTime<Tz>,
-) -> DateTime<Tz> {
-    let shaah_zmanis_skew = shaah_zmanis(day_start, day_end) / HOUR_MILLIS;
-    *time + TimeDelta::microseconds((minutes * MINUTE_MICROS * shaah_zmanis_skew).round() as i64)
+fn offset_by_minutes_zmanis(time: &DateTime<Tz>, minutes: f64, shaah_zmanis: f64) -> DateTime<Tz> {
+    *time
+        + TimeDelta::microseconds(
+            (minutes * MINUTE_MICROS * (shaah_zmanis / HOUR_MILLIS)).round() as i64,
+        )
 }
 
 pub enum ZmanOffset {
@@ -251,8 +245,7 @@ pub enum ZmanOffset {
     Minutes(f64),
     MinutesZmaniyos {
         minutes_zmaniyos: f64,
-        day_start: DateTime<Tz>,
-        day_end: DateTime<Tz>,
+        shaah_zmanis: f64,
     },
 }
 

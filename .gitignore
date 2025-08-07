@@ -4,3 +4,4 @@
 *.ods
 *.xlsx
 .~*
+examples/test.rs

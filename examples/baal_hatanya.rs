@@ -1,3 +1,6 @@
+//! Example of using [ComplexZmanimCalendar] to calculate *zmanim*. Calculates
+//! *zmanim* at the *kosel* according to the *shita* of the *Baal HaTanya*
+
 use chrono::Utc;
 use chrono_tz::Asia::Jerusalem;
 use rust_zmanim::prelude::*;
@@ -5,6 +8,7 @@ use rust_zmanim::prelude::*;
 fn main() {
     let today = Utc::now().with_timezone(&Jerusalem);
 
+    // your location here
     let kosel = GeoLocation {
         latitude: 31.777,
         longitude: 35.234,

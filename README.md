@@ -16,7 +16,7 @@ See the [KosherJava site](https://kosherjava.com) for additional information on 
 ### Disclaimer
 I did my best to get accurate results using standardized astronomical calculations. Please use care when using the library for *halacha lemaaseh* applications.
 
-## Example
+## Example (more examples in /examples)
 ```rust
 use chrono_tz::{Asia::Jerusalem, UTC};
 use rust_zmanim::prelude::*;
