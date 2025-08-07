@@ -58,7 +58,7 @@ fn sun_hour_angle_at_horizon(latitude: f64, solar_dec: f64, zenith: f64, mode: &
         - (lat_r.tan() * solar_dec_r.tan()))
     .acos();
 
-    if Mode::Sunset == *mode {
+    if *mode == Mode::SunsetMidnight {
         hour_angle *= -1.0;
     }
     hour_angle // in radians
@@ -197,7 +197,7 @@ fn approximate_utc_sun_position(
 /// given location on earth, ([adjusts the
 /// zenith](astronomical_basics::adjusted_zenith) for refraction, solar radius
 /// and optionally elevation)
-fn utc_sun_position(
+fn utc_sun_rise_set(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     zenith: f64,
@@ -258,12 +258,12 @@ pub fn utc_sunrise(
     zenith: f64,
     adjust_for_elevation: bool,
 ) -> Option<f64> {
-    utc_sun_position(
+    utc_sun_rise_set(
         date,
         geo_location,
         zenith,
         adjust_for_elevation,
-        &Mode::Sunrise,
+        &Mode::SunriseNoon,
     )
 }
 
@@ -275,19 +275,86 @@ pub fn utc_sunset(
     zenith: f64,
     adjust_for_elevation: bool,
 ) -> Option<f64> {
-    utc_sun_position(
+    utc_sun_rise_set(
         date,
         geo_location,
         zenith,
         adjust_for_elevation,
-        &Mode::Sunset,
+        &Mode::SunsetMidnight,
     )
+}
+
+// noon and midnight
+/// Return the UTC of the current day's solar noon or the the upcoming midnight
+/// (about 12 hours after solar noon) of the given day at the given location on
+/// earth.
+fn utc_solar_noon_midnight(julian_day: f64, longitude: f64, mode: &Mode) -> Option<f64> {
+    let julian_day = if *mode == Mode::SunriseNoon {
+        julian_day
+    } else {
+        julian_day + 0.5
+    };
+    // First pass for approximate solar noon to calculate equation of time
+    let tnoon = julian_centuries_from_julian_day(julian_day + longitude / 360.0);
+    let eot = equation_of_time(tnoon);
+    let sol_noon_utc = (longitude * 4.0) - eot; // minutes
+
+    // second pass
+    let newt = julian_centuries_from_julian_day(julian_day + sol_noon_utc / 1440.0);
+    let eot = equation_of_time(newt);
+    if eot.is_nan() {
+        None
+    } else {
+        Some(
+            (if *mode == Mode::SunriseNoon {
+                720.0
+            } else {
+                1440.0
+            }) + (longitude * 4.0)
+                - eot,
+        )
+    }
+}
+
+/// Return the UTC of solar noon for the given day at the given location on
+/// earth. This implementation returns true solar noon as opposed to the time
+/// halfway between sunrise and sunset. Other calculators may return a more
+/// simplified calculation of halfway between sunrise and sunset.
+pub fn utc_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f64> {
+    let noon = utc_solar_noon_midnight(
+        datetime_to_julian_day(date),
+        -geo_location.longitude,
+        &Mode::SunriseNoon,
+    )? / 60.0;
+    Some(if noon > 0.0 {
+        noon % 24.0
+    } else {
+        (noon % 24.0) + 24.0
+    }) // ensure that the time is >= 0 and < 24
+}
+
+/// Return the UTC of the solar midnight for the end of the given civil day at
+/// the given location on earth (about 12 hours after solar noon). This
+/// implementation returns true solar midnight as opposed to the time halfway
+/// between sunrise and sunset. Other calculators may return a more simplified
+/// calculation of halfway between sunrise and sunset.
+pub fn utc_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f64> {
+    let midnight = utc_solar_noon_midnight(
+        datetime_to_julian_day(date),
+        -geo_location.longitude,
+        &Mode::SunsetMidnight,
+    )? / 60.0;
+    Some(if midnight > 0.0 {
+        midnight % 24.0
+    } else {
+        (midnight % 24.0) + 24.0
+    }) // ensure that the time is >= 0 and < 24
 }
 
 #[derive(PartialEq)]
 pub enum Mode {
-    Sunrise,
-    Sunset,
+    SunriseNoon,
+    SunsetMidnight,
 }
 
 #[cfg(test)]
@@ -358,11 +425,17 @@ mod tests {
     #[test]
     fn test_approximate_utc_sun_position() {
         assert_eq!(
-            approximate_utc_sun_position(123.45, 31.78, 35.03, 91.57037635711369, &Mode::Sunset),
+            approximate_utc_sun_position(
+                123.45,
+                31.78,
+                35.03,
+                91.57037635711369,
+                &Mode::SunsetMidnight
+            ),
             1236.5426352099616
         );
         assert_eq!(
-            approximate_utc_sun_position(45.45, 67.31, 3.35, 89.123, &Mode::Sunrise),
+            approximate_utc_sun_position(45.45, 67.31, 3.35, 89.123, &Mode::SunriseNoon),
             564.659110379488
         );
     }
@@ -428,6 +501,51 @@ mod tests {
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let rise3 = utc_sunrise(&date3, &loc, 90.0, false).unwrap();
         assert_eq!(rise3, 2.7169504039525774);
+    }
+
+    #[test]
+    fn test_utc_noon() {
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let noon1 = utc_noon(&date1, &loc).unwrap();
+        assert_eq!(noon1, 9.766807285607026);
+        // i added 2 to the last digit from the KosherJava result
+
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let noon2 = utc_noon(&date2, &loc).unwrap();
+        assert_eq!(noon2, 9.87198509705055);
+
+        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+        let noon3 = utc_noon(&date3, &loc).unwrap();
+        assert_eq!(noon3, 9.603076412453426);
+    }
+
+    #[test]
+    fn test_utc_midnight() {
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let midnight1 = utc_midnight(&date1, &loc).unwrap();
+        assert_eq!(midnight1, 21.76603162142293);
+
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let midnight2 = utc_midnight(&date2, &loc).unwrap();
+        assert_eq!(midnight2, 21.873780717607655);
+
+        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+        let midnight3 = utc_midnight(&date3, &loc).unwrap();
+        assert_eq!(midnight3, 21.60316415437779);
     }
 
     #[test]

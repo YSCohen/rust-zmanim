@@ -38,14 +38,14 @@ pub fn alos(
             astronomical_calculator::GEOMETRIC_ZENITH + deg,
         ),
         ZmanOffset::Minutes(min) => Some(offset_by_minutes(
-            &elevation_adjusted_sunrise(date, geo_location, use_elevation)?,
+            &hanetz(date, geo_location, use_elevation)?,
             -min,
         )),
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
             shaah_zmanis: shaah,
         } => Some(offset_by_minutes_zmanis(
-            &elevation_adjusted_sunrise(date, geo_location, use_elevation)?,
+            &hanetz(date, geo_location, use_elevation)?,
             -minz,
             shaah,
         )),
@@ -58,7 +58,7 @@ pub fn alos(
 /// or [sunrise](crate::astronomical_calculator::sunrise) if
 /// it is true. This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
-pub fn elevation_adjusted_sunrise(
+pub fn hanetz(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
@@ -68,15 +68,6 @@ pub fn elevation_adjusted_sunrise(
     } else {
         astronomical_calculator::sea_level_sunrise(date, geo_location)
     }
-}
-
-/// An alias for [elevation_adjusted_sunrise]
-pub fn hanetz(
-    date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-    use_elevation: bool,
-) -> Option<DateTime<Tz>> {
-    elevation_adjusted_sunrise(date, geo_location, use_elevation)
 }
 
 /// A generic function for calculating the latest *zman krias shema* (time to
@@ -154,7 +145,7 @@ pub fn plag_hamincha(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// [sunset](crate::astronomical_calculator::sunset) if it is true.
 /// This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
-pub fn elevation_adjusted_sunset(
+pub fn shkia(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
@@ -164,15 +155,6 @@ pub fn elevation_adjusted_sunset(
     } else {
         astronomical_calculator::sea_level_sunset(date, geo_location)
     }
-}
-
-/// An alias for [elevation_adjusted_sunset]
-pub fn shkia(
-    date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-    use_elevation: bool,
-) -> Option<DateTime<Tz>> {
-    elevation_adjusted_sunset(date, geo_location, use_elevation)
 }
 
 /// Returns *tzais* (nightfall) based on either declination of the sun below the
@@ -191,14 +173,14 @@ pub fn tzais(
             astronomical_calculator::GEOMETRIC_ZENITH + deg,
         ),
         ZmanOffset::Minutes(min) => {
-            let sunset = elevation_adjusted_sunset(date, geo_location, use_elevation)?;
+            let sunset = shkia(date, geo_location, use_elevation)?;
             Some(offset_by_minutes(&sunset, min))
         }
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
             shaah_zmanis: shaah,
         } => {
-            let sunset = elevation_adjusted_sunset(date, geo_location, use_elevation)?;
+            let sunset = shkia(date, geo_location, use_elevation)?;
             Some(offset_by_minutes_zmanis(&sunset, minz, shaah))
         }
     }
@@ -208,6 +190,11 @@ pub fn tzais(
 /// start (usually *hanetz* or *alos*) and end (*shkia* or *tzais*) of the day
 pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> f64 {
     astronomical_calculator::temporal_hour(day_start, day_end)
+}
+
+/// Returns a `DateTime` which is `minutes` minutes after `time`
+pub fn offset_by_minutes(time: &DateTime<Tz>, minutes: f64) -> DateTime<Tz> {
+    *time + TimeDelta::microseconds((minutes * MINUTE_MICROS).round() as i64)
 }
 
 /// A generic function for calculating a given number of *shaos zmaniyos*
@@ -220,11 +207,6 @@ pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> f64 {
 fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) -> DateTime<Tz> {
     let shaah_zmanis = astronomical_calculator::temporal_hour(day_start, day_end);
     offset_by_minutes(day_start, shaah_zmanis * shaos)
-}
-
-/// Returns a `DateTime` which is `minutes` minutes after `time`
-pub fn offset_by_minutes(time: &DateTime<Tz>, minutes: f64) -> DateTime<Tz> {
-    *time + TimeDelta::microseconds((minutes * MINUTE_MICROS).round() as i64)
 }
 
 /// Returns a `DateTime` which is `minutes` minutes *zmaniyos* after `time`,

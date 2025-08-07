@@ -52,12 +52,12 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_shema_gra(&self) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(false);
         Some(zmanim_calculator::sof_zman_shema(
-            &zmanim_calculator::elevation_adjusted_sunrise(
+            &zmanim_calculator::hanetz(
                 &self.date,
                 &self.geo_location,
                 use_elevation,
             )?,
-            &zmanim_calculator::elevation_adjusted_sunset(
+            &zmanim_calculator::shkia(
                 &self.date,
                 &self.geo_location,
                 use_elevation,
@@ -80,12 +80,12 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_tefila_gra(&self) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(false);
         Some(zmanim_calculator::sof_zman_tefila(
-            &zmanim_calculator::elevation_adjusted_sunrise(
+            &zmanim_calculator::hanetz(
                 &self.date,
                 &self.geo_location,
                 use_elevation,
             )?,
-            &zmanim_calculator::elevation_adjusted_sunset(
+            &zmanim_calculator::shkia(
                 &self.date,
                 &self.geo_location,
                 use_elevation,
@@ -153,12 +153,12 @@ impl ComplexZmanimCalendar {
     pub fn shaah_zmanis_gra(&self) -> Option<f64> {
         let use_elevation = self.use_elevation.to_bool(false);
         Some(zmanim_calculator::shaah_zmanis(
-            &zmanim_calculator::elevation_adjusted_sunrise(
+            &zmanim_calculator::hanetz(
                 &self.date,
                 &self.geo_location,
                 use_elevation,
             )?,
-            &zmanim_calculator::elevation_adjusted_sunset(
+            &zmanim_calculator::shkia(
                 &self.date,
                 &self.geo_location,
                 use_elevation,

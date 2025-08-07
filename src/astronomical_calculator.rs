@@ -93,6 +93,17 @@ pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTim
     ))
 }
 
+/// Returns the sunrise without elevation adjustment, i.e. at sea level
+pub fn sea_level_sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+    sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
+}
+
+/// Returns the sunset without elevation adjustment, i.e. at sea
+/// level
+pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+    sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
+}
+
 /// A utility function that returns the time of an offset by degrees below or
 /// above the horizon of sunrise. Note that the degree offset is from the
 /// vertical, so for a calculation of 14&deg; before sunrise, an offset of 14 +
@@ -125,17 +136,6 @@ pub fn sunset_offset_by_degrees(
     ))
 }
 
-/// Returns the sunrise without elevation adjustment, i.e. at sea level
-pub fn sea_level_sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
-}
-
-/// Returns the sunset without elevation adjustment, i.e. at sea
-/// level
-pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
-}
-
 /// A utility function that will allow the calculation of a temporal (solar)
 /// hour in minutes based on the sunrise and sunset passed as parameters to this
 /// function
@@ -145,15 +145,13 @@ pub fn temporal_hour(sunrise: &DateTime<Tz>, sunset: &DateTime<Tz>) -> f64 {
 }
 
 /// Returns sundial or solar noon. It occurs when the Sun is transiting the
-/// celestial meridian. Here it is calculated as halfway between the sunrise and
-/// sunset at the location passed to this function. This time can be slightly
-/// off the real transit time due to changes in declination (the lengthening or
-/// shortening day)
+/// celestial meridian
 pub fn sun_transit(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    let sunrise = sea_level_sunrise(date, geo_location)?;
-    let sunset = sea_level_sunset(date, geo_location)?;
-    let noon_hour = (temporal_hour(&sunrise, &sunset) / HOUR_MILLIS) * 6.0;
-    Some(sunrise + TimeDelta::microseconds(((noon_hour / 24.0) * DAY_MICROS).round() as i64))
+    Some(date_time_from_time_of_day(
+        date,
+        noaa_calculator::utc_noon(date, geo_location)?,
+        geo_location.timezone,
+    ))
 }
 
 /// A function that creates a `DateTime` from the `f64` of UTC time from
