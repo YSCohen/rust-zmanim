@@ -137,10 +137,11 @@ pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Opti
 }
 
 /// A utility function that will allow the calculation of a temporal (solar)
-/// hour based on the sunrise and sunset passed as parameters to this function
+/// hour in minutes based on the sunrise and sunset passed as parameters to this
+/// function
 pub fn temporal_hour(sunrise: &DateTime<Tz>, sunset: &DateTime<Tz>) -> f64 {
     let daytime_hours = (*sunset - *sunrise).as_seconds_f64() / 3_600.0;
-    (daytime_hours / 12.0) * HOUR_MILLIS
+    (daytime_hours / 12.0) * HOUR_MINUTES
 }
 
 /// Returns sundial or solar noon. It occurs when the Sun is transiting the
@@ -162,11 +163,11 @@ pub fn date_time_from_time_of_day(
     time_of_day: f64,
     timezone: Tz,
 ) -> DateTime<Tz> {
-    let total_seconds = time_of_day * 3_600.0;
-    let hour = (total_seconds / 3_600.0).floor() as u32;
-    let remainder = total_seconds % 3_600.0;
-    let minute = (remainder / 60.0).floor() as u32;
-    let remainder = remainder % 60.0;
+    let total_seconds = time_of_day * HOUR_SECONDS;
+    let hour = (total_seconds / HOUR_SECONDS).floor() as u32;
+    let remainder = total_seconds % HOUR_SECONDS;
+    let minute = (remainder / MINUTE_SECONDS).floor() as u32;
+    let remainder = remainder % MINUTE_SECONDS;
     let second = (remainder).floor() as u32;
     let microsecond = (remainder.fract() * SECOND_MICROS).round() as i64;
 
@@ -209,11 +210,11 @@ mod tests {
     fn test_temporal_hour() {
         let start1 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
         let end1 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
-        assert_eq!(temporal_hour(&start1, &end1), 3_600_000.0);
+        assert_eq!(temporal_hour(&start1, &end1), 60.0);
 
         let start2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
-        assert_eq!(temporal_hour(&start2, &end2), 4_041_083.3333333335);
+        assert_eq!(temporal_hour(&start2, &end2), 67.35138888888889);
     }
 
     #[test]

@@ -204,8 +204,8 @@ pub fn tzais(
     }
 }
 
-/// An alias for
-/// [temporal_hour()](crate::astronomical_calculator::temporal_hour)
+/// Gives the length in minutes of a *shaah zmanis* (temporal hour), given the
+/// start (usually *hanetz* or *alos*) and end (*shkia* or *tzais*) of the day
 pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> f64 {
     astronomical_calculator::temporal_hour(day_start, day_end)
 }
@@ -219,7 +219,7 @@ pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> f64 {
 /// after the beginning of the day
 fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) -> DateTime<Tz> {
     let shaah_zmanis = astronomical_calculator::temporal_hour(day_start, day_end);
-    offset_by_minutes(day_start, (shaah_zmanis / MINUTE_MILLIS) * shaos)
+    offset_by_minutes(day_start, shaah_zmanis * shaos)
 }
 
 /// Returns a `DateTime` which is `minutes` minutes after `time`
@@ -227,16 +227,14 @@ pub fn offset_by_minutes(time: &DateTime<Tz>, minutes: f64) -> DateTime<Tz> {
     *time + TimeDelta::microseconds((minutes * MINUTE_MICROS).round() as i64)
 }
 
-/// Returns a `DateTime` which is `minutes` minutes *zmaniyos* (temporal
-/// minutes) after `time`.
-///
-/// The time from the start of day to the end of day are divided into 12 *shaos
-/// zmaniyos* and the returned `DateTime` is `minutes` 60ths of those *shaos
-/// zmaniyos* after `time`
+/// Returns a `DateTime` which is `minutes` minutes *zmaniyos* after `time`,
+/// where `shaah_zmanis` is the length in minutes of a *shaah zmanis*
 fn offset_by_minutes_zmanis(time: &DateTime<Tz>, minutes: f64, shaah_zmanis: f64) -> DateTime<Tz> {
     *time
         + TimeDelta::microseconds(
-            (minutes * MINUTE_MICROS * (shaah_zmanis / HOUR_MILLIS)).round() as i64,
+            // MINUTE_MICROS / 60 minutes zmaniyos in a shaah zmanis
+            // = SECOND_MICROS
+            (minutes * shaah_zmanis * SECOND_MICROS).round() as i64,
         )
 }
 
@@ -309,5 +307,14 @@ mod tests {
             tzais(&date3, &loc, false, ZmanOffset::Degrees(6.0)).unwrap()
         );
         assert_eq!(tzais3, "2005-05-15 19:56:34.656301 IDT");
+    }
+
+    #[test]
+    fn test_offset_by_minutes_zmanis() {
+        let midnight = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let shaah = 60.0;
+        let twelve_fourty_three_thirty =
+            format!("{}", offset_by_minutes_zmanis(&midnight, 43.5, shaah));
+        assert_eq!(twelve_fourty_three_thirty, "2025-08-04 00:43:30 IDT")
     }
 }

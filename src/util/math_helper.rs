@@ -1,16 +1,26 @@
-//! Some constants that would be easy and destructive to get wrong
+//! Some constants that mostly exist to label the role of some number in the
+//! rest of the code
 
 /// Number of microseconds in a second
 pub const SECOND_MICROS: f64 = 1_000_000.0;
 
+/// Number of minutes in an hour
+pub const MINUTE_SECONDS: f64 = 60.0;
+
 /// Number of milliseconds in a minute
-pub const MINUTE_MILLIS: f64 = 60.0 * 1_000.0;
+pub const MINUTE_MILLIS: f64 = MINUTE_SECONDS * 1_000.0;
+
+/// Number of minutes in an hour
+pub const HOUR_MINUTES: f64 = 60.0;
+
+/// Number of seconds in an hour
+pub const HOUR_SECONDS: f64 = HOUR_MINUTES * MINUTE_SECONDS;
 
 /// Number of microseconds in a minute
 pub const MINUTE_MICROS: f64 = SECOND_MICROS * 60.0;
 
 /// Number of milliseconds in an hour
-pub const HOUR_MILLIS: f64 = MINUTE_MILLIS * 60.0;
+pub const HOUR_MILLIS: f64 = MINUTE_MILLIS * HOUR_MINUTES;
 
 /// Number of milliseconds in a day
 pub const DAY_MILLIS: f64 = HOUR_MILLIS * 24.0;

@@ -34,6 +34,8 @@ pub struct ComplexZmanimCalendar {
 /// 3. MGA minutes-based, zmanis after fixed (e.g. 72 minutes, 72 minutes
 ///    zmanis, 90 minutes...)
 /// 4. Other zmanim, sorted by time of day (Misheyakir, Hanetz, Chatzos...)
+///
+/// All *shaos zmaniyos* are in minutes
 impl ComplexZmanimCalendar {
     // GRA
     /// Returns the latest *zman shema* (time to recite shema in the morning)

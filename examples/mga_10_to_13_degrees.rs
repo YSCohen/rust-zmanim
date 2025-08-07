@@ -41,6 +41,6 @@ MK:           {mk}
 shkia:        {shkia}
 plag:         {plag}
 tzais:        {tzais_13_deg}
-shaah zmanis: {shaah} milliseconds"
+shaah zmanis: {shaah} minutes"
     )
 }
