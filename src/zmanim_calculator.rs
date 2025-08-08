@@ -100,6 +100,24 @@ pub fn chatzos(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTi
     astronomical_calculator::solar_noon(date, geo_location)
 }
 
+/// Returns the local time for fixed *chatzos*. This time is noon and midnight
+/// adjusted from standard time to account for the local latitude. The 360&deg;
+/// of the globe divided by 24 calculates to 15&deg; per hour with 4 minutes per
+/// degree, so at a longitude of 0 , 15, 30 etc... *Chatzos* is at exactly 12:00
+/// noon. This is the time of *chatzos* according to the *Aruch Hashulchan* in
+/// *Orach Chaim* 233:14 and Rabbi Moshe Feinstein in *Igros Moshe Orach Chaim*
+/// 1:24 and 2:20. Lakewood, N.J., with a longitude of -74.222, is 0.778 away
+/// from the closest multiple of 15 at -75&deg;. This is multiplied by 4 to
+/// yield 3 minutes and 7 seconds for a *chatzos* of 11:56:53. This method is
+/// not tied to the theoretical 15&deg; time zones, but will adjust to the
+/// actual time zone and Daylight saving time.
+pub fn fixed_local_chatzos(
+    date: &DateTime<Tz>,
+    geo_location: &GeoLocation,
+) -> Option<DateTime<Tz>> {
+    astronomical_calculator::local_mean_time(date, geo_location, 12.0)
+}
+
 /// A generic function for calculating *mincha gedola* that is 6.5 *shaos
 /// zmaniyos* (temporal hours) after the start of the day, calculated using the
 /// start and end of the day passed to this function. Mincha gedola is the

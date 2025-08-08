@@ -1722,9 +1722,15 @@ impl ComplexZmanimCalendar {
     }
 
     // Chatzos
-    /// Returns Astronomical noon
+    /// Returns Astronomical *chatzos*
     pub fn chatzos(&self) -> Option<DateTime<Tz>> {
         zmanim_calculator::chatzos(&self.date, &self.geo_location)
+    }
+
+    /// Returns fixed local *chatzos*. See
+    /// [zmanim_calculator::fixed_local_chatzos] for more details
+    pub fn fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+        zmanim_calculator::fixed_local_chatzos(&self.date, &self.geo_location)
     }
 
     // Mincha Gedola

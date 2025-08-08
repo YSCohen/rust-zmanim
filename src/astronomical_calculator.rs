@@ -192,6 +192,34 @@ pub fn date_time_from_time_of_day(
         + TimeDelta::microseconds(microsecond)
 }
 
+/// Returns local mean time (LMT) converted to regular clock time for the number
+/// of hours (0.0 to 23.999...) passed to this function. This time is adjusted
+/// from standard time to account for the local latitude. The 360&deg; of the
+/// globe divided by 24 calculates to 15&deg; per hour with 4 minutes per
+/// degree, so at a longitude of 0 , 15, 30 etc... noon is at exactly 12:00pm.
+/// Lakewood, N.J., with a longitude of -74.222, is 0.7906 away from the closest
+/// multiple of 15 at -75&deg;. This is multiplied by 4 clock minutes (per
+/// degree) to yield 3 minutes and 7 seconds for a noon time of 11:56:53am. This
+/// method is not tied to the theoretical 15&deg; time zones, but will adjust to
+/// the actual time zone and Daylight saving time to return LMT.
+pub fn local_mean_time(
+    date: &DateTime<Tz>,
+    geo_location: &GeoLocation,
+    hours: f64,
+) -> Option<DateTime<Tz>> {
+    if !(0.0..24.0).contains(&hours) {
+        None
+    } else {
+        Some(
+            date_time_from_time_of_day(
+                date,
+                hours - (geo_location.raw_offset() / HOUR_MILLIS),
+                geo_location.timezone,
+            ) - TimeDelta::milliseconds(geo_location.local_mean_time_offset()),
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -250,5 +278,27 @@ mod tests {
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let set3 = format!("{}", sunset_offset_by_degrees(&date3, &loc, 98.5).unwrap());
         assert_eq!(set3, "2005-05-15 20:09:52.608705 IDT");
+    }
+
+    #[test]
+    fn test_local_mean_time() {
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let rise1 = format!("{}", local_mean_time(&date1, &loc, 12.0).unwrap());
+        assert_eq!(rise1, "2025-08-04 12:39:51.158 IDT"); // off by one millis
+
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let rise2 = format!("{}", local_mean_time(&date2, &loc, 13.14159).unwrap());
+        assert_eq!(rise2, "2025-01-26 12:48:20.882 IST"); // off by one millis
+
+        let rise3 = format!("{}", local_mean_time(&date2, &loc, 6.23456).unwrap());
+        assert_eq!(rise3, "2025-01-26 05:53:55.574 IST"); // off by one millis
+
     }
 }
