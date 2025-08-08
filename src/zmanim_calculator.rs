@@ -95,9 +95,9 @@ pub fn sof_zman_tefila(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> Date
 }
 
 /// Returns [Astronomical
-/// *chatzos*](crate::astronomical_calculator::sun_transit).
+/// noon](crate::astronomical_calculator::solar_noon).
 pub fn chatzos(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    astronomical_calculator::sun_transit(date, geo_location)
+    astronomical_calculator::solar_noon(date, geo_location)
 }
 
 /// A generic function for calculating *mincha gedola* that is 6.5 *shaos
@@ -197,6 +197,12 @@ pub fn offset_by_minutes(time: &DateTime<Tz>, minutes: f64) -> DateTime<Tz> {
     *time + TimeDelta::microseconds((minutes * MINUTE_MICROS).round() as i64)
 }
 
+/// Returns a `DateTime` which is `minutes` minutes *zmaniyos* after `time`,
+/// where `shaah_zmanis` is the length in minutes of a *shaah zmanis*
+fn offset_by_minutes_zmanis(time: &DateTime<Tz>, minutes: f64, shaah_zmanis: f64) -> DateTime<Tz> {
+    offset_by_minutes(time, minutes * (shaah_zmanis / 60.0))
+}
+
 /// A generic function for calculating a given number of *shaos zmaniyos*
 /// (temporal hours) after the start of the day, calculated using the start and
 /// end of the day passed to this function.
@@ -206,18 +212,7 @@ pub fn offset_by_minutes(time: &DateTime<Tz>, minutes: f64) -> DateTime<Tz> {
 /// after the beginning of the day
 fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) -> DateTime<Tz> {
     let shaah_zmanis = astronomical_calculator::temporal_hour(day_start, day_end);
-    offset_by_minutes(day_start, shaah_zmanis * shaos)
-}
-
-/// Returns a `DateTime` which is `minutes` minutes *zmaniyos* after `time`,
-/// where `shaah_zmanis` is the length in minutes of a *shaah zmanis*
-fn offset_by_minutes_zmanis(time: &DateTime<Tz>, minutes: f64, shaah_zmanis: f64) -> DateTime<Tz> {
-    *time
-        + TimeDelta::microseconds(
-            // MINUTE_MICROS / 60 minutes zmaniyos in a shaah zmanis
-            // = SECOND_MICROS
-            (minutes * shaah_zmanis * SECOND_MICROS).round() as i64,
-        )
+    offset_by_minutes_zmanis(day_start, shaos * 60.0, shaah_zmanis)
 }
 
 pub enum ZmanOffset {

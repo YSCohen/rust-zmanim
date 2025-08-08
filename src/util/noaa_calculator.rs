@@ -12,8 +12,8 @@
 use chrono::prelude::*;
 use chrono_tz::Tz;
 
-use crate::util::astronomical_basics::adjusted_zenith;
 use crate::util::geolocation::GeoLocation;
+use crate::util::zenith_adjustments::adjusted_zenith;
 
 // Julian Stuff
 /// The Julian day of January 1, 2000, known as J2000.0
@@ -195,7 +195,7 @@ fn approximate_utc_sun_position(
 
 /// Return the UTC in minutes of a given sun position for the given day at the
 /// given location on earth, ([adjusts the
-/// zenith](astronomical_basics::adjusted_zenith) for refraction, solar radius
+/// zenith](zenith_adjustments::adjusted_zenith) for refraction, solar radius
 /// and optionally elevation)
 fn utc_sun_rise_set(
     date: &DateTime<Tz>,

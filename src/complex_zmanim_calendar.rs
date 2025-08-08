@@ -1,7 +1,6 @@
 //! The [ComplexZmanimCalendar] struct is stateful and has many premade *zmanim*
 //! calculations, both conveniences built on the [zmanim_calculator] API.
 
-use crate::astronomical_calculator;
 use crate::util::geolocation::GeoLocation;
 use crate::zmanim_calculator;
 use crate::zmanim_calculator::ZmanOffset::*;
@@ -52,16 +51,8 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_shema_gra(&self) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(false);
         Some(zmanim_calculator::sof_zman_shema(
-            &zmanim_calculator::hanetz(
-                &self.date,
-                &self.geo_location,
-                use_elevation,
-            )?,
-            &zmanim_calculator::shkia(
-                &self.date,
-                &self.geo_location,
-                use_elevation,
-            )?,
+            &zmanim_calculator::hanetz(&self.date, &self.geo_location, use_elevation)?,
+            &zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)?,
         ))
     }
 
@@ -80,16 +71,8 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_tefila_gra(&self) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(false);
         Some(zmanim_calculator::sof_zman_tefila(
-            &zmanim_calculator::hanetz(
-                &self.date,
-                &self.geo_location,
-                use_elevation,
-            )?,
-            &zmanim_calculator::shkia(
-                &self.date,
-                &self.geo_location,
-                use_elevation,
-            )?,
+            &zmanim_calculator::hanetz(&self.date, &self.geo_location, use_elevation)?,
+            &zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)?,
         ))
     }
 
@@ -153,16 +136,8 @@ impl ComplexZmanimCalendar {
     pub fn shaah_zmanis_gra(&self) -> Option<f64> {
         let use_elevation = self.use_elevation.to_bool(false);
         Some(zmanim_calculator::shaah_zmanis(
-            &zmanim_calculator::hanetz(
-                &self.date,
-                &self.geo_location,
-                use_elevation,
-            )?,
-            &zmanim_calculator::shkia(
-                &self.date,
-                &self.geo_location,
-                use_elevation,
-            )?,
+            &zmanim_calculator::hanetz(&self.date, &self.geo_location, use_elevation)?,
+            &zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)?,
         ))
     }
 
@@ -203,11 +178,7 @@ impl ComplexZmanimCalendar {
     /// and *lulav* should not be done until after the published time for
     /// *netz* / sunrise.
     fn sunrise_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        astronomical_calculator::sunrise_offset_by_degrees(
-            &self.date,
-            &self.geo_location,
-            astronomical_calculator::GEOMETRIC_ZENITH + 1.583,
-        )
+        zmanim_calculator::alos(&self.date, &self.geo_location, false, Degrees(1.583))
     }
 
     /// Returns the the *Baal Hatanya*'s *sof zman krias shema*
@@ -313,11 +284,7 @@ impl ComplexZmanimCalendar {
     /// daytime *mitzvos* should be completed before the published time for
     /// *shkiah* / sunset.
     fn sunset_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        astronomical_calculator::sunset_offset_by_degrees(
-            &self.date,
-            &self.geo_location,
-            astronomical_calculator::GEOMETRIC_ZENITH + 1.583,
-        )
+        zmanim_calculator::tzais(&self.date, &self.geo_location, false, Degrees(1.583))
     }
 
     /// Returns *tzais* (nightfall) when the sun is 6&deg; below
@@ -325,30 +292,23 @@ impl ComplexZmanimCalendar {
     /// is based on the position of the sun 24 minutes after sunset in Jerusalem
     /// around the equinox / equilux, which is 6&deg; below geometric zenith.
     pub fn tzais_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        astronomical_calculator::sunset_offset_by_degrees(
-            &self.date,
-            &self.geo_location,
-            astronomical_calculator::GEOMETRIC_ZENITH + 6.0,
-        )
+        zmanim_calculator::tzais(&self.date, &self.geo_location, false, Degrees(6.0))
     }
 
-    /// Returns the *Baal Hatanya*'s a *shaah zmanis* (temporal
-    /// hour). This forms the base for the *Baal Hatanya*'s day based
-    /// calculations that are calculated as a 1.583&deg; dip below the horizon
-    /// after sunset. According to the *Baal Hatanya*, *shkiah amiti*, true
-    /// (halachic) sunset, is when the top of the sun's disk disappears from
-    /// view at an elevation similar to the mountains of *Eretz Yisrael*.
-    /// This time is calculated as the point at which the center of the
-    /// sun's disk is 1.583 degrees below the horizon. A method that returns
-    /// a *shaah zmanis* (temporal hour) calculated based on
-    /// the *Baal Hatanya*'s *netz amiti* and *shkiah amiti* using a dip of
-    /// 1.583&deg; below the sea level horizon. This calculation divides the day
-    /// based on the opinion of the *Baal Hatanya* that the day runs from
-    /// *netz amiti* to *shkiah amiti*. The calculations are based on a day
-    /// from sea level *netz amiti* to sea level *shkiah amiti*. The day is
-    /// split into 12 equal parts with each one being a *shaah zmanis*. This
-    /// method is similar to [astronomical_calculator::temporal_hour], but
-    /// all calculations are based on a sea level sunrise and sunset.
+    /// Returns the *Baal Hatanya*'s a *shaah zmanis* (temporal hour). This
+    /// forms the base for the *Baal Hatanya*'s day based calculations that are
+    /// calculated as a 1.583&deg; dip below the horizon after sunset. According
+    /// to the *Baal Hatanya*, *shkiah amiti*, true (halachic) sunset, is when
+    /// the top of the sun's disk disappears from view at an elevation similar
+    /// to the mountains of *Eretz Yisrael*. This time is calculated as the
+    /// point at which the center of the sun's disk is 1.583 degrees below the
+    /// horizon. A method that returns a *shaah zmanis* (temporal hour)
+    /// calculated based on the *Baal Hatanya*'s *netz amiti* and *shkiah amiti*
+    /// using a dip of 1.583&deg; below the sea level horizon. This calculation
+    /// divides the day based on the opinion of the *Baal Hatanya* that the day
+    /// runs from *netz amiti* to *shkiah amiti*. The calculations are based on
+    /// a day from sea level *netz amiti* to sea level *shkiah amiti*. The day
+    /// is split into 12 equal parts with each one being a *shaah zmanis*.
     pub fn shaah_zmanis_baal_hatanya(&self) -> Option<f64> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.sunrise_baal_hatanya()?,
@@ -1762,7 +1722,7 @@ impl ComplexZmanimCalendar {
     }
 
     // Chatzos
-    /// Returns Astronomical chatzos.
+    /// Returns Astronomical noon
     pub fn chatzos(&self) -> Option<DateTime<Tz>> {
         zmanim_calculator::chatzos(&self.date, &self.geo_location)
     }

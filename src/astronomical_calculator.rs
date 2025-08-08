@@ -17,28 +17,33 @@ use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::*;
 use crate::util::noaa_calculator;
 
+/// 90&deg; below the vertical. Used as a basis for most calculations since the
+/// location of the sun is 90&deg; below the vertical at sunrise and sunset.
+///
+/// **Note**: for sunrise and sunset the [adjusted
+/// zenith](crate::util::zenith_adjustments::adjusted_zenith) is required to
+/// account for the radius of the sun and refraction. See the documentation
+/// there for more details
 pub const GEOMETRIC_ZENITH: f64 = 90.0;
+
+/// Sun's zenith at civil twilight (96&deg;)
 pub const CIVIL_ZENITH: f64 = 96.0;
+
+/// Sun's zenith at nautical twilight (102&deg;)
 pub const NAUTICAL_ZENITH: f64 = 102.0;
+
+/// Sun's zenith at astronomical twilight (108&deg;)
 pub const ASTRONOMICAL_ZENITH: f64 = 108.0;
 
 /// Returns the sunrise in UTC time without correction for time
 /// zone offset from GMT and without using daylight savings time
-pub fn utc_elevation_sunrise(
-    date: &DateTime<Tz>,
-    zenith: f64,
-    geo_location: &GeoLocation,
-) -> Option<f64> {
+pub fn utc_sunrise(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, true)
 }
 
 /// Returns the sunset in UTC time without correction for time
 /// zone offset from GMT and without using daylight savings time
-pub fn utc_elevation_sunset(
-    date: &DateTime<Tz>,
-    zenith: f64,
-    geo_location: &GeoLocation,
-) -> Option<f64> {
+pub fn utc_sunset(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunset(date, geo_location, zenith, true)
 }
 
@@ -68,7 +73,7 @@ pub fn utc_sea_level_sunset(
 ///
 /// The zenith used for the calculation uses [geometric
 /// zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
-/// [adjusted](crate::util::astronomical_basics::adjusted_zenith) to add
+/// [adjusted](crate::util::zenith_adjustments::adjusted_zenith) to add
 /// approximately 50/60 of a degree to account for 34 archminutes of refraction
 /// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
 pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
@@ -82,7 +87,7 @@ pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTi
 /// Returns the elevation-adjusted
 /// sunset time. The zenith used for the calculation uses
 /// [geometric zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
-/// [adjusted](crate::util::astronomical_basics::adjusted_zenith) to add
+/// [adjusted](crate::util::zenith_adjustments::adjusted_zenith) to add
 /// approximately 50/60 of a degree to account for 34 archminutes of refraction
 /// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
 pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
@@ -144,9 +149,9 @@ pub fn temporal_hour(sunrise: &DateTime<Tz>, sunset: &DateTime<Tz>) -> f64 {
     (daytime_hours / 12.0) * HOUR_MINUTES
 }
 
-/// Returns sundial or solar noon. It occurs when the Sun is transiting the
-/// celestial meridian
-pub fn sun_transit(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+/// Returns solar noon. It occurs when the Sun is transiting the celestial
+/// meridian, the apparent highest point in the sky
+pub fn solar_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     Some(date_time_from_time_of_day(
         date,
         noaa_calculator::utc_noon(date, geo_location)?,
@@ -154,8 +159,18 @@ pub fn sun_transit(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<Da
     ))
 }
 
+/// Returns solar midnight. It occurs when the Sun closest to the nadir, or the
+/// direction pointing directly below the given location
+pub fn solar_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+    Some(date_time_from_time_of_day(
+        date,
+        noaa_calculator::utc_midnight(date, geo_location)?,
+        geo_location.timezone,
+    ))
+}
+
 /// A function that creates a `DateTime` from the `f64` of UTC time from
-/// [utc_elevation_sunrise], etc
+/// [utc_sunrise], etc
 pub fn date_time_from_time_of_day(
     date: &DateTime<Tz>,
     time_of_day: f64,
