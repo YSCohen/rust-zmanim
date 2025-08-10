@@ -29,7 +29,7 @@ pub fn alos(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-    offset: ZmanOffset,
+    offset: &ZmanOffset,
 ) -> Option<DateTime<Tz>> {
     match offset {
         ZmanOffset::Degrees(deg) => astronomical_calculator::sunrise_offset_by_degrees(
@@ -47,7 +47,7 @@ pub fn alos(
         } => Some(offset_by_minutes_zmanis(
             &hanetz(date, geo_location, use_elevation)?,
             -minz,
-            shaah,
+            *shaah,
         )),
     }
 }
@@ -118,6 +118,19 @@ pub fn fixed_local_chatzos(
     astronomical_calculator::local_mean_time(date, geo_location, 12.0)
 }
 
+/// Returns *mincha gedola* calculated as 30 minutes after *chatzos* and not 1/2
+/// of a *shaah zmanis* after *chatzos* as calculated by [mincha_gedola]. Some
+/// use this time to delay the start of mincha in the winter when 1/2 of a
+/// *shaah zmanis* is less than 30 minutes. See One should not use this time to
+/// start *mincha* before the standard *mincha gedola*. See *Shulchan Aruch
+/// Orach Chayim* 234:1 and the *Shaar Hatziyon seif katan ches*.
+pub fn mincha_gedola_30_minutes(
+    date: &DateTime<Tz>,
+    geo_location: &GeoLocation,
+) -> Option<DateTime<Tz>> {
+    Some(chatzos(date, geo_location)? + TimeDelta::minutes(30))
+}
+
 /// A generic function for calculating *mincha gedola* that is 6.5 *shaos
 /// zmaniyos* (temporal hours) after the start of the day, calculated using the
 /// start and end of the day passed to this function. Mincha gedola is the
@@ -182,7 +195,7 @@ pub fn tzais(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
-    offset: ZmanOffset,
+    offset: &ZmanOffset,
 ) -> Option<DateTime<Tz>> {
     match offset {
         ZmanOffset::Degrees(deg) => astronomical_calculator::sunset_offset_by_degrees(
@@ -192,14 +205,14 @@ pub fn tzais(
         ),
         ZmanOffset::Minutes(min) => {
             let sunset = shkia(date, geo_location, use_elevation)?;
-            Some(offset_by_minutes(&sunset, min))
+            Some(offset_by_minutes(&sunset, *min))
         }
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
             shaah_zmanis: shaah,
         } => {
             let sunset = shkia(date, geo_location, use_elevation)?;
-            Some(offset_by_minutes_zmanis(&sunset, minz, shaah))
+            Some(offset_by_minutes_zmanis(&sunset, *minz, *shaah))
         }
     }
 }
@@ -285,21 +298,21 @@ mod tests {
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
         let tzais1 = format!(
             "{}",
-            tzais(&date1, &loc, false, ZmanOffset::Degrees(6.0)).unwrap()
+            tzais(&date1, &loc, false, &ZmanOffset::Degrees(6.0)).unwrap()
         );
         assert_eq!(tzais1, "2025-08-04 20:00:13.884113 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let tzais2 = format!(
             "{}",
-            tzais(&date2, &loc, false, ZmanOffset::Degrees(6.0)).unwrap()
+            tzais(&date2, &loc, false, &ZmanOffset::Degrees(6.0)).unwrap()
         );
         assert_eq!(tzais2, "2025-01-26 17:34:32.830038 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let tzais3 = format!(
             "{}",
-            tzais(&date3, &loc, false, ZmanOffset::Degrees(6.0)).unwrap()
+            tzais(&date3, &loc, false, &ZmanOffset::Degrees(6.0)).unwrap()
         );
         assert_eq!(tzais3, "2005-05-15 19:56:34.656301 IDT");
     }

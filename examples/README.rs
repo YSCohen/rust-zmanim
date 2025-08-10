@@ -14,7 +14,7 @@ fn main() {
 
     // the `zmanim_calculator` lets you make any custom tzais/alos
     if let Some(tzais_baal_hatanya) =
-        zmanim_calculator::tzais(&dt, &beit_meir, false, ZmanOffset::Degrees(6.0))
+        zmanim_calculator::tzais(&dt, &beit_meir, false, &ZmanOffset::Degrees(6.0))
     {
         assert_eq!(
             format!("{tzais_baal_hatanya}"),
