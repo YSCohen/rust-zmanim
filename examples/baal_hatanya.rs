@@ -34,17 +34,19 @@ fn main() {
     let plag = czc.plag_baal_hatanya().unwrap();
     let shkia = czc.shkia().unwrap();
     let tzais = czc.tzais_baal_hatanya().unwrap();
+    let shaah = czc.shaah_zmanis_baal_hatanya().unwrap();
 
     println!(
-        "alos:    {alos}
-hanetz:  {hanetz}
-SZKS:    {szks}
-SZT:     {szt}
-chatzos: {chatzos}
-MG:      {mg}
-MK:      {mk}
-shkia:   {shkia}
-plag:    {plag}
-tzais:   {tzais}"
+        "alos:         {alos}
+hanetz:       {hanetz}
+SZKS:         {szks}
+SZT:          {szt}
+chatzos:      {chatzos}
+MG:           {mg}
+MK:           {mk}
+shkia:        {shkia}
+plag:         {plag}
+tzais:        {tzais}
+shaah zmanis: {shaah} minutes"
     )
 }

@@ -299,6 +299,5 @@ mod tests {
 
         let rise3 = format!("{}", local_mean_time(&date2, &loc, 6.23456).unwrap());
         assert_eq!(rise3, "2025-01-26 05:53:55.574 IST"); // off by one millis
-
     }
 }
