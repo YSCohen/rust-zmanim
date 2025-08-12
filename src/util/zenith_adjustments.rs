@@ -5,10 +5,10 @@
 /// location of the sun is 90&deg; below the vertical at sunrise and sunset.
 pub const GEOMETRIC_ZENITH: f64 = 90.0;
 
-/// 34 archminutes of refraction
+/// 34 arcminutes of refraction
 pub const REFRACTION: f64 = 34.0 / 60.0;
 
-/// 16 archminutes for the sun's radius in the sky
+/// 16 arcminutes for the sun's radius in the sky
 pub const SOLAR_RADIUS: f64 = 16.0 / 60.0;
 
 /// The commonly used average earth radius in KM

@@ -74,8 +74,8 @@ pub fn utc_sea_level_sunset(
 /// The zenith used for the calculation uses [geometric
 /// zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
 /// [adjusted](crate::util::zenith_adjustments::adjusted_zenith) to add
-/// approximately 50/60 of a degree to account for 34 archminutes of refraction
-/// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
+/// approximately 50/60 of a degree to account for 34 arcminutes of refraction
+/// and 16 arcminutes for the sun's radius for a total of 90.83333&deg;
 pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     Some(date_time_from_time_of_day(
         date,
@@ -88,8 +88,8 @@ pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTi
 /// sunset time. The zenith used for the calculation uses
 /// [geometric zenith](GEOMETRIC_ZENITH) of 90&deg;. This is
 /// [adjusted](crate::util::zenith_adjustments::adjusted_zenith) to add
-/// approximately 50/60 of a degree to account for 34 archminutes of refraction
-/// and 16 archminutes for the sun's radius for a total of 90.83333&deg;
+/// approximately 50/60 of a degree to account for 34 arcminutes of refraction
+/// and 16 arcminutes for the sun's radius for a total of 90.83333&deg;
 pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     Some(date_time_from_time_of_day(
         date,
