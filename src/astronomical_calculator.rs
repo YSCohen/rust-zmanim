@@ -169,9 +169,9 @@ pub fn solar_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option
     ))
 }
 
-/// A function that creates a `DateTime` from the `f64` of UTC time from
-/// [utc_sunrise], etc
-pub fn date_time_from_time_of_day(
+/// Returns a `DateTime` with the given timezone, made from the number of hours
+/// in UTC time
+fn date_time_from_time_of_day(
     date: &DateTime<Tz>,
     time_of_day: f64,
     timezone: Tz,
@@ -210,13 +210,11 @@ pub fn local_mean_time(
     if !(0.0..24.0).contains(&hours) {
         None
     } else {
-        Some(
-            date_time_from_time_of_day(
-                date,
-                hours - (geo_location.raw_offset() / HOUR_MILLIS),
-                geo_location.timezone,
-            ) - TimeDelta::milliseconds(geo_location.local_mean_time_offset()),
-        )
+        Some(date_time_from_time_of_day(
+            date,
+            hours - geo_location.local_mean_time_offset(),
+            geo_location.timezone,
+        ))
     }
 }
 
@@ -290,14 +288,23 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let rise1 = format!("{}", local_mean_time(&date1, &loc, 12.0).unwrap());
-        assert_eq!(rise1, "2025-08-04 12:39:51.158 IDT"); // off by one millis
+        let lmt1 = format!("{}", local_mean_time(&date1, &loc, 12.0).unwrap());
+        assert_eq!(lmt1, "2025-08-04 12:39:51.158400 IDT"); // off from KJ by < 1 ms
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let rise2 = format!("{}", local_mean_time(&date2, &loc, 13.14159).unwrap());
-        assert_eq!(rise2, "2025-01-26 12:48:20.882 IST"); // off by one millis
-
-        let rise3 = format!("{}", local_mean_time(&date2, &loc, 6.23456).unwrap());
-        assert_eq!(rise3, "2025-01-26 05:53:55.574 IST"); // off by one millis
+        let lmt2 = format!("{}", local_mean_time(&date2, &loc, 13.14159).unwrap());
+        assert_eq!(lmt2, "2025-01-26 12:48:20.882400 IST"); // ditto
+        
+        let lmt3 = format!("{}", local_mean_time(&date2, &loc, 6.23456).unwrap());
+        assert_eq!(lmt3, "2025-01-26 05:53:55.574400 IST"); // ditto
+        
+        let date4 = Jerusalem.with_ymd_and_hms(2025, 3, 17, 6, 7, 8).unwrap();
+        let lmt4 = format!("{}", local_mean_time(&date4, &loc, 17.983567976).unwrap());
+        assert_eq!(lmt4, "2025-03-17 17:38:52.003114 IST");
+        // off from KJ by 27 ms, apparently because of the many decimal places
+        
+        let date4 = Jerusalem.with_ymd_and_hms(2025, 3, 17, 6, 7, 8).unwrap();
+        let lmt4 = format!("{}", local_mean_time(&date4, &loc, 17.983).unwrap());
+        assert_eq!(lmt4, "2025-03-17 17:38:49.958400 IST"); // off from KJ by < 1 ms
     }
 }

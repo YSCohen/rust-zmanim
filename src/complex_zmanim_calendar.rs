@@ -14,13 +14,13 @@ use chrono_tz::Tz;
 /// (and uncommon) zmanim. **Elevation based *zmanim* (even sunrise and sunset)
 /// should not be used *lekula* without the guidance of a *posek***. See the
 /// documentation of [zmanim_calculator] for more details.
-pub struct ComplexZmanimCalendar {
+pub struct ComplexZmanimCalendar<'a> {
     /// Location at which to calculate *zmanim*
-    pub geo_location: GeoLocation,
+    pub geo_location: &'a GeoLocation,
 
     /// Day for which to calculate *zmanim*. Time does not (should not) affect
     /// the calculations
-    pub date: DateTime<Tz>,
+    pub date: &'a DateTime<Tz>,
 
     /// When to account for elevation. See [UseElevation]
     pub use_elevation: UseElevation,
@@ -36,21 +36,21 @@ pub struct ComplexZmanimCalendar {
 /// 5. Other zmanim, sorted by time of day (Misheyakir, Hanetz, Chatzos...)
 ///
 /// All *shaos zmaniyos* are in minutes
-impl ComplexZmanimCalendar {
+impl ComplexZmanimCalendar<'_> {
     // Basics
     /// Returns *alos hashachar* (dawn) based on either declination of the sun
     /// below the horizon, a fixed time offset, or a minutes *zmaniyos*
     /// (temporal minutes) offset before sunrise
     pub fn alos(&self, offset: &ZmanOffset) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(false);
-        zmanim_calculator::alos(&self.date, &self.geo_location, use_elevation, offset)
+        zmanim_calculator::alos(self.date, self.geo_location, use_elevation, offset)
     }
 
     /// Returns *hanetz*, or sunrise. Will be elevation-adjusted or not
     /// depending on `use_elevation`
     pub fn hanetz(&self) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(true);
-        zmanim_calculator::hanetz(&self.date, &self.geo_location, use_elevation)
+        zmanim_calculator::hanetz(self.date, self.geo_location, use_elevation)
     }
 
     /// Returns the latest *zman krias shema* (time to recite *Shema* in the
@@ -77,13 +77,13 @@ impl ComplexZmanimCalendar {
 
     /// Returns Astronomical *chatzos*
     pub fn chatzos(&self) -> Option<DateTime<Tz>> {
-        zmanim_calculator::chatzos(&self.date, &self.geo_location)
+        zmanim_calculator::chatzos(self.date, self.geo_location)
     }
 
     /// Returns fixed local *chatzos*. See
     /// [zmanim_calculator::fixed_local_chatzos] for more details
     pub fn fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
-        zmanim_calculator::fixed_local_chatzos(&self.date, &self.geo_location)
+        zmanim_calculator::fixed_local_chatzos(self.date, self.geo_location)
     }
 
     /// Returns *mincha gedola* according to the opinion of the *Magen Avraham*
@@ -121,14 +121,14 @@ impl ComplexZmanimCalendar {
     /// [zmanim_calculator::mincha_gedola]. See
     /// [zmanim_calculator::mincha_gedola_30_minutes] for more details
     pub fn mincha_gedola_30_minutes(&self) -> Option<DateTime<Tz>> {
-        zmanim_calculator::mincha_gedola_30_minutes(&self.date, &self.geo_location)
+        zmanim_calculator::mincha_gedola_30_minutes(self.date, self.geo_location)
     }
 
     /// Returns *shkia*, or sunset. Will be elevation-adjusted or not depending
     /// on `use_elevation`
     pub fn shkia(&self) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(true);
-        zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)
+        zmanim_calculator::shkia(self.date, self.geo_location, use_elevation)
     }
 
     /// Returns *tzais* (nightfall) based on either declination of the sun below
@@ -136,7 +136,7 @@ impl ComplexZmanimCalendar {
     /// minutes) offset after sunset
     pub fn tzais(&self, offset: &ZmanOffset) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(false);
-        zmanim_calculator::tzais(&self.date, &self.geo_location, use_elevation, offset)
+        zmanim_calculator::tzais(self.date, self.geo_location, use_elevation, offset)
     }
 
     // GRA
@@ -1840,5 +1840,123 @@ impl UseElevation {
             Self::HanetzShkia => hanetz_or_shkia,
             Self::All => true,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use chrono_tz::Asia::Jerusalem;
+    use chrono::TimeZone;
+
+    #[test]
+    fn test_fixed_local_chatzos() {
+        
+        let loc1 = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let czc1 = ComplexZmanimCalendar{geo_location: &loc1, date: &date1, use_elevation: UseElevation::No};
+        let chatzos1 = format!("{}", czc1.fixed_local_chatzos().unwrap());
+        assert_eq!(chatzos1, "2025-08-04 12:39:51.158400 IDT"); // off by < 1 ms
+        
+        let loc2 = GeoLocation {
+            latitude: 31.0,
+            longitude: 35.0,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 4, 0, 0, 0).unwrap();
+        let czc2 = ComplexZmanimCalendar{geo_location: &loc2, date: &date2, use_elevation: UseElevation::No};
+        let chatzos2 = format!("{}", czc2.fixed_local_chatzos().unwrap());
+        assert_eq!(chatzos2, "2025-01-04 11:40:00 IST");
+    }
+
+    #[test]
+    fn test_alos_120_minutes() {
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let czc1 = ComplexZmanimCalendar{geo_location: &loc, date: &date1, use_elevation: UseElevation::No};
+        let alos1 = format!("{}", czc1.alos_120_minutes().unwrap());
+        assert_eq!(alos1, "2025-08-04 03:57:34.359480 IDT");
+        
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let czc2 = ComplexZmanimCalendar{geo_location: &loc, date: &date2, use_elevation: UseElevation::No};
+        let alos2 = format!("{}", czc2.alos_120_minutes().unwrap());
+        assert_eq!(alos2, "2025-01-26 04:36:28.393758 IST");
+        
+        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+        let czc3 = ComplexZmanimCalendar{geo_location: &loc, date: &date3, use_elevation: UseElevation::No};
+        let alos3 = format!("{}", czc3.alos_120_minutes().unwrap());
+        assert_eq!(alos3, "2005-05-15 03:43:01.021454 IDT"); // off by 200 ms (?!)
+        
+        let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
+        let czc4 = ComplexZmanimCalendar{geo_location: &loc, date: &date4, use_elevation: UseElevation::No};
+        let alos4 = format!("{}", czc4.alos_120_minutes().unwrap());
+        assert_eq!(alos4, "2025-05-15 03:42:56.506815 IDT");
+    }
+
+    #[test]
+    fn test_tzais_72_minutes_zmanis() {
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let czc1 = ComplexZmanimCalendar{geo_location: &loc, date: &date1, use_elevation: UseElevation::No};
+        let alos1 = format!("{}", czc1.tzais_72_minutes_zmanis().unwrap());
+        assert_eq!(alos1, "2025-08-04 20:55:33.614725 IDT"); // off by < 1 ms
+        
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let czc2 = ComplexZmanimCalendar{geo_location: &loc, date: &date2, use_elevation: UseElevation::No};
+        let alos2 = format!("{}", czc2.tzais_72_minutes_zmanis().unwrap());
+        assert_eq!(alos2, "2025-01-26 18:11:54.813294 IST"); // off by < 1 ms
+        
+        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+        let czc3 = ComplexZmanimCalendar{geo_location: &loc, date: &date3, use_elevation: UseElevation::No};
+        let alos3 = format!("{}", czc3.tzais_72_minutes_zmanis().unwrap());
+        assert_eq!(alos3, "2005-05-15 20:52:25.429887 IDT");
+        
+        let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
+        let czc4 = ComplexZmanimCalendar{geo_location: &loc, date: &date4, use_elevation: UseElevation::No};
+        let alos4 = format!("{}", czc4.tzais_72_minutes_zmanis().unwrap());
+        assert_eq!(alos4, "2025-05-15 20:52:34.967135 IDT"); // off by > 2 ms
+    }
+
+    #[test]
+    fn test_hanetz() {
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let czc1 = ComplexZmanimCalendar{geo_location: &loc, date: &date1, use_elevation: UseElevation::HanetzShkia};
+        let alos1 = format!("{}", czc1.hanetz().unwrap());
+        assert_eq!(alos1, "2025-08-04 05:53:38.656215 IDT");
+        
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let czc2 = ComplexZmanimCalendar{geo_location: &loc, date: &date2, use_elevation: UseElevation::HanetzShkia};
+        let alos2 = format!("{}", czc2.hanetz().unwrap());
+        assert_eq!(alos2, "2025-01-26 06:32:32.666982 IST");
+        
+        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+        let czc3 = ComplexZmanimCalendar{geo_location: &loc, date: &date3, use_elevation: UseElevation::HanetzShkia};
+        let alos3 = format!("{}", czc3.hanetz().unwrap());
+        assert_eq!(alos3, "2005-05-15 05:39:02.117826 IDT");
     }
 }

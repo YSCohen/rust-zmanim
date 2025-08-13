@@ -110,7 +110,7 @@ pub mod zmanim_calculator;
 
 /// A convenience module for glob imports. `use rust_zmanim::prelude::*;`
 pub mod prelude {
-    pub use chrono::offset::TimeZone; // So `Tz.with_ymd_and_hms()` will work
+    pub use chrono::TimeZone; // So `Tz.with_ymd_and_hms()` will work
 
     pub use crate::astronomical_calculator;
     pub use crate::zmanim_calculator;
