@@ -537,9 +537,7 @@ impl ComplexZmanimCalendar {
     /// Uktziah Orach Chaim* 1, *Lechem Shamayim*, *Brachos* 1:2 and *She'elos
     /// Yaavetz* vol. 1 no. 40), Rav Yitzchak Eizik of Komarno in the *Ma'aseh
     /// Oreg* on *Mishnayos Brachos* 11:2, *Shevus Yaakov*, *Chasan Sofer* and
-    /// others. See *Yisrael Vehazmanim* vol. 1 7:3, page 55 - 62. A variant of
-    /// this calculation getSofZmanShmaFixedLocal() uses fixed local chatzos for
-    /// calculating this type of zman.
+    /// others. See *Yisrael Vehazmanim* vol. 1 7:3, page 55 - 62
     pub fn sof_zman_shema_3_hrs_before_chatzos(&self) -> Option<DateTime<Tz>> {
         Some(self.chatzos()? - TimeDelta::hours(3))
     }

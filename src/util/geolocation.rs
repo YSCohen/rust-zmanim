@@ -1,13 +1,23 @@
-//! Trivial geolocation struct
+//! Geolocation struct, with some math for [local mean
+//! time](crate::astronomical_calculator::local_mean_time)
 use crate::util::math_helper::*;
 use chrono::offset::TimeZone;
 use chrono_tz::OffsetComponents;
 
 #[derive(Debug)]
+/// A struct that contains location information such as latitude and longitude
+/// required for astronomical calculations. The elevation field may not be used
+/// by some calculations and would be ignored if set
 pub struct GeoLocation {
+    /// The latitude in the World Geodetic System, or degrees North of the
+    /// Equator
     pub latitude: f64,
+    /// The longitude in the World Geodetic System, or degrees East of the IERS
+    /// Reference Meridian
     pub longitude: f64,
+    /// The elevation in meters above sea level
     pub elevation: f64,
+    /// The location's time zone, from [chrono_tz]
     pub timezone: chrono_tz::Tz,
 }
 impl GeoLocation {

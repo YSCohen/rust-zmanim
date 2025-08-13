@@ -246,11 +246,20 @@ fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) 
     offset_by_minutes_zmanis(day_start, shaos * 60.0, shaah_zmanis)
 }
 
+/// Offset used for *alos* or *tzais*
 pub enum ZmanOffset {
+    /// Some degrees under the horizon
     Degrees(f64),
+
+    /// Some minutes before/after sunrise/sunset
     Minutes(f64),
+
+    /// Some minutes *zmaniyos* before/after sunrise/sunset
     MinutesZmaniyos {
+        /// Number of minutes *zmaniyos*
         minutes_zmaniyos: f64,
+        /// Length of a *shaah zmanis* in minutes. Each minute *zmanis* will be
+        /// 1/60 of this
         shaah_zmanis: f64,
     },
 }

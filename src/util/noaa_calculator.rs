@@ -176,7 +176,7 @@ fn solar_declination(julian_centuries: f64) -> f64 {
 
 /// Return the approximate UTC in minutes of a given sun position for the given
 /// day at the given location on earth. Used twice within
-/// [calculate_utc_sun_position] for accuracy
+/// [utc_sun_rise_set] for accuracy
 fn approximate_utc_sun_position(
     approx_julian_centuries: f64,
     latitude: f64,
@@ -195,7 +195,7 @@ fn approximate_utc_sun_position(
 
 /// Return the UTC in minutes of a given sun position for the given day at the
 /// given location on earth, ([adjusts the
-/// zenith](zenith_adjustments::adjusted_zenith) for refraction, solar radius
+/// zenith](adjusted_zenith) for refraction, solar radius
 /// and optionally elevation)
 fn utc_sun_rise_set(
     date: &DateTime<Tz>,
@@ -249,7 +249,7 @@ fn utc_sun_rise_set(
     } // ensure that the time is >= 0 and < 24
 }
 
-// public interface for utc_sun_position
+// public interface for utc_sun_rise_set
 /// Get the UTC of sunrise in hours, adjusting the zenith for refraction, solar
 /// radius, and optionally elevation
 pub fn utc_sunrise(
@@ -351,9 +351,15 @@ pub fn utc_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f
     }) // ensure that the time is >= 0 and < 24
 }
 
+/// Used internally to specify which solar event should be calculated, to a
+/// function that calculated both
 #[derive(PartialEq)]
-pub enum Mode {
+enum Mode {
+    /// Calculate sunrise (for `utc_sun_rise_set`) or noon (for
+    /// `utc_solar_noon_midnight`)
     SunriseNoon,
+    /// Calculate sunset (for `utc_sun_rise_set`) or midnight (for
+    /// `utc_solar_noon_midnight`)
     SunsetMidnight,
 }
 
