@@ -1846,12 +1846,11 @@ impl UseElevation {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono_tz::Asia::Jerusalem;
     use chrono::TimeZone;
+    use chrono_tz::Asia::Jerusalem;
 
     #[test]
     fn test_fixed_local_chatzos() {
-        
         let loc1 = GeoLocation {
             latitude: 31.79388,
             longitude: 35.03684,
@@ -1859,10 +1858,14 @@ mod tests {
             timezone: Jerusalem,
         };
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let czc1 = ComplexZmanimCalendar{geo_location: &loc1, date: &date1, use_elevation: UseElevation::No};
+        let czc1 = ComplexZmanimCalendar {
+            geo_location: &loc1,
+            date: &date1,
+            use_elevation: UseElevation::No,
+        };
         let chatzos1 = format!("{}", czc1.fixed_local_chatzos().unwrap());
         assert_eq!(chatzos1, "2025-08-04 12:39:51.158400 IDT"); // off by < 1 ms
-        
+
         let loc2 = GeoLocation {
             latitude: 31.0,
             longitude: 35.0,
@@ -1870,7 +1873,11 @@ mod tests {
             timezone: Jerusalem,
         };
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 4, 0, 0, 0).unwrap();
-        let czc2 = ComplexZmanimCalendar{geo_location: &loc2, date: &date2, use_elevation: UseElevation::No};
+        let czc2 = ComplexZmanimCalendar {
+            geo_location: &loc2,
+            date: &date2,
+            use_elevation: UseElevation::No,
+        };
         let chatzos2 = format!("{}", czc2.fixed_local_chatzos().unwrap());
         assert_eq!(chatzos2, "2025-01-04 11:40:00 IST");
     }
@@ -1885,22 +1892,38 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let czc1 = ComplexZmanimCalendar{geo_location: &loc, date: &date1, use_elevation: UseElevation::No};
+        let czc1 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date1,
+            use_elevation: UseElevation::No,
+        };
         let alos1 = format!("{}", czc1.alos_120_minutes().unwrap());
         assert_eq!(alos1, "2025-08-04 03:57:34.359480 IDT");
-        
+
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let czc2 = ComplexZmanimCalendar{geo_location: &loc, date: &date2, use_elevation: UseElevation::No};
+        let czc2 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date2,
+            use_elevation: UseElevation::No,
+        };
         let alos2 = format!("{}", czc2.alos_120_minutes().unwrap());
         assert_eq!(alos2, "2025-01-26 04:36:28.393758 IST");
-        
+
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let czc3 = ComplexZmanimCalendar{geo_location: &loc, date: &date3, use_elevation: UseElevation::No};
+        let czc3 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date3,
+            use_elevation: UseElevation::No,
+        };
         let alos3 = format!("{}", czc3.alos_120_minutes().unwrap());
         assert_eq!(alos3, "2005-05-15 03:43:01.021454 IDT"); // off by 200 ms (?!)
-        
+
         let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
-        let czc4 = ComplexZmanimCalendar{geo_location: &loc, date: &date4, use_elevation: UseElevation::No};
+        let czc4 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date4,
+            use_elevation: UseElevation::No,
+        };
         let alos4 = format!("{}", czc4.alos_120_minutes().unwrap());
         assert_eq!(alos4, "2025-05-15 03:42:56.506815 IDT");
     }
@@ -1915,22 +1938,38 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let czc1 = ComplexZmanimCalendar{geo_location: &loc, date: &date1, use_elevation: UseElevation::No};
+        let czc1 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date1,
+            use_elevation: UseElevation::No,
+        };
         let alos1 = format!("{}", czc1.tzais_72_minutes_zmanis().unwrap());
         assert_eq!(alos1, "2025-08-04 20:55:33.614725 IDT"); // off by < 1 ms
-        
+
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let czc2 = ComplexZmanimCalendar{geo_location: &loc, date: &date2, use_elevation: UseElevation::No};
+        let czc2 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date2,
+            use_elevation: UseElevation::No,
+        };
         let alos2 = format!("{}", czc2.tzais_72_minutes_zmanis().unwrap());
         assert_eq!(alos2, "2025-01-26 18:11:54.813294 IST"); // off by < 1 ms
-        
+
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let czc3 = ComplexZmanimCalendar{geo_location: &loc, date: &date3, use_elevation: UseElevation::No};
+        let czc3 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date3,
+            use_elevation: UseElevation::No,
+        };
         let alos3 = format!("{}", czc3.tzais_72_minutes_zmanis().unwrap());
         assert_eq!(alos3, "2005-05-15 20:52:25.429887 IDT");
-        
+
         let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
-        let czc4 = ComplexZmanimCalendar{geo_location: &loc, date: &date4, use_elevation: UseElevation::No};
+        let czc4 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date4,
+            use_elevation: UseElevation::No,
+        };
         let alos4 = format!("{}", czc4.tzais_72_minutes_zmanis().unwrap());
         assert_eq!(alos4, "2025-05-15 20:52:34.967135 IDT"); // off by > 2 ms
     }
@@ -1945,17 +1984,29 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let czc1 = ComplexZmanimCalendar{geo_location: &loc, date: &date1, use_elevation: UseElevation::HanetzShkia};
+        let czc1 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date1,
+            use_elevation: UseElevation::HanetzShkia,
+        };
         let alos1 = format!("{}", czc1.hanetz().unwrap());
         assert_eq!(alos1, "2025-08-04 05:53:38.656215 IDT");
-        
+
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let czc2 = ComplexZmanimCalendar{geo_location: &loc, date: &date2, use_elevation: UseElevation::HanetzShkia};
+        let czc2 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date2,
+            use_elevation: UseElevation::HanetzShkia,
+        };
         let alos2 = format!("{}", czc2.hanetz().unwrap());
         assert_eq!(alos2, "2025-01-26 06:32:32.666982 IST");
-        
+
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let czc3 = ComplexZmanimCalendar{geo_location: &loc, date: &date3, use_elevation: UseElevation::HanetzShkia};
+        let czc3 = ComplexZmanimCalendar {
+            geo_location: &loc,
+            date: &date3,
+            use_elevation: UseElevation::HanetzShkia,
+        };
         let alos3 = format!("{}", czc3.hanetz().unwrap());
         assert_eq!(alos3, "2005-05-15 05:39:02.117826 IDT");
     }

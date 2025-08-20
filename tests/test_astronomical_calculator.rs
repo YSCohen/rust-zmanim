@@ -49,3 +49,47 @@ fn test_utc_sunset() {
         assert_eq!(utc_sunset(&date, 90.0, loc), expected_times[i])
     }
 }
+
+#[test]
+fn test_utc_sea_level_sunrise() {
+    let expected_times = [
+        Some(11.16434722717731),
+        Some(3.72862262379616),
+        Some(14.029265176318292),
+        Some(20.822684611510432),
+        None,
+        Some(17.001584105223422),
+    ];
+    let places = test_helper::basic_locations();
+
+    for i in 0..6 {
+        let loc = &places[i];
+        let date = loc
+            .timezone
+            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
+            .unwrap();
+        assert_eq!(utc_sea_level_sunrise(&date, 90.0, loc), expected_times[i])
+    }
+}
+
+#[test]
+fn test_utc_sea_level_sunset() {
+    let expected_times = [
+        Some(22.233043012013848),
+        Some(15.076714287212347),
+        Some(1.2960317445001053),
+        Some(8.06265870940885),
+        None,
+        Some(5.422149175301648),
+    ];
+    let places = test_helper::basic_locations();
+
+    for i in 0..6 {
+        let loc = &places[i];
+        let date = loc
+            .timezone
+            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
+            .unwrap();
+        assert_eq!(utc_sea_level_sunset(&date, 90.0, loc), expected_times[i])
+    }
+}
