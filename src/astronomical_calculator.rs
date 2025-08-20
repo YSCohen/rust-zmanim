@@ -301,7 +301,7 @@ mod tests {
         let date4 = Jerusalem.with_ymd_and_hms(2025, 3, 17, 6, 7, 8).unwrap();
         let lmt4 = format!("{}", local_mean_time(&date4, &loc, 17.983567976).unwrap());
         assert_eq!(lmt4, "2025-03-17 17:38:52.003114 IST");
-        // off from KJ by 27 ms, apparently because of the many decimal places
+        // off from KJ by 27 ms, perhaps because of the many decimal places
         
         let date4 = Jerusalem.with_ymd_and_hms(2025, 3, 17, 6, 7, 8).unwrap();
         let lmt4 = format!("{}", local_mean_time(&date4, &loc, 17.983).unwrap());

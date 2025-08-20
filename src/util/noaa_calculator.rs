@@ -9,10 +9,11 @@
 //! <a href="https://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation</a>
 //! article
 
-use chrono::prelude::*;
+use chrono::{TimeDelta, prelude::*};
 use chrono_tz::Tz;
 
 use crate::util::geolocation::GeoLocation;
+use crate::util::math_helper::HOUR_SECONDS;
 use crate::util::zenith_adjustments::adjusted_zenith;
 
 // Julian Stuff
@@ -24,7 +25,19 @@ const JULIAN_DAYS_PER_CENTURY: f64 = 36_525.0;
 
 /// Return the Julian day (at midnight) from a DateTime
 fn datetime_to_julian_day(date: &DateTime<Tz>) -> f64 {
-    // let date  = date.with_timezone(&Tz::UTC);
+    // adjust for weird TZs
+    let offset = date.offset().fix().local_minus_utc() / HOUR_SECONDS as i32;
+    let date = if offset > 12 {
+        // Samoa
+        *date - TimeDelta::days(1)
+    } else if offset < -12 {
+        // nowhere?
+        *date + TimeDelta::days(1)
+    } else {
+        // most places
+        *date
+    };
+
     let mut year = date.year() as f64;
     let mut month = date.month() as f64;
     let day = date.day() as f64;

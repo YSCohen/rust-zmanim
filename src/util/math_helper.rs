@@ -15,3 +15,6 @@ pub const HOUR_MINUTES: f64 = 60.0;
 
 /// Number of seconds in an hour
 pub const HOUR_SECONDS: f64 = HOUR_MINUTES * MINUTE_SECONDS;
+
+/// Number of milliseconds in a second
+pub const HOUR_MILLIS: f64 = MINUTE_SECONDS * 1_000.0;
