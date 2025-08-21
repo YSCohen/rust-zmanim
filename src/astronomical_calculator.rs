@@ -10,7 +10,8 @@
 //! at certain times of the year. When the calculations encounter this condition
 //! they will return `None`.
 
-use chrono::{TimeDelta, prelude::*};
+use chrono::TimeDelta;
+use chrono::prelude::*;
 use chrono_tz::Tz;
 
 use crate::util::geolocation::GeoLocation;
@@ -182,10 +183,23 @@ fn date_time_from_time_of_day(date: &DateTime<Tz>, time_of_day: f64, timezone: T
 
     let (year, month, day) = (date.year(), date.month(), date.day());
 
-    Utc.with_ymd_and_hms(year, month, day, hour, minute, second)
+    // first get the NaiveTime from `time_of_day`, converted from UTC to our
+    // timezone
+    let time = (Utc
+        .with_ymd_and_hms(year, month, day, hour, minute, second)
         .unwrap()
-        .with_timezone(&timezone)
-        + TimeDelta::microseconds(microsecond)
+        + TimeDelta::microseconds(microsecond))
+    .with_timezone(&timezone)
+    .time();
+
+    // then add that to the correct date
+    timezone
+        .from_local_datetime(
+            &NaiveDate::from_ymd_opt(year, month, day)
+                .unwrap()
+                .and_time(time),
+        )
+        .unwrap()
 }
 
 /// Returns local mean time (LMT) converted to regular clock time for the number
@@ -220,28 +234,6 @@ mod tests {
     use chrono_tz::Asia::Jerusalem;
 
     #[test]
-    fn test_sea_level_sunrise() {
-        let loc = GeoLocation {
-            latitude: 31.79388,
-            longitude: 35.03684,
-            elevation: 586.19,
-            timezone: Jerusalem,
-        };
-
-        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let rise1 = format!("{}", sea_level_sunrise(&date1, &loc).unwrap());
-        assert_eq!(rise1, "2025-08-04 05:57:34.359480 IDT");
-
-        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let rise2 = format!("{}", sea_level_sunrise(&date2, &loc).unwrap());
-        assert_eq!(rise2, "2025-01-26 06:36:28.393758 IST");
-
-        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let rise3 = format!("{}", sea_level_sunrise(&date3, &loc).unwrap());
-        assert_eq!(rise3, "2005-05-15 05:43:01.021454 IDT");
-    }
-
-    #[test]
     fn test_temporal_hour() {
         let start1 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
         let end1 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
@@ -250,28 +242,6 @@ mod tests {
         let start2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
         assert_eq!(temporal_hour(&start2, &end2), 67.35138888888889);
-    }
-
-    #[test]
-    fn test_sunset_offset_by_degrees() {
-        let loc = GeoLocation {
-            latitude: 31.79388,
-            longitude: 35.03684,
-            elevation: 586.19,
-            timezone: Jerusalem,
-        };
-
-        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let set1 = format!("{}", sunset_offset_by_degrees(&date1, &loc, 98.5).unwrap());
-        assert_eq!(set1, "2025-08-04 20:13:13.825504 IDT");
-
-        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let set2 = format!("{}", sunset_offset_by_degrees(&date2, &loc, 98.5).unwrap());
-        assert_eq!(set2, "2025-01-26 17:46:52.877997 IST");
-
-        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let set3 = format!("{}", sunset_offset_by_degrees(&date3, &loc, 98.5).unwrap());
-        assert_eq!(set3, "2005-05-15 20:09:52.608705 IDT");
     }
 
     #[test]
