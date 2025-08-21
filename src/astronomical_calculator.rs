@@ -254,23 +254,25 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let lmt1 = format!("{}", local_mean_time(&date1, &loc, 12.0).unwrap());
+        let lmt1 = local_mean_time(&date1, &loc, 12.0).unwrap().to_string();
         assert_eq!(lmt1, "2025-08-04 12:39:51.158400 IDT"); // off from KJ by < 1 ms
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let lmt2 = format!("{}", local_mean_time(&date2, &loc, 13.14159).unwrap());
+        let lmt2 = local_mean_time(&date2, &loc, 13.14159).unwrap().to_string();
         assert_eq!(lmt2, "2025-01-26 12:48:20.882400 IST"); // ditto
 
-        let lmt3 = format!("{}", local_mean_time(&date2, &loc, 6.23456).unwrap());
+        let lmt3 = local_mean_time(&date2, &loc, 6.23456).unwrap().to_string();
         assert_eq!(lmt3, "2025-01-26 05:53:55.574400 IST"); // ditto
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 3, 17, 6, 7, 8).unwrap();
-        let lmt4 = format!("{}", local_mean_time(&date4, &loc, 17.983567976).unwrap());
+        let lmt4 = local_mean_time(&date4, &loc, 17.983567976)
+            .unwrap()
+            .to_string();
         assert_eq!(lmt4, "2025-03-17 17:38:52.003114 IST");
         // off from KJ by 27 ms, perhaps because of the many decimal places
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 3, 17, 6, 7, 8).unwrap();
-        let lmt4 = format!("{}", local_mean_time(&date4, &loc, 17.983).unwrap());
+        let lmt4 = local_mean_time(&date4, &loc, 17.983).unwrap().to_string();
         assert_eq!(lmt4, "2025-03-17 17:38:49.958400 IST"); // off from KJ by < 1 ms
     }
 }

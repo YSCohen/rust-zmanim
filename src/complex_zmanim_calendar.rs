@@ -1863,7 +1863,7 @@ mod tests {
             date: &date1,
             use_elevation: UseElevation::No,
         };
-        let chatzos1 = format!("{}", czc1.fixed_local_chatzos().unwrap());
+        let chatzos1 = czc1.fixed_local_chatzos().unwrap().to_string();
         assert_eq!(chatzos1, "2025-08-04 12:39:51.158400 IDT"); // off by < 1 ms
 
         let loc2 = GeoLocation {
@@ -1878,7 +1878,7 @@ mod tests {
             date: &date2,
             use_elevation: UseElevation::No,
         };
-        let chatzos2 = format!("{}", czc2.fixed_local_chatzos().unwrap());
+        let chatzos2 = czc2.fixed_local_chatzos().unwrap().to_string();
         assert_eq!(chatzos2, "2025-01-04 11:40:00 IST");
     }
 
@@ -1897,7 +1897,7 @@ mod tests {
             date: &date1,
             use_elevation: UseElevation::No,
         };
-        let alos1 = format!("{}", czc1.alos_120_minutes().unwrap());
+        let alos1 = czc1.alos_120_minutes().unwrap().to_string();
         assert_eq!(alos1, "2025-08-04 03:57:34.359480 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
@@ -1906,7 +1906,7 @@ mod tests {
             date: &date2,
             use_elevation: UseElevation::No,
         };
-        let alos2 = format!("{}", czc2.alos_120_minutes().unwrap());
+        let alos2 = czc2.alos_120_minutes().unwrap().to_string();
         assert_eq!(alos2, "2025-01-26 04:36:28.393758 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
@@ -1915,7 +1915,7 @@ mod tests {
             date: &date3,
             use_elevation: UseElevation::No,
         };
-        let alos3 = format!("{}", czc3.alos_120_minutes().unwrap());
+        let alos3 = czc3.alos_120_minutes().unwrap().to_string();
         assert_eq!(alos3, "2005-05-15 03:43:01.021454 IDT"); // off by 200 ms (?!)
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
@@ -1924,7 +1924,7 @@ mod tests {
             date: &date4,
             use_elevation: UseElevation::No,
         };
-        let alos4 = format!("{}", czc4.alos_120_minutes().unwrap());
+        let alos4 = czc4.alos_120_minutes().unwrap().to_string();
         assert_eq!(alos4, "2025-05-15 03:42:56.506815 IDT");
     }
 
@@ -1943,7 +1943,7 @@ mod tests {
             date: &date1,
             use_elevation: UseElevation::No,
         };
-        let alos1 = format!("{}", czc1.tzais_72_minutes_zmanis().unwrap());
+        let alos1 = czc1.tzais_72_minutes_zmanis().unwrap().to_string();
         assert_eq!(alos1, "2025-08-04 20:55:33.614725 IDT"); // off by < 1 ms
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
@@ -1952,7 +1952,7 @@ mod tests {
             date: &date2,
             use_elevation: UseElevation::No,
         };
-        let alos2 = format!("{}", czc2.tzais_72_minutes_zmanis().unwrap());
+        let alos2 = czc2.tzais_72_minutes_zmanis().unwrap().to_string();
         assert_eq!(alos2, "2025-01-26 18:11:54.813294 IST"); // off by < 1 ms
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
@@ -1961,7 +1961,7 @@ mod tests {
             date: &date3,
             use_elevation: UseElevation::No,
         };
-        let alos3 = format!("{}", czc3.tzais_72_minutes_zmanis().unwrap());
+        let alos3 = czc3.tzais_72_minutes_zmanis().unwrap().to_string();
         assert_eq!(alos3, "2005-05-15 20:52:25.429887 IDT");
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
@@ -1970,7 +1970,7 @@ mod tests {
             date: &date4,
             use_elevation: UseElevation::No,
         };
-        let alos4 = format!("{}", czc4.tzais_72_minutes_zmanis().unwrap());
+        let alos4 = czc4.tzais_72_minutes_zmanis().unwrap().to_string();
         assert_eq!(alos4, "2025-05-15 20:52:34.967135 IDT"); // off by > 2 ms
     }
 
@@ -1989,7 +1989,7 @@ mod tests {
             date: &date1,
             use_elevation: UseElevation::HanetzShkia,
         };
-        let alos1 = format!("{}", czc1.hanetz().unwrap());
+        let alos1 = czc1.hanetz().unwrap().to_string();
         assert_eq!(alos1, "2025-08-04 05:53:38.656215 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
@@ -1998,7 +1998,7 @@ mod tests {
             date: &date2,
             use_elevation: UseElevation::HanetzShkia,
         };
-        let alos2 = format!("{}", czc2.hanetz().unwrap());
+        let alos2 = czc2.hanetz().unwrap().to_string();
         assert_eq!(alos2, "2025-01-26 06:32:32.666982 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
@@ -2007,7 +2007,7 @@ mod tests {
             date: &date3,
             use_elevation: UseElevation::HanetzShkia,
         };
-        let alos3 = format!("{}", czc3.hanetz().unwrap());
+        let alos3 = czc3.hanetz().unwrap().to_string();
         assert_eq!(alos3, "2005-05-15 05:39:02.117826 IDT");
     }
 }

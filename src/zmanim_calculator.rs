@@ -305,24 +305,21 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let tzais1 = format!(
-            "{}",
-            tzais(&date1, &loc, false, &ZmanOffset::Degrees(6.0)).unwrap()
-        );
+        let tzais1 = tzais(&date1, &loc, false, &ZmanOffset::Degrees(6.0))
+            .unwrap()
+            .to_string();
         assert_eq!(tzais1, "2025-08-04 20:00:13.884113 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let tzais2 = format!(
-            "{}",
-            tzais(&date2, &loc, false, &ZmanOffset::Degrees(6.0)).unwrap()
-        );
+        let tzais2 = tzais(&date2, &loc, false, &ZmanOffset::Degrees(6.0))
+            .unwrap()
+            .to_string();
         assert_eq!(tzais2, "2025-01-26 17:34:32.830038 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let tzais3 = format!(
-            "{}",
-            tzais(&date3, &loc, false, &ZmanOffset::Degrees(6.0)).unwrap()
-        );
+        let tzais3 = tzais(&date3, &loc, false, &ZmanOffset::Degrees(6.0))
+            .unwrap()
+            .to_string();
         assert_eq!(tzais3, "2005-05-15 19:56:34.656301 IDT");
     }
 
@@ -331,7 +328,7 @@ mod tests {
         let midnight = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
         let shaah = 60.0;
         let twelve_fourty_three_thirty =
-            format!("{}", offset_by_minutes_zmanis(&midnight, 43.5, shaah));
+            offset_by_minutes_zmanis(&midnight, 43.5, shaah).to_string();
         assert_eq!(twelve_fourty_three_thirty, "2025-08-04 00:43:30 IDT")
     }
 }

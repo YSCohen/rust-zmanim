@@ -41,7 +41,7 @@ if let Some(tzais_pi_degrees) = zmanim_calculator::tzais(
     &ZmanOffset::Degrees(std::f64::consts::PI),
 ) {
     assert_eq!(
-        format!("{tzais_pi_degrees}"),
+        tzais_pi_degrees.to_string(),
         "2025-07-29 19:50:30.090272 IDT"
     );
 }
@@ -56,7 +56,7 @@ let czc = ComplexZmanimCalendar {
 };
 
 if let Some(alos120) = czc.alos_120_minutes() {
-    assert_eq!(format!("{alos120}"), "2025-07-29 03:53:39.574573 IDT");
+    assert_eq!(alos120.to_string(), "2025-07-29 03:53:39.574573 IDT");
 };
 
 if let Some(sz18) = czc.shaah_zmanis_18_degrees() {
