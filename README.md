@@ -1,17 +1,17 @@
 # \[WIP\] rust-zmanim
 Calculate different astronomical times including sunrise and sunset and Jewish *zmanim* or religious times for prayers and other Jewish religious duties.
 
-The `astronomical_calculator` provides non-religious astronomical / solar calculations such as sunrise, sunset and twilight.
+The [astronomical_calculator] provides non-religious astronomical / solar calculations such as sunrise, sunset and twilight.
 
-The `zmanim_calculator` contains the basics for *zmanim* calculations.
+The [zmanim_calculator] contains the basics for *zmanim* calculations.
 
-The `complex_zmanim_calendar` provides a stateful struct and many premade *zmanim* calculations, both built on the `zmanim_calculator` API.
+The [complex_zmanim_calendar] provides a stateful struct with many premade *zmanim* calculations, both built on the [zmanim_calculator] API.
 
-This project is a port from pinnymz's [python-zmanim project](https://github.com/pinnymz/python-zmanim) and Eliyahu Hershfeld's [KosherJava project](https://github.com/KosherJava/zmanim). Almost all of the code is from `python-zmanim` and `KosherJava`, and almost all of the documentation, including some of this README, is from `KosherJava`
+This project is a port from pinnymz's [python-zmanim project](https://github.com/pinnymz/python-zmanim) and Eliyahu Hershfeld's [KosherJava project](https://github.com/KosherJava/zmanim). Much of the code is ported directly from `python-zmanim` and `KosherJava`, and almost all of the documentation is from `KosherJava`
 
 See the [KosherJava site](https://kosherjava.com) for additional information on the original Java project and *zmanim* in general.
 
-**Note:** It is important to read the technical notes on top of the `astronomical_calculator` documentation.
+**Note:** It is important to read the technical notes on top of the [astronomical_calculator] documentation.
 
 ### Disclaimer
 I did my best to get accurate results using standardized astronomical calculations. Please use care when using the library for *halacha lemaaseh* applications.
@@ -33,7 +33,7 @@ let beit_meir = GeoLocation {
     timezone: chrono_tz::Asia::Jerusalem,
 };
 
-// the `zmanim_calculator` lets you make any custom tzais, alos, etc
+// the zmanim_calculator lets you make any custom tzais, alos, etc
 if let Some(tzais_pi_degrees) = zmanim_calculator::tzais(
     &dt,
     &beit_meir,
