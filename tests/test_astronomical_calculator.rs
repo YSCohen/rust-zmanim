@@ -2,12 +2,15 @@
 //! test_astronomical_calendar.py, with added precision (= hopefully added
 //! accuracy)
 
+use std::iter::zip;
+
 use chrono::TimeZone;
 use rust_zmanim::astronomical_calculator::*;
 mod test_helper;
 
 #[test]
 fn test_utc_sunrise() {
+    let locations = test_helper::basic_locations();
     let expected_times = [
         Some(11.153270653847327),
         Some(3.65893933754938),
@@ -16,20 +19,19 @@ fn test_utc_sunrise() {
         None,
         Some(16.905106884133506),
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, etime) in zip(locations, expected_times) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        assert_eq!(utc_sunrise(&date, 90.0, loc), expected_times[i])
+        assert_eq!(utc_sunrise(&date, 90.0, &loc), etime)
     }
 }
 
 #[test]
 fn test_utc_sunset() {
+    let locations = test_helper::basic_locations();
     let expected_times = [
         Some(22.24410902650522),
         Some(15.14635335602205),
@@ -38,20 +40,19 @@ fn test_utc_sunset() {
         None,
         Some(5.518735324395347),
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, etime) in zip(locations, expected_times) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        assert_eq!(utc_sunset(&date, 90.0, loc), expected_times[i])
+        assert_eq!(utc_sunset(&date, 90.0, &loc), etime)
     }
 }
 
 #[test]
 fn test_utc_sea_level_sunrise() {
+    let locations = test_helper::basic_locations();
     let expected_times = [
         Some(11.16434722717731),
         Some(3.72862262379616),
@@ -60,20 +61,19 @@ fn test_utc_sea_level_sunrise() {
         None,
         Some(17.001584105223422),
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, etime) in zip(locations, expected_times) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        assert_eq!(utc_sea_level_sunrise(&date, 90.0, loc), expected_times[i])
+        assert_eq!(utc_sea_level_sunrise(&date, 90.0, &loc), etime)
     }
 }
 
 #[test]
 fn test_utc_sea_level_sunset() {
+    let locations = test_helper::basic_locations();
     let expected_times = [
         Some(22.233043012013848),
         Some(15.076714287212347),
@@ -82,21 +82,20 @@ fn test_utc_sea_level_sunset() {
         None,
         Some(5.422149175301648),
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, etime) in zip(locations, expected_times) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        assert_eq!(utc_sea_level_sunset(&date, 90.0, loc), expected_times[i])
+        assert_eq!(utc_sea_level_sunset(&date, 90.0, &loc), etime)
     }
 }
 
 #[test]
 fn test_sunrise() {
-    let expected_times = [
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
         "2017-10-17 07:09:11.774354 EDT",
         "2017-10-17 06:39:32.181615 IDT",
         "2017-10-17 07:00:25.493489 PDT",
@@ -104,25 +103,24 @@ fn test_sunrise() {
         "None",
         "2017-10-17 06:54:18.384783 +14",
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        let res = match sunrise(&date, loc) {
+        let result = match sunrise(&date, &loc) {
             Some(dt) => dt.to_string(),
             None => String::from("None"),
         };
-        assert_eq!(res, String::from(expected_times[i]))
+        assert_eq!(result, edt)
     }
 }
 
 #[test]
 fn test_sunset() {
-    let expected_times = [
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
         "2017-10-17 18:14:38.792495 EDT",
         "2017-10-17 18:08:46.872082 IDT",
         "2017-10-17 18:19:05.519232 PDT",
@@ -130,25 +128,24 @@ fn test_sunset() {
         "None",
         "2017-10-17 19:31:07.447168 +14",
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        let res = match sunset(&date, loc) {
+        let result = match sunset(&date, &loc) {
             Some(dt) => dt.to_string(),
             None => String::from("None"),
         };
-        assert_eq!(res, String::from(expected_times[i]))
+        assert_eq!(result, edt)
     }
 }
 
 #[test]
 fn test_sea_level_sunrise() {
-    let expected_times = [
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
         "2017-10-17 07:09:51.650018 EDT",
         "2017-10-17 06:43:43.041446 IDT",
         "2017-10-17 07:01:45.354635 PDT",
@@ -156,25 +153,24 @@ fn test_sea_level_sunrise() {
         "None",
         "2017-10-17 07:00:05.702779 +14",
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        let res = match sea_level_sunrise(&date, loc) {
+        let result = match sea_level_sunrise(&date, &loc) {
             Some(dt) => dt.to_string(),
             None => String::from("None"),
         };
-        assert_eq!(res, String::from(expected_times[i]))
+        assert_eq!(result, edt)
     }
 }
 
 #[test]
 fn test_sea_level_sunset() {
-    let expected_times = [
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
         "2017-10-17 18:13:58.954843 EDT",
         "2017-10-17 18:04:36.171434 IDT",
         "2017-10-17 18:17:45.714280 PDT",
@@ -182,25 +178,24 @@ fn test_sea_level_sunset() {
         "None",
         "2017-10-17 19:25:19.737031 +14",
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        let res = match sea_level_sunset(&date, loc) {
+        let result = match sea_level_sunset(&date, &loc) {
             Some(dt) => dt.to_string(),
             None => String::from("None"),
         };
-        assert_eq!(res, String::from(expected_times[i]))
+        assert_eq!(result, edt)
     }
 }
 
 #[test]
 fn test_sunrise_offset_by_degrees() {
-    let expected_times = [
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
         "2017-10-17 06:10:57.242475 EDT",
         "2017-10-17 05:50:43.409194 IDT",
         "2017-10-17 06:07:22.827474 PDT",
@@ -208,25 +203,24 @@ fn test_sunrise_offset_by_degrees() {
         "2017-10-17 04:47:28.032047 EDT",
         "2017-10-17 06:13:13.549285 +14",
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        let res = match sunrise_offset_by_degrees(&date, loc, 102.0) {
+        let result = match sunrise_offset_by_degrees(&date, &loc, 102.0) {
             Some(dt) => dt.to_string(),
             None => String::from("None"),
         };
-        assert_eq!(res, String::from(expected_times[i]))
+        assert_eq!(result, edt)
     }
 }
 
 #[test]
 fn test_sunset_offset_by_degrees() {
-    let expected_times = [
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
         "2017-10-17 19:12:49.151362 EDT",
         "2017-10-17 18:57:33.344454 IDT",
         "2017-10-17 19:12:05.406326 PDT",
@@ -234,18 +228,16 @@ fn test_sunset_offset_by_degrees() {
         "2017-10-17 19:15:04.565184 EDT",
         "2017-10-17 20:12:15.536080 +14",
     ];
-    let places = test_helper::basic_locations();
 
-    for i in 0..6 {
-        let loc = &places[i];
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
         let date = loc
             .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap();
-        let res = match sunset_offset_by_degrees(&date, loc, 102.0) {
+        let result = match sunset_offset_by_degrees(&date, &loc, 102.0) {
             Some(dt) => dt.to_string(),
             None => String::from("None"),
         };
-        assert_eq!(res, String::from(expected_times[i]))
+        assert_eq!(result, edt)
     }
 }
