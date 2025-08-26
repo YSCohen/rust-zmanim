@@ -143,11 +143,10 @@ pub fn sunset_offset_by_degrees(
 }
 
 /// A utility function that will allow the calculation of a temporal (solar)
-/// hour in minutes based on the sunrise and sunset passed as parameters to this
+/// hour based on the sunrise and sunset passed as parameters to this
 /// function
-pub fn temporal_hour(sunrise: &DateTime<Tz>, sunset: &DateTime<Tz>) -> f64 {
-    let daytime_hours = (*sunset - *sunrise).as_seconds_f64() / 3_600.0;
-    (daytime_hours / 12.0) * HOUR_MINUTES
+pub fn temporal_hour(sunrise: &DateTime<Tz>, sunset: &DateTime<Tz>) -> TimeDelta {
+    (*sunset - *sunrise) / 12
 }
 
 /// Returns solar noon. It occurs when the Sun is transiting the celestial
@@ -179,7 +178,7 @@ fn date_time_from_time_of_day(date: &DateTime<Tz>, time_of_day: f64, timezone: T
     let minute = (remainder / MINUTE_SECONDS).floor() as u32;
     let remainder = remainder % MINUTE_SECONDS;
     let second = (remainder).floor() as u32;
-    let microsecond = (remainder.fract() * SECOND_MICROS).round() as i64;
+    let nanosecond = (remainder.fract() * SECOND_NANOS).round() as i64;
 
     let (year, month, day) = (date.year(), date.month(), date.day());
 
@@ -188,7 +187,7 @@ fn date_time_from_time_of_day(date: &DateTime<Tz>, time_of_day: f64, timezone: T
     let time = (Utc
         .with_ymd_and_hms(year, month, day, hour, minute, second)
         .unwrap()
-        + TimeDelta::microseconds(microsecond))
+        + TimeDelta::nanoseconds(nanosecond))
     .with_timezone(&timezone)
     .time();
 
@@ -237,11 +236,14 @@ mod tests {
     fn test_temporal_hour() {
         let start1 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 6, 00, 00).unwrap();
         let end1 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 18, 0, 00).unwrap();
-        assert_eq!(temporal_hour(&start1, &end1), 60.0);
+        assert_eq!(temporal_hour(&start1, &end1), TimeDelta::minutes(60));
 
         let start2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
-        assert_eq!(temporal_hour(&start2, &end2), 67.35138888888889);
+        assert_eq!(
+            temporal_hour(&start2, &end2),
+            TimeDelta::nanoseconds(4041083333333)
+        );
     }
 
     #[test]
@@ -268,7 +270,7 @@ mod tests {
         let lmt4 = local_mean_time(&date4, &loc, 17.983567976)
             .unwrap()
             .to_string();
-        assert_eq!(lmt4, "2025-03-17 17:38:52.003114 IST");
+        assert_eq!(lmt4, "2025-03-17 17:38:52.003113600 IST");
         // off from KJ by 27 ms, perhaps because of the many decimal places
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 3, 17, 6, 7, 8).unwrap();

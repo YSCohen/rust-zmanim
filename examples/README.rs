@@ -1,3 +1,4 @@
+use chrono::TimeDelta;
 use rust_zmanim::prelude::*;
 
 fn main() {
@@ -23,7 +24,7 @@ fn main() {
     ) {
         assert_eq!(
             tzais_pi_degrees.to_string(),
-            "2025-07-29 19:50:30.090272 IDT"
+            "2025-07-29 19:50:30.090272127 IDT"
         );
     }
 
@@ -37,12 +38,12 @@ fn main() {
     };
 
     if let Some(alos120) = czc.alos_120_minutes() {
-        assert_eq!(alos120.to_string(), "2025-07-29 03:53:39.574573 IDT");
+        assert_eq!(alos120.to_string(), "2025-07-29 03:53:39.574572512 IDT");
     };
 
     if let Some(sz18) = czc.shaah_zmanis_18_degrees() {
-        // 01:24:14.1060605 in minutes
-        assert_eq!(sz18, 84.23510100833333);
+        // 01:24:14.106060472
+        assert_eq!(sz18, TimeDelta::nanoseconds(5054106060472));
     }
 
     // the calculations will return `None` if the specified solar event will not

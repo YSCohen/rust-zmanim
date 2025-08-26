@@ -96,12 +96,12 @@ fn test_utc_sea_level_sunset() {
 fn test_sunrise() {
     let locations = test_helper::basic_locations();
     let expected_datetime_strs = [
-        "2017-10-17 07:09:11.774354 EDT",
-        "2017-10-17 06:39:32.181615 IDT",
-        "2017-10-17 07:00:25.493489 PDT",
-        "2017-10-17 05:48:20.524311 JST",
+        "2017-10-17 07:09:11.774353850 EDT",
+        "2017-10-17 06:39:32.181615178 IDT",
+        "2017-10-17 07:00:25.493488859 PDT",
+        "2017-10-17 05:48:20.524310815 JST",
         "None",
-        "2017-10-17 06:54:18.384783 +14",
+        "2017-10-17 06:54:18.384782881 +14",
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
@@ -121,12 +121,12 @@ fn test_sunrise() {
 fn test_sunset() {
     let locations = test_helper::basic_locations();
     let expected_datetime_strs = [
-        "2017-10-17 18:14:38.792495 EDT",
-        "2017-10-17 18:08:46.872082 IDT",
-        "2017-10-17 18:19:05.519232 PDT",
-        "2017-10-17 17:04:46.663352 JST",
+        "2017-10-17 18:14:38.792495419 EDT",
+        "2017-10-17 18:08:46.872081679 IDT",
+        "2017-10-17 18:19:05.519232304 PDT",
+        "2017-10-17 17:04:46.663352199 JST",
         "None",
-        "2017-10-17 19:31:07.447168 +14",
+        "2017-10-17 19:31:07.447167823 +14",
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
@@ -146,12 +146,12 @@ fn test_sunset() {
 fn test_sea_level_sunrise() {
     let locations = test_helper::basic_locations();
     let expected_datetime_strs = [
-        "2017-10-17 07:09:51.650018 EDT",
-        "2017-10-17 06:43:43.041446 IDT",
-        "2017-10-17 07:01:45.354635 PDT",
-        "2017-10-17 05:49:21.664601 JST",
+        "2017-10-17 07:09:51.650017838 EDT",
+        "2017-10-17 06:43:43.041445666 IDT",
+        "2017-10-17 07:01:45.354634746 PDT",
+        "2017-10-17 05:49:21.664601438 JST",
         "None",
-        "2017-10-17 07:00:05.702779 +14",
+        "2017-10-17 07:00:05.702778804 +14",
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
@@ -171,12 +171,12 @@ fn test_sea_level_sunrise() {
 fn test_sea_level_sunset() {
     let locations = test_helper::basic_locations();
     let expected_datetime_strs = [
-        "2017-10-17 18:13:58.954843 EDT",
-        "2017-10-17 18:04:36.171434 IDT",
-        "2017-10-17 18:17:45.714280 PDT",
-        "2017-10-17 17:03:45.571354 JST",
+        "2017-10-17 18:13:58.954843250 EDT",
+        "2017-10-17 18:04:36.171433964 IDT",
+        "2017-10-17 18:17:45.714280200 PDT",
+        "2017-10-17 17:03:45.571353872 JST",
         "None",
-        "2017-10-17 19:25:19.737031 +14",
+        "2017-10-17 19:25:19.737031086 +14",
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
@@ -196,12 +196,12 @@ fn test_sea_level_sunset() {
 fn test_sunrise_offset_by_degrees() {
     let locations = test_helper::basic_locations();
     let expected_datetime_strs = [
-        "2017-10-17 06:10:57.242475 EDT",
-        "2017-10-17 05:50:43.409194 IDT",
-        "2017-10-17 06:07:22.827474 PDT",
-        "2017-10-17 04:53:55.060779 JST",
-        "2017-10-17 04:47:28.032047 EDT",
-        "2017-10-17 06:13:13.549285 +14",
+        "2017-10-17 06:10:57.242474869 EDT",
+        "2017-10-17 05:50:43.409194253 IDT",
+        "2017-10-17 06:07:22.827474119 PDT",
+        "2017-10-17 04:53:55.060779313 JST",
+        "2017-10-17 04:47:28.032047438 EDT",
+        "2017-10-17 06:13:13.549285043 +14",
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
@@ -221,12 +221,12 @@ fn test_sunrise_offset_by_degrees() {
 fn test_sunset_offset_by_degrees() {
     let locations = test_helper::basic_locations();
     let expected_datetime_strs = [
-        "2017-10-17 19:12:49.151362 EDT",
-        "2017-10-17 18:57:33.344454 IDT",
-        "2017-10-17 19:12:05.406326 PDT",
-        "2017-10-17 17:59:08.923403 JST",
-        "2017-10-17 19:15:04.565184 EDT",
-        "2017-10-17 20:12:15.536080 +14",
+        "2017-10-17 19:12:49.151362234 EDT",
+        "2017-10-17 18:57:33.344454178 IDT",
+        "2017-10-17 19:12:05.406325939 PDT",
+        "2017-10-17 17:59:08.923402973 JST",
+        "2017-10-17 19:15:04.565184478 EDT",
+        "2017-10-17 20:12:15.536080440 +14",
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {

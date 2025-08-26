@@ -234,7 +234,7 @@ impl ComplexZmanimCalendar<'_> {
     /// [sunset](crate::astronomical_calculator::sunset) (depending on
     /// `use_elevation`). The day is split into 12 equal parts with each one
     /// being a *shaah zmanis*
-    pub fn shaah_zmanis_gra(&self) -> Option<f64> {
+    pub fn shaah_zmanis_gra(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.hanetz()?,
             &self.shkia()?,
@@ -408,7 +408,7 @@ impl ComplexZmanimCalendar<'_> {
     /// runs from *netz amiti* to *shkiah amiti*. The calculations are based on
     /// a day from sea level *netz amiti* to sea level *shkiah amiti*. The day
     /// is split into 12 equal parts with each one being a *shaah zmanis*.
-    pub fn shaah_zmanis_baal_hatanya(&self) -> Option<f64> {
+    pub fn shaah_zmanis_baal_hatanya(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.sunrise_baal_hatanya()?,
             &self.sunset_baal_hatanya()?,
@@ -475,7 +475,7 @@ impl ComplexZmanimCalendar<'_> {
     /// sky. These *shaos zmaniyos* are used for *Mincha Ketana* and *Plag
     /// Hamincha*. The 14 minutes are based on 3/4 of an 18 minute *mil*,
     /// with half a minute added for Rav Yosi.
-    pub fn shaah_zmanis_alos_16_1_to_tzais_3_8(&self) -> Option<f64> {
+    pub fn shaah_zmanis_alos_16_1_to_tzais_3_8(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_16_1_degrees()?,
             &self.tzais_geonim_3_8_degrees()?,
@@ -491,7 +491,7 @@ impl ComplexZmanimCalendar<'_> {
     /// being a *shaah zmanis*. Note that with this system, *chatzos*
     /// (midday) will not be the point that the sun is halfway across the
     /// sky. These *shaos zmaniyos* are used for *mincha gedola* calculation.
-    pub fn shaah_zmanis_alos_16_1_to_tzais_3_7(&self) -> Option<f64> {
+    pub fn shaah_zmanis_alos_16_1_to_tzais_3_7(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_16_1_degrees()?,
             &self.tzais_geonim_3_7_degrees()?,
@@ -507,7 +507,7 @@ impl ComplexZmanimCalendar<'_> {
     /// provided a 25 minute *zman* for Israel. This API uses 40 minutes year
     /// round in any place on the globe.
     pub fn tzais_ateret_torah(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::offset_by_minutes(&self.shkia()?, 40.0))
+        Some(self.shkia()? + TimeDelta::minutes(40))
     }
 
     /// Returns a shaah zmanis (temporal hour) according to the opinion
@@ -518,7 +518,7 @@ impl ComplexZmanimCalendar<'_> {
     /// equal parts with each part being a shaah zmanis. Note that with this
     /// system, *chatzos* (midday) will not be the point that the sun is
     /// halfway across the sky.
-    pub fn shaah_zmanis_ateret_torah(&self) -> Option<f64> {
+    pub fn shaah_zmanis_ateret_torah(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_72_minutes_zmanis()?,
             &self.tzais_ateret_torah()?,
@@ -648,7 +648,7 @@ impl ComplexZmanimCalendar<'_> {
     /// geometric horizon before sunrise. Dusk for this is when the sun is
     /// 16.1&deg; below the western geometric horizon after sunset. This day
     /// is split into 12 equal parts with each part being a *shaah zmanis*.
-    pub fn shaah_zmanis_16_1_degrees(&self) -> Option<f64> {
+    pub fn shaah_zmanis_16_1_degrees(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_16_1_degrees()?,
             &self.tzais_16_1_degrees()?,
@@ -782,7 +782,7 @@ impl ComplexZmanimCalendar<'_> {
     /// horizon before sunrise. Dusk for this is when the sun is 18&deg; below
     /// the western geometric horizon after sunset. This day is split into 12
     /// equal parts with each part being a *shaah zmanis*.
-    pub fn shaah_zmanis_18_degrees(&self) -> Option<f64> {
+    pub fn shaah_zmanis_18_degrees(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_18_degrees()?,
             &self.tzais_18_degrees()?,
@@ -868,7 +868,7 @@ impl ComplexZmanimCalendar<'_> {
     /// geometric horizon before sunrise. Dusk for this is when the sun is
     /// 19.8&deg; below the western geometric horizon after sunset. This day
     /// is split into 12 equal parts with each part being a *shaah zmanis*.
-    pub fn shaah_zmanis_19_8_degrees(&self) -> Option<f64> {
+    pub fn shaah_zmanis_19_8_degrees(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_19_8_degrees()?,
             &self.tzais_19_8_degrees()?,
@@ -921,7 +921,7 @@ impl ComplexZmanimCalendar<'_> {
     /// is a long time past the 18&deg; point where the darkest point is
     /// reached, *zmanim* that use this should only be used *lechumra*, such as
     /// delaying the start of nighttime *mitzvos*.
-    pub fn shaah_zmanis_26_degrees(&self) -> Option<f64> {
+    pub fn shaah_zmanis_26_degrees(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_26_degrees()?,
             &self.tzais_26_degrees()?,
@@ -979,7 +979,7 @@ impl ComplexZmanimCalendar<'_> {
     /// this calculation is 60 minutes before sunrise and dusk is 60 minutes
     /// after sunset. This day is split into 12 equal parts with each part being
     /// a *shaah zmanis*.
-    pub fn shaah_zmanis_60_minutes(&self) -> Option<f64> {
+    pub fn shaah_zmanis_60_minutes(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_60_minutes()?,
             &self.tzais_60_minutes()?,
@@ -1090,7 +1090,7 @@ impl ComplexZmanimCalendar<'_> {
     /// this calculation is 72 minutes before sunrise and dusk is 72 minutes
     /// after sunset. This day is split into 12 equal parts with each part being
     /// a *shaah zmanis*.
-    pub fn shaah_zmanis_72_minutes(&self) -> Option<f64> {
+    pub fn shaah_zmanis_72_minutes(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_72_minutes()?,
             &self.tzais_72_minutes()?,
@@ -1110,7 +1110,7 @@ impl ComplexZmanimCalendar<'_> {
     pub fn alos_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.alos(&MinutesZmaniyos {
             minutes_zmaniyos: 72.0,
-            shaah_zmanis: self.shaah_zmanis_gra()?,
+            shaah_zmanis: &self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1174,7 +1174,7 @@ impl ComplexZmanimCalendar<'_> {
     pub fn tzais_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.tzais(&MinutesZmaniyos {
             minutes_zmaniyos: 72.0,
-            shaah_zmanis: self.shaah_zmanis_gra()?,
+            shaah_zmanis: &self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1186,7 +1186,7 @@ impl ComplexZmanimCalendar<'_> {
     /// minutes *zmaniyos* after sunset. This day is split into 12 equal parts
     /// with each part being a *shaah zmanis*. This is identical to 1/10th of
     /// the day from sunrise to sunset.
-    pub fn shaah_zmanis_72_minutes_zmanis(&self) -> Option<f64> {
+    pub fn shaah_zmanis_72_minutes_zmanis(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_72_minutes_zmanis()?,
             &self.tzais_72_minutes_zmanis()?,
@@ -1265,7 +1265,7 @@ impl ComplexZmanimCalendar<'_> {
     /// this calculation is 90 minutes before sunrise and dusk is 90 minutes
     /// after sunset. This day is split into 12 equal parts with each part being
     /// a *shaah zmanis*.
-    pub fn shaah_zmanis_90_minutes(&self) -> Option<f64> {
+    pub fn shaah_zmanis_90_minutes(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_90_minutes()?,
             &self.tzais_90_minutes()?,
@@ -1284,7 +1284,7 @@ impl ComplexZmanimCalendar<'_> {
     pub fn alos_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.alos(&MinutesZmaniyos {
             minutes_zmaniyos: 90.0,
-            shaah_zmanis: self.shaah_zmanis_gra()?,
+            shaah_zmanis: &self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1339,7 +1339,7 @@ impl ComplexZmanimCalendar<'_> {
     pub fn tzais_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.tzais(&MinutesZmaniyos {
             minutes_zmaniyos: 90.0,
-            shaah_zmanis: self.shaah_zmanis_gra()?,
+            shaah_zmanis: &self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1351,7 +1351,7 @@ impl ComplexZmanimCalendar<'_> {
     /// minutes *zmaniyos* after sunset. This day is split into 12 equal parts
     /// with each part being a *shaah zmanis*. This is 1/8th of the day from
     /// sunrise to sunset.
-    pub fn shaah_zmanis_90_minutes_zmanis(&self) -> Option<f64> {
+    pub fn shaah_zmanis_90_minutes_zmanis(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_90_minutes_zmanis()?,
             &self.tzais_90_minutes_zmanis()?,
@@ -1426,7 +1426,7 @@ impl ComplexZmanimCalendar<'_> {
     /// this calculation is 96 minutes before sunrise and dusk is 96 minutes
     /// after sunset. This day is split into 12 equal parts with each part being
     /// a *shaah zmanis*.
-    pub fn shaah_zmanis_96_minutes(&self) -> Option<f64> {
+    pub fn shaah_zmanis_96_minutes(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_96_minutes()?,
             &self.tzais_96_minutes()?,
@@ -1445,7 +1445,7 @@ impl ComplexZmanimCalendar<'_> {
     pub fn alos_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.alos(&MinutesZmaniyos {
             minutes_zmaniyos: 96.0,
-            shaah_zmanis: self.shaah_zmanis_gra()?,
+            shaah_zmanis: &self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1499,7 +1499,7 @@ impl ComplexZmanimCalendar<'_> {
     pub fn tzais_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.tzais(&MinutesZmaniyos {
             minutes_zmaniyos: 96.0,
-            shaah_zmanis: self.shaah_zmanis_gra()?,
+            shaah_zmanis: &self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1511,7 +1511,7 @@ impl ComplexZmanimCalendar<'_> {
     /// minutes *zmaniyos* after sunset. This day is split into 12 equal parts
     /// with each part being a *shaah zmanis*. This is 1/7.5th of the day from
     /// sunrise to sunset.
-    pub fn shaah_zmanis_96_minutes_zmanis(&self) -> Option<f64> {
+    pub fn shaah_zmanis_96_minutes_zmanis(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_96_minutes_zmanis()?,
             &self.tzais_96_minutes_zmanis()?,
@@ -1596,7 +1596,7 @@ impl ComplexZmanimCalendar<'_> {
     /// point where the darkest point is reached, *zmanim* that use this
     /// should only be used *lechumra* only, such as delaying the start of
     /// nighttime *mitzvos*.
-    pub fn shaah_zmanis_120_minutes(&self) -> Option<f64> {
+    pub fn shaah_zmanis_120_minutes(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_120_minutes()?,
             &self.tzais_120_minutes()?,
@@ -1619,7 +1619,7 @@ impl ComplexZmanimCalendar<'_> {
     pub fn alos_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.alos(&MinutesZmaniyos {
             minutes_zmaniyos: 120.0,
-            shaah_zmanis: self.shaah_zmanis_gra()?,
+            shaah_zmanis: &self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1646,7 +1646,7 @@ impl ComplexZmanimCalendar<'_> {
     pub fn tzais_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.tzais(&MinutesZmaniyos {
             minutes_zmaniyos: 120.0,
-            shaah_zmanis: self.shaah_zmanis_gra()?,
+            shaah_zmanis: &self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1661,7 +1661,7 @@ impl ComplexZmanimCalendar<'_> {
     /// point where the darkest point is reached, *zmanim* that use this
     /// should only be used *lechumra* only, such as delaying the start of
     /// nighttime *mitzvos*.
-    pub fn shaah_zmanis_120_minutes_zmanis(&self) -> Option<f64> {
+    pub fn shaah_zmanis_120_minutes_zmanis(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_120_minutes_zmanis()?,
             &self.tzais_120_minutes_zmanis()?,
@@ -1898,7 +1898,7 @@ mod tests {
             use_elevation: UseElevation::No,
         };
         let alos1 = czc1.alos_120_minutes().unwrap().to_string();
-        assert_eq!(alos1, "2025-08-04 03:57:34.359480 IDT");
+        assert_eq!(alos1, "2025-08-04 03:57:34.359480109 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let czc2 = ComplexZmanimCalendar {
@@ -1907,7 +1907,7 @@ mod tests {
             use_elevation: UseElevation::No,
         };
         let alos2 = czc2.alos_120_minutes().unwrap().to_string();
-        assert_eq!(alos2, "2025-01-26 04:36:28.393758 IST");
+        assert_eq!(alos2, "2025-01-26 04:36:28.393758421 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let czc3 = ComplexZmanimCalendar {
@@ -1916,7 +1916,7 @@ mod tests {
             use_elevation: UseElevation::No,
         };
         let alos3 = czc3.alos_120_minutes().unwrap().to_string();
-        assert_eq!(alos3, "2005-05-15 03:43:01.021454 IDT"); // off by 200 ms (?!)
+        assert_eq!(alos3, "2005-05-15 03:43:01.021454229 IDT"); // off by 200 ms (?!)
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
         let czc4 = ComplexZmanimCalendar {
@@ -1925,7 +1925,7 @@ mod tests {
             use_elevation: UseElevation::No,
         };
         let alos4 = czc4.alos_120_minutes().unwrap().to_string();
-        assert_eq!(alos4, "2025-05-15 03:42:56.506815 IDT");
+        assert_eq!(alos4, "2025-05-15 03:42:56.506814904 IDT");
     }
 
     #[test]
@@ -1944,7 +1944,7 @@ mod tests {
             use_elevation: UseElevation::No,
         };
         let alos1 = czc1.tzais_72_minutes_zmanis().unwrap().to_string();
-        assert_eq!(alos1, "2025-08-04 20:55:33.614725 IDT"); // off by < 1 ms
+        assert_eq!(alos1, "2025-08-04 20:55:33.614725027 IDT"); // off by < 1 ms
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let czc2 = ComplexZmanimCalendar {
@@ -1953,7 +1953,7 @@ mod tests {
             use_elevation: UseElevation::No,
         };
         let alos2 = czc2.tzais_72_minutes_zmanis().unwrap().to_string();
-        assert_eq!(alos2, "2025-01-26 18:11:54.813294 IST"); // off by < 1 ms
+        assert_eq!(alos2, "2025-01-26 18:11:54.813293573 IST"); // off by < 1 ms
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let czc3 = ComplexZmanimCalendar {
@@ -1962,7 +1962,7 @@ mod tests {
             use_elevation: UseElevation::No,
         };
         let alos3 = czc3.tzais_72_minutes_zmanis().unwrap().to_string();
-        assert_eq!(alos3, "2005-05-15 20:52:25.429887 IDT");
+        assert_eq!(alos3, "2005-05-15 20:52:25.429886381 IDT");
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
         let czc4 = ComplexZmanimCalendar {
@@ -1971,7 +1971,7 @@ mod tests {
             use_elevation: UseElevation::No,
         };
         let alos4 = czc4.tzais_72_minutes_zmanis().unwrap().to_string();
-        assert_eq!(alos4, "2025-05-15 20:52:34.967135 IDT"); // off by > 2 ms
+        assert_eq!(alos4, "2025-05-15 20:52:34.967135271 IDT"); // off by > 2 ms
     }
 
     #[test]
@@ -1990,7 +1990,7 @@ mod tests {
             use_elevation: UseElevation::HanetzShkia,
         };
         let alos1 = czc1.hanetz().unwrap().to_string();
-        assert_eq!(alos1, "2025-08-04 05:53:38.656215 IDT");
+        assert_eq!(alos1, "2025-08-04 05:53:38.656214524 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let czc2 = ComplexZmanimCalendar {
@@ -1999,7 +1999,7 @@ mod tests {
             use_elevation: UseElevation::HanetzShkia,
         };
         let alos2 = czc2.hanetz().unwrap().to_string();
-        assert_eq!(alos2, "2025-01-26 06:32:32.666982 IST");
+        assert_eq!(alos2, "2025-01-26 06:32:32.666982290 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let czc3 = ComplexZmanimCalendar {
@@ -2008,6 +2008,6 @@ mod tests {
             use_elevation: UseElevation::HanetzShkia,
         };
         let alos3 = czc3.hanetz().unwrap().to_string();
-        assert_eq!(alos3, "2005-05-15 05:39:02.117826 IDT");
+        assert_eq!(alos3, "2005-05-15 05:39:02.117825643 IDT");
     }
 }

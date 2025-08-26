@@ -37,17 +37,17 @@ pub fn alos(
             geo_location,
             astronomical_calculator::GEOMETRIC_ZENITH + deg,
         ),
-        ZmanOffset::Minutes(min) => Some(offset_by_minutes(
-            &hanetz(date, geo_location, use_elevation)?,
-            -min,
-        )),
+        ZmanOffset::Minutes(min) => Some(
+            hanetz(date, geo_location, use_elevation)?
+                + TimeDelta::nanoseconds((-min * MINUTE_NANOS).round() as i64),
+        ),
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
             shaah_zmanis: shaah,
         } => Some(offset_by_minutes_zmanis(
             &hanetz(date, geo_location, use_elevation)?,
             -minz,
-            *shaah,
+            **shaah,
         )),
     }
 }
@@ -205,33 +205,37 @@ pub fn tzais(
         ),
         ZmanOffset::Minutes(min) => {
             let sunset = shkia(date, geo_location, use_elevation)?;
-            Some(offset_by_minutes(&sunset, *min))
+            Some(sunset + TimeDelta::nanoseconds((min * MINUTE_NANOS).round() as i64))
         }
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
             shaah_zmanis: shaah,
         } => {
             let sunset = shkia(date, geo_location, use_elevation)?;
-            Some(offset_by_minutes_zmanis(&sunset, *minz, *shaah))
+            Some(offset_by_minutes_zmanis(&sunset, *minz, **shaah))
         }
     }
 }
 
-/// Gives the length in minutes of a *shaah zmanis* (temporal hour), given the
+/// Gives the length of a *shaah zmanis* (temporal hour), given the
 /// start (usually *hanetz* or *alos*) and end (*shkia* or *tzais*) of the day
-pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> f64 {
+pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> TimeDelta {
     astronomical_calculator::temporal_hour(day_start, day_end)
-}
-
-/// Returns a `DateTime` which is `minutes` minutes after `time`
-pub fn offset_by_minutes(time: &DateTime<Tz>, minutes: f64) -> DateTime<Tz> {
-    *time + TimeDelta::microseconds((minutes * MINUTE_MICROS).round() as i64)
 }
 
 /// Returns a `DateTime` which is `minutes` minutes *zmaniyos* after `time`,
 /// where `shaah_zmanis` is the length in minutes of a *shaah zmanis*
-fn offset_by_minutes_zmanis(time: &DateTime<Tz>, minutes: f64, shaah_zmanis: f64) -> DateTime<Tz> {
-    offset_by_minutes(time, minutes * (shaah_zmanis / 60.0))
+fn offset_by_minutes_zmanis(
+    time: &DateTime<Tz>,
+    minutes: f64,
+    shaah_zmanis: TimeDelta,
+) -> DateTime<Tz> {
+    // Unfortunately you can't multiply TimeDelta by f64, so this is a bit messy
+    *time
+        + TimeDelta::nanoseconds(
+            ((shaah_zmanis / 60).num_nanoseconds().unwrap() as f64 * minutes).round()
+                as i64,
+        )
 }
 
 /// A generic function for calculating a given number of *shaos zmaniyos*
@@ -247,7 +251,7 @@ fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) 
 }
 
 /// Offset used for *alos* or *tzais*
-pub enum ZmanOffset {
+pub enum ZmanOffset<'a> {
     /// Some degrees under the horizon
     Degrees(f64),
 
@@ -260,7 +264,7 @@ pub enum ZmanOffset {
         minutes_zmaniyos: f64,
         /// Length of a *shaah zmanis* in minutes. Each minute *zmanis* will be
         /// 1/60 of this
-        shaah_zmanis: f64,
+        shaah_zmanis: &'a TimeDelta,
     },
 }
 
@@ -279,7 +283,7 @@ mod tests {
         let start = Jerusalem.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end = Jerusalem.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
         let result2 = sof_zman_tefila(&start, &end).to_string();
-        assert_eq!(result2, "2025-07-29 10:16:53.333333 IDT");
+        assert_eq!(result2, "2025-07-29 10:16:53.333333120 IDT");
     }
 
     #[test]
@@ -292,7 +296,7 @@ mod tests {
         let start2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 5, 47, 29).unwrap();
         let end2 = Jerusalem.with_ymd_and_hms(2025, 7, 29, 19, 15, 42).unwrap();
         let result2 = shaos_into_day(&start2, &end2, 4.34).to_string();
-        assert_eq!(result2, "2025-07-29 10:39:47.301667 IDT");
+        assert_eq!(result2, "2025-07-29 10:39:47.301666435 IDT");
     }
 
     #[test]
@@ -308,25 +312,25 @@ mod tests {
         let tzais1 = tzais(&date1, &loc, false, &ZmanOffset::Degrees(6.0))
             .unwrap()
             .to_string();
-        assert_eq!(tzais1, "2025-08-04 20:00:13.884113 IDT");
+        assert_eq!(tzais1, "2025-08-04 20:00:13.884113380 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let tzais2 = tzais(&date2, &loc, false, &ZmanOffset::Degrees(6.0))
             .unwrap()
             .to_string();
-        assert_eq!(tzais2, "2025-01-26 17:34:32.830038 IST");
+        assert_eq!(tzais2, "2025-01-26 17:34:32.830038230 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let tzais3 = tzais(&date3, &loc, false, &ZmanOffset::Degrees(6.0))
             .unwrap()
             .to_string();
-        assert_eq!(tzais3, "2005-05-15 19:56:34.656301 IDT");
+        assert_eq!(tzais3, "2005-05-15 19:56:34.656301355 IDT");
     }
 
     #[test]
     fn test_offset_by_minutes_zmanis() {
         let midnight = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let shaah = 60.0;
+        let shaah = TimeDelta::minutes(60);
         let twelve_fourty_three_thirty =
             offset_by_minutes_zmanis(&midnight, 43.5, shaah).to_string();
         assert_eq!(twelve_fourty_three_thirty, "2025-08-04 00:43:30 IDT")

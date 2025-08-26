@@ -30,6 +30,12 @@ fn main() {
     let shkia = zmanim_calculator::shkia(&today, &kosel, true).unwrap();
     let shaah = zmanim_calculator::shaah_zmanis(&alos_10_deg, &tzais_13_deg);
 
+    // shaah is a TimeDelta, so we need to pretty-print it manually
+    let sz_hours = shaah.num_hours();
+    let sz_minutes = shaah.num_minutes() % 60;
+    let sz_seconds = shaah.num_seconds() % 60;
+    let sz_nanos = shaah.subsec_nanos();
+
     println!(
         "alos:         {alos_10_deg}
 hanetz:       {hanetz}
@@ -41,6 +47,6 @@ MK:           {mk}
 shkia:        {shkia}
 plag:         {plag}
 tzais:        {tzais_13_deg}
-shaah zmanis: {shaah} minutes"
+shaah zmanis: {sz_hours:02}:{sz_minutes:02}:{sz_seconds:02}.{sz_nanos:02}"
     )
 }

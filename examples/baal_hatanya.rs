@@ -36,6 +36,12 @@ fn main() {
     let tzais = czc.tzais_baal_hatanya().unwrap();
     let shaah = czc.shaah_zmanis_baal_hatanya().unwrap();
 
+    // shaah is a TimeDelta, so we need to pretty-print it manually
+    let sz_hours = shaah.num_hours();
+    let sz_minutes = shaah.num_minutes() % 60;
+    let sz_seconds = shaah.num_seconds() % 60;
+    let sz_nanos = shaah.subsec_nanos();
+
     println!(
         "alos:         {alos}
 hanetz:       {hanetz}
@@ -47,6 +53,6 @@ MK:           {mk}
 shkia:        {shkia}
 plag:         {plag}
 tzais:        {tzais}
-shaah zmanis: {shaah} minutes"
+shaah zmanis: {sz_hours:02}:{sz_minutes:02}:{sz_seconds:02}.{sz_nanos:02}"
     )
 }
