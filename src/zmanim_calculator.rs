@@ -233,8 +233,7 @@ fn offset_by_minutes_zmanis(
     // Unfortunately you can't multiply TimeDelta by f64, so this is a bit messy
     *time
         + TimeDelta::nanoseconds(
-            ((shaah_zmanis / 60).num_nanoseconds().unwrap() as f64 * minutes).round()
-                as i64,
+            ((shaah_zmanis / 60).num_nanoseconds().unwrap() as f64 * minutes).round() as i64,
         )
 }
 
