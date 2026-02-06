@@ -504,9 +504,9 @@ impl ComplexZmanimCalendar<'_> {
     /// Harari-Raful of Yeshivat Ateret Torah, that the day starts 1/10th of the
     /// day before sunrise and is usually calculated as ending 40 minutes after
     /// sunset. *Shaos zmaniyos* are calculated based on this day and added to
-    /// alos to reach this time. This time is 3 *shaos zmaniyos* (temporal
-    /// hours) after alos 72 zmaniyos. Note: Based on this calculation *chatzos*
-    /// will not be at midday.
+    /// *alos*to reach this time. This time is 3 *shaos zmaniyos* (temporal
+    /// hours) after *alos*72 zmaniyos. Note: Based on this calculation
+    /// *chatzos* will not be at midday.
     pub fn sof_zman_shema_ateret_torah(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_shema(
             &self.alos_72_minutes_zmanis()?,
@@ -518,10 +518,10 @@ impl ComplexZmanimCalendar<'_> {
     /// prayers) based on the calculation of *Chacham* Yosef Harari-Raful of
     /// Yeshivat Ateret Torah, that the day starts 1/10th of the day before
     /// sunrise and is usually calculated as ending 40 minutes after sunset.
-    /// *Shaos zmaniyos* are calculated based on this day and added to alos to
+    /// *Shaos zmaniyos* are calculated based on this day and added to *alos*to
     /// reach this time. This time is 4 * *shaos zmaniyos* (temporal hours)
-    /// after alos 72 *zmaniyos*. Note: Based on this calculation *chatzos* will
-    /// not be at midday.
+    /// after *alos*72 *zmaniyos*. Note: Based on this calculation *chatzos*
+    /// will not be at midday.
     pub fn sof_zman_tefila_ateret_torah(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_72_minutes_zmanis()?,
@@ -584,7 +584,7 @@ impl ComplexZmanimCalendar<'_> {
     /// Harari-Raful provided a 25 minute *zman* for Israel. This API uses
     /// 40 minutes year round in any place on the globe.
     pub fn tzais_ateret_torah(&self) -> Option<DateTime<Tz>> {
-        Some(self.shkia()? + TimeDelta::minutes(40))
+        self.tzais(&Minutes(40.0))
     }
 
     /// Returns a shaah zmanis (temporal hour) according to the opinion
@@ -655,7 +655,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 16.1&deg; before sunrise. This time is 4 *shaos zmaniyos*
+    /// *alos*being 16.1&deg; before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the
     /// day is calculated from dawn to nightfall with both being 16.1&deg;
     /// below sunrise or sunset. This returns the time of
@@ -732,7 +732,7 @@ impl ComplexZmanimCalendar<'_> {
         ))
     }
 
-    // Alos 16.1 degrees to sunset
+    // *alos*16.1 degrees to sunset
     /// Returns the latest *zman krias shema* (time to recite
     /// *Shema* in the morning) based on the opinion that the day starts at
     /// *alos* 16.1&deg; and ends at sea level sunset. This is the opinion
@@ -752,7 +752,7 @@ impl ComplexZmanimCalendar<'_> {
     /// This method should be used *lechumra* only and returns the time of *plag
     /// hamincha* based on the opinion that the day starts at *alos* 16.1&deg;
     /// and ends at sunset. 10.75 *shaos zmaniyos* are calculated based on
-    /// this day and added to alos to reach this time. This time is 10.75
+    /// this day and added to *alos*to reach this time. This time is 10.75
     /// *shaos zmaniyos* (temporal hours) after dawn based on the opinion
     /// that the day is calculated from a dawn of 16.1 degrees before
     /// sunrise to sunset. This returns the time of 10.75 * the calculated
@@ -769,7 +769,7 @@ impl ComplexZmanimCalendar<'_> {
     /// Returns the latest *zman krias shema* (time to recite
     /// *Shema* in the morning) based on the opinion that the day starts at
     /// *alos* 16.1&deg; and ends at *tzais* 7.083&deg;. 3 *shaos zmaniyos*
-    /// are calculated based on this day and added to alos to reach this
+    /// are calculated based on this day and added to *alos*to reach this
     /// time. This time is 3 *shaos zmaniyos* (temporal hours) after alos
     /// 16.1&deg; based on the opinion that the day is calculated from a
     /// *alos* 16.1&deg; to *tzais* 7.083&deg;.
@@ -820,7 +820,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 18&deg; before sunrise. This time is 4 *shaos zmaniyos*
+    /// *alos*being 18&deg; before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the
     /// day is calculated from dawn to nightfall with both being 18&deg;
     /// below sunrise or sunset. This returns the time of
@@ -905,7 +905,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 19.8&deg; before sunrise. This time is 4 *shaos zmaniyos*
+    /// *alos*being 19.8&deg; before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the
     /// day is calculated from dawn to nightfall with both being 19.8&deg;
     /// below sunrise or sunset. This returns the time of
@@ -1079,7 +1079,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman krias shema* (time to recite
     /// *Shema* in the morning) according to the opinion of the *Magen
-    /// Avraham* (MGA) based on alos being 72 minutes before sunrise. This
+    /// Avraham* (MGA) based on *alos*being 72 minutes before sunrise. This
     /// time is 3 *shaos zmaniyos* (solar hours) after dawn based on the
     /// opinion of the MGA that the day is calculated from a dawn of 72
     /// minutes before sunrise to nightfall of 72 minutes after sunset. This
@@ -1094,7 +1094,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 72 minutes before sunrise. This time is 4 *shaos zmaniyos*
+    /// *alos*being 72 minutes before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the day is
     /// calculated from a dawn of 72 minutes before sunrise to nightfall of 72
     /// minutes after sunset. This returns the time of `self.alos_72_minutes()?
@@ -1208,7 +1208,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 72 minutes *zmaniyos* before sunrise. This time is 4 *shaos
+    /// *alos*being 72 minutes *zmaniyos* before sunrise. This time is 4 *shaos
     /// zmaniyos* (solar hours) after dawn based on the opinion of the MGA
     /// that the day is calculated from a dawn of 72 minutes *zmaniyos*
     /// before sunrise to nightfall of 72 minutes *zmaniyos* after sunset.
@@ -1254,7 +1254,7 @@ impl ComplexZmanimCalendar<'_> {
     }
 
     /// Returns a *shaah zmanis* (temporal hour) according to the
-    /// opinion of the *Magen Avraham* (MGA) based on alos being 72 minutes
+    /// opinion of the *Magen Avraham* (MGA) based on *alos*being 72 minutes
     /// *zmaniyos* before sunrise. This calculation divides the day based on the
     /// opinion of the MGA that the day runs from dawn to dusk. Dawn for this
     /// calculation is 72 minutes *zmaniyos* before sunrise and dusk is 72
@@ -1282,7 +1282,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman krias shema* (time to recite
     /// *Shema* in the morning) according to the opinion of the *Magen
-    /// Avraham* (MGA) based on alos being 90 minutes before sunrise. This
+    /// Avraham* (MGA) based on *alos*being 90 minutes before sunrise. This
     /// time is 3 *shaos zmaniyos* (solar hours) after dawn based on the
     /// opinion of the MGA that the day is calculated from a dawn of 90
     /// minutes before sunrise to nightfall of 90 minutes after sunset. This
@@ -1297,7 +1297,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 90 minutes before sunrise. This time is 4 *shaos zmaniyos*
+    /// *alos*being 90 minutes before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the day is
     /// calculated from a dawn of 90 minutes before sunrise to nightfall of 90
     /// minutes after sunset. This returns the time of `self.alos_90_minutes()?
@@ -1381,7 +1381,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 90 minutes *zmaniyos* before sunrise. This time is 4 *shaos
+    /// *alos*being 90 minutes *zmaniyos* before sunrise. This time is 4 *shaos
     /// zmaniyos* (solar hours) after dawn based on the opinion of the MGA
     /// that the day is calculated from a dawn of 90 minutes *zmaniyos*
     /// before sunrise to nightfall of 90 minutes *zmaniyos* after sunset.
@@ -1447,7 +1447,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman krias shema* (time to recite
     /// *Shema* in the morning) according to the opinion of the *Magen
-    /// Avraham* (MGA) based on alos being 96 minutes before sunrise. This
+    /// Avraham* (MGA) based on *alos*being 96 minutes before sunrise. This
     /// time is 3 *shaos zmaniyos* (solar hours) after dawn based on the
     /// opinion of the MGA that the day is calculated from a dawn of 96
     /// minutes before sunrise to nightfall of 96 minutes after sunset. This
@@ -1462,7 +1462,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 96 minutes before sunrise. This time is 4 *shaos zmaniyos*
+    /// *alos*being 96 minutes before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the day is
     /// calculated from a dawn of 96 minutes before sunrise to nightfall of 96
     /// minutes after sunset. This returns the time of `self.alos_96_minutes()?
@@ -1542,7 +1542,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 96 minutes *zmaniyos* before sunrise. This time is 4 *shaos
+    /// *alos*being 96 minutes *zmaniyos* before sunrise. This time is 4 *shaos
     /// zmaniyos* (solar hours) after dawn based on the opinion of the MGA
     /// that the day is calculated from a dawn of 96 minutes *zmaniyos*
     /// before sunrise to nightfall of 96 minutes *zmaniyos* after sunset.
@@ -1611,7 +1611,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman krias shema* (time to recite
     /// *Shema* in the morning) according to the opinion of the *Magen
-    /// Avraham* (MGA) based on alos being 120 minutes before sunrise. This
+    /// Avraham* (MGA) based on *alos*being 120 minutes before sunrise. This
     /// time is 3 *shaos zmaniyos* (solar hours) after dawn based on the
     /// opinion of the MGA that the day is calculated from a dawn of 120
     /// minutes before sunrise to nightfall of 120 minutes after sunset. This
@@ -1627,7 +1627,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns the latest *zman tefila* (time to recite the morning
     /// prayers) according to the opinion of the *Magen Avraham* (MGA) based on
-    /// alos being 120 minutes before sunrise. This time is 4 *shaos zmaniyos*
+    /// *alos*being 120 minutes before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the day is
     /// calculated from a dawn of 120 minutes before sunrise to nightfall of 120
     /// minutes after sunset. This returns the time of `self.alos_120_minutes()?
@@ -1824,7 +1824,7 @@ impl ComplexZmanimCalendar<'_> {
     /// hashmashos starts 3/4 of a mil before sunset and *tzais* or nightfall
     /// starts at sunset.
     pub fn bein_hashmashos_yereim_18_minutes(&self) -> Option<DateTime<Tz>> {
-        self.tzais(&ZmanOffset::Minutes(-18.0))
+        self.tzais(&Minutes(-18.0))
     }
 
     /// Returns the beginning of *bein hashmashos* (twilight)
@@ -1843,7 +1843,7 @@ impl ComplexZmanimCalendar<'_> {
     /// suggested in the upcoming 8th edition of the zmanim Kehilchasam. For
     /// more details, see the article The Yereim's Bein Hashmashos.
     pub fn bein_hashmashos_yereim_3_05_degrees(&self) -> Option<DateTime<Tz>> {
-        self.tzais(&ZmanOffset::Degrees(-3.05))
+        self.tzais(&Degrees(-3.05))
     }
 
     /// Returns the beginning of *bein hashmashos* (twilight)
@@ -1852,7 +1852,7 @@ impl ComplexZmanimCalendar<'_> {
     /// Yereim, *bein hashmashos* starts 3/4 of a mil before sunset and *tzais*
     /// or nightfall starts at sunset.
     pub fn bein_hashmashos_yereim_16_875_minutes(&self) -> Option<DateTime<Tz>> {
-        self.tzais(&ZmanOffset::Minutes(-16.875))
+        self.tzais(&Minutes(-16.875))
     }
 
     /// Returns the beginning of *bein hashmashos* (twilight)
@@ -1864,7 +1864,7 @@ impl ComplexZmanimCalendar<'_> {
     /// the degrees were calculated can be seen in the documentation of
     /// [bein_hashmashos_yereim_3_05_degrees](ComplexZmanimCalendar::bein_hashmashos_yereim_3_05_degrees).
     pub fn bein_hashmashos_yereim_2_8_degrees(&self) -> Option<DateTime<Tz>> {
-        self.tzais(&ZmanOffset::Degrees(-2.8))
+        self.tzais(&Degrees(-2.8))
     }
 
     /// Returns the beginning of *bein hashmashos* (twilight)
@@ -1873,7 +1873,7 @@ impl ComplexZmanimCalendar<'_> {
     /// Yereim, *bein hashmashos* starts 3/4 of a mil before sunset and *tzais*
     /// or nightfall starts at sunset.
     pub fn bein_hashmashos_yereim_13_5_minutes(&self) -> Option<DateTime<Tz>> {
-        self.tzais(&ZmanOffset::Minutes(-13.5))
+        self.tzais(&Minutes(-13.5))
     }
 
     /// Returns the beginning of *bein hashmashos* according to the
@@ -1885,7 +1885,57 @@ impl ComplexZmanimCalendar<'_> {
     /// the degrees were calculated can be seen in the documentation of
     /// [bein_hashmashos_yereim_3_05_degrees](ComplexZmanimCalendar::bein_hashmashos_yereim_3_05_degrees).
     pub fn bein_hashmashos_yereim_2_1_degrees(&self) -> Option<DateTime<Tz>> {
-        self.tzais(&ZmanOffset::Degrees(-2.1))
+        self.tzais(&Degrees(-2.1))
+    }
+
+    // Bein Hashmashos Rabeinu Tam
+    /// Method to return the beginning of *bein hashmashos* of Rabbeinu Tam
+    /// calculated when the sun is 13.24&deg; below the western geometric
+    /// horizon (90&deg;) after sunset. This calculation is based on the
+    /// same calculation of [*bein hashmashos* Rabbeinu Tam
+    /// 58.5](ComplexZmanimCalendar::bein_hashmashos_rt_58_5_minutes) minutes
+    /// but uses a degree-based calculation instead of 58.5 exact minutes.
+    /// This calculation is based on the position of the sun 58.5 minutes
+    /// after sunset in Jerusalem around the equinox / equilux, which
+    /// calculates to 13.24&deg; below geometric zenith. NOTE: As per
+    /// Yisrael Vehazmanim Vol. III page 1028, No. 50, a dip of slightly
+    /// less than 13&deg; should be used. Calculations show that the proper
+    /// dip to be 13.2456&deg; (truncated to 13.24 that provides about 1.5
+    /// second earlier (*lechumra*) time) below the horizon at that time. This
+    /// makes a difference of 1 minute and 10 seconds in Jerusalem during the
+    /// Equinox, and 1 minute 29 seconds during the solstice as compared to the
+    /// proper 13.24&deg; versus 13&deg;. For NY during the solstice, the
+    /// difference is 1 minute 56 seconds.
+    pub fn bein_hashmashos_rt_13_24_degrees(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&Degrees(13.24))
+    }
+
+    /// This method returns the beginning of *bein hashmashos* of Rabbeinu Tam
+    /// calculated as a 58.5-minute offset after sunset. *bein hashmashos* is
+    /// 3/4 of a mil before *tzais* or 3 1/4 mil after sunset. With a mil
+    /// calculated as 18 minutes, 3.25 * 18 = 58.5 minutes.
+    pub fn bein_hashmashos_rt_58_5_minutes(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&Minutes(58.5))
+    }
+
+    /// This method returns the beginning of *bein hashmashos* based on the
+    /// calculation of 13.5 minutes (3/4 of an 18-minute mil) before *shkiah*
+    /// calculated as 7.083&deg;.
+    pub fn bein_hashmashos_rt_13_5_minutes_before_7_083_degrees(&self) -> Option<DateTime<Tz>> {
+        Some(self.tzais_geonim_7_083_degrees()? - TimeDelta::seconds(810))
+    }
+
+    /// This method returns the beginning of *bein hashmashos* of Rabbeinu Tam
+    /// calculated according to the opinion of the Divrei Yosef (see Yisrael
+    /// Vehazmanim) calculated 5/18th (27.77%) of the time between alos
+    /// (calculated as 19.8&deg; before sunrise) and sunrise. This is added to
+    /// sunset to arrive at the time for *bein hashmashos* of Rabbeinu Tam.
+    pub fn bein_hashmashos_rt_2_stars(&self) -> Option<DateTime<Tz>> {
+        let offset_seconds =
+            (self.hanetz()? - self.alos_19_8_degrees()?).as_seconds_f64() * (5.0 / 18.0);
+        let offset_delta = TimeDelta::seconds(offset_seconds.trunc() as i64)
+            + TimeDelta::nanoseconds((offset_seconds.fract() * 1_000_000_000.0) as i64);
+        Some(self.shkia()? + offset_delta)
     }
 
     // Other Tzais
@@ -1954,7 +2004,7 @@ impl ComplexZmanimCalendar<'_> {
     /// *Geonim* as calculated by Rabbi Yechiel Michel Tucazinsky. It is based
     /// on of the position of the sun no later than 31 minutes after sunset
     /// in Jerusalem the height of the summer solstice and is 28 minutes
-    /// after shkiah around the equinox / equilux. This computes to 6.45&deg;
+    /// after *shkiah* around the equinox / equilux. This computes to 6.45&deg;
     /// below the western horizon.
     pub fn tzais_geonim_6_45_degrees(&self) -> Option<DateTime<Tz>> {
         self.tzais(&Degrees(6.45))
