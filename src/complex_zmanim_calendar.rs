@@ -563,7 +563,7 @@ impl ComplexZmanimCalendar<'_> {
         ))
     }
 
-    /// This method returns the time of *plag hamincha* based on the calculation
+    /// Returns the time of *plag hamincha* based on the calculation
     /// of *Chacham* Yosef Harari-Raful of Yeshivat Ateret Torah, that the day
     /// starts 1/10th of the day before sunrise and is usually calculated as
     /// ending 40 minutes after sunset. *Shaos zmaniyos* are calculated based on
@@ -1815,6 +1815,77 @@ impl ComplexZmanimCalendar<'_> {
     /// who agreed to them.
     pub fn misheyakir_7_65_degrees(&self) -> Option<DateTime<Tz>> {
         self.alos(&Degrees(7.65))
+    }
+
+    // Bein Hashmashos Yereim
+    /// Returns the beginning of *bein hashmashos* (twilight)
+    /// according to the Yereim (Rabbi Eliezer of Metz) calculated as 18 minutes
+    /// or 3/4 of a 24-minute mil before sunset. According to the Yereim, bein
+    /// hashmashos starts 3/4 of a mil before sunset and *tzais* or nightfall
+    /// starts at sunset.
+    pub fn bein_hashmashos_yereim_18_minutes(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&ZmanOffset::Minutes(-18.0))
+    }
+
+    /// Returns the beginning of *bein hashmashos* (twilight)
+    /// according to the Yereim (Rabbi Eliezer of Metz) calculated as the sun's
+    /// position 3.05&deg; above the horizon around the equinox / equilux, its
+    /// position 18 minutes or 3/4 of an 24-minute mil before sunset. According
+    /// to the Yereim, *bein hashmashos* starts 3/4 of a mil before sunset and
+    /// *tzais* or nightfall starts at sunset. Note that lechumra (of about 14
+    /// seconds) a refraction value of 0.5166&deg; as opposed to the traditional
+    /// 0.566&deg; is used. This is more inline with the actual refraction in
+    /// Eretz Yisrael and is brought down by Rabbi Yedidya Manet in his
+    /// Zmanei Halacha Lema'aseh (p. 11). That is the first source that I am
+    /// aware of that calculates degree-based Yereim zmanim. The 0.5166&deg;
+    /// refraction is also used by the Luach Itim Lebinah. Calculating the
+    /// Yereim's *bein hashmashos* using 18-minute based degrees is also
+    /// suggested in the upcoming 8th edition of the zmanim Kehilchasam. For
+    /// more details, see the article The Yereim's Bein Hashmashos.
+    pub fn bein_hashmashos_yereim_3_05_degrees(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&ZmanOffset::Degrees(-3.05))
+    }
+
+    /// Returns the beginning of *bein hashmashos* (twilight)
+    /// according to the Yereim (Rabbi Eliezer of Metz) calculated as 16.875
+    /// minutes or 3/4 of a 22.5-minute mil before sunset. According to the
+    /// Yereim, *bein hashmashos* starts 3/4 of a mil before sunset and *tzais*
+    /// or nightfall starts at sunset.
+    pub fn bein_hashmashos_yereim_16_875_minutes(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&ZmanOffset::Minutes(-16.875))
+    }
+
+    /// Returns the beginning of *bein hashmashos* (twilight)
+    /// according to the Yereim (Rabbi Eliezer of Metz) calculated as the sun's
+    /// position 2.8&deg; above the horizon around the equinox / equilux, its
+    /// position 16.875 minutes or 3/4 of an 18-minute mil before sunset.
+    /// According to the Yereim, *bein hashmashos* starts 3/4 of a mil before
+    /// sunset and *tzais* or nightfall starts at sunset. Details, including how
+    /// the degrees were calculated can be seen in the documentation of
+    /// [bein_hashmashos_yereim_3_05_degrees](ComplexZmanimCalendar::bein_hashmashos_yereim_3_05_degrees).
+    pub fn bein_hashmashos_yereim_2_8_degrees(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&ZmanOffset::Degrees(-2.8))
+    }
+
+    /// Returns the beginning of *bein hashmashos* (twilight)
+    /// according to the Yereim (Rabbi Eliezer of Metz) calculated as 13.5
+    /// minutes or 3/4 of an 18-minute mil before sunset. According to the
+    /// Yereim, *bein hashmashos* starts 3/4 of a mil before sunset and *tzais*
+    /// or nightfall starts at sunset.
+    pub fn bein_hashmashos_yereim_13_5_minutes(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&ZmanOffset::Minutes(-13.5))
+    }
+
+    /// Returns the beginning of *bein hashmashos* according to the
+    /// Yereim (Rabbi Eliezer of Metz) calculated as the sun's position 2.1&deg;
+    /// above the horizon around the equinox / equilux in Yerushalayim, its
+    /// position 13.5 minutes or 3/4 of an 18-minute mil before sunset.
+    /// According to the Yereim, *bein hashmashos* starts 3/4 of a mil before
+    /// sunset and *tzais* or nightfall starts at sunset. Details, including how
+    /// the degrees were calculated can be seen in the documentation of
+    /// [bein_hashmashos_yereim_3_05_degrees](ComplexZmanimCalendar::bein_hashmashos_yereim_3_05_degrees).
+    pub fn bein_hashmashos_yereim_2_1_degrees(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&ZmanOffset::Degrees(-2.1))
     }
 
     // Other Tzais
