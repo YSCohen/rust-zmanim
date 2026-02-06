@@ -241,3 +241,28 @@ fn test_sunset_offset_by_degrees() {
         assert_eq!(result, edt)
     }
 }
+
+#[test]
+fn test_local_mean_time() {
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
+        "2017-10-17 03:56:57.605832 EDT",
+        "2017-10-17 03:39:03.887040 IDT",
+        "2017-10-17 03:54:46.058280 PDT",
+        "2017-10-17 02:41:26.316336 JST",
+        "2017-10-17 03:19:10.700592 EDT",
+        "2017-10-17 04:27:12.761880 +14",
+    ];
+
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
+        let date = loc
+            .timezone
+            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
+            .unwrap();
+        let result = match local_mean_time(&date, &loc, 3.0) {
+            Some(dt) => dt.to_string(),
+            None => String::from("None"),
+        };
+        assert_eq!(result, edt)
+    }
+}

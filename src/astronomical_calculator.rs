@@ -10,8 +10,8 @@
 //! at certain times of the year. When the calculations encounter this condition
 //! they will return `None`.
 
-use chrono::TimeDelta;
 use chrono::prelude::*;
+use chrono::TimeDelta;
 use chrono_tz::Tz;
 
 use crate::util::geolocation::GeoLocation;
@@ -219,9 +219,10 @@ pub fn local_mean_time(
     if !(0.0..24.0).contains(&hours) {
         None
     } else {
+        let time_of_day = (((hours - geo_location.local_mean_time_offset()) % 24.0) + 24.0) % 24.0;
         Some(date_time_from_time_of_day(
             date,
-            hours - geo_location.local_mean_time_offset(),
+            time_of_day,
             geo_location.timezone,
         ))
     }
@@ -275,6 +276,7 @@ mod tests {
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 3, 17, 6, 7, 8).unwrap();
         let lmt4 = local_mean_time(&date4, &loc, 17.983).unwrap().to_string();
-        assert_eq!(lmt4, "2025-03-17 17:38:49.958400 IST"); // off from KJ by < 1 ms
+        assert_eq!(lmt4, "2025-03-17 17:38:49.958400 IST"); // off from KJ by <
+                                                            // 1 ms
     }
 }
