@@ -369,11 +369,17 @@ pub fn test_alos_19_degrees() {
     )
 }
 
-// #[test]
-// pub fn misheyakir_12_85_degrees_test() {
-//   let czc = test_helper::czc_test_sample();
-//   assert_eq!(czc.misheyakir_12_85_degrees().unwrap().format("%Y-%m-%d
-// %H:%M:%S %Z").to_string(), "2017-10-17 05:46:40 IDT") }
+#[test]
+pub fn test_misheyakir_12_85_degrees() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.misheyakir_12_85_degrees()
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 05:46:42 IDT"
+    )
+}
 
 #[test]
 pub fn test_misheyakir_11_5_degrees() {

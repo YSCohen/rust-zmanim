@@ -506,8 +506,8 @@ impl ComplexZmanimCalendar {
     /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
     /// according to the opinion of the GRA that the day is calculated from
     /// sunrise to sunset, but calculated using the first half of the day only.
-    /// The half a day starts at sunrise and ends at fixed local *chatzos*. Sof
-    /// zman Shema is 3 *shaos zmaniyos* (solar hours) after sunrise or half of
+    /// The half a day starts at sunrise and ends at fixed local *chatzos*. *Sof
+    /// zman Shema* is 3 *shaos zmaniyos* (solar hours) after sunrise or half of
     /// this half-day.
     pub fn sof_zman_shema_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
         let alos = self.hanetz()?;
@@ -520,7 +520,7 @@ impl ComplexZmanimCalendar {
     /// prayers) according to the opinion of the GRA that the day is calculated
     /// from sunrise to sunset, but calculated using the first half of the day
     /// only. The half a day starts at sunrise and ends at fixed local
-    /// *chatzos*. Sof zman tefila is 4 *shaos zmaniyos* (solar hours) after
+    /// *chatzos*. *Sof zman tefila* is 4 *shaos zmaniyos* (solar hours) after
     /// sunrise or 2/3 of this half-day.
     pub fn sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
         let alos = self.hanetz()?;
@@ -1954,6 +1954,44 @@ impl ComplexZmanimCalendar {
     }
 
     // Other Misheyakir
+    /// This method returns *misheyakir* based on the position of the sun
+    /// 12.85&deg; below geometric zenith (90&deg;). This is based on the
+    /// position of the sun slightly later than 57 minutes before sunrise in
+    /// Jerusalem around the equinox / equilux. This *zman* is mentioned for use
+    /// ***bish'as hadchak*** in the Birur Halacha Tinyana and Tlisa'ah in Orach
+    /// Chaim siman 18 as 12.85&deg;. Actual calculations show it to be slightly
+    /// more than 12.9&deg;, but the Birur Halacha indicates that 12.85&deg; is
+    /// a slight *chumra* (on a *bedieved* time) VS the 12.9&deg; that 57
+    /// minutes calculates as (a difference of about 14 seconds at the
+    /// equinox/equilux in Jerusalem). The *zman* of 12.9&deg; is also mentioned
+    /// in the Piskei Tshuvos siman 18, page 190 (where a typo indicates that
+    /// this is the degree equivalent to 60 minutes before sunrise, when in fact
+    /// at that point the sun is about 13.5&deg; below the horizon). The 57
+    /// minute based time is mentioned by the Minchas Yitzchak vol. 9, siman 9
+    /// as 15 minutes before *alos hashachar* (though he is not clear what
+    /// location he refers to, and does not mention a degree-based conversion).
+    /// The Kaf Hachaim vol.1 siman 18, no. 18 states that in Yerushalayim 60
+    /// fixed minutes are used year round. Calculations show that 60 fixed
+    /// minutes in Yerushalayim ranges from 13.5&deg; at the spring equinox to
+    /// 11.5&deg; at the summer solstice. 57 minutes range from 12.9&deg; at the
+    /// winter equinox to 11&deg; at the summer solstice. Analysis of the
+    /// difference between 12.85&deg; and 12.9&deg;, shows that the maximum
+    /// difference occurs at the summer solstice. In Lakewood, NJ at a latitude
+    /// of 40.096&deg;, the maximum difference throughout the year is 23
+    /// seconds. In the winter where there is the greatest need for very early
+    /// *misheyakir* times, the difference is in the 16 second range. Going
+    /// north to Montreal at latitude 45.5&deg;, the maximum is 29 seconds and
+    /// is about 18 seconds in the winter. Moving farther north to the elevation
+    /// of Vilnius at a latitude of 54.68&deg;, things change. Firstly, around
+    /// the summer solstice it will not reach that far below the horizon. On the
+    /// dates that both can be calculated, the maximum difference can be pretty
+    /// high on one or two days of the year (around Jul 8), with about a week
+    /// having over a two minute difference between the two. Even at the
+    /// latitude of Vilna, from Dec - March, the difference is about 22 seconds.
+    pub fn misheyakir_12_85_degrees(&self) -> Option<DateTime<Tz>> {
+        self.alos(&Degrees(12.85))
+    }
+
     /// Returns *misheyakir* based on the position of the sun when
     /// it is 11.5&deg; below geometric zenith (90&deg;). This calculation is
     /// used for calculating *misheyakir* according to some opinions. This
