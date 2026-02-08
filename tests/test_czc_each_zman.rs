@@ -10,6 +10,7 @@
 //! library
 
 mod test_helper;
+use rust_zmanim::prelude::ZmanOffset;
 
 #[test]
 pub fn test_alos_19_8_degrees() {
@@ -1883,5 +1884,98 @@ pub fn test_shaah_zmanis_baal_hatanya() {
     assert_eq!(
         czc.shaah_zmanis_baal_hatanya().unwrap().num_milliseconds(),
         3440274
+    )
+}
+
+#[test]
+pub fn test_alos() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.alos(&ZmanOffset::Degrees(19.8))
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 05:13:59 IDT"
+    )
+}
+
+#[test]
+pub fn test_tzais() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.tzais(&ZmanOffset::Degrees(19.8))
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 19:34:15 IDT"
+    )
+}
+
+#[test]
+pub fn test_sof_zman_shema_mga() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.sof_zman_shema_mga(&ZmanOffset::Degrees(19.8))
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 08:49:03 IDT"
+    )
+}
+
+#[test]
+pub fn test_sof_zman_tefila_mga() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.sof_zman_tefila_mga(&ZmanOffset::Degrees(19.8))
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 10:00:44 IDT"
+    )
+}
+
+#[test]
+pub fn test_mincha_gedola_mga() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.mincha_gedola_mga(&ZmanOffset::Degrees(16.1))
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 12:58:31 IDT"
+    )
+}
+
+#[test]
+pub fn test_mincha_ketana_mga() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.mincha_ketana_mga(&ZmanOffset::Degrees(16.1))
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 16:24:53 IDT"
+    )
+}
+
+#[test]
+pub fn test_plag_mga() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.plag_mga(&ZmanOffset::Degrees(19.8))
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 18:04:38 IDT"
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis(&ZmanOffset::Degrees(19.8)).unwrap().num_milliseconds(),
+        4301331
     )
 }

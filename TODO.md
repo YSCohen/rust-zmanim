@@ -1,2 +1,1 @@
-- tests for generic `..._mga()` functions
 - Constructor for `ComplexZmanimCalendar`

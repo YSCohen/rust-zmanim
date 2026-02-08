@@ -134,6 +134,16 @@ impl ComplexZmanimCalendar {
         zmanim_calculator::tzais(&self.date, &self.geo_location, use_elevation, offset)
     }
 
+    /// Returns *shaah zmanis* (temporal hour) according to the opinion of the
+    /// *Magen Avraham* (MGA) based on *alos* and *tzais* being the given
+    /// offset from sunrise and sunset, respectively.
+    pub fn shaah_zmanis(&self, offset: &ZmanOffset) -> Option<TimeDelta> {
+        Some(zmanim_calculator::shaah_zmanis(
+            &self.alos(offset)?,
+            &self.tzais(offset)?,
+        ))
+    }
+
     // GRA
     /// Returns the latest *zman shema* (time to recite *Shema* in the morning)
     /// that is 3 *shaos zmaniyos* (solar hours) after
