@@ -266,3 +266,53 @@ fn test_local_mean_time() {
         assert_eq!(result, edt)
     }
 }
+
+#[test]
+fn test_solar_noon() {
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
+        "2017-10-17 12:42:18.881556413 EDT",
+        "2017-10-17 12:24:28.945756816 IDT",
+        "2017-10-17 12:40:05.813704670 PDT",
+        "2017-10-17 11:26:55.034083926 JST",
+        "2017-10-17 12:04:32.300537809 EDT",
+        "2017-10-17 13:12:43.198222337 +14",
+    ];
+
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
+        let date = loc
+            .timezone
+            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
+            .unwrap();
+        let result = match solar_noon(&date, &loc) {
+            Some(dt) => dt.to_string(),
+            None => String::from("None"),
+        };
+        assert_eq!(result, edt)
+    }
+}
+
+#[test]
+fn test_solar_midnight() {
+    let locations = test_helper::basic_locations();
+    let expected_datetime_strs = [
+        "2017-10-18 00:42:12.782117299 EDT",
+        "2017-10-18 00:24:22.754961379 IDT",
+        "2017-10-18 00:39:59.751598274 PDT",
+        "2017-10-17 23:26:48.756939413 JST",
+        "2017-10-18 00:04:26.193183621 EDT",
+        "2017-10-18 01:12:36.881179528 +14",
+    ];
+
+    for (loc, edt) in zip(locations, expected_datetime_strs) {
+        let date = loc
+            .timezone
+            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
+            .unwrap();
+        let result = match solar_midnight(&date, &loc) {
+            Some(dt) => dt.to_string(),
+            None => String::from("None"),
+        };
+        assert_eq!(result, edt)
+    }
+}

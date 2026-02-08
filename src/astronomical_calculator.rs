@@ -162,11 +162,17 @@ pub fn solar_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<Dat
 /// Returns solar midnight. It occurs when the Sun closest to the nadir, or the
 /// direction pointing directly below the given location
 pub fn solar_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
-    Some(date_time_from_time_of_day(
+    let midnight = date_time_from_time_of_day(
         date,
         noaa_calculator::utc_midnight(date, geo_location)?,
         geo_location.timezone,
-    ))
+    );
+    let noon = solar_noon(date, geo_location)?;
+    if midnight <= noon {
+        Some(midnight + TimeDelta::days(1))
+    } else {
+        Some(midnight)
+    }
 }
 
 /// Returns a `DateTime` with the given timezone, made from the number of hours
