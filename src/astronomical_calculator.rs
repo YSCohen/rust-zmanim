@@ -167,8 +167,7 @@ pub fn solar_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option
         noaa_calculator::utc_midnight(date, geo_location)?,
         geo_location.timezone,
     );
-    let noon = solar_noon(date, geo_location)?;
-    if midnight <= noon {
+    if midnight <= date.with_hour(12)? {
         Some(midnight + TimeDelta::days(1))
     } else {
         Some(midnight)
