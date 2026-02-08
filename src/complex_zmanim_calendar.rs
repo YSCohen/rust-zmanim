@@ -177,7 +177,7 @@ impl ComplexZmanimCalendar {
     /// the day based on the opinion of the GRA that the day is calculated from
     /// sunrise to sunset. Since this library does not implement a calendar,
     /// this method will return the *zman* any day of the year.
-    pub fn sof_zman_achilas_chametz_gra(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_biur_chametz_gra(&self) -> Option<DateTime<Tz>> {
         Some(self.hanetz()? + (self.shaah_zmanis_gra()? * 5))
     }
 
@@ -329,7 +329,7 @@ impl ComplexZmanimCalendar {
     /// is calculated from slightly before sunrise to slightly after sunset.
     /// Since this library does not implement a calendar, this method will
     /// return the *zman* any day of the year.
-    pub fn sof_zman_achilas_chametz_baal_hatanya(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_biur_chametz_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         Some(self.alos_baal_hatanya()? + (self.shaah_zmanis_baal_hatanya()? * 5))
     }
 
@@ -825,7 +825,7 @@ impl ComplexZmanimCalendar {
     /// is calculated from dawn to nightfall with both being 16.1&deg; below
     /// sunrise or sunset. Since this library does not implement a calendar,
     /// this method will return the *zman* any day of the year.
-    pub fn sof_zman_achilas_chametz_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_biur_chametz_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
         Some(self.alos_16_1_degrees()? + (self.shaah_zmanis_16_1_degrees()? * 5))
     }
 
@@ -1285,7 +1285,7 @@ impl ComplexZmanimCalendar {
     /// is calculated from a dawn of 72 minutes before sunrise to nightfall of
     /// 72 minutes after sunset. Since this library does not implement a
     /// calendar, this method will return the *zman* any day of the year.
-    pub fn sof_zman_achilas_chametz_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_biur_chametz_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
         Some(self.alos_72_minutes()? + (self.shaah_zmanis_72_minutes()? * 5))
     }
 
@@ -1425,7 +1425,7 @@ impl ComplexZmanimCalendar {
     /// sunrise to nightfall of 72 minutes *zmanis* after sunset. Since this
     /// library does not implement a calendar, this method will return the
     /// *zman* any day of the year.
-    pub fn sof_zman_achilas_chametz_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_biur_chametz_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         Some(self.alos_72_minutes_zmanis()? + (self.shaah_zmanis_72_minutes_zmanis()? * 5))
     }
 
