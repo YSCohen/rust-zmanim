@@ -455,7 +455,7 @@ impl ComplexZmanimCalendar {
     /// of the day only. The half a day starts at *alos* defined as 18&deg; and
     /// ends at fixed local *chatzos*. *Sof Zman Shema* is 3 *shaos
     /// zmaniyos* (solar hours) after *alos* or half of this half-day.
-    pub fn sof_zman_shma_mga_18_degrees_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
         let alos = self.alos_18_degrees()?;
         let offset = (self.fixed_local_chatzos()? - alos) / 2;
         Some(alos + offset)
@@ -468,7 +468,7 @@ impl ComplexZmanimCalendar {
     /// of the day only. The half a day starts at *alos* defined as 16.1&deg;
     /// and ends at fixed local *chatzos*. *Sof Zman Shema* is 3 *shaos
     /// zmaniyos* (solar hours) after this *alos* or half of this half-day.
-    pub fn sof_zman_shma_mga_16_1_degrees_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
         let alos = self.alos_16_1_degrees()?;
         let offset = (self.fixed_local_chatzos()? - alos) / 2;
         Some(alos + offset)
@@ -482,7 +482,7 @@ impl ComplexZmanimCalendar {
     /// before sunrise and ends at fixed local *chatzos*. *Sof Zman Shema* is 3
     /// *shaos zmaniyos* (solar hours) after this *alos* or half of this
     /// half-day.
-    pub fn sof_zman_shma_mga_90_minutes_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
         let alos = self.alos_90_minutes()?;
         let offset = (self.fixed_local_chatzos()? - alos) / 2;
         Some(alos + offset)
@@ -496,7 +496,7 @@ impl ComplexZmanimCalendar {
     /// before sunrise and ends at fixed local *chatzos*. *Sof Zman Shema* is 3
     /// *shaos zmaniyos* (solar hours) after this *alos* or half of this
     /// half-day.
-    pub fn sof_zman_shma_mga_72_minutes_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
         let alos = self.alos_72_minutes()?;
         let offset = (self.fixed_local_chatzos()? - alos) / 2;
         Some(alos + offset)
@@ -509,7 +509,7 @@ impl ComplexZmanimCalendar {
     /// The half a day starts at sunrise and ends at fixed local *chatzos*. Sof
     /// zman Shema is 3 *shaos zmaniyos* (solar hours) after sunrise or half of
     /// this half-day.
-    pub fn sof_zman_shma_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_shema_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
         let alos = self.hanetz()?;
         let offset = (self.fixed_local_chatzos()? - alos) / 2;
         Some(alos + offset)
