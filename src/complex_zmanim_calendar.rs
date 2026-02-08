@@ -33,7 +33,8 @@ pub struct ComplexZmanimCalendar<'a> {
 /// 3. MGA degrees-based, ascending
 /// 4. MGA minutes-based, zmanis after fixed (e.g. 72 minutes, 72 minutes
 ///    zmanis, 90 minutes...)
-/// 5. Other *zmanim*, sorted by time of day (Misheyakir, Hanetz, Chatzos...)
+/// 5. Other *zmanim*, sorted by time of day (*Misheyakir*, *Hanetz*,
+///    *Chatzos*...)
 ///
 /// All *shaos zmaniyos* are in minutes
 impl ComplexZmanimCalendar<'_> {
@@ -78,12 +79,6 @@ impl ComplexZmanimCalendar<'_> {
     /// Returns Astronomical *chatzos*
     pub fn chatzos(&self) -> Option<DateTime<Tz>> {
         zmanim_calculator::chatzos(self.date, self.geo_location)
-    }
-
-    /// Returns fixed local *chatzos*. See
-    /// [zmanim_calculator::fixed_local_chatzos] for more details
-    pub fn fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
-        zmanim_calculator::fixed_local_chatzos(self.date, self.geo_location)
     }
 
     /// Returns *mincha gedola* according to the opinion of the *Magen Avraham*
@@ -140,7 +135,7 @@ impl ComplexZmanimCalendar<'_> {
     }
 
     // GRA
-    /// Returns the latest *zman shema* (time to recite shema in the morning)
+    /// Returns the latest *zman shema* (time to recite *Shema* in the morning)
     /// that is 3 *shaos zmaniyos* (solar hours) after
     /// [sunrise](crate::astronomical_calculator::sunrise) or [sea
     /// level sunrise](crate::astronomical_calculator::sea_level_sunrise)
@@ -415,15 +410,139 @@ impl ComplexZmanimCalendar<'_> {
         ))
     }
 
+    // Rav Moshe Feinstein
+    /// Returns fixed local *chatzos*. See
+    /// [zmanim_calculator::fixed_local_chatzos] for more details
+    pub fn fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+        zmanim_calculator::fixed_local_chatzos(self.date, self.geo_location)
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
+    /// according to the opinion of the *Magen Avraham* (MGA) that the day is
+    /// calculated from dawn to nightfall, but calculated using the first half
+    /// of the day only. The half a day starts at *alos* defined as 18&deg; and
+    /// ends at fixed local *chatzos*. *Sof Zman Shema* is 3 *shaos
+    /// zmaniyos* (solar hours) after *alos* or half of this half-day.
+    pub fn sof_zman_shma_mga_18_degrees_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+        let alos = self.alos_18_degrees()?;
+        let offset = (self.fixed_local_chatzos()? - alos) / 2;
+        Some(alos + offset)
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
+    /// according to the opinion of the *Magen Avraham* (MGA) that the day is
+    /// calculated from dawn to nightfall, but calculated using the first half
+    /// of the day only. The half a day starts at *alos* defined as 16.1&deg;
+    /// and ends at fixed local *chatzos*. *Sof Zman Shema* is 3 *shaos
+    /// zmaniyos* (solar hours) after this *alos* or half of this half-day.
+    pub fn sof_zman_shma_mga_16_1_degrees_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+        let alos = self.alos_16_1_degrees()?;
+        let offset = (self.fixed_local_chatzos()? - alos) / 2;
+        Some(alos + offset)
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
+    /// according to the opinion of the *Magen Avraham* (MGA) that the day is
+    /// calculated from dawn to nightfall, but calculated using the first half
+    /// of the day only. The half a day starts at *alos* defined as 90 minutes
+    /// before sunrise and ends at fixed local *chatzos*. *Sof Zman Shema* is 3
+    /// *shaos zmaniyos* (solar hours) after this *alos* or half of this
+    /// half-day.
+    pub fn sof_zman_shma_mga_90_minutes_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+        let alos = self.alos_90_minutes()?;
+        let offset = (self.fixed_local_chatzos()? - alos) / 2;
+        Some(alos + offset)
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
+    /// according to the opinion of the *Magen Avraham* (MGA) that the day is
+    /// calculated from dawn to nightfall, but calculated using the first half
+    /// of the day only. The half a day starts at *alos* defined as 72 minutes
+    /// before sunrise and ends at fixed local *chatzos*. *Sof Zman Shema* is 3
+    /// *shaos zmaniyos* (solar hours) after this *alos* or half of this
+    /// half-day.
+    pub fn sof_zman_shma_mga_72_minutes_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+        let alos = self.alos_72_minutes()?;
+        let offset = (self.fixed_local_chatzos()? - alos) / 2;
+        Some(alos + offset)
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
+    /// according to the opinion of the GRA that the day is calculated from
+    /// sunrise to sunset, but calculated using the first half of the day only.
+    /// The half a day starts at sunrise and ends at fixed local *chatzos*. Sof
+    /// zman Shema is 3 *shaos zmaniyos* (solar hours) after sunrise or half of
+    /// this half-day.
+    pub fn sof_zman_shma_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+        let alos = self.hanetz()?;
+        let offset = (self.fixed_local_chatzos()? - alos) / 2;
+        Some(alos + offset)
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// *sof zman tfila* (the latest time to recite the morning
+    /// prayers) according to the opinion of the GRA that the day is calculated
+    /// from sunrise to sunset, but calculated using the first half of the day
+    /// only. The half a day starts at sunrise and ends at fixed local
+    /// *chatzos*. Sof zman tefila is 4 *shaos zmaniyos* (solar hours) after
+    /// sunrise or 2/3 of this half-day.
+    pub fn sof_zman_tfila_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+        let alos = self.hanetz()?;
+        let offset = ((self.fixed_local_chatzos()? - alos) * 2) / 3;
+        Some(alos + offset)
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// mincha gedola, the earliest time one can pray mincha calculated
+    /// according to the GRA that is 30 minutes after fixed local *chatzos*.
+    pub fn mincha_gedola_gra_fixed_local_chatzos_30_minutes(&self) -> Option<DateTime<Tz>> {
+        Some(self.fixed_local_chatzos()? + TimeDelta::minutes(30))
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// mincha ketana (the preferred time to recite the mincha prayers according
+    /// to the opinion of the Rambam and others) calculated according to the GRA
+    /// that is 3.5 *shaos zmaniyos* (solar hours) after fixed local *chatzos*.
+    pub fn mincha_ketana_gra_fixed_local_chatzos_to_sunset(&self) -> Option<DateTime<Tz>> {
+        let chatzos = self.fixed_local_chatzos()?;
+        let half_shaah = (self.shkia()? - chatzos) / 12;
+        Some(chatzos + (half_shaah * 7))
+    }
+
+    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// plag hamincha. This method returns plag hamincha calculated according to
+    /// the GRA that the day ends at sunset and is 4.75 *shaos zmaniyos* (solar
+    /// hours) after fixed local *chatzos*.
+    pub fn plag_hamincha_gra_fixed_local_chatzos_to_sunset(&self) -> Option<DateTime<Tz>> {
+        let chatzos = self.fixed_local_chatzos()?;
+        // (19/24) == (4.75/6)
+        let quarter_shaah = (self.shkia()? - chatzos) / 24;
+        Some(chatzos + (quarter_shaah * 19))
+    }
+
+    /// Method to return *tzais* (dusk) calculated as 50 minutes after sea level
+    /// sunset. This method returns *tzais* (nightfall) based on the opinion of
+    /// Rabbi Moshe Feinstein for the New York area. This time should not be
+    /// used for latitudes other than ones similar to the latitude of the NY
+    /// area.
+    pub fn tzais_50(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&Minutes(50.0))
+    }
+
     // Ahavat Shalom
     /// Returns the time of *mincha gedola* based on the opinion of
     /// Rabbi Yaakov Moshe Hillel as published in the luach of the Bais Horaah
     /// of Yeshivat Chevrat Ahavat Shalom that *mincha gedola* is calculated as
     /// half a *shaah zmanis* after *chatzos* with *shaos zmaniyos* calculated
     /// based on a day starting 72 minutes before sunrise (alos 16.1&deg;) and
-    /// ending 13.5 minutes after sunset (tzais 3.7&deg;). *Mincha gedola* is
+    /// ending 13.5 minutes after sunset (*tzais* 3.7&deg;). *Mincha gedola* is
     /// the earliest time to pray *mincha*. The later of this time or 30
-    /// clock minutes after chatzos is returned. See
+    /// clock minutes after *chatzos* is returned. See
     /// [mincha_gedola_gra_greater_than_30_minutes](ComplexZmanimCalendar::mincha_gedola_gra_greater_than_30_minutes)
     /// (though that calculation is based on *mincha gedola* GRA). For more
     /// information about *mincha gedola* see the documentation on [*mincha
@@ -620,9 +739,9 @@ impl ComplexZmanimCalendar<'_> {
     }
 
     /// Returns the latest *zman* tefila (time to recite the morning prayers)
-    /// calculated as 2 hours before chatzos. This is based on the opinions that
-    /// calculate sof *zman* krias shema as [3 hours before
-    /// chatzos](ComplexZmanimCalendar::sof_zman_shema_3_hrs_before_chatzos).
+    /// calculated as 2 hours before *chatzos*. This is based on the opinions
+    /// that calculate sof *zman* krias shema as [3 hours before
+    /// *chatzos*](ComplexZmanimCalendar::sof_zman_shema_3_hrs_before_chatzos).
     pub fn sof_zman_tefila_2_hrs_before_chatzos(&self) -> Option<DateTime<Tz>> {
         Some(self.chatzos()? - TimeDelta::hours(2))
     }
