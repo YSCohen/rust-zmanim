@@ -14,10 +14,3 @@ getSofZmanBiurChametzMGA72MinutesZmanis
 getSofZmanBiurChametzMGA16Point1Degrees
 getSofZmanBiurChametzBaalHatanya
 ```
-
-# Samuch LeMincha (Near Mincha) Times
-```
-getSamuchLeMinchaKetanaGRA
-getSamuchLeMinchaKetana16Point1Degrees
-getSamuchLeMinchaKetana72Minutes
-```

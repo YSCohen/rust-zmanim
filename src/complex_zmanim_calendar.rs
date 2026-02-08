@@ -199,6 +199,18 @@ impl ComplexZmanimCalendar<'_> {
         Some(if mg_30 > mg_gra { mg_30 } else { mg_gra })
     }
 
+    /// A method for calculating *samuch lemincha ketana*, / near *mincha
+    /// ketana* time that is half an hour before [*mincha
+    /// ketana*](ComplexZmanimCalendar::mincha_ketana_gra) or is 9 *shaos
+    /// zmaniyos* (solar hours) after sunrise or sea level sunrise (depending on
+    /// `use_elevation`), calculated according to the GRA using a day starting
+    /// at sunrise and ending at sunset. This is the time that eating or other
+    /// activity can't begin prior to praying *mincha*. See the *Mechaber* and
+    /// *Mishna Berurah* 232 and 249:2.
+    pub fn samuch_lemincha_ketana_gra(&self) -> Option<DateTime<Tz>> {
+        Some(self.hanetz()? + (self.shaah_zmanis_gra()? * 9))
+    }
+
     /// Returns *mincha ketana* calculated as 9.5 * *shaos zmaniyos*
     /// (solar hours) after sunrise or sea level sunrise (depending on
     /// `use_elevation`), according to the GRA.
@@ -801,6 +813,17 @@ impl ComplexZmanimCalendar<'_> {
         ))
     }
 
+    /// A method for calculating *samuch lemincha ketana*, / near *mincha
+    /// ketana* time that is half an hour before [*mincha
+    /// ketana*](ComplexZmanimCalendar::mincha_ketana_mga_16_1_degrees) or is 9
+    /// *shaos zmaniyos* (solar hours) after the start of the day, calculated
+    /// using a day starting and ending 16.1&deg; below the horizon. This is
+    /// the time that eating or other activity can't begin prior to praying
+    /// *mincha*. See the *Mechaber* and *Mishna Berurah* 232 and 249:2.
+    pub fn samuch_lemincha_ketana_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
+        Some(self.alos_16_1_degrees()? + (self.shaah_zmanis_16_1_degrees()? * 9))
+    }
+
     /// Returns the time of *mincha ketana* according to the *Magen
     /// Avraham* with the day starting and ending 16.1&deg; below the horizon.
     /// This is the preferred earliest time to pray *mincha* according to
@@ -1237,6 +1260,18 @@ impl ComplexZmanimCalendar<'_> {
             &self.alos_72_minutes()?,
             &self.tzais_72_minutes()?,
         ))
+    }
+
+    /// A method for calculating *samuch lemincha ketana*, / near *mincha
+    /// ketana* time that is half an hour before [*mincha
+    /// ketana*](ComplexZmanimCalendar::mincha_ketana_mga_72_minutes) or is 9
+    /// *shaos zmaniyos* (solar hours) after the start of the day, calculated
+    /// using a day starting 72 minutes before sunrise and ending 72 minutes
+    /// after sunset. This is the time that eating or other activity can't begin
+    /// prior to praying *mincha*. See the *Mechaber* and *Mishna Berurah* 232
+    /// and 249:2.
+    pub fn samuch_lemincha_ketana_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
+        Some(self.alos_72_minutes()? + (self.shaah_zmanis_72_minutes()? * 9))
     }
 
     /// Returns the time of *mincha ketana* according to the *Magen
