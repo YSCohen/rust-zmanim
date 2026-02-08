@@ -516,13 +516,13 @@ impl ComplexZmanimCalendar {
     }
 
     /// This method returns Rav Moshe Feinstein's opinion of the calculation of
-    /// *sof zman tfila* (the latest time to recite the morning
+    /// *sof zman tefila* (the latest time to recite the morning
     /// prayers) according to the opinion of the GRA that the day is calculated
     /// from sunrise to sunset, but calculated using the first half of the day
     /// only. The half a day starts at sunrise and ends at fixed local
     /// *chatzos*. Sof zman tefila is 4 *shaos zmaniyos* (solar hours) after
     /// sunrise or 2/3 of this half-day.
-    pub fn sof_zman_tfila_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
+    pub fn sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
         let alos = self.hanetz()?;
         let offset = ((self.fixed_local_chatzos()? - alos) * 2) / 3;
         Some(alos + offset)
