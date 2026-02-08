@@ -561,7 +561,7 @@ impl ComplexZmanimCalendar {
     /// Rabbi Moshe Feinstein for the New York area. This time should not be
     /// used for latitudes other than ones similar to the latitude of the NY
     /// area.
-    pub fn tzais_50(&self) -> Option<DateTime<Tz>> {
+    pub fn tzais_50_minutes(&self) -> Option<DateTime<Tz>> {
         self.tzais(&Minutes(50.0))
     }
 
