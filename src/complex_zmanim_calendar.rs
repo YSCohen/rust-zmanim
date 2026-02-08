@@ -172,6 +172,15 @@ impl ComplexZmanimCalendar<'_> {
         ))
     }
 
+    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Pesach* according to the opinion of the GRA. This time is 5 hours into
+    /// the day based on the opinion of the GRA that the day is calculated from
+    /// sunrise to sunset. Since this library does not implement a calendar,
+    /// this method will return the *zman* any day of the year.
+    pub fn sof_zman_achilas_chametz_gra(&self) -> Option<DateTime<Tz>> {
+        Some(self.hanetz()? + (self.shaah_zmanis_gra()? * 5))
+    }
+
     /// Returns *mincha gedola* calculated as 6.5 * *shaos zmaniyos*
     /// (solar hours) after sunrise or sea level sunrise (depending on
     /// `use_elevation`), according to the GRA.
@@ -312,6 +321,16 @@ impl ComplexZmanimCalendar<'_> {
             &self.sunrise_baal_hatanya()?,
             &self.sunset_baal_hatanya()?,
         ))
+    }
+
+    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Pesach* according to the opinion of the Baal Hatanya. This time is 5
+    /// hours into the day based on the opinion of the Baal Hatanya that the day
+    /// is calculated from slightly before sunrise to slightly after sunset.
+    /// Since this library does not implement a calendar, this method will
+    /// return the *zman* any day of the year.
+    pub fn sof_zman_achilas_chametz_baal_hatanya(&self) -> Option<DateTime<Tz>> {
+        Some(self.alos_baal_hatanya()? + (self.shaah_zmanis_baal_hatanya()? * 5))
     }
 
     /// Returns the the *Baal Hatanya*'s *mincha gedola*. *Mincha
@@ -799,6 +818,17 @@ impl ComplexZmanimCalendar<'_> {
         ))
     }
 
+    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Pesach* according to the opinion of the *Magen Avraham* (MGA) based on
+    /// *alos* being 16.1&deg; before sunrise. This time is 5 *shaos zmaniyos*
+    /// (temporal hours) after dawn based on the opinion of the MGA that the day
+    /// is calculated from dawn to nightfall with both being 16.1&deg; below
+    /// sunrise or sunset. Since this library does not implement a calendar,
+    /// this method will return the *zman* any day of the year.
+    pub fn sof_zman_achilas_chametz_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
+        Some(self.alos_16_1_degrees()? + (self.shaah_zmanis_16_1_degrees()? * 5))
+    }
+
     /// Returns the time of *mincha gedola* according to the *Magen
     /// Avraham* with the day starting and ending 16.1&deg; below the horizon.
     /// This is the earliest time to pray *mincha*. For more information on
@@ -1248,6 +1278,17 @@ impl ComplexZmanimCalendar<'_> {
         ))
     }
 
+    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Pesach* according to the opinion of the *Magen Avraham* (MGA) based on
+    /// *alos* being 72 minutes before sunrise. This time is 5 *shaos zmaniyos*
+    /// (temporal hours) after dawn based on the opinion of the MGA that the day
+    /// is calculated from a dawn of 72 minutes before sunrise to nightfall of
+    /// 72 minutes after sunset. Since this library does not implement a
+    /// calendar, this method will return the *zman* any day of the year.
+    pub fn sof_zman_achilas_chametz_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
+        Some(self.alos_72_minutes()? + (self.shaah_zmanis_72_minutes()? * 5))
+    }
+
     /// Returns the time of *mincha gedola* according to the *Magen
     /// Avraham* with the day starting 72 minutes before sunrise and ending 72
     /// minutes after sunset. This is the earliest time to pray *mincha*. For
@@ -1373,6 +1414,18 @@ impl ComplexZmanimCalendar<'_> {
             &self.alos_72_minutes_zmanis()?,
             &self.tzais_72_minutes_zmanis()?,
         ))
+    }
+
+    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Pesach* according to the opinion of the *Magen Avraham* (MGA) based on
+    /// *alos* being 72 minutes *zmanis* before sunrise. This time is 5 *shaos
+    /// zmaniyos* (temporal hours) after dawn based on the opinion of the MGA
+    /// that the day is calculated from a dawn of 72 minutes *zmanis* before
+    /// sunrise to nightfall of 72 minutes *zmanis* after sunset. Since this
+    /// library does not implement a calendar, this method will return the
+    /// *zman* any day of the year.
+    pub fn sof_zman_achilas_chametz_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
+        Some(self.alos_72_minutes_zmanis()? + (self.shaah_zmanis_72_minutes_zmanis()? * 5))
     }
 
     /// Returns the time of *plag hamincha* according to the *Magen
