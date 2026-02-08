@@ -549,7 +549,7 @@ impl ComplexZmanimCalendar {
     /// plag hamincha. This method returns plag hamincha calculated according to
     /// the GRA that the day ends at sunset and is 4.75 *shaos zmaniyos* (solar
     /// hours) after fixed local *chatzos*.
-    pub fn plag_hamincha_gra_fixed_local_chatzos_to_sunset(&self) -> Option<DateTime<Tz>> {
+    pub fn plag_gra_fixed_local_chatzos_to_sunset(&self) -> Option<DateTime<Tz>> {
         let chatzos = self.fixed_local_chatzos()?;
         // (19/24) == (4.75/6)
         let quarter_shaah = (self.shkia()? - chatzos) / 24;
