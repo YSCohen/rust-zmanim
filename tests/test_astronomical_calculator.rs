@@ -316,3 +316,20 @@ fn test_solar_midnight() {
         assert_eq!(result, edt)
     }
 }
+
+#[test]
+fn test_local_mean_time_invalid_hours() {
+    let locations = test_helper::basic_locations();
+
+    for loc in locations {
+        let date = loc
+            .timezone
+            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
+            .unwrap();
+
+        // Test out of range hours
+        assert!(local_mean_time(&date, &loc, -0.1).is_none());
+        assert!(local_mean_time(&date, &loc, 24.0).is_none());
+        assert!(local_mean_time(&date, &loc, 25.0).is_none());
+    }
+}
