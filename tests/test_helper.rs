@@ -1,5 +1,7 @@
+pub use chrono::TimeZone;
 use chrono_tz::{America, Asia, Pacific};
-use rust_zmanim::util::geolocation::GeoLocation;
+
+use rust_zmanim::{complex_zmanim_calendar::*, util::geolocation::GeoLocation};
 
 fn lakewood() -> GeoLocation {
     GeoLocation {
@@ -55,6 +57,7 @@ fn arctic_nunavut() -> GeoLocation {
     }
 }
 
+#[allow(dead_code)]
 pub fn basic_locations() -> [GeoLocation; 6] {
     [
         lakewood(),
@@ -64,4 +67,15 @@ pub fn basic_locations() -> [GeoLocation; 6] {
         arctic_nunavut(),
         samoa(),
     ]
+}
+
+#[allow(dead_code)]
+pub fn czc_test_sample() -> ComplexZmanimCalendar {
+    ComplexZmanimCalendar {
+        geo_location: jerusalem(),
+        date: Asia::Jerusalem
+            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
+            .unwrap(),
+        use_elevation: UseElevation::No,
+    }
 }

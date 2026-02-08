@@ -1,2 +1,2 @@
-- Tests for each method of `ComplexZmanimCalendar`
+- Fix `mincha_gedola_ahavat_shalom`
 - Constructor for `ComplexZmanimCalendar`

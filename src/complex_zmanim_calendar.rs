@@ -330,7 +330,7 @@ impl ComplexZmanimCalendar {
     /// Since this library does not implement a calendar, this method will
     /// return the *zman* any day of the year.
     pub fn sof_zman_biur_chametz_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        Some(self.alos_baal_hatanya()? + (self.shaah_zmanis_baal_hatanya()? * 5))
+        Some(self.sunrise_baal_hatanya()? + (self.shaah_zmanis_baal_hatanya()? * 5))
     }
 
     /// Returns the the *Baal Hatanya*'s *mincha gedola*. *Mincha
@@ -579,10 +579,12 @@ impl ComplexZmanimCalendar {
     /// information about *mincha gedola* see the documentation on [*mincha
     /// gedola*](zmanim_calculator::mincha_gedola).
     pub fn mincha_gedola_ahavat_shalom(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_gedola(
+        let mg_as = zmanim_calculator::mincha_gedola(
             &self.alos_16_1_degrees()?,
             &self.tzais_geonim_3_7_degrees()?,
-        ))
+        );
+        let mg_30 = self.mincha_gedola_30_minutes()?;
+        Some(if mg_30 > mg_as { mg_30 } else { mg_as })
     }
 
     /// Returns the time of *mincha ketana* based on the opinion of
@@ -878,7 +880,7 @@ impl ComplexZmanimCalendar {
     /// 10.75)`. Since plag by this calculation can occur after sunset, it
     /// should only be used *lechumra*.
     pub fn plag_mga_16_1_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_16_1_degrees()?,
             &self.tzais_16_1_degrees()?,
         ))
@@ -1012,7 +1014,7 @@ impl ComplexZmanimCalendar {
     /// calculation can occur after sunset, it should only be used
     /// *lechumra*.
     pub fn plag_mga_18_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_18_degrees()?,
             &self.tzais_18_degrees()?,
         ))
@@ -1098,7 +1100,7 @@ impl ComplexZmanimCalendar {
     /// 10.75)`. Since plag by this calculation can occur after sunset, it
     /// should only be used *lechumra*.
     pub fn plag_mga_19_8_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_19_8_degrees()?,
             &self.tzais_19_8_degrees()?,
         ))
@@ -1147,7 +1149,7 @@ impl ComplexZmanimCalendar {
     /// calculation can occur after sunset, it should only be used
     /// *lechumra*.
     pub fn plag_mga_26_degrees(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_26_degrees()?,
             &self.tzais_26_degrees()?,
         ))
@@ -1206,7 +1208,7 @@ impl ComplexZmanimCalendar {
     /// formula used is `self.alos_60_minutes()? +
     /// (self.shaah_zmanis_60_minutes()? * 10.75)`
     pub fn plag_mga_60_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_60_minutes()?,
             &self.tzais_60_minutes()?,
         ))
@@ -1336,7 +1338,7 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_72_minutes()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_72_minutes()?,
             &self.tzais_72_minutes()?,
         ))
@@ -1437,7 +1439,7 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_72_minutes_zmanis()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_72_minutes_zmanis()?,
             &self.tzais_72_minutes_zmanis()?,
         ))
@@ -1524,7 +1526,7 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_90_minutes()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_90_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_90_minutes()?,
             &self.tzais_90_minutes()?,
         ))
@@ -1611,7 +1613,7 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_90_minutes_zmanis()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_90_minutes_zmanis()?,
             &self.tzais_90_minutes_zmanis()?,
         ))
@@ -1690,7 +1692,7 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_96_minutes()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_96_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_96_minutes()?,
             &self.tzais_96_minutes()?,
         ))
@@ -1772,7 +1774,7 @@ impl ComplexZmanimCalendar {
     /// (self.shaah_zmanis_96_minutes_zmanis()? * 10.75)`. Since *plag* by this
     /// calculation can occur after sunset, it should only be used *lechumra*.
     pub fn plag_mga_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_96_minutes_zmanis()?,
             &self.tzais_96_minutes_zmanis()?,
         ))
@@ -1857,7 +1859,7 @@ impl ComplexZmanimCalendar {
     /// extremely early *alos* and a very late *tzais*, it should only be
     /// used *lechumra*.
     pub fn plag_120_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_120_minutes()?,
             &self.tzais_120_minutes()?,
         ))
@@ -1916,7 +1918,7 @@ impl ComplexZmanimCalendar {
     /// an extremely early *alos* and a very late *tzais*, it should only be
     /// used *lechumra*.
     pub fn plag_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
-        Some(zmanim_calculator::mincha_ketana(
+        Some(zmanim_calculator::plag_hamincha(
             &self.alos_120_minutes_zmanis()?,
             &self.tzais_120_minutes_zmanis()?,
         ))

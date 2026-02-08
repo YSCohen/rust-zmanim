@@ -163,10 +163,6 @@ pub fn mincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// gedola*](mincha_gedola) and [*mincha ketana*](mincha_ketana), or 10.75
 /// *shaos zmaniyos* (temporal hours) after the start of the day, calculated
 /// using the start and end of the day passed to this function.
-///
-/// The time from the start of day to the end of day are divided into 12 *shaos
-/// zmaniyos*, and the latest *zman krias shema* is calculated as 9.5 of those
-/// *shaos zmaniyos* after the beginning of the day
 pub fn plag_hamincha(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 10.75)
 }
