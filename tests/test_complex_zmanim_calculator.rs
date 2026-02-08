@@ -1,6 +1,11 @@
-//! all expected times were taken from kosher_java
-//! comprehensive_zmanim_calendar.java, with added precision (= hopefully added
-//! accuracy)
+//! All expected times were taken from KosherJava's
+//! `ComprehensiveZmanimCalendar.java`. I created the tests by doing a lot of
+//! strange regexes on the output of a Java method that printed results from
+//! every method in `ComprehensiveZmanimCalendar`, so the order of the tests
+//! does not correspond to my order in `complex_zmanim_calendar.rs`. The tests
+//! only check to the second, because for the fractional seconds I would have
+//! had to update each one to the greater precision (!= accuracy) over
+//! KosherJava offered by this library
 
 mod test_helper;
 
@@ -1699,5 +1704,176 @@ pub fn test_sof_zman_shema_gra() {
             .format("%Y-%m-%d %H:%M:%S %Z")
             .to_string(),
         "2017-10-17 09:33:56 IDT"
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_gra() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(czc.shaah_zmanis_gra().unwrap().num_milliseconds(), 3404427)
+}
+
+#[test]
+pub fn test_shaah_zmanis_19_8_degrees() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_19_8_degrees().unwrap().num_milliseconds(),
+        4301331
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_16_1_degrees() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_16_1_degrees().unwrap().num_milliseconds(),
+        4127245
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_72_minutes_zmanis() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_72_minutes_zmanis()
+            .unwrap()
+            .num_milliseconds(),
+        4085312
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_90_minutes_zmanis() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_90_minutes_zmanis()
+            .unwrap()
+            .num_milliseconds(),
+        4255534
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_18_degrees() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_18_degrees().unwrap().num_milliseconds(),
+        4216641
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_26_degrees() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_26_degrees().unwrap().num_milliseconds(),
+        4593504
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_60_minutes() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_60_minutes().unwrap().num_milliseconds(),
+        4004427
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_72_minutes() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_72_minutes().unwrap().num_milliseconds(),
+        4124427
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_90_minutes() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_90_minutes().unwrap().num_milliseconds(),
+        4304427
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_96_minutes_zmanis() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_96_minutes_zmanis()
+            .unwrap()
+            .num_milliseconds(),
+        4312274
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_ateret_torah() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_ateret_torah().unwrap().num_milliseconds(),
+        3944870
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_alos_16_1_to_tzais_3_8() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_alos_16_1_to_tzais_3_8()
+            .unwrap()
+            .num_milliseconds(),
+        3836747
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_alos_16_1_to_tzais_3_7() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_alos_16_1_to_tzais_3_7()
+            .unwrap()
+            .num_milliseconds(),
+        3834368
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_96_minutes() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_96_minutes().unwrap().num_milliseconds(),
+        4364427
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_120_minutes() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_120_minutes().unwrap().num_milliseconds(),
+        4604427
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_120_minutes_zmanis() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_120_minutes_zmanis()
+            .unwrap()
+            .num_milliseconds(),
+        4539236
+    )
+}
+
+#[test]
+pub fn test_shaah_zmanis_baal_hatanya() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.shaah_zmanis_baal_hatanya().unwrap().num_milliseconds(),
+        3440274
     )
 }

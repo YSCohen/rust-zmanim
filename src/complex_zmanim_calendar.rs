@@ -172,7 +172,7 @@ impl ComplexZmanimCalendar {
         ))
     }
 
-    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Returns the latest time for burning *chametz* on *Erev
     /// Pesach* according to the opinion of the GRA. This time is 5 hours into
     /// the day based on the opinion of the GRA that the day is calculated from
     /// sunrise to sunset. Since this library does not implement a calendar,
@@ -323,7 +323,7 @@ impl ComplexZmanimCalendar {
         ))
     }
 
-    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Returns the latest time for burning *chametz* on *Erev
     /// Pesach* according to the opinion of the Baal Hatanya. This time is 5
     /// hours into the day based on the opinion of the Baal Hatanya that the day
     /// is calculated from slightly before sunrise to slightly after sunset.
@@ -448,7 +448,7 @@ impl ComplexZmanimCalendar {
         zmanim_calculator::fixed_local_chatzos(&self.date, &self.geo_location)
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
     /// according to the opinion of the *Magen Avraham* (MGA) that the day is
     /// calculated from dawn to nightfall, but calculated using the first half
@@ -461,7 +461,7 @@ impl ComplexZmanimCalendar {
         Some(alos + offset)
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
     /// according to the opinion of the *Magen Avraham* (MGA) that the day is
     /// calculated from dawn to nightfall, but calculated using the first half
@@ -474,7 +474,7 @@ impl ComplexZmanimCalendar {
         Some(alos + offset)
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
     /// according to the opinion of the *Magen Avraham* (MGA) that the day is
     /// calculated from dawn to nightfall, but calculated using the first half
@@ -488,7 +488,7 @@ impl ComplexZmanimCalendar {
         Some(alos + offset)
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
     /// according to the opinion of the *Magen Avraham* (MGA) that the day is
     /// calculated from dawn to nightfall, but calculated using the first half
@@ -502,7 +502,7 @@ impl ComplexZmanimCalendar {
         Some(alos + offset)
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// *sof zman krias shema* (latest time to recite *Shema* in the morning)
     /// according to the opinion of the GRA that the day is calculated from
     /// sunrise to sunset, but calculated using the first half of the day only.
@@ -515,7 +515,7 @@ impl ComplexZmanimCalendar {
         Some(alos + offset)
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// *sof zman tefila* (the latest time to recite the morning
     /// prayers) according to the opinion of the GRA that the day is calculated
     /// from sunrise to sunset, but calculated using the first half of the day
@@ -528,14 +528,14 @@ impl ComplexZmanimCalendar {
         Some(alos + offset)
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// mincha gedola, the earliest time one can pray mincha calculated
     /// according to the GRA that is 30 minutes after fixed local *chatzos*.
     pub fn mincha_gedola_gra_fixed_local_chatzos_30_minutes(&self) -> Option<DateTime<Tz>> {
         Some(self.fixed_local_chatzos()? + TimeDelta::minutes(30))
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// mincha ketana (the preferred time to recite the mincha prayers according
     /// to the opinion of the Rambam and others) calculated according to the GRA
     /// that is 3.5 *shaos zmaniyos* (solar hours) after fixed local *chatzos*.
@@ -545,7 +545,7 @@ impl ComplexZmanimCalendar {
         Some(chatzos + (half_shaah * 7))
     }
 
-    /// This method returns Rav Moshe Feinstein's opinion of the calculation of
+    /// Returns Rav Moshe Feinstein's opinion of the calculation of
     /// plag hamincha. This method returns plag hamincha calculated according to
     /// the GRA that the day ends at sunset and is 4.75 *shaos zmaniyos* (solar
     /// hours) after fixed local *chatzos*.
@@ -817,7 +817,7 @@ impl ComplexZmanimCalendar {
         ))
     }
 
-    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Returns the latest time for burning *chametz* on *Erev
     /// Pesach* according to the opinion of the *Magen Avraham* (MGA) based on
     /// *alos* being 16.1&deg; before sunrise. This time is 5 *shaos zmaniyos*
     /// (temporal hours) after dawn based on the opinion of the MGA that the day
@@ -920,6 +920,7 @@ impl ComplexZmanimCalendar {
         ))
     }
 
+    // seems like this method was removed from KJ
     /// This method should be used *lechumra* only and returns the time of *plag
     /// hamincha* based on the opinion that the day starts at *alos* 16.1&deg;
     /// and ends at sunset. 10.75 *shaos zmaniyos* are calculated based on
@@ -1277,7 +1278,7 @@ impl ComplexZmanimCalendar {
         ))
     }
 
-    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Returns the latest time for burning *chametz* on *Erev
     /// Pesach* according to the opinion of the *Magen Avraham* (MGA) based on
     /// *alos* being 72 minutes before sunrise. This time is 5 *shaos zmaniyos*
     /// (temporal hours) after dawn based on the opinion of the MGA that the day
@@ -1416,7 +1417,7 @@ impl ComplexZmanimCalendar {
         ))
     }
 
-    /// This method returns the latest time for burning *chametz* on *Erev
+    /// Returns the latest time for burning *chametz* on *Erev
     /// Pesach* according to the opinion of the *Magen Avraham* (MGA) based on
     /// *alos* being 72 minutes *zmanis* before sunrise. This time is 5 *shaos
     /// zmaniyos* (temporal hours) after dawn based on the opinion of the MGA
@@ -2119,7 +2120,7 @@ impl ComplexZmanimCalendar {
         self.tzais(&Degrees(13.24))
     }
 
-    /// This method returns the beginning of *bein hashmashos* of Rabbeinu Tam
+    /// Returns the beginning of *bein hashmashos* of Rabbeinu Tam
     /// calculated as a 58.5-minute offset after sunset. *bein hashmashos* is
     /// 3/4 of a mil before *tzais* or 3 1/4 mil after sunset. With a mil
     /// calculated as 18 minutes, 3.25 * 18 = 58.5 minutes.
@@ -2127,14 +2128,14 @@ impl ComplexZmanimCalendar {
         self.tzais(&Minutes(58.5))
     }
 
-    /// This method returns the beginning of *bein hashmashos* based on the
+    /// Returns the beginning of *bein hashmashos* based on the
     /// calculation of 13.5 minutes (3/4 of an 18-minute mil) before *shkiah*
     /// calculated as 7.083&deg;.
     pub fn bein_hashmashos_rt_13_5_minutes_before_7_083_degrees(&self) -> Option<DateTime<Tz>> {
         Some(self.tzais_geonim_7_083_degrees()? - TimeDelta::seconds(810))
     }
 
-    /// This method returns the beginning of *bein hashmashos* of Rabbeinu Tam
+    /// Returns the beginning of *bein hashmashos* of Rabbeinu Tam
     /// calculated according to the opinion of the Divrei Yosef (see Yisrael
     /// Vehazmanim) calculated 5/18th (27.77%) of the time between alos
     /// (calculated as 19.8&deg; before sunrise) and sunrise. This is added to

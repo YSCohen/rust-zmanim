@@ -1,2 +1,2 @@
-- Fix `mincha_gedola_ahavat_shalom`
+- tests for generic `..._mga()` functions
 - Constructor for `ComplexZmanimCalendar`
