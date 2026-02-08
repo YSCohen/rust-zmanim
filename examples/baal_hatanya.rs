@@ -17,8 +17,8 @@ fn main() {
     };
 
     let czc = ComplexZmanimCalendar {
-        geo_location: &kosel,
-        date: &today,
+        geo_location: kosel,
+        date: today,
         use_elevation: UseElevation::No,
     };
 

@@ -51,8 +51,8 @@ if let Some(tzais_pi_degrees) = zmanim_calculator::tzais(
 // location, convenient for getting many zmanim for the same point in 4D space.
 // It also has many common zmanim pre-made
 let czc = ComplexZmanimCalendar {
-    geo_location: &beit_meir,
-    date: &dt,
+    geo_location: beit_meir,
+    date: dt,
     use_elevation: UseElevation::No,
 };
 

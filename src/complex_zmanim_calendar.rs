@@ -14,13 +14,13 @@ use chrono_tz::Tz;
 /// (and uncommon) *zmanim*. **Elevation based *zmanim* (even sunrise and
 /// sunset) should not be used *lekula* without the guidance of a *posek***. See
 /// the documentation of [zmanim_calculator] for more details.
-pub struct ComplexZmanimCalendar<'a> {
+pub struct ComplexZmanimCalendar {
     /// Location at which to calculate *zmanim*
-    pub geo_location: &'a GeoLocation,
+    pub geo_location: GeoLocation,
 
     /// Day for which to calculate *zmanim*. Time does not (should not) affect
     /// the calculations
-    pub date: &'a DateTime<Tz>,
+    pub date: DateTime<Tz>,
 
     /// When to account for elevation. See [UseElevation]
     pub use_elevation: UseElevation,
@@ -37,21 +37,21 @@ pub struct ComplexZmanimCalendar<'a> {
 ///    *Chatzos*...)
 ///
 /// All *shaos zmaniyos* are in minutes
-impl ComplexZmanimCalendar<'_> {
+impl ComplexZmanimCalendar {
     // Basics
     /// Returns *alos hashachar* (dawn) based on either declination of the sun
     /// below the horizon, a fixed time offset, or a minutes *zmaniyos*
     /// (temporal minutes) offset before sunrise
     pub fn alos(&self, offset: &ZmanOffset) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(false);
-        zmanim_calculator::alos(self.date, self.geo_location, use_elevation, offset)
+        zmanim_calculator::alos(&self.date, &self.geo_location, use_elevation, offset)
     }
 
     /// Returns *hanetz*, or sunrise. Will be elevation-adjusted or not
     /// depending on `use_elevation`
     pub fn hanetz(&self) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(true);
-        zmanim_calculator::hanetz(self.date, self.geo_location, use_elevation)
+        zmanim_calculator::hanetz(&self.date, &self.geo_location, use_elevation)
     }
 
     /// Returns the latest *zman krias shema* (time to recite *Shema* in the
@@ -78,7 +78,7 @@ impl ComplexZmanimCalendar<'_> {
 
     /// Returns Astronomical *chatzos*
     pub fn chatzos(&self) -> Option<DateTime<Tz>> {
-        zmanim_calculator::chatzos(self.date, self.geo_location)
+        zmanim_calculator::chatzos(&self.date, &self.geo_location)
     }
 
     /// Returns *mincha gedola* according to the opinion of the *Magen Avraham*
@@ -116,14 +116,14 @@ impl ComplexZmanimCalendar<'_> {
     /// [zmanim_calculator::mincha_gedola]. See
     /// [zmanim_calculator::mincha_gedola_30_minutes] for more details
     pub fn mincha_gedola_30_minutes(&self) -> Option<DateTime<Tz>> {
-        zmanim_calculator::mincha_gedola_30_minutes(self.date, self.geo_location)
+        zmanim_calculator::mincha_gedola_30_minutes(&self.date, &self.geo_location)
     }
 
     /// Returns *shkia*, or sunset. Will be elevation-adjusted or not depending
     /// on `use_elevation`
     pub fn shkia(&self) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(true);
-        zmanim_calculator::shkia(self.date, self.geo_location, use_elevation)
+        zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)
     }
 
     /// Returns *tzais* (nightfall) based on either declination of the sun below
@@ -131,7 +131,7 @@ impl ComplexZmanimCalendar<'_> {
     /// minutes) offset after sunset
     pub fn tzais(&self, offset: &ZmanOffset) -> Option<DateTime<Tz>> {
         let use_elevation = self.use_elevation.to_bool(false);
-        zmanim_calculator::tzais(self.date, self.geo_location, use_elevation, offset)
+        zmanim_calculator::tzais(&self.date, &self.geo_location, use_elevation, offset)
     }
 
     // GRA
@@ -445,7 +445,7 @@ impl ComplexZmanimCalendar<'_> {
     /// Returns fixed local *chatzos*. See
     /// [zmanim_calculator::fixed_local_chatzos] for more details
     pub fn fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
-        zmanim_calculator::fixed_local_chatzos(self.date, self.geo_location)
+        zmanim_calculator::fixed_local_chatzos(&self.date, &self.geo_location)
     }
 
     /// This method returns Rav Moshe Feinstein's opinion of the calculation of
@@ -2332,8 +2332,8 @@ mod tests {
         };
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
         let czc1 = ComplexZmanimCalendar {
-            geo_location: &loc1,
-            date: &date1,
+            geo_location: loc1,
+            date: date1,
             use_elevation: UseElevation::No,
         };
         let chatzos1 = czc1.fixed_local_chatzos().unwrap().to_string();
@@ -2347,8 +2347,8 @@ mod tests {
         };
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 4, 0, 0, 0).unwrap();
         let czc2 = ComplexZmanimCalendar {
-            geo_location: &loc2,
-            date: &date2,
+            geo_location: loc2,
+            date: date2,
             use_elevation: UseElevation::No,
         };
         let chatzos2 = czc2.fixed_local_chatzos().unwrap().to_string();
@@ -2366,8 +2366,8 @@ mod tests {
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
         let czc1 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date1,
+            geo_location: loc.clone(),
+            date: date1,
             use_elevation: UseElevation::No,
         };
         let alos1 = czc1.alos_120_minutes().unwrap().to_string();
@@ -2375,8 +2375,8 @@ mod tests {
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let czc2 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date2,
+            geo_location: loc.clone(),
+            date: date2,
             use_elevation: UseElevation::No,
         };
         let alos2 = czc2.alos_120_minutes().unwrap().to_string();
@@ -2384,8 +2384,8 @@ mod tests {
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let czc3 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date3,
+            geo_location: loc.clone(),
+            date: date3,
             use_elevation: UseElevation::No,
         };
         let alos3 = czc3.alos_120_minutes().unwrap().to_string();
@@ -2393,8 +2393,8 @@ mod tests {
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
         let czc4 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date4,
+            geo_location: loc,
+            date: date4,
             use_elevation: UseElevation::No,
         };
         let alos4 = czc4.alos_120_minutes().unwrap().to_string();
@@ -2412,8 +2412,8 @@ mod tests {
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
         let czc1 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date1,
+            geo_location: loc.clone(),
+            date: date1,
             use_elevation: UseElevation::No,
         };
         let alos1 = czc1.tzais_72_minutes_zmanis().unwrap().to_string();
@@ -2421,8 +2421,8 @@ mod tests {
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let czc2 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date2,
+            geo_location: loc.clone(),
+            date: date2,
             use_elevation: UseElevation::No,
         };
         let alos2 = czc2.tzais_72_minutes_zmanis().unwrap().to_string();
@@ -2430,8 +2430,8 @@ mod tests {
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let czc3 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date3,
+            geo_location: loc.clone(),
+            date: date3,
             use_elevation: UseElevation::No,
         };
         let alos3 = czc3.tzais_72_minutes_zmanis().unwrap().to_string();
@@ -2439,8 +2439,8 @@ mod tests {
 
         let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
         let czc4 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date4,
+            geo_location: loc,
+            date: date4,
             use_elevation: UseElevation::No,
         };
         let alos4 = czc4.tzais_72_minutes_zmanis().unwrap().to_string();
@@ -2458,8 +2458,8 @@ mod tests {
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
         let czc1 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date1,
+            geo_location: loc.clone(),
+            date: date1,
             use_elevation: UseElevation::HanetzShkia,
         };
         let alos1 = czc1.hanetz().unwrap().to_string();
@@ -2467,8 +2467,8 @@ mod tests {
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
         let czc2 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date2,
+            geo_location: loc.clone(),
+            date: date2,
             use_elevation: UseElevation::HanetzShkia,
         };
         let alos2 = czc2.hanetz().unwrap().to_string();
@@ -2476,8 +2476,8 @@ mod tests {
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
         let czc3 = ComplexZmanimCalendar {
-            geo_location: &loc,
-            date: &date3,
+            geo_location: loc,
+            date: date3,
             use_elevation: UseElevation::HanetzShkia,
         };
         let alos3 = czc3.hanetz().unwrap().to_string();
