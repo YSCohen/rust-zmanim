@@ -579,10 +579,7 @@ impl ComplexZmanimCalendar {
     /// information about *mincha gedola* see the documentation on [*mincha
     /// gedola*](zmanim_calculator::mincha_gedola).
     pub fn mincha_gedola_ahavat_shalom(&self) -> Option<DateTime<Tz>> {
-        let mg_as = zmanim_calculator::mincha_gedola(
-            &self.alos_16_1_degrees()?,
-            &self.tzais_geonim_3_7_degrees()?,
-        );
+        let mg_as = self.chatzos()? + (self.shaah_zmanis_alos_16_1_to_tzais_3_7()? / 2);
         let mg_30 = self.mincha_gedola_30_minutes()?;
         Some(if mg_30 > mg_as { mg_30 } else { mg_as })
     }
