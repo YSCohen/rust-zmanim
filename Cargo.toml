@@ -2,7 +2,7 @@
 name = "rust-zmanim"
 description = "Rust Zmanim Library"
 readme = "README.md"
-version = "0.1.17"
+version = "0.1.18"
 edition = "2024"
 license = "LGPL-2.1-or-later"
 categories = ["date-and-time", "science", "mathematics"]
