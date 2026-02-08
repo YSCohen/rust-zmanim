@@ -1269,8 +1269,8 @@ impl ComplexZmanimCalendar<'_> {
     /// *alos*being 72 minutes before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the day is
     /// calculated from a dawn of 72 minutes before sunrise to nightfall of 72
-    /// minutes after sunset. This returns the time of `self.alos_72_minutes()?
-    /// + (self.shaah_zmanis_72_minutes()? * 4.0)`
+    /// minutes after sunset. This returns the time of
+    /// `self.alos_72_minutes()? + (self.shaah_zmanis_72_minutes()? * 4.0)`
     pub fn sof_zman_tefila_mga_72_minutes(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_72_minutes()?,
@@ -1407,8 +1407,9 @@ impl ComplexZmanimCalendar<'_> {
     /// zmaniyos* (solar hours) after dawn based on the opinion of the MGA
     /// that the day is calculated from a dawn of 72 minutes *zmaniyos*
     /// before sunrise to nightfall of 72 minutes *zmaniyos* after sunset.
-    /// This returns the time of `self.alos_72_minutes_zmanis()?
-    /// + (self.shaah_zmanis_72_minutes_zmanis()? * 4.0)`
+    /// This returns the time of
+    /// `self.alos_72_minutes_zmanis()? +
+    /// (self.shaah_zmanis_72_minutes_zmanis()? * 4.0)`
     pub fn sof_zman_tefila_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_72_minutes_zmanis()?,
@@ -1507,8 +1508,8 @@ impl ComplexZmanimCalendar<'_> {
     /// *alos*being 90 minutes before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the day is
     /// calculated from a dawn of 90 minutes before sunrise to nightfall of 90
-    /// minutes after sunset. This returns the time of `self.alos_90_minutes()?
-    /// + (self.shaah_zmanis_90_minutes()? * 4.0)`
+    /// minutes after sunset. This returns the time of
+    /// `self.alos_90_minutes()? + (self.shaah_zmanis_90_minutes()? * 4.0)`
     pub fn sof_zman_tefila_mga_90_minutes(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_90_minutes()?,
@@ -1592,8 +1593,9 @@ impl ComplexZmanimCalendar<'_> {
     /// zmaniyos* (solar hours) after dawn based on the opinion of the MGA
     /// that the day is calculated from a dawn of 90 minutes *zmaniyos*
     /// before sunrise to nightfall of 90 minutes *zmaniyos* after sunset.
-    /// This returns the time of `self.alos_90_minutes_zmanis()?
-    /// + (self.shaah_zmanis_90_minutes_zmanis()? * 4.0)`
+    /// This returns the time of
+    /// `self.alos_90_minutes_zmanis()? +
+    /// (self.shaah_zmanis_90_minutes_zmanis()? * 4.0)`
     pub fn sof_zman_tefila_mga_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_90_minutes_zmanis()?,
@@ -1753,8 +1755,8 @@ impl ComplexZmanimCalendar<'_> {
     /// zmaniyos* (solar hours) after dawn based on the opinion of the MGA
     /// that the day is calculated from a dawn of 96 minutes *zmaniyos*
     /// before sunrise to nightfall of 96 minutes *zmaniyos* after sunset.
-    /// This returns the time of `self.alos_96_minutes_zmanis()?
-    /// + (self.shaah_zmanis_96_minutes_zmanis()? * 4.0)`
+    /// This returns the time of `self.alos_96_minutes_zmanis()? +
+    /// (self.shaah_zmanis_96_minutes_zmanis()? * 4.0)`
     pub fn sof_zman_tefila_mga_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_96_minutes_zmanis()?,
@@ -1837,8 +1839,9 @@ impl ComplexZmanimCalendar<'_> {
     /// *alos*being 120 minutes before sunrise. This time is 4 *shaos zmaniyos*
     /// (solar hours) after dawn based on the opinion of the MGA that the day is
     /// calculated from a dawn of 120 minutes before sunrise to nightfall of 120
-    /// minutes after sunset. This returns the time of `self.alos_120_minutes()?
-    /// + (self.shaah_zmanis_120_minutes()? * 4.0)`
+    /// minutes after sunset. This returns the time of
+    /// `self.alos_120_minutes()? +
+    /// (self.shaah_zmanis_120_minutes()? * 4.0)`
     pub fn sof_zman_tefila_mga_120_minutes(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_tefila(
             &self.alos_120_minutes()?,
