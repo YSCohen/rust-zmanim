@@ -1,6 +1,6 @@
 /target
-.vscode/
-.alt/
+/.vscode
+/.alt
 *.ods
 *.xlsx
 .~*
