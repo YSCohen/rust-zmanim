@@ -973,6 +973,18 @@ pub fn test_plag_mga_18_degrees() {
 }
 
 #[test]
+pub fn test_plag_alos_16_1_degrees_to_sunset() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.plag_alos_16_1_degrees_to_sunset()
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 16:46:08 IDT"
+    )
+}
+
+#[test]
 pub fn test_plag_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(

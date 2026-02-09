@@ -330,4 +330,32 @@ mod tests {
             offset_by_minutes_zmanis(&midnight, 43.5, shaah).to_string();
         assert_eq!(twelve_fourty_three_thirty, "2025-08-04 00:43:30 IDT")
     }
+
+    #[test]
+    fn test_elevation_shkia() {
+        let loc = GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            elevation: 586.19,
+            timezone: Jerusalem,
+        };
+
+        let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
+        let shkia1 = shkia(&date1, &loc, true)
+            .unwrap()
+            .to_string();
+        assert_eq!(shkia1, "2025-08-04 19:37:50.664750888 IDT");
+
+        let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
+        let shkia2 = shkia(&date2, &loc, true)
+            .unwrap()
+            .to_string();
+        assert_eq!(shkia2, "2025-01-26 17:12:37.244169500 IST");
+
+        let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
+        let shkia3 = shkia(&date3, &loc, true)
+            .unwrap()
+            .to_string();
+        assert_eq!(shkia3, "2005-05-15 19:33:44.453393419 IDT");
+    }
 }
