@@ -1318,7 +1318,7 @@ impl ComplexZmanimCalendar {
     pub fn alos_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.alos(&MinutesZmaniyos {
             minutes_zmaniyos: 72.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1335,7 +1335,7 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_shema_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.sof_zman_shema_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 72.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1351,7 +1351,7 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_tefila_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.sof_zman_tefila_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 72.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1377,7 +1377,7 @@ impl ComplexZmanimCalendar {
     pub fn plag_mga_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.plag_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 72.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1395,7 +1395,7 @@ impl ComplexZmanimCalendar {
     pub fn tzais_72_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.tzais(&MinutesZmaniyos {
             minutes_zmaniyos: 72.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1410,7 +1410,7 @@ impl ComplexZmanimCalendar {
     pub fn shaah_zmanis_72_minutes_zmanis(&self) -> Option<TimeDelta> {
         self.shaah_zmanis(&MinutesZmaniyos {
             minutes_zmaniyos: 72.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1493,7 +1493,7 @@ impl ComplexZmanimCalendar {
     pub fn alos_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.alos(&MinutesZmaniyos {
             minutes_zmaniyos: 90.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1509,7 +1509,7 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_shema_mga_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.sof_zman_shema_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 90.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1525,7 +1525,7 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_tefila_mga_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.sof_zman_tefila_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 90.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1539,7 +1539,7 @@ impl ComplexZmanimCalendar {
     pub fn plag_mga_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.plag_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 90.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1549,7 +1549,7 @@ impl ComplexZmanimCalendar {
     pub fn tzais_90_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.tzais(&MinutesZmaniyos {
             minutes_zmaniyos: 90.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1564,7 +1564,7 @@ impl ComplexZmanimCalendar {
     pub fn shaah_zmanis_90_minutes_zmanis(&self) -> Option<TimeDelta> {
         self.shaah_zmanis(&MinutesZmaniyos {
             minutes_zmaniyos: 90.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1643,7 +1643,7 @@ impl ComplexZmanimCalendar {
     pub fn alos_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.alos(&MinutesZmaniyos {
             minutes_zmaniyos: 96.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1659,7 +1659,7 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_shema_mga_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.sof_zman_shema_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 96.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1674,7 +1674,7 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_tefila_mga_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.sof_zman_tefila_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 96.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1688,7 +1688,7 @@ impl ComplexZmanimCalendar {
     pub fn plag_mga_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.plag_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 96.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1697,7 +1697,7 @@ impl ComplexZmanimCalendar {
     pub fn tzais_96_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.tzais(&MinutesZmaniyos {
             minutes_zmaniyos: 96.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1712,7 +1712,7 @@ impl ComplexZmanimCalendar {
     pub fn shaah_zmanis_96_minutes_zmanis(&self) -> Option<TimeDelta> {
         self.shaah_zmanis(&MinutesZmaniyos {
             minutes_zmaniyos: 96.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1806,7 +1806,7 @@ impl ComplexZmanimCalendar {
     pub fn alos_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.alos(&MinutesZmaniyos {
             minutes_zmaniyos: 120.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1820,7 +1820,7 @@ impl ComplexZmanimCalendar {
     pub fn plag_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.plag_mga(&MinutesZmaniyos {
             minutes_zmaniyos: 120.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1833,7 +1833,7 @@ impl ComplexZmanimCalendar {
     pub fn tzais_120_minutes_zmanis(&self) -> Option<DateTime<Tz>> {
         self.tzais(&MinutesZmaniyos {
             minutes_zmaniyos: 120.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 
@@ -1851,7 +1851,7 @@ impl ComplexZmanimCalendar {
     pub fn shaah_zmanis_120_minutes_zmanis(&self) -> Option<TimeDelta> {
         self.shaah_zmanis(&MinutesZmaniyos {
             minutes_zmaniyos: 120.0,
-            shaah_zmanis: &self.shaah_zmanis_gra()?,
+            shaah_zmanis: self.shaah_zmanis_gra()?,
         })
     }
 

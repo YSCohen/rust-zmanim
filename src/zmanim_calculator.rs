@@ -47,7 +47,7 @@ pub fn alos(
         } => Some(offset_by_minutes_zmanis(
             &hanetz(date, geo_location, use_elevation)?,
             -minz,
-            **shaah,
+            *shaah,
         )),
     }
 }
@@ -208,7 +208,7 @@ pub fn tzais(
             shaah_zmanis: shaah,
         } => {
             let sunset = shkia(date, geo_location, use_elevation)?;
-            Some(offset_by_minutes_zmanis(&sunset, *minz, **shaah))
+            Some(offset_by_minutes_zmanis(&sunset, *minz, *shaah))
         }
     }
 }
@@ -246,7 +246,7 @@ fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) 
 }
 
 /// Offset used for *alos* or *tzais*
-pub enum ZmanOffset<'a> {
+pub enum ZmanOffset {
     /// Some degrees under the horizon
     Degrees(f64),
 
@@ -259,7 +259,7 @@ pub enum ZmanOffset<'a> {
         minutes_zmaniyos: f64,
         /// Length of a *shaah zmanis* in minutes. Each minute *zmanis* will be
         /// 1/60 of this
-        shaah_zmanis: &'a TimeDelta,
+        shaah_zmanis: TimeDelta,
     },
 }
 
