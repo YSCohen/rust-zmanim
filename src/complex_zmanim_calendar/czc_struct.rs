@@ -12,9 +12,7 @@ use pastey::paste;
 
 /// Struct to store a 4-dimensional location and settings, to simplify getting
 /// many *zmanim* for the same location. Has premade methods for many common
-/// (and uncommon) *zmanim*. **Elevation based *zmanim* (even sunrise and
-/// sunset) should not be used *lekula* without the guidance of a *posek***. See
-/// the documentation of [zmanim_calculator] for more details.
+/// (and uncommon) *zmanim*. (see `impl` block)
 pub struct ComplexZmanimCalendar {
     /// Location at which to calculate *zmanim*
     pub geo_location: GeoLocation,
@@ -27,19 +25,13 @@ pub struct ComplexZmanimCalendar {
     pub use_elevation: UseElevation,
 }
 
-/// I tried to put the methods in some sort of order just to keep it organized.
-/// Currently, it's:
-/// 1. Basics from [zmanim_calculator]
-/// 2. Named *shitos*, no order
-/// 3. MGA degrees-based, ascending
-/// 4. MGA minutes-based, zmanis after fixed (e.g. 72 minutes, 72 minutes
-///    zmanis, 90 minutes...)
-/// 5. Other *zmanim*, sorted by time of day (*Misheyakir*, *Hanetz*,
-///    *Chatzos*...)
-///
 /// Where unspecified, when sunrise and sunset are mentioned in the calculation
 /// of other *zmanim*, they will be sea-level or elevation-based depending on
 /// the value of `use_elevation`
+///
+/// **Elevation-based *zmanim* (even sunrise and sunset) should not be used
+/// *lekula* without the guidance of a *posek***. See the documentation of
+/// [zmanim_calculator] for more details.
 impl ComplexZmanimCalendar {
     // Basics
     /// Returns *alos hashachar* (dawn) based on either declination of the sun
@@ -270,10 +262,11 @@ impl ComplexZmanimCalendar {
     /// Returns the *Baal Hatanya*'s *alos* (dawn) calculated as the time when
     /// the sun is 16.9&deg; below the eastern geometric horizon before sunrise.
     /// It is based on the calculation that the time between dawn and
-    /// *hanetz amiti* (sunrise) is 72 minutes, the time that is takes to walk 4
-    /// *mil* at 18 minutes a *mil* (*Rambam* and others). The sun's
-    /// position at 72 minutes before *hanetz amiti* (sunrise) in Jerusalem
-    /// around the equinox / equilux is 16.9&deg; below geometric zenith.
+    /// [*hanetz amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) (sunrise)
+    /// is 72 minutes, the time that is takes to walk 4 *mil* at 18 minutes
+    /// a *mil* (*Rambam* and others). The sun's position at 72 minutes
+    /// before *hanetz amiti* (sunrise) in Jerusalem around the equinox /
+    /// equilux is 16.9&deg; below geometric zenith.
     pub fn alos_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.alos(&Degrees(16.9))
     }
@@ -330,8 +323,8 @@ impl ComplexZmanimCalendar {
     /// the top of the sun's disk disappears from view at an elevation similar
     /// to the mountains of *Eretz Yisrael*. This time is calculated as the
     /// point at which the center of the sun's disk is 1.583 degrees below the
-    /// horizon. The calculations are based on a day from sea level [*hanetz
-    /// amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) to sea level
+    /// horizon. The calculations are based on a day from [*hanetz
+    /// amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) to
     /// [*shkiah amiti*](ComplexZmanimCalendar::sunset_baal_hatanya). The day is
     /// split into 12 equal parts with each one being a *shaah zmanis*.
     pub fn shaah_zmanis_baal_hatanya(&self) -> Option<TimeDelta> {
@@ -340,7 +333,9 @@ impl ComplexZmanimCalendar {
 
     /// Returns the the *Baal Hatanya*'s *sof *zman* krias shema*
     /// (latest time to recite *Shema* in the morning). This time is 3
-    /// *shaos zmaniyos* (solar hours) after *hanetz amiti* (sunrise) based on
+    /// of the [*Baal Hatanya*'s temporal
+    /// hours](ComplexZmanimCalendar::shaah_zmanis_baal_hatanya) after [*hanetz
+    /// amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) (sunrise) based on
     /// the opinion of the *Baal Hatanya* that the day is calculated from
     /// sunrise to sunset.
     pub fn sof_zman_shema_baal_hatanya(&self) -> Option<DateTime<Tz>> {
@@ -348,20 +343,24 @@ impl ComplexZmanimCalendar {
     }
 
     /// Returns the the *Baal Hatanya*'s *sof *zman* tefila* (latest
-    /// time to recite the morning prayers). This time is 4 *shaos zmaniyos*
-    /// (solar hours) after *hanetz amiti* (sunrise) based on the opinion of
-    /// the *Baal Hatanya* that the day is calculated from sunrise to
-    /// sunset.
+    /// time to recite the morning prayers). This time is 4 of the [*Baal
+    /// Hatanya*'s temporal
+    /// hours](ComplexZmanimCalendar::shaah_zmanis_baal_hatanya) after [*hanetz
+    /// amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) (sunrise) based on
+    /// the opinion of the *Baal Hatanya* that the day is calculated from
+    /// sunrise to sunset.
     pub fn sof_zman_tefila_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.sof_zman_tefila_mga(&Degrees(1.583))
     }
 
     /// Returns the latest time for burning *chametz* on *Erev
     /// Pesach* according to the opinion of the Baal Hatanya. This time is 5
-    /// hours into the day based on the opinion of the Baal Hatanya that the day
-    /// is calculated from slightly before sunrise to slightly after sunset.
-    /// Since this library does not implement a calendar, this method will
-    /// return the *zman* any day of the year.
+    /// of the [*Baal Hatanya*'s temporal
+    /// hours](ComplexZmanimCalendar::shaah_zmanis_baal_hatanya) after [*hanetz
+    /// amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) (sunrise) based on
+    /// the opinion of the *Baal Hatanya* that the day is calculated from
+    /// sunrise to sunset. Since this library does not implement a calendar,
+    /// this method will return the *zman* any day of the year.
     pub fn sof_zman_biur_chametz_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.sof_zman_biur_chametz_mga(&Degrees(1.583))
     }
@@ -371,10 +370,11 @@ impl ComplexZmanimCalendar {
     /// of the opinion that it is better to delay *mincha* until *mincha
     /// ketana* while the *Rash*, *Tur*, GRA and others are of the opinion
     /// that *mincha* can be prayed *lechatchila* starting at *mincha
-    /// gedola*. This is calculated as 6.5 sea level solar hours after *hanetz
-    /// amiti* (sunrise). This calculation is based on the opinion of the
-    /// *Baal Hatanya* that the day is calculated from sunrise to
-    /// sunset.
+    /// gedola*. This is calculated as 6.5 of the [*Baal Hatanya*'s temporal
+    /// hours](ComplexZmanimCalendar::shaah_zmanis_baal_hatanya) after [*hanetz
+    /// amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) (sunrise). This
+    /// calculation is based on the opinion of the *Baal Hatanya* that the
+    /// day is calculated from sunrise to sunset.
     pub fn mincha_gedola_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.mincha_gedola_mga(&Degrees(1.583))
     }
@@ -400,19 +400,21 @@ impl ComplexZmanimCalendar {
     /// Returns the *Baal Hatanya*'s *mincha ketana*. This is the
     /// preferred earliest time to pray *mincha* in the opinion of the *Rambam*
     /// and others. For more information on this see the documentation on
-    /// *mincha gedola*. This is calculated as 9.5 sea level solar hours after
-    /// *hanetz amiti* (sunrise). This calculation is calculated based on the
-    /// opinion of the *Baal Hatanya* that the day is calculated from sunrise to
-    /// sunset.
+    /// *mincha gedola*. This is calculated as 9.5 of the [*Baal Hatanya*'s
+    /// temporal hours](ComplexZmanimCalendar::shaah_zmanis_baal_hatanya) after
+    /// [*hanetz amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) (sunrise).
+    /// This calculation is calculated based on the opinion of the *Baal
+    /// Hatanya* that the day is calculated from sunrise to sunset.
     pub fn mincha_ketana_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.mincha_ketana_mga(&Degrees(1.583))
     }
 
     /// Returns the *Baal Hatanya*'s *plag hamincha*. This is
-    /// calculated as 10.75 sea level solar hours after *hanetz amiti*
-    /// (sunrise). This calculation is calculated based on the opinion of
-    /// the *Baal Hatanya* that the day is calculated from sunrise to
-    /// sunset.
+    /// calculated as 10.75 of the [*Baal Hatanya*'s temporal
+    /// hours](ComplexZmanimCalendar::shaah_zmanis_baal_hatanya) after *hanetz
+    /// amiti* (sunrise). This calculation is calculated based on the
+    /// opinion of the *Baal Hatanya* that the day is calculated from
+    /// sunrise to sunset.
     pub fn plag_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.plag_mga(&Degrees(1.583))
     }
@@ -1026,7 +1028,7 @@ impl ComplexZmanimCalendar {
             })
         },
         [
-            alos => "This method should be used *lechumra* only and method returns *alos* (dawn) calculated using 120 minutes *zmaniyos* or 1/6th of the day before sunrise. This is based on a 24-minute *mil* so the time for 5 mil is 120 minutes which is 1/6th of a day `(12 * 60) / 6 = 120`. The day is calculated from [*hanetz*](ComplexZmanimCalendar::hanetz) to [*shkiah*](ComplexZmanimCalendar::shkia). The actual calculation used is `astronomical_calculator::sunrise(&self.date, &self.geo_location) - (&self.shaah_zmanis_gra()? * 2.0)`. Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
+            alos => "This method should be used *lechumra* only and method returns *alos* (dawn) calculated using 120 minutes *zmaniyos* or 1/6th of the day before sunrise. This is based on a 24-minute *mil* so the time for 5 mil is 120 minutes which is 1/6th of a day `(12 * 60) / 6 = 120`. The day is calculated from sunrise to sunset. The actual calculation used is `astronomical_calculator::sunrise(&self.date, &self.geo_location) - (&self.shaah_zmanis_gra()? * 2.0)`. Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
             tzais => "This method should be used *lechumra* only and returns *tzais* (dusk) calculated using 120 minutes *zmaniyos* after sunset. Since the *zman* is extremely late and at a time when the sun is well below the 18&deg; point (scientifically the darkest point) in most places on the globe, it should only be used *lechumra*, such as delaying the start of nighttime mitzvos.",
             shaah_zmanis => "Returns a *shaah zmanis* (temporal hour) calculated using a dip of 120 minutes. This calculation divides the day based on the opinion of the *Magen Avraham* (MGA) that the day runs from dawn to dusk. Dawn for this calculation is 120 minutes before sunrise and dusk is 120 minutes after sunset. This day is split into 12 equal parts with each part being a *shaah zmanis*. This is identical to 1/6th of the day from sunrise to sunset. Since *zmanim* that use this method are extremely late or early and at a point when the sky is a long time past the 18&deg; point where the darkest point is reached, *zmanim* that use this should only be used *lechumra* only, such as delaying the start of nighttime *mitzvos*.",
             plag_mga => plag_mga_minutes_zmanis_lechumra_doc!(120, "1/6th"),
