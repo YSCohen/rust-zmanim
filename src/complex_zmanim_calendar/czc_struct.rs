@@ -301,31 +301,64 @@ impl ComplexZmanimCalendar {
         self.alos(&Degrees(16.9))
     }
 
+    /// **Note: *netz amiti* is used only for
+    /// calculating certain other *zmanim*. For practical purposes, daytime
+    /// *mitzvos* like *shofar* and *lulav* should not be done until after the
+    /// normal time for [*hanetz*](ComplexZmanimCalendar::hanetz).**
+    ///
     /// Returns the *Baal Hatanya*'s *netz amiti* (sunrise) without elevation
     /// adjustment. This forms the base for the *Baal Hatanya*'s dawn-based
     /// calculations that are calculated as a dip below the horizon before
     /// sunrise. According to the *Baal Hatanya*, *netz amiti*, or true
-    /// (halachic) sunrise, is when the top of the sun's disk is visible at
-    /// an elevation similar to the mountains of *Eretz Yisrael*. The time
-    /// is calculated as the point at which the center of the sun's disk is
+    /// (halachic) sunrise, is when the top of the sun's disk is visible at an
+    /// elevation similar to the mountains of *Eretz Yisrael*. The time is
+    /// calculated as the point at which the center of the sun's disk is
     /// 1.583&deg; below the horizon. This degree-based calculation can be found
     /// in Rabbi Shalom DovBer Levine's commentary on The *Baal Hatanya*'s
-    /// *Seder Hachnasas Shabbos*. From an elevation of 546 meters, the top
-    /// of *Har Hacarmel*, the sun disappears when it is 1&deg; 35' or
-    /// 1.583&deg; below the sea level horizon. This in turn is based on the
-    /// *Gemara Shabbos* 35a. There are other opinions brought down by Rabbi
-    /// Levine, including Rabbi Yosef Yitzchok Feigelstock who calculates it
-    /// as the degrees below the horizon 4 minutes after sunset in
-    /// *Yerushalayim* (on the equinox). That is brought down as 1.583&deg;.
-    /// This is identical to the 1&deg; 35' *zman* and is probably a typo and
-    /// should be 1.683&deg;. These calculations are used by most *Chabad*
-    /// calendars that use the *Baal Hatanya*'s *zmanim*. Note: *netz amiti*
-    /// is used only for calculating certain *zmanim*, and is intentionally
-    /// unpublished. For practical purposes, daytime *mitzvos* like *shofar*
-    /// and *lulav* should not be done until after the published time for
-    /// *netz* / sunrise.
-    fn sunrise_baal_hatanya(&self) -> Option<DateTime<Tz>> {
+    /// *Seder Hachnasas Shabbos*. From an elevation of 546 meters, the top of
+    /// *Har Hacarmel*, the sun disappears when it is 1&deg; 35' or 1.583&deg;
+    /// below the sea level horizon. This in turn is based on the *Gemara
+    /// Shabbos* 35a. There are other opinions brought down by Rabbi Levine,
+    /// including Rabbi Yosef Yitzchok Feigelstock who calculates it as the
+    /// degrees below the horizon 4 minutes after sunset in *Yerushalayim* (on
+    /// the equinox). That is brought down as 1.583&deg;. This is identical to
+    /// the 1&deg; 35' *zman* and is probably a typo and should be 1.683&deg;.
+    /// These calculations are used by most *Chabad* calendars that use the
+    /// *Baal Hatanya*'s *zmanim*.
+    pub fn sunrise_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.alos(&Degrees(1.583))
+    }
+
+    /// **Note: *shkiah amiti* is used only for calculating certain other
+    /// *zmanim*. For practical purposes, all daytime *mitzvos* should be
+    /// completed before the normal time for
+    /// [*shkiah*](ComplexZmanimCalendar::shkia).**
+    ///
+    /// Returns the *Baal Hatanya*'s *shkiah amiti* (sunset) without elevation
+    /// adjustment. This forms the base for the *Baal Hatanya*'s dusk-based
+    /// calculations that are calculated as a dip below the horizon after
+    /// sunset. According to the *Baal Hatanya*, *shkiah amiti*, true (halachic)
+    /// sunset, is when the top of the sun's disk disappears from view at an
+    /// elevation similar to the mountains of *Eretz Yisrael*. This time is
+    /// calculated as the point at which the center of the sun's disk is 1.583
+    /// degrees below the horizon.
+    pub fn sunset_baal_hatanya(&self) -> Option<DateTime<Tz>> {
+        self.tzais(&Degrees(1.583))
+    }
+
+    /// Returns the *Baal Hatanya*'s a *shaah zmanis* (temporal hour). This
+    /// forms the base for the *Baal Hatanya*'s day based calculations that are
+    /// calculated as a 1.583&deg; dip below the horizon after sunset. According
+    /// to the *Baal Hatanya*, *shkiah amiti*, true (halachic) sunset, is when
+    /// the top of the sun's disk disappears from view at an elevation similar
+    /// to the mountains of *Eretz Yisrael*. This time is calculated as the
+    /// point at which the center of the sun's disk is 1.583 degrees below the
+    /// horizon. The calculations are based on a day from sea level [*netz
+    /// amiti*](ComplexZmanimCalendar::sunrise_baal_hatanya) to sea level
+    /// [*shkiah amiti*](ComplexZmanimCalendar::sunset_baal_hatanya). The day is
+    /// split into 12 equal parts with each one being a *shaah zmanis*.
+    pub fn shaah_zmanis_baal_hatanya(&self) -> Option<TimeDelta> {
+        self.shaah_zmanis(&Degrees(1.583))
     }
 
     /// Returns the the *Baal Hatanya*'s *sof *zman* krias shema*
@@ -406,42 +439,12 @@ impl ComplexZmanimCalendar {
         self.plag_mga(&Degrees(1.583))
     }
 
-    /// Returns the *Baal Hatanya*'s *shkiah amiti* (sunset)
-    /// without elevation adjustment. This forms the base for the *Baal
-    /// Hatanya*'s dusk-based calculations that are calculated as a dip
-    /// below the horizon after sunset. According to the *Baal Hatanya*,
-    /// *shkiah amiti*, true (halachic) sunset, is when the top of the sun's
-    /// disk disappears from view at an elevation similar to the mountains
-    /// of *Eretz Yisrael*. This time is calculated as the point at which
-    /// the center of the sun's disk is 1.583 degrees below the horizon.
-    /// Note: *shkiah amiti* is used only for calculating certain *zmanim*,
-    /// and is intentionally unpublished. For practical purposes, all
-    /// daytime *mitzvos* should be completed before the published time for
-    /// *shkiah* / sunset.
-    fn sunset_baal_hatanya(&self) -> Option<DateTime<Tz>> {
-        self.tzais(&Degrees(1.583))
-    }
-
     /// Returns *tzais* (nightfall) when the sun is 6&deg; below
     /// the western geometric horizon (90&deg;) after sunset. This calculation
     /// is based on the position of the sun 24 minutes after sunset in Jerusalem
     /// around the equinox / equilux, which is 6&deg; below geometric zenith.
     pub fn tzais_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.tzais(&Degrees(6.0))
-    }
-
-    /// Returns the *Baal Hatanya*'s a *shaah zmanis* (temporal hour). This
-    /// forms the base for the *Baal Hatanya*'s day based calculations that are
-    /// calculated as a 1.583&deg; dip below the horizon after sunset. According
-    /// to the *Baal Hatanya*, *shkiah amiti*, true (halachic) sunset, is when
-    /// the top of the sun's disk disappears from view at an elevation similar
-    /// to the mountains of *Eretz Yisrael*. This time is calculated as the
-    /// point at which the center of the sun's disk is 1.583 degrees below the
-    /// horizon. The calculations are based on
-    /// a day from sea level *netz amiti* to sea level *shkiah amiti*. The day
-    /// is split into 12 equal parts with each one being a *shaah zmanis*.
-    pub fn shaah_zmanis_baal_hatanya(&self) -> Option<TimeDelta> {
-        self.shaah_zmanis(&Degrees(1.583))
     }
 
     // Rav Moshe Feinstein
@@ -971,7 +974,7 @@ impl ComplexZmanimCalendar {
         ]
     );
 
-        zmanim_for_offset!(
+    zmanim_for_offset!(
         _90_minutes_zmanis,
         |this: &ComplexZmanimCalendar| {
             Some(MinutesZmaniyos {
