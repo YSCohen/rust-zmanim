@@ -94,6 +94,18 @@ pub fn sof_zman_tefila(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> Date
     shaos_into_day(day_start, day_end, 4.0)
 }
 
+/// A generic function for calculating the latest time for burning *chametz* on
+/// *Erev Pesach* that is 5 *shaos zmaniyos* (temporal hours) after the start of
+/// the day, calculated using the start and end of the day passed to this
+/// function.
+///
+/// The time from the start of day to the end of day are divided into 12 *shaos
+/// zmaniyos*, and the latest *zman tefila* is calculated as 5 of those *shaos
+/// zmaniyos* after the beginning of the day
+pub fn sof_zman_biur_chametz(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+    shaos_into_day(day_start, day_end, 5.0)
+}
+
 /// Returns [Astronomical
 /// noon](crate::astronomical_calculator::solar_noon).
 pub fn chatzos(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
@@ -144,6 +156,19 @@ pub fn mincha_gedola_30_minutes(
 /// zmaniyos* after the beginning of the day
 pub fn mincha_gedola(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 6.5)
+}
+
+/// A generic function for calculating *samuch lemincha ketana* (the time that
+/// eating or other activity can't begin prior to praying *mincha*) that is 9
+/// *shaos zmaniyos* (temporal hours) after the start of the day, calculated
+/// using the start and end of the day passed to this function. See the
+/// *Mechaber* and *Mishna Berurah* 232 and 249:2.
+///
+/// The time from the start of day to the end of day are divided into 12 *shaos
+/// zmaniyos*, and *mincha ketana* is calculated as 9 of those *shaos
+/// zmaniyos* after the beginning of the day
+pub fn samuch_lemincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+    shaos_into_day(day_start, day_end, 9.0)
 }
 
 /// A generic function for calculating *mincha ketana* (preferred earliest time
@@ -341,21 +366,15 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let shkia1 = shkia(&date1, &loc, true)
-            .unwrap()
-            .to_string();
+        let shkia1 = shkia(&date1, &loc, true).unwrap().to_string();
         assert_eq!(shkia1, "2025-08-04 19:37:50.664750888 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let shkia2 = shkia(&date2, &loc, true)
-            .unwrap()
-            .to_string();
+        let shkia2 = shkia(&date2, &loc, true).unwrap().to_string();
         assert_eq!(shkia2, "2025-01-26 17:12:37.244169500 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let shkia3 = shkia(&date3, &loc, true)
-            .unwrap()
-            .to_string();
+        let shkia3 = shkia(&date3, &loc, true).unwrap().to_string();
         assert_eq!(shkia3, "2005-05-15 19:33:44.453393419 IDT");
     }
 }

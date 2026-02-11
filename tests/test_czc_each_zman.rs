@@ -340,7 +340,7 @@ pub fn test_tzais_120_minutes_zmanis() {
 pub fn test_plag_120_minutes_zmanis() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.plag_120_minutes_zmanis()
+        czc.plag_mga_120_minutes_zmanis()
             .unwrap()
             .format("%Y-%m-%d %H:%M:%S %Z")
             .to_string(),
@@ -352,7 +352,7 @@ pub fn test_plag_120_minutes_zmanis() {
 pub fn test_plag_120_minutes() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.plag_120_minutes()
+        czc.plag_mga_120_minutes()
             .unwrap()
             .format("%Y-%m-%d %H:%M:%S %Z")
             .to_string(),
