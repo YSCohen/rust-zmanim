@@ -1,13 +1,15 @@
 //! Test every method in
-//! [rust_zmanim::complex_zmanim_calendar::ComplexZmanimCalendar]. All expected
-//! times were taken from KosherJava's `ComprehensiveZmanimCalendar.java`. I
-//! created the tests by doing a lot of strange regexes on the output of a Java
-//! method that printed results from every method in
-//! `ComprehensiveZmanimCalendar`, so the order of the tests does not correspond
-//! to my order in `complex_zmanim_calendar.rs`. The tests only check to the
-//! second, because for the fractional seconds I would have had to update each
-//! one to the greater precision (!= accuracy) over KosherJava offered by this
-//! library
+//! [rust_zmanim::complex_zmanim_calendar::ComplexZmanimCalendar], with
+//! sea-level calculations.
+//!
+//! All expected times were taken from KosherJava's
+//! `ComprehensiveZmanimCalendar.java`. I created the tests by doing a lot of
+//! strange regexes on the output of a Java method that printed results from
+//! every method in `ComprehensiveZmanimCalendar`, so the order of the tests
+//! does not correspond to my order in `complex_zmanim_calendar.rs`. The tests
+//! only check to the second, because for the fractional seconds I would have
+//! had to update each one to the greater precision (!= accuracy) over
+//! KosherJava offered by this library
 
 mod test_helper;
 use rust_zmanim::prelude::ZmanOffset;

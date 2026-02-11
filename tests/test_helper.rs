@@ -79,3 +79,19 @@ pub fn czc_test_sample() -> ComplexZmanimCalendar {
         use_elevation: UseElevation::No,
     }
 }
+
+#[allow(dead_code)]
+pub fn czc_test_elevation_sample() -> ComplexZmanimCalendar {
+    ComplexZmanimCalendar {
+        geo_location: GeoLocation {
+            latitude: 31.79388,
+            longitude: 35.03684,
+            timezone: Asia::Jerusalem,
+            elevation: 586.19,
+        },
+        date: Asia::Jerusalem
+            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
+            .unwrap(),
+        use_elevation: UseElevation::All,
+    }
+}

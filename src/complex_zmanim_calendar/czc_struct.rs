@@ -568,7 +568,7 @@ impl ComplexZmanimCalendar {
     /// for the New York area. This time should not be used for latitudes
     /// other than ones similar to the latitude of the NY area.
     pub fn tzais_50_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(self.sea_level_sunrise()? + TimeDelta::minutes(50))
+        Some(self.sea_level_sunset()? + TimeDelta::minutes(50))
     }
 
     // Ahavat Shalom
