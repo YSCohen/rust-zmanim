@@ -29,11 +29,11 @@ macro_rules! zmanim_for_offset {
         }
     };
 
-    // Generate shaah_zmanis method
-    (@method_custom $name:ident, $offset_fn:expr, shaah_zmanis, $doc:expr) => {
+    // Generate shaah_zmanis_mga method
+    (@method_custom $name:ident, $offset_fn:expr, shaah_zmanis_mga, $doc:expr) => {
         paste! {
             #[doc = $doc]
-            pub fn [<shaah_zmanis $name>](&self) -> Option<TimeDelta> {
+            pub fn [<shaah_zmanis_mga $name>](&self) -> Option<TimeDelta> {
                 let offset = ($offset_fn)(self)?;
                 self.shaah_zmanis_mga(&offset)
             }

@@ -1749,28 +1749,28 @@ pub fn test_shaah_zmanis_gra() {
 }
 
 #[test]
-pub fn test_shaah_zmanis_19_8_degrees() {
+pub fn test_shaah_zmanis_mga_19_8_degrees() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_19_8_degrees().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_19_8_degrees().unwrap().num_milliseconds(),
         4301331
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_16_1_degrees() {
+pub fn test_shaah_zmanis_mga_16_1_degrees() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_16_1_degrees().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_16_1_degrees().unwrap().num_milliseconds(),
         4127245
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_72_minutes_zmanis() {
+pub fn test_shaah_zmanis_mga_72_minutes_zmanis() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_72_minutes_zmanis()
+        czc.shaah_zmanis_mga_72_minutes_zmanis()
             .unwrap()
             .num_milliseconds(),
         4085312
@@ -1778,10 +1778,10 @@ pub fn test_shaah_zmanis_72_minutes_zmanis() {
 }
 
 #[test]
-pub fn test_shaah_zmanis_90_minutes_zmanis() {
+pub fn test_shaah_zmanis_mga_90_minutes_zmanis() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_90_minutes_zmanis()
+        czc.shaah_zmanis_mga_90_minutes_zmanis()
             .unwrap()
             .num_milliseconds(),
         4255534
@@ -1789,55 +1789,55 @@ pub fn test_shaah_zmanis_90_minutes_zmanis() {
 }
 
 #[test]
-pub fn test_shaah_zmanis_18_degrees() {
+pub fn test_shaah_zmanis_mga_18_degrees() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_18_degrees().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_18_degrees().unwrap().num_milliseconds(),
         4216641
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_26_degrees() {
+pub fn test_shaah_zmanis_mga_26_degrees() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_26_degrees().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_26_degrees().unwrap().num_milliseconds(),
         4593504
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_60_minutes() {
+pub fn test_shaah_zmanis_mga_60_minutes() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_60_minutes().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_60_minutes().unwrap().num_milliseconds(),
         4004427
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_72_minutes() {
+pub fn test_shaah_zmanis_mga_72_minutes() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_72_minutes().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_72_minutes().unwrap().num_milliseconds(),
         4124427
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_90_minutes() {
+pub fn test_shaah_zmanis_mga_90_minutes() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_90_minutes().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_90_minutes().unwrap().num_milliseconds(),
         4304427
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_96_minutes_zmanis() {
+pub fn test_shaah_zmanis_mga_96_minutes_zmanis() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_96_minutes_zmanis()
+        czc.shaah_zmanis_mga_96_minutes_zmanis()
             .unwrap()
             .num_milliseconds(),
         4312274
@@ -1876,28 +1876,28 @@ pub fn test_shaah_zmanis_alos_16_1_to_tzais_3_7() {
 }
 
 #[test]
-pub fn test_shaah_zmanis_96_minutes() {
+pub fn test_shaah_zmanis_mga_96_minutes() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_96_minutes().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_96_minutes().unwrap().num_milliseconds(),
         4364427
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_120_minutes() {
+pub fn test_shaah_zmanis_mga_120_minutes() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_120_minutes().unwrap().num_milliseconds(),
+        czc.shaah_zmanis_mga_120_minutes().unwrap().num_milliseconds(),
         4604427
     )
 }
 
 #[test]
-pub fn test_shaah_zmanis_120_minutes_zmanis() {
+pub fn test_shaah_zmanis_mga_120_minutes_zmanis() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis_120_minutes_zmanis()
+        czc.shaah_zmanis_mga_120_minutes_zmanis()
             .unwrap()
             .num_milliseconds(),
         4539236
@@ -1998,7 +1998,7 @@ pub fn test_plag_mga() {
 }
 
 #[test]
-pub fn test_shaah_zmanis() {
+pub fn test_shaah_zmanis_mga() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
         czc.shaah_zmanis_mga(&ZmanOffset::Degrees(19.8))

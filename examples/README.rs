@@ -41,7 +41,7 @@ fn main() {
         assert_eq!(alos120.to_string(), "2025-07-29 03:53:39.574572512 IDT");
     };
 
-    if let Some(sz18) = czc.shaah_zmanis_18_degrees() {
+    if let Some(sz18) = czc.shaah_zmanis_mga_18_degrees() {
         // 01:24:14.106060472
         assert_eq!(sz18, TimeDelta::nanoseconds(5054106060472));
     }
