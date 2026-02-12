@@ -1,4 +1,4 @@
-//! Example of using [ComplexZmanimCalendar] to calculate *zmanim*. Calculates
+//! Example of using [`ComplexZmanimCalendar`] to calculate *zmanim*. Calculates
 //! *zmanim* at the *kosel* according to the *shita* of the *Baal HaTanya*
 
 use chrono::Utc;

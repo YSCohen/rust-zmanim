@@ -1,7 +1,7 @@
 //! An API that can calculate sunrise, sunset and Jewish *zmanim* (religious
 //! times) for prayers and other Jewish religious duties.
 //!
-//! This module contains the main functionality of the [rust-zmanim](crate)
+//! This module contains the main functionality of the [`rust-zmanim`](crate)
 //! library. **Elevation based *zmanim* (even sunrise and sunset) should not be
 //! used *lekula* without the guidance of a *posek***. According to Rabbi Dovid
 //! Yehudah Bursztyn in his *Zmanim Kehilchasam*, 7th edition chapter 2, section
@@ -13,14 +13,14 @@
 //! obstructing horizons should be factored into *zmanim* calculations.
 //!
 //! When a *zman* will not occur these functions return `None`. See note in
-//! [astronomical_calculator]
+//! [`astronomical_calculator`]
 
-use chrono::{TimeDelta, prelude::*};
+use chrono::{prelude::*, TimeDelta};
 use chrono_tz::Tz;
 
 use crate::astronomical_calculator;
 use crate::util::geolocation::GeoLocation;
-use crate::util::math_helper::*;
+use crate::util::math_helper::MINUTE_NANOS;
 
 /// Returns *alos hashachar* (dawn) based on either declination of the sun below
 /// the horizon, a fixed time offset, or a minutes *zmaniyos* (temporal minutes)
@@ -57,7 +57,9 @@ pub fn alos(
 /// sunrise](crate::astronomical_calculator::sea_level_sunrise) if
 /// `use_elevation` is false,
 /// or [sunrise](crate::astronomical_calculator::sunrise) if
-/// it is true. This allows relevant *zmanim* to automatically adjust to the
+/// it is true.
+/// 
+/// This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
 #[must_use]
 pub fn hanetz(
@@ -125,7 +127,9 @@ pub fn chatzos_halayla(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Optio
     astronomical_calculator::solar_midnight(date, geo_location)
 }
 
-/// Returns the local time for fixed *chatzos*. This time is noon and midnight
+/// Returns the local time for fixed *chatzos*.
+///
+/// This time is noon and midnight
 /// adjusted from standard time to account for the local latitude. The 360&deg;
 /// of the globe divided by 24 calculates to 15&deg; per hour with 4 minutes per
 /// degree, so at a longitude of 0 , 15, 30 etc... *Chatzos* is at exactly 12:00
@@ -145,8 +149,9 @@ pub fn fixed_local_chatzos(
 }
 
 /// Returns *mincha gedola* calculated as 30 minutes after *chatzos* and not 1/2
-/// of a *shaah zmanis* after *chatzos* as calculated by [mincha_gedola]. Some
-/// use this time to delay the start of mincha in the winter when 1/2 of a
+/// of a *shaah zmanis* after *chatzos* as calculated by [`mincha_gedola`].
+///
+/// Some use this time to delay the start of mincha in the winter when 1/2 of a
 /// *shaah zmanis* is less than 30 minutes. See One should not use this time to
 /// start *mincha* before the standard *mincha gedola*. See *Shulchan Aruch
 /// Orach Chayim* 234:1 and the *Shaar Hatziyon seif katan ches*.
@@ -160,7 +165,9 @@ pub fn mincha_gedola_30_minutes(
 
 /// A generic function for calculating *mincha gedola* that is 6.5 *shaos
 /// zmaniyos* (temporal hours) after the start of the day, calculated using the
-/// start and end of the day passed to this function. Mincha gedola is the
+/// start and end of the day passed to this function.
+/// 
+/// Mincha gedola is the
 /// earliest time one can pray mincha. The Rambam is of the opinion that it is
 /// better to delay mincha until mincha ketana while the Rash, Tur, GRA and
 /// others are of the opinion that mincha can be prayed lechatchila starting at
@@ -177,8 +184,9 @@ pub fn mincha_gedola(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// A generic function for calculating *samuch lemincha ketana* (the time that
 /// eating or other activity can't begin prior to praying *mincha*) that is 9
 /// *shaos zmaniyos* (temporal hours) after the start of the day, calculated
-/// using the start and end of the day passed to this function. See the
-/// *Mechaber* and *Mishna Berurah* 232 and 249:2.
+/// using the start and end of the day passed to this function.
+/// 
+/// See the *Mechaber* and *Mishna Berurah* 232 and 249:2.
 ///
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and *mincha ketana* is calculated as 9 of those *shaos
@@ -376,7 +384,7 @@ mod tests {
         let shaah = TimeDelta::minutes(60);
         let twelve_fourty_three_thirty =
             offset_by_minutes_zmanis(&midnight, 43.5, shaah).to_string();
-        assert_eq!(twelve_fourty_three_thirty, "2025-08-04 00:43:30 IDT")
+        assert_eq!(twelve_fourty_three_thirty, "2025-08-04 00:43:30 IDT");
     }
 
     #[test]

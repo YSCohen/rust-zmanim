@@ -39,7 +39,7 @@ fn main() {
 
     if let Some(alos120) = czc.alos_120_minutes() {
         assert_eq!(alos120.to_string(), "2025-07-29 03:53:39.574572512 IDT");
-    };
+    }
 
     if let Some(sz18) = czc.shaah_zmanis_mga_18_degrees() {
         // 01:24:14.106060472

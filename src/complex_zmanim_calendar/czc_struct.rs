@@ -898,7 +898,9 @@ impl ComplexZmanimCalendar {
     // seems like this method was removed from KJ
     /// This method should be used *lechumra* only and returns the time of *plag
     /// hamincha* based on the opinion that the day starts at *alos* 16.1&deg;
-    /// and ends at sunset. 10.75 *shaos zmaniyos* are calculated based on
+    /// and ends at sunset.
+    /// 
+    /// 10.75 *shaos zmaniyos* are calculated based on
     /// this day and added to *alos*to reach this time. This time is 10.75
     /// *shaos zmaniyos* (temporal hours) after dawn based on the opinion
     /// that the day is calculated from a dawn of 16.1 degrees before

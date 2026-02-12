@@ -102,11 +102,6 @@
 //! assert!(polar_sunset.is_none());
 //! ```
 
-#![warn(clippy::all)]
-#![warn(clippy::pedantic)]
-#![warn(clippy::nursery)]
-#![allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
-
 pub mod astronomical_calculator;
 pub mod complex_zmanim_calendar;
 pub mod util;

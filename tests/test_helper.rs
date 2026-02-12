@@ -3,7 +3,7 @@ use chrono_tz::{America, Asia, Pacific};
 
 use rust_zmanim::{complex_zmanim_calendar::*, util::geolocation::GeoLocation};
 
-fn lakewood() -> GeoLocation {
+const fn lakewood() -> GeoLocation {
     GeoLocation {
         latitude: 40.0721087,
         longitude: -74.2400243,
@@ -12,7 +12,7 @@ fn lakewood() -> GeoLocation {
     }
 }
 
-fn samoa() -> GeoLocation {
+const fn samoa() -> GeoLocation {
     GeoLocation {
         latitude: -13.8599098,
         longitude: -171.8031745,
@@ -21,7 +21,7 @@ fn samoa() -> GeoLocation {
     }
 }
 
-fn jerusalem() -> GeoLocation {
+const fn jerusalem() -> GeoLocation {
     GeoLocation {
         latitude: 31.7781161,
         longitude: 35.233804,
@@ -30,7 +30,7 @@ fn jerusalem() -> GeoLocation {
     }
 }
 
-fn los_angeles() -> GeoLocation {
+const fn los_angeles() -> GeoLocation {
     GeoLocation {
         latitude: 34.0201613,
         longitude: -118.6919095,
@@ -39,7 +39,7 @@ fn los_angeles() -> GeoLocation {
     }
 }
 
-fn tokyo() -> GeoLocation {
+const fn tokyo() -> GeoLocation {
     GeoLocation {
         latitude: 35.6733227,
         longitude: 139.6403486,
@@ -48,7 +48,7 @@ fn tokyo() -> GeoLocation {
     }
 }
 
-fn arctic_nunavut() -> GeoLocation {
+const fn arctic_nunavut() -> GeoLocation {
     GeoLocation {
         latitude: 81.7449398,
         longitude: -64.7945858,
@@ -58,7 +58,7 @@ fn arctic_nunavut() -> GeoLocation {
 }
 
 #[allow(dead_code)]
-pub fn basic_locations() -> [GeoLocation; 6] {
+pub const fn basic_locations() -> [GeoLocation; 6] {
     [
         lakewood(),
         jerusalem(),
