@@ -567,13 +567,13 @@ impl ComplexZmanimCalendar {
         Some(chatzos + (quarter_shaah * 19))
     }
 
-    /// Method to return *tzais* (dusk) calculated as 50 minutes after sea level
-    /// sunset (no adjustment for elevation is made). This method returns
+    /// Method to return *tzais* (dusk) calculated as 50 minutes after
+    /// sunset. This method returns
     /// *tzais* (nightfall) based on the opinion of Rabbi Moshe Feinstein
     /// for the New York area. This time should not be used for latitudes
     /// other than ones similar to the latitude of the NY area.
     pub fn tzais_50_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(self.sea_level_sunset()? + TimeDelta::minutes(50))
+        self.tzais(&Minutes(50.0))
     }
 
     // Ahavat Shalom
@@ -917,21 +917,12 @@ impl ComplexZmanimCalendar {
         ]
     );
 
-    /// Returns *tzais hakochavim* (nightfall) based on the opinion of the
-    /// *Chavas Yair* and *Divrei Malkiel* that the time to walk the distance of
-    /// a mil is 15 minutes, for a total of 60 minutes for 4 *mil* after sea
-    /// level sunset (no adjustment for elevation is made). See detailed
-    /// documentation explaining the 60 minute concept at
-    /// [alos_60_minutes](ComplexZmanimCalendar::alos_60_minutes).
-    pub fn tzais_60_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(self.sea_level_sunset()? + TimeDelta::minutes(60))
-    }
-
     zmanim_for_offset!(
         _60_minutes,
         |_| Some(Minutes(60.0)),
         [
             alos => "Returns *alos* (dawn) calculated as 60 minutes before sunrise. This is the time to walk the distance of 4 *mil* at 15 minutes a *mil*. This seems to be the opinion of the *Chavas Yair* in the *Mekor Chaim, Orach Chaim* Ch. 90, though the *Mekor Chaim* in Ch. 58 and in the *Chut Hashani* Ch. 97 states that a person walks 3 and a 1/3 *mil* in an hour, or an 18-minute *mil*. Also see the *Divrei Malkiel* Vol. 4, Ch. 20, page 34) who mentions the 15 minute *mil lechumra* by baking *matzos*. Also see the *Maharik* Ch. 173 where the questioner quoting the *Ra'avan* is of the opinion that the time to walk a *mil* is 15 minutes (5 *mil* in a little over an hour). There are many who believe that there is a *ta'us sofer* (scribeal error) in the *Ra'avan*, and it should 4 *mil* in a little over an hour, or an 18-minute *mil*. Time based offset calculations are based on the opinion of the *Rishonim* who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 4 *mil*.",
+            tzais => "Returns *tzais hakochavim* (nightfall) based on the opinion of the *Chavas Yair* and *Divrei Malkiel* that the time to walk the distance of a mil is 15 minutes, for a total of 60 minutes for 4 *mil* after sunset. See detailed documentation explaining the 60 minute concept at [alos_60_minutes](ComplexZmanimCalendar::alos_60_minutes).",
             shaah_zmanis => shaah_mga_minutes_doc!(60),
             plag_mga => plag_mga_minutes_doc!(60),
         ]
@@ -976,24 +967,12 @@ impl ComplexZmanimCalendar {
         ]
     );
 
-    /// Returns *tzais hakochavim* (dusk) calculated as 90 minutes after sea
-    /// level sunset (no adjustment for elevation is made). This method returns
-    /// *tzais* based on the opinion of the *Magen Avraham* that the time to
-    /// walk the distance of a *mil* according to the *Rambam*'s opinion is
-    /// 18 minutes, for a total of 90 minutes based on the opinion of Ula
-    /// who calculated *tzais* as 5 *mil* after *shkiah* (sunset). A similar
-    /// calculation
-    /// [tzais_19_8_degrees](ComplexZmanimCalendar::tzais_19_8_degrees) uses
-    /// solar position calculations based on this time.
-    pub fn tzais_90_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(self.sea_level_sunset()? + TimeDelta::minutes(90))
-    }
-
     zmanim_for_offset!(
         _90_minutes,
         |_| Some(Minutes(90.0)),
         [
             alos => alos_minutes_basedon_doc!(90, 22.5),
+            tzais => "Returns *tzais hakochavim* (dusk) calculated as 90 minutes after sunset. This method returns *tzais* based on the opinion of the *Magen Avraham* that the time to walk the distance of a *mil* according to the *Rambam*'s opinion is 18 minutes, for a total of 90 minutes based on the opinion of Ula who calculated *tzais* as 5 *mil* after *shkiah* (sunset). A similar calculation [tzais_19_8_degrees](ComplexZmanimCalendar::tzais_19_8_degrees) uses solar position calculations based on this time.",
             shaah_zmanis => shaah_mga_minutes_doc!(90),
             sof_zman_shema_mga => szks_mga_minutes_doc!(90),
             sof_zman_tefila_mga => szt_mga_minutes_doc!(90),
@@ -1053,33 +1032,12 @@ impl ComplexZmanimCalendar {
         ]
     );
 
-    /// This method should be used *lechumra* only and returns *alos* (dawn)
-    /// calculated using 120 minutes before sea level sunrise (no adjustment for
-    /// elevation is made) based on the time to walk the distance of 5 *mil*
-    /// (Ula) at 24 minutes a *mil*. Time based offset calculations for *alos*
-    /// are based on the* opinion of the Rishonim who stated that the time of
-    /// the *neshef* (time between dawn and sunrise) does not vary by the time
-    /// of year or location but purely depends on the time it takes to walk the
-    /// distance of 5 *mil* (Ula). Since this time is extremely early, it should
-    /// only be used *lechumra*, such as not eating after this time on a fast
-    /// day, and **not** as the start time for *mitzvos* that can only be
-    /// performed during the day.
-    pub fn alos_120_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(self.sea_level_sunrise()? - TimeDelta::minutes(120))
-    }
-
-    /// Returns *tzais hakochavim* (dusk) calculated as 120 minutes after sea
-    /// level sunset (no adjustment for elevation is made). For information on
-    /// how this is calculated see the documentation on
-    /// [alos_120_minutes](ComplexZmanimCalendar::alos_120_minutes).
-    pub fn tzais_120_minutes(&self) -> Option<DateTime<Tz>> {
-        Some(self.sea_level_sunset()? + TimeDelta::minutes(120))
-    }
-
     zmanim_for_offset!(
         _120_minutes,
         |_| Some(Minutes(120.0)),
         [
+            alos => "This method should be used *lechumra* only and returns *alos* (dawn) calculated using 120 minutes before sea level sunrise (no adjustment for elevation is made) based on the time to walk the distance of 5 *mil* (Ula) at 24 minutes a *mil*. Time based offset calculations for *alos* are based on the* opinion of the Rishonim who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 5 *mil* (Ula). Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
+            tzais => "Returns *tzais hakochavim* (dusk) calculated as 120 minutes after sunset. For information on how this is calculated see the documentation on [alos_120_minutes](ComplexZmanimCalendar::alos_120_minutes).",
             shaah_zmanis => shaah_mga_minutes_doc!(120),
             sof_zman_shema_mga => szks_mga_minutes_doc!(120),
             sof_zman_tefila_mga => szt_mga_minutes_doc!(120),

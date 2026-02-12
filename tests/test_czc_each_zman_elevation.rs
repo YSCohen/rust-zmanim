@@ -5,6 +5,67 @@
 mod test_helper;
 
 #[test]
+pub fn test_alos_120_minutes() {
+    let czc = test_helper::czc_test_elevation_sample();
+    assert_eq!(
+        czc.alos_120_minutes()
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 04:40:47 IDT"
+    )
+}
+
+#[test]
+pub fn test_tzais_50_minutes() {
+    let czc = test_helper::czc_test_elevation_sample();
+    assert_eq!(
+        czc.tzais_50_minutes()
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 18:59:05 IDT"
+    )
+}
+
+#[test]
+pub fn test_tzais_60_minutes() {
+    let czc = test_helper::czc_test_elevation_sample();
+    assert_eq!(
+        czc.tzais_60_minutes()
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 19:09:05 IDT"
+    )
+}
+
+#[test]
+pub fn test_tzais_90_minutes() {
+    let czc = test_helper::czc_test_elevation_sample();
+    assert_eq!(
+        czc.tzais_90_minutes()
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 19:39:05 IDT"
+    )
+}
+
+#[test]
+pub fn test_tzais_120_minutes() {
+    let czc = test_helper::czc_test_elevation_sample();
+    assert_eq!(
+        czc.tzais_120_minutes()
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-17 20:09:05 IDT"
+    )
+}
+
+
+#[test]
 pub fn test_alos_60_minutes() {
     let czc = test_helper::czc_test_elevation_sample();
     assert_eq!(
