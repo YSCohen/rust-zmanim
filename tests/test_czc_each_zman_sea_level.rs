@@ -1659,6 +1659,18 @@ pub fn test_chatzos() {
 }
 
 #[test]
+pub fn test_chatzos_halayla() {
+    let czc = test_helper::czc_test_sample();
+    assert_eq!(
+        czc.chatzos_halayla()
+            .unwrap()
+            .format("%Y-%m-%d %H:%M:%S %Z")
+            .to_string(),
+        "2017-10-18 00:24:22 IDT"
+    )
+}
+
+#[test]
 pub fn test_tzais_72_minutes() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(

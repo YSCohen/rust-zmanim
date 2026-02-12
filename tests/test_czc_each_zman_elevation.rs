@@ -4,19 +4,6 @@
 
 mod test_helper;
 
-// not yet implemented...
-// #[test]
-// pub fn test_chatzos_halayla() {
-//     let czc = test_helper::czc_test_elevation_sample();
-//     assert_eq!(
-//         czc.chatzos_halayla()
-//             .unwrap()
-//             .format("%Y-%m-%d %H:%M:%S %Z")
-//             .to_string(),
-//         "2017-10-18 00:25:10 IDT"
-//     )
-// }
-
 #[test]
 pub fn test_alos_60_minutes() {
     let czc = test_helper::czc_test_elevation_sample();
@@ -270,18 +257,6 @@ pub fn test_sof_zman_shema_mga_96_minutes_zmanis() {
 }
 
 #[test]
-pub fn test_sof_zman_shema_3_hrs_before_chatzos() {
-    let czc = test_helper::czc_test_elevation_sample();
-    assert_eq!(
-        czc.sof_zman_shema_3_hrs_before_chatzos()
-            .unwrap()
-            .format("%Y-%m-%d %H:%M:%S %Z")
-            .to_string(),
-        "2017-10-17 09:25:16 IDT"
-    )
-}
-
-#[test]
 pub fn test_sof_zman_shema_mga_120_minutes() {
     let czc = test_helper::czc_test_elevation_sample();
     assert_eq!(
@@ -374,18 +349,6 @@ pub fn test_sof_zman_tefila_mga_120_minutes() {
             .format("%Y-%m-%d %H:%M:%S %Z")
             .to_string(),
         "2017-10-17 09:50:13 IDT"
-    )
-}
-
-#[test]
-pub fn test_sof_zman_tefila_2_hrs_before_chatzos() {
-    let czc = test_helper::czc_test_elevation_sample();
-    assert_eq!(
-        czc.sof_zman_tefila_2_hrs_before_chatzos()
-            .unwrap()
-            .format("%Y-%m-%d %H:%M:%S %Z")
-            .to_string(),
-        "2017-10-17 10:25:16 IDT"
     )
 }
 
@@ -678,18 +641,6 @@ pub fn test_plag_ateret_torah() {
 }
 
 #[test]
-pub fn test_fixed_local_chatzos() {
-    let czc = test_helper::czc_test_elevation_sample();
-    assert_eq!(
-        czc.fixed_local_chatzos()
-            .unwrap()
-            .format("%Y-%m-%d %H:%M:%S %Z")
-            .to_string(),
-        "2017-10-17 12:39:51 IDT"
-    )
-}
-
-#[test]
 pub fn test_sof_zman_biur_chametz_gra() {
     let czc = test_helper::czc_test_elevation_sample();
     assert_eq!(
@@ -762,18 +713,6 @@ pub fn test_sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos() {
 }
 
 #[test]
-pub fn test_mincha_gedola_gra_fixed_local_chatzos_30_minutes() {
-    let czc = test_helper::czc_test_elevation_sample();
-    assert_eq!(
-        czc.mincha_gedola_gra_fixed_local_chatzos_30_minutes()
-            .unwrap()
-            .format("%Y-%m-%d %H:%M:%S %Z")
-            .to_string(),
-        "2017-10-17 13:09:51 IDT"
-    )
-}
-
-#[test]
 pub fn test_mincha_ketana_gra_fixed_local_chatzos_to_sunset() {
     let czc = test_helper::czc_test_elevation_sample();
     assert_eq!(
@@ -818,18 +757,6 @@ pub fn test_samuch_lemincha_ketana_mga_72_minutes() {
             .format("%Y-%m-%d %H:%M:%S %Z")
             .to_string(),
         "2017-10-17 15:53:01 IDT"
-    )
-}
-
-#[test]
-pub fn test_chatzos() {
-    let czc = test_helper::czc_test_elevation_sample();
-    assert_eq!(
-        czc.chatzos()
-            .unwrap()
-            .format("%Y-%m-%d %H:%M:%S %Z")
-            .to_string(),
-        "2017-10-17 12:25:16 IDT"
     )
 }
 

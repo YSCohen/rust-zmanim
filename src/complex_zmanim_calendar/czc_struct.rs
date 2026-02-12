@@ -109,9 +109,14 @@ impl ComplexZmanimCalendar {
         ))
     }
 
-    /// Returns Astronomical *chatzos*
+    /// Returns Astronomical *chatzos* (noon)
     pub fn chatzos(&self) -> Option<DateTime<Tz>> {
         zmanim_calculator::chatzos(&self.date, &self.geo_location)
+    }
+
+    /// Returns Astronomical *chatzos halayla* (midnight)
+    pub fn chatzos_halayla(&self) -> Option<DateTime<Tz>> {
+        zmanim_calculator::chatzos_halayla(&self.date, &self.geo_location)
     }
 
     /// Returns *mincha gedola* according to the opinion of the *Magen Avraham*

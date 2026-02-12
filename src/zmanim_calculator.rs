@@ -112,6 +112,12 @@ pub fn chatzos(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTi
     astronomical_calculator::solar_noon(date, geo_location)
 }
 
+/// Returns [Astronomical
+/// midnight](crate::astronomical_calculator::solar_midnight).
+pub fn chatzos_halayla(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+    astronomical_calculator::solar_midnight(date, geo_location)
+}
+
 /// Returns the local time for fixed *chatzos*. This time is noon and midnight
 /// adjusted from standard time to account for the local latitude. The 360&deg;
 /// of the globe divided by 24 calculates to 15&deg; per hour with 4 minutes per
