@@ -10,6 +10,7 @@ macro_rules! zmanim_for_offset {
     // Generate alos method
     (@method_custom $name:ident, $offset_fn:expr, alos, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<alos $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
@@ -21,6 +22,7 @@ macro_rules! zmanim_for_offset {
     // Generate tzais method
     (@method_custom $name:ident, $offset_fn:expr, tzais, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<tzais $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
@@ -32,6 +34,7 @@ macro_rules! zmanim_for_offset {
     // Generate shaah_zmanis_mga method
     (@method_custom $name:ident, $offset_fn:expr, shaah_zmanis_mga, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<shaah_zmanis_mga $name>](&self) -> Option<TimeDelta> {
                 let offset = ($offset_fn)(self)?;
@@ -43,6 +46,7 @@ macro_rules! zmanim_for_offset {
     // Generate sof_zman_shema_mga method
     (@method_custom $name:ident, $offset_fn:expr, sof_zman_shema_mga, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<sof_zman_shema_mga $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
@@ -54,6 +58,7 @@ macro_rules! zmanim_for_offset {
     // Generate sof_zman_tefila_mga method
     (@method_custom $name:ident, $offset_fn:expr, sof_zman_tefila_mga, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<sof_zman_tefila_mga $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
@@ -65,6 +70,7 @@ macro_rules! zmanim_for_offset {
     // Generate sof_zman_biur_chametz_mga method
     (@method_custom $name:ident, $offset_fn:expr, sof_zman_biur_chametz_mga, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<sof_zman_biur_chametz_mga $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
@@ -76,6 +82,7 @@ macro_rules! zmanim_for_offset {
     // Generate mincha_gedola_mga method
     (@method_custom $name:ident, $offset_fn:expr, mincha_gedola_mga, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<mincha_gedola_mga $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
@@ -87,6 +94,7 @@ macro_rules! zmanim_for_offset {
     // Generate samuch_lemincha_ketana_mga method
     (@method_custom $name:ident, $offset_fn:expr, samuch_lemincha_ketana_mga, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<samuch_lemincha_ketana_mga $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
@@ -98,6 +106,7 @@ macro_rules! zmanim_for_offset {
     // Generate mincha_ketana_mga method
     (@method_custom $name:ident, $offset_fn:expr, mincha_ketana_mga, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<mincha_ketana_mga $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
@@ -109,6 +118,7 @@ macro_rules! zmanim_for_offset {
     // Generate plag_mga method
     (@method_custom $name:ident, $offset_fn:expr, plag_mga, $doc:expr) => {
         paste! {
+            #[must_use]
             #[doc = $doc]
             pub fn [<plag_mga $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;

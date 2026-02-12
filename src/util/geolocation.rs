@@ -31,6 +31,7 @@ impl GeoLocation {
     /// 4 to yield 3 minutes and 10 seconds earlier than standard time. The
     /// offset returned does not account for the Daylight saving time offset
     /// since this struct is unaware of dates.
+    #[must_use] 
     pub fn local_mean_time_offset(&self) -> f64 {
         (self.longitude * 4.0) / HOUR_MINUTES
     }

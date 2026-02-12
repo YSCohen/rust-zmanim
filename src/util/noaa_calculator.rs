@@ -265,6 +265,7 @@ fn utc_sun_rise_set(
 // public interface for utc_sun_rise_set
 /// Get the UTC of sunrise in hours, adjusting the zenith for refraction, solar
 /// radius, and optionally elevation
+#[must_use] 
 pub fn utc_sunrise(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -282,6 +283,7 @@ pub fn utc_sunrise(
 
 /// Get the UTC of sunset in hours, adjusting the zenith for refraction, solar
 /// radius, and optionally elevation
+#[must_use] 
 pub fn utc_sunset(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -333,6 +335,7 @@ fn utc_solar_noon_midnight(julian_day: f64, longitude: f64, mode: &Mode) -> Opti
 /// earth. This implementation returns true solar noon as opposed to the time
 /// halfway between sunrise and sunset. Other calculators may return a more
 /// simplified calculation of halfway between sunrise and sunset.
+#[must_use] 
 pub fn utc_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f64> {
     let noon = utc_solar_noon_midnight(
         datetime_to_julian_day(date),
@@ -351,6 +354,7 @@ pub fn utc_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f64> 
 /// implementation returns true solar midnight as opposed to the time halfway
 /// between sunrise and sunset. Other calculators may return a more simplified
 /// calculation of halfway between sunrise and sunset.
+#[must_use] 
 pub fn utc_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f64> {
     let midnight = utc_solar_noon_midnight(
         datetime_to_julian_day(date),

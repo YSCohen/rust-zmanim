@@ -38,12 +38,14 @@ pub const ASTRONOMICAL_ZENITH: f64 = 108.0;
 
 /// Returns the sunrise in UTC time without correction for time
 /// zone offset from GMT and without using daylight savings time
+#[must_use] 
 pub fn utc_sunrise(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, true)
 }
 
 /// Returns the sunset in UTC time without correction for time
 /// zone offset from GMT and without using daylight savings time
+#[must_use] 
 pub fn utc_sunset(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunset(date, geo_location, zenith, true)
 }
@@ -51,6 +53,7 @@ pub fn utc_sunset(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) 
 /// Returns the sunrise in UTC time without correction for
 /// elevation, time zone offset from GMT and without using daylight savings
 /// time
+#[must_use] 
 pub fn utc_sea_level_sunrise(
     date: &DateTime<Tz>,
     zenith: f64,
@@ -62,6 +65,7 @@ pub fn utc_sea_level_sunrise(
 /// Returns the sunset in UTC time without correction for
 /// elevation, time zone offset from GMT and without using daylight savings
 /// time
+#[must_use] 
 pub fn utc_sea_level_sunset(
     date: &DateTime<Tz>,
     zenith: f64,
@@ -77,6 +81,7 @@ pub fn utc_sea_level_sunset(
 /// [adjusted](crate::util::zenith_adjustments::adjusted_zenith) to add
 /// approximately 50/60 of a degree to account for 34 arcminutes of refraction
 /// and 16 arcminutes for the sun's radius for a total of 90.83333&deg;
+#[must_use] 
 pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     Some(date_time_from_time_of_day(
         date,
@@ -91,6 +96,7 @@ pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTi
 /// [adjusted](crate::util::zenith_adjustments::adjusted_zenith) to add
 /// approximately 50/60 of a degree to account for 34 arcminutes of refraction
 /// and 16 arcminutes for the sun's radius for a total of 90.83333&deg;
+#[must_use] 
 pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     Some(date_time_from_time_of_day(
         date,
@@ -100,12 +106,14 @@ pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTim
 }
 
 /// Returns the sunrise without elevation adjustment, i.e. at sea level
+#[must_use] 
 pub fn sea_level_sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
 /// Returns the sunset without elevation adjustment, i.e. at sea
 /// level
+#[must_use] 
 pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
@@ -114,6 +122,7 @@ pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Opti
 /// above the horizon of sunrise. Note that the degree offset is from the
 /// vertical, so for a calculation of 14&deg; before sunrise, an offset of 14 +
 /// [GEOMETRIC_ZENITH] = 104 would have to be passed as a parameter
+#[must_use] 
 pub fn sunrise_offset_by_degrees(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -130,6 +139,7 @@ pub fn sunrise_offset_by_degrees(
 /// above the horizon of sunset. Note that the degree offset is from the
 /// vertical, so for a calculation of 14&deg; after sunset, an offset of 14 +
 /// [GEOMETRIC_ZENITH] = 104 would have to be passed as a parameter
+#[must_use] 
 pub fn sunset_offset_by_degrees(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -145,12 +155,14 @@ pub fn sunset_offset_by_degrees(
 /// A utility function that will allow the calculation of a temporal (solar)
 /// hour based on the sunrise and sunset passed as parameters to this
 /// function
+#[must_use] 
 pub fn temporal_hour(sunrise: &DateTime<Tz>, sunset: &DateTime<Tz>) -> TimeDelta {
     (*sunset - *sunrise) / 12
 }
 
 /// Returns solar noon. It occurs when the Sun is transiting the celestial
 /// meridian, the apparent highest point in the sky
+#[must_use] 
 pub fn solar_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     Some(date_time_from_time_of_day(
         date,
@@ -161,6 +173,7 @@ pub fn solar_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<Dat
 
 /// Returns solar midnight. It occurs when the Sun closest to the nadir, or the
 /// direction pointing directly below the given location
+#[must_use] 
 pub fn solar_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     let midnight = date_time_from_time_of_day(
         date,
@@ -216,6 +229,7 @@ fn date_time_from_time_of_day(date: &DateTime<Tz>, time_of_day: f64, timezone: T
 /// degree) to yield 3 minutes and 7 seconds for a noon time of 11:56:53am. This
 /// method is not tied to the theoretical 15&deg; time zones, but will adjust to
 /// the actual time zone and Daylight saving time to return LMT.
+#[must_use] 
 pub fn local_mean_time(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,

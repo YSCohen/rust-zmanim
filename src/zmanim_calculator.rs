@@ -25,6 +25,7 @@ use crate::util::math_helper::*;
 /// Returns *alos hashachar* (dawn) based on either declination of the sun below
 /// the horizon, a fixed time offset, or a minutes *zmaniyos* (temporal minutes)
 /// offset before sunrise
+#[must_use] 
 pub fn alos(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -58,6 +59,7 @@ pub fn alos(
 /// or [sunrise](crate::astronomical_calculator::sunrise) if
 /// it is true. This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
+#[must_use] 
 pub fn hanetz(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -78,6 +80,7 @@ pub fn hanetz(
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and the latest *zman krias shema* is calculated as 3 of those
 /// *shaos zmaniyos* after the beginning of the day
+#[must_use] 
 pub fn sof_zman_shema(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 3.0)
 }
@@ -90,6 +93,7 @@ pub fn sof_zman_shema(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateT
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and the latest *zman tefila* is calculated as 4 of those *shaos
 /// zmaniyos* after the beginning of the day
+#[must_use] 
 pub fn sof_zman_tefila(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 4.0)
 }
@@ -102,18 +106,21 @@ pub fn sof_zman_tefila(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> Date
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and the latest *zman tefila* is calculated as 5 of those *shaos
 /// zmaniyos* after the beginning of the day
+#[must_use] 
 pub fn sof_zman_biur_chametz(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 5.0)
 }
 
 /// Returns [Astronomical
 /// noon](crate::astronomical_calculator::solar_noon).
+#[must_use] 
 pub fn chatzos(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     astronomical_calculator::solar_noon(date, geo_location)
 }
 
 /// Returns [Astronomical
 /// midnight](crate::astronomical_calculator::solar_midnight).
+#[must_use] 
 pub fn chatzos_halayla(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
     astronomical_calculator::solar_midnight(date, geo_location)
 }
@@ -129,6 +136,7 @@ pub fn chatzos_halayla(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Optio
 /// yield 3 minutes and 7 seconds for a *chatzos* of 11:56:53. This method is
 /// not tied to the theoretical 15&deg; time zones, but will adjust to the
 /// actual time zone and Daylight saving time.
+#[must_use] 
 pub fn fixed_local_chatzos(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -142,6 +150,7 @@ pub fn fixed_local_chatzos(
 /// *shaah zmanis* is less than 30 minutes. See One should not use this time to
 /// start *mincha* before the standard *mincha gedola*. See *Shulchan Aruch
 /// Orach Chayim* 234:1 and the *Shaar Hatziyon seif katan ches*.
+#[must_use] 
 pub fn mincha_gedola_30_minutes(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -160,6 +169,7 @@ pub fn mincha_gedola_30_minutes(
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and *mincha gedola* is calculated as 6.5 of those *shaos
 /// zmaniyos* after the beginning of the day
+#[must_use] 
 pub fn mincha_gedola(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 6.5)
 }
@@ -173,6 +183,7 @@ pub fn mincha_gedola(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and *mincha ketana* is calculated as 9 of those *shaos
 /// zmaniyos* after the beginning of the day
+#[must_use] 
 pub fn samuch_lemincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 9.0)
 }
@@ -185,6 +196,7 @@ pub fn samuch_lemincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) 
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and *mincha ketana* is calculated as 9.5 of those *shaos
 /// zmaniyos* after the beginning of the day
+#[must_use] 
 pub fn mincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 9.5)
 }
@@ -194,6 +206,7 @@ pub fn mincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// gedola*](mincha_gedola) and [*mincha ketana*](mincha_ketana), or 10.75
 /// *shaos zmaniyos* (temporal hours) after the start of the day, calculated
 /// using the start and end of the day passed to this function.
+#[must_use] 
 pub fn plag_hamincha(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
     shaos_into_day(day_start, day_end, 10.75)
 }
@@ -203,6 +216,7 @@ pub fn plag_hamincha(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// [sunset](crate::astronomical_calculator::sunset) if it is true.
 /// This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
+#[must_use] 
 pub fn shkia(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -218,6 +232,7 @@ pub fn shkia(
 /// Returns *tzais* (nightfall) based on either declination of the sun below the
 /// horizon, a fixed time offset, or a minutes *zmaniyos* (temporal minutes)
 /// offset after sunset
+#[must_use] 
 pub fn tzais(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
@@ -246,6 +261,7 @@ pub fn tzais(
 
 /// Gives the length of a *shaah zmanis* (temporal hour), given the
 /// start (usually *hanetz* or *alos*) and end (*shkia* or *tzais*) of the day
+#[must_use] 
 pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> TimeDelta {
     astronomical_calculator::temporal_hour(day_start, day_end)
 }
