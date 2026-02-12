@@ -1,6 +1,6 @@
 //! Geolocation struct, with some math for [local mean
 //! time](crate::astronomical_calculator::local_mean_time)
-use crate::util::math_helper::*;
+use crate::util::math_helper::HOUR_MINUTES;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 /// A struct that contains location information such as latitude and longitude
@@ -15,7 +15,7 @@ pub struct GeoLocation {
     pub longitude: f64,
     /// The elevation in meters above sea level
     pub elevation: f64,
-    /// The location's time zone, from [chrono_tz]
+    /// The location's time zone, from [`chrono_tz`]
     pub timezone: chrono_tz::Tz,
 }
 impl GeoLocation {
@@ -31,7 +31,7 @@ impl GeoLocation {
     /// 4 to yield 3 minutes and 10 seconds earlier than standard time. The
     /// offset returned does not account for the Daylight saving time offset
     /// since this struct is unaware of dates.
-    #[must_use] 
+    #[must_use]
     pub fn local_mean_time_offset(&self) -> f64 {
         (self.longitude * 4.0) / HOUR_MINUTES
     }

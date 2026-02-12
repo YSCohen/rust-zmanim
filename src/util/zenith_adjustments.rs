@@ -33,7 +33,7 @@ pub const EARTH_RADIUS: f64 = 6_356.9;
 /// <pre>
 /// 0.0347 * elevation.sqrt();
 /// </pre>
-#[must_use] 
+#[must_use]
 pub fn elevation_adjustment(elevation: f64) -> f64 {
     (EARTH_RADIUS / (EARTH_RADIUS + (elevation / 1_000.0)))
         .acos()
@@ -60,7 +60,7 @@ pub fn elevation_adjustment(elevation: f64) -> f64 {
 /// value if the zenith is exactly 90 degrees. For values below and above this
 /// no correction is done, as calculations above or below 90&deg; are usually
 /// calculated as an offset to 90&deg;
-#[must_use] 
+#[must_use]
 pub fn adjusted_zenith(zenith: f64, elevation: f64) -> f64 {
     if zenith != GEOMETRIC_ZENITH {
         return zenith;

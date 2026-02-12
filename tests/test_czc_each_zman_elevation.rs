@@ -64,7 +64,6 @@ pub fn test_tzais_120_minutes() {
     )
 }
 
-
 #[test]
 pub fn test_alos_60_minutes() {
     let czc = test_helper::czc_test_elevation_sample();

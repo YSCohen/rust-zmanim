@@ -51,7 +51,7 @@ fn test_alos_120_minutes() {
 
     let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
     let czc1 = ComplexZmanimCalendar {
-        geo_location: loc.clone(),
+        geo_location: loc,
         date: date1,
         use_elevation: UseElevation::No,
     };
@@ -60,7 +60,7 @@ fn test_alos_120_minutes() {
 
     let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
     let czc2 = ComplexZmanimCalendar {
-        geo_location: loc.clone(),
+        geo_location: loc,
         date: date2,
         use_elevation: UseElevation::No,
     };
@@ -69,7 +69,7 @@ fn test_alos_120_minutes() {
 
     let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
     let czc3 = ComplexZmanimCalendar {
-        geo_location: loc.clone(),
+        geo_location: loc,
         date: date3,
         use_elevation: UseElevation::No,
     };
@@ -97,7 +97,7 @@ fn test_tzais_72_minutes_zmanis() {
 
     let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
     let czc1 = ComplexZmanimCalendar {
-        geo_location: loc.clone(),
+        geo_location: loc,
         date: date1,
         use_elevation: UseElevation::No,
     };
@@ -106,7 +106,7 @@ fn test_tzais_72_minutes_zmanis() {
 
     let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
     let czc2 = ComplexZmanimCalendar {
-        geo_location: loc.clone(),
+        geo_location: loc,
         date: date2,
         use_elevation: UseElevation::No,
     };
@@ -115,7 +115,7 @@ fn test_tzais_72_minutes_zmanis() {
 
     let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
     let czc3 = ComplexZmanimCalendar {
-        geo_location: loc.clone(),
+        geo_location: loc,
         date: date3,
         use_elevation: UseElevation::No,
     };
@@ -143,7 +143,7 @@ fn test_hanetz() {
 
     let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
     let czc1 = ComplexZmanimCalendar {
-        geo_location: loc.clone(),
+        geo_location: loc,
         date: date1,
         use_elevation: UseElevation::HanetzShkia,
     };
@@ -152,7 +152,7 @@ fn test_hanetz() {
 
     let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
     let czc2 = ComplexZmanimCalendar {
-        geo_location: loc.clone(),
+        geo_location: loc,
         date: date2,
         use_elevation: UseElevation::HanetzShkia,
     };

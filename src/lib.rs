@@ -17,20 +17,20 @@
 //! Jewish *zmanim* or religious times for prayers and other Jewish religious
 //! duties.
 //!
-//! The [astronomical_calculator] provides non-religious astronomical / solar
+//! The [`astronomical_calculator`] provides non-religious astronomical / solar
 //! calculations such as sunrise, sunset and twilight.
 //!
-//! The [zmanim_calculator] contains the basics for *zmanim* calculations.
+//! The [`zmanim_calculator`] contains the basics for *zmanim* calculations.
 //!
-//! The [complex_zmanim_calendar] provides a stateful struct with many premade
-//! *zmanim* calculations, both built on the [zmanim_calculator] API.
+//! The [`complex_zmanim_calendar`] provides a stateful struct with many premade
+//! *zmanim* calculations, both built on the [`zmanim_calculator`] API.
 //!
 //! This project is a port from pinnymz's [python-zmanim project](https://github.com/pinnymz/python-zmanim) and Eliyahu Hershfeld's [KosherJava project](https://github.com/KosherJava/zmanim). Much of the code is ported directly from `python-zmanim` and `KosherJava`, and almost all of the documentation is from `KosherJava`
 //!
 //! See the [KosherJava site](https://kosherjava.com) for additional information on the original Java project and *zmanim* in general.
 //!
 //! **Note:** It is important to read the technical notes on top of the
-//! [astronomical_calculator] documentation.
+//! [`astronomical_calculator`] documentation.
 //!
 //! ### Disclaimer
 //! I did my best to get accurate results using standardized astronomical
@@ -101,6 +101,11 @@
 //! let polar_sunset = zmanim_calculator::shkia(&dt, &north_pole, false);
 //! assert!(polar_sunset.is_none());
 //! ```
+
+#![warn(clippy::all)]
+#![warn(clippy::pedantic)]
+#![warn(clippy::nursery)]
+#![allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
 
 pub mod astronomical_calculator;
 pub mod complex_zmanim_calendar;
