@@ -35,7 +35,7 @@ macro_rules! zmanim_for_offset {
             #[doc = $doc]
             pub fn [<shaah_zmanis $name>](&self) -> Option<TimeDelta> {
                 let offset = ($offset_fn)(self)?;
-                self.shaah_zmanis(&offset)
+                self.shaah_zmanis_mga(&offset)
             }
         }
     };

@@ -178,7 +178,7 @@ impl ComplexZmanimCalendar {
     /// Returns *shaah zmanis* (temporal hour) according to the opinion of the
     /// *Magen Avraham* (MGA) based on *alos* and *tzais* being the given
     /// offset from sunrise and sunset, respectively.
-    pub fn shaah_zmanis(&self, offset: &ZmanOffset) -> Option<TimeDelta> {
+    pub fn shaah_zmanis_mga(&self, offset: &ZmanOffset) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos(offset)?,
             &self.tzais(offset)?,
@@ -320,7 +320,7 @@ impl ComplexZmanimCalendar {
     /// the 1&deg; 35' *zman* and is probably a typo and should be 1.683&deg;.
     /// These calculations are used by most *Chabad* calendars that use the
     /// *Baal Hatanya*'s *zmanim*.
-    pub fn sunrise_baal_hatanya(&self) -> Option<DateTime<Tz>> {
+    pub fn hanetz_amiti_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.alos(&Degrees(1.583))
     }
 
@@ -337,7 +337,7 @@ impl ComplexZmanimCalendar {
     /// elevation similar to the mountains of *Eretz Yisrael*. This time is
     /// calculated as the point at which the center of the sun's disk is 1.583
     /// degrees below the horizon.
-    pub fn sunset_baal_hatanya(&self) -> Option<DateTime<Tz>> {
+    pub fn shkia_amiti_baal_hatanya(&self) -> Option<DateTime<Tz>> {
         self.tzais(&Degrees(1.583))
     }
 
@@ -353,7 +353,7 @@ impl ComplexZmanimCalendar {
     /// [*shkiah amiti*](ComplexZmanimCalendar::sunset_baal_hatanya). The day is
     /// split into 12 equal parts with each one being a *shaah zmanis*.
     pub fn shaah_zmanis_baal_hatanya(&self) -> Option<TimeDelta> {
-        self.shaah_zmanis(&Degrees(1.583))
+        self.shaah_zmanis_mga(&Degrees(1.583))
     }
 
     /// Returns the the *Baal Hatanya*'s *sof *zman* krias shema*

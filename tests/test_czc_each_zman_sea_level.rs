@@ -2001,7 +2001,7 @@ pub fn test_plag_mga() {
 pub fn test_shaah_zmanis() {
     let czc = test_helper::czc_test_sample();
     assert_eq!(
-        czc.shaah_zmanis(&ZmanOffset::Degrees(19.8))
+        czc.shaah_zmanis_mga(&ZmanOffset::Degrees(19.8))
             .unwrap()
             .num_milliseconds(),
         4301331
