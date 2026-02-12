@@ -2,7 +2,7 @@
 //! time](crate::astronomical_calculator::local_mean_time)
 use crate::util::math_helper::*;
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 /// A struct that contains location information such as latitude and longitude
 /// required for astronomical calculations. The elevation field may not be used
 /// by some calculations and would be ignored if set

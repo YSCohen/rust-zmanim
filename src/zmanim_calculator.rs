@@ -277,6 +277,7 @@ fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) 
 }
 
 /// Offset used for *alos* or *tzais*
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ZmanOffset {
     /// Some degrees under the horizon
     Degrees(f64),
