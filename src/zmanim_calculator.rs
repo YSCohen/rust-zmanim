@@ -15,7 +15,7 @@
 //! When a *zman* will not occur these functions return `None`. See note in
 //! [`astronomical_calculator`]
 
-use chrono::{prelude::*, TimeDelta};
+use chrono::{TimeDelta, prelude::*};
 use chrono_tz::Tz;
 
 use crate::astronomical_calculator;
@@ -58,7 +58,7 @@ pub fn alos(
 /// `use_elevation` is false,
 /// or [sunrise](crate::astronomical_calculator::sunrise) if
 /// it is true.
-/// 
+///
 /// This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
 #[must_use]
@@ -166,7 +166,7 @@ pub fn mincha_gedola_30_minutes(
 /// A generic function for calculating *mincha gedola* that is 6.5 *shaos
 /// zmaniyos* (temporal hours) after the start of the day, calculated using the
 /// start and end of the day passed to this function.
-/// 
+///
 /// Mincha gedola is the
 /// earliest time one can pray mincha. The Rambam is of the opinion that it is
 /// better to delay mincha until mincha ketana while the Rash, Tur, GRA and
@@ -185,7 +185,7 @@ pub fn mincha_gedola(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// eating or other activity can't begin prior to praying *mincha*) that is 9
 /// *shaos zmaniyos* (temporal hours) after the start of the day, calculated
 /// using the start and end of the day passed to this function.
-/// 
+///
 /// See the *Mechaber* and *Mishna Berurah* 232 and 249:2.
 ///
 /// The time from the start of day to the end of day are divided into 12 *shaos

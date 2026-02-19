@@ -1,5 +1,5 @@
-//! Example of using [`zmanim_calculator`] to create custom *zmanim*. Creates MGA
-//! *zmanim* from *alos* 10&deg; to *tzais* 13&deg;, with elevation-adjusted
+//! Example of using [`zmanim_calculator`] to create custom *zmanim*. Creates
+//! MGA *zmanim* from *alos* 10&deg; to *tzais* 13&deg;, with elevation-adjusted
 //! *shkia* and *hanetz*. THIS IS NOT A REAL *SHITA*, just an example
 
 use chrono::Utc;
