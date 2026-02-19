@@ -2,7 +2,7 @@
 pub mod alos_docs;
 
 #[macro_use]
-pub mod tzais_docs;
+pub mod tzeis_docs;
 
 #[macro_use]
 pub mod mga_degrees_docs;

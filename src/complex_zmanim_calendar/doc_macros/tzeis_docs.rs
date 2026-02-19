@@ -1,8 +1,8 @@
 // Degrees
-macro_rules! tzais_degrees_basedon_doc {
+macro_rules! tzeis_degrees_basedon_doc {
     ($degrees:expr, $minutes:expr) => {
         concat!(
-            "Returns *tzais* (dusk) calculated when the sun is ",
+            "Returns *tzeis* (dusk) calculated when the sun is ",
             stringify!($degrees),
             "&deg; below the eastern geometric horizon before sunrise. This
             calculation is based on the position of the sun ",
@@ -15,10 +15,10 @@ macro_rules! tzais_degrees_basedon_doc {
     };
 }
 
-macro_rules! tzais_degrees_doc {
+macro_rules! tzeis_degrees_doc {
     ($degrees:expr) => {
         concat!(
-            "Returns *tzais* (dusk) calculated when the sun is ",
+            "Returns *tzeis* (dusk) calculated when the sun is ",
             stringify!($degrees),
             "&deg; below the eastern geometric horizon before sunrise."
         )
@@ -26,10 +26,10 @@ macro_rules! tzais_degrees_doc {
 }
 
 // Minutes
-macro_rules! tzais_minutes_basedon_doc {
+macro_rules! tzeis_minutes_basedon_doc {
     ($minutes:expr, $mil_len:expr) => {
         concat!(
-            "Returns *tzais* (dusk) calculated as ",
+            "Returns *tzeis* (dusk) calculated as ",
             stringify!($minutes),
             " after sunset. This time is based on the time to walk the
             distance of 4 *mil* at ",
@@ -40,10 +40,10 @@ macro_rules! tzais_minutes_basedon_doc {
 }
 
 // Minutes Zmanis
-macro_rules! tzais_minutes_zmanis_basedon_doc {
+macro_rules! tzeis_minutes_zmanis_basedon_doc {
     ($minutes:expr, $mil_len:expr, $fraction:expr) => {
         concat!(
-            "Returns *tzais hakochavim* (dusk) calculated as ",
+            "Returns *tzeis hakochavim* (dusk) calculated as ",
             stringify!($minutes),
             " minutes of [the GRA's *shaos
             zmaniyos*](crate::complex_zmanim_calendar::ComplexZmanimCalendar::shaah_zmanis_gra),

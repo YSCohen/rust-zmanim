@@ -19,14 +19,14 @@ macro_rules! zmanim_for_offset {
         }
     };
 
-    // Generate tzais method
-    (@method_custom $name:ident, $offset_fn:expr, tzais, $doc:expr) => {
+    // Generate tzeis method
+    (@method_custom $name:ident, $offset_fn:expr, tzeis, $doc:expr) => {
         paste! {
             #[must_use]
             #[doc = $doc]
-            pub fn [<tzais $name>](&self) -> Option<DateTime<Tz>> {
+            pub fn [<tzeis $name>](&self) -> Option<DateTime<Tz>> {
                 let offset = ($offset_fn)(self)?;
-                self.tzais(&offset)
+                self.tzeis(&offset)
             }
         }
     };

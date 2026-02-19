@@ -87,7 +87,7 @@ fn test_alos_120_minutes() {
 }
 
 #[test]
-fn test_tzais_72_minutes_zmanis() {
+fn test_tzeis_72_minutes_zmanis() {
     let loc = GeoLocation {
         latitude: 31.79388,
         longitude: 35.03684,
@@ -101,7 +101,7 @@ fn test_tzais_72_minutes_zmanis() {
         date: date1,
         use_elevation: UseElevation::No,
     };
-    let alos1 = czc1.tzais_72_minutes_zmanis().unwrap().to_string();
+    let alos1 = czc1.tzeis_72_minutes_zmanis().unwrap().to_string();
     assert_eq!(alos1, "2025-08-04 20:55:33.614725027 IDT"); // off by < 1 ms
 
     let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
@@ -110,7 +110,7 @@ fn test_tzais_72_minutes_zmanis() {
         date: date2,
         use_elevation: UseElevation::No,
     };
-    let alos2 = czc2.tzais_72_minutes_zmanis().unwrap().to_string();
+    let alos2 = czc2.tzeis_72_minutes_zmanis().unwrap().to_string();
     assert_eq!(alos2, "2025-01-26 18:11:54.813293573 IST"); // off by < 1 ms
 
     let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
@@ -119,7 +119,7 @@ fn test_tzais_72_minutes_zmanis() {
         date: date3,
         use_elevation: UseElevation::No,
     };
-    let alos3 = czc3.tzais_72_minutes_zmanis().unwrap().to_string();
+    let alos3 = czc3.tzeis_72_minutes_zmanis().unwrap().to_string();
     assert_eq!(alos3, "2005-05-15 20:52:25.429886381 IDT");
 
     let date4 = Jerusalem.with_ymd_and_hms(2025, 5, 15, 0, 0, 0).unwrap();
@@ -128,7 +128,7 @@ fn test_tzais_72_minutes_zmanis() {
         date: date4,
         use_elevation: UseElevation::No,
     };
-    let alos4 = czc4.tzais_72_minutes_zmanis().unwrap().to_string();
+    let alos4 = czc4.tzeis_72_minutes_zmanis().unwrap().to_string();
     assert_eq!(alos4, "2025-05-15 20:52:34.967135271 IDT"); // off by > 2 ms
 }
 
@@ -199,7 +199,7 @@ pub fn test_extreme_latitude_none_returns() {
         use_elevation: UseElevation::No,
     };
 
-    // These should return None because alos/tzais can't be calculated at extreme
+    // These should return None because alos/tzeis can't be calculated at extreme
     // latitudes
     assert!(czc.alos(&ZmanOffset::Degrees(18.0)).is_none());
     assert!(czc.shkia().is_none());

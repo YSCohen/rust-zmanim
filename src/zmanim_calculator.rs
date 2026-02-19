@@ -237,11 +237,11 @@ pub fn shkia(
     }
 }
 
-/// Returns *tzais* (nightfall) based on either declination of the sun below the
+/// Returns *tzeis* (nightfall) based on either declination of the sun below the
 /// horizon, a fixed time offset, or a minutes *zmaniyos* (temporal minutes)
 /// offset after sunset
 #[must_use]
-pub fn tzais(
+pub fn tzeis(
     date: &DateTime<Tz>,
     geo_location: &GeoLocation,
     use_elevation: bool,
@@ -268,7 +268,7 @@ pub fn tzais(
 }
 
 /// Gives the length of a *shaah zmanis* (temporal hour), given the
-/// start (usually *hanetz* or *alos*) and end (*shkia* or *tzais*) of the day
+/// start (usually *hanetz* or *alos*) and end (*shkia* or *tzeis*) of the day
 #[must_use]
 pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> TimeDelta {
     astronomical_calculator::temporal_hour(day_start, day_end)
@@ -300,7 +300,7 @@ fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) 
     offset_by_minutes_zmanis(day_start, shaos * 60.0, shaah_zmanis)
 }
 
-/// Offset used for *alos* or *tzais*
+/// Offset used for *alos* or *tzeis*
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum ZmanOffset {
     /// Some degrees under the horizon
@@ -351,7 +351,7 @@ mod tests {
     }
 
     #[test]
-    fn test_tzais() {
+    fn test_tzeis() {
         let loc = GeoLocation {
             latitude: 31.79388,
             longitude: 35.03684,
@@ -360,22 +360,22 @@ mod tests {
         };
 
         let date1 = Jerusalem.with_ymd_and_hms(2025, 8, 4, 0, 0, 0).unwrap();
-        let tzais1 = tzais(&date1, &loc, false, &ZmanOffset::Degrees(6.0))
+        let tzeis1 = tzeis(&date1, &loc, false, &ZmanOffset::Degrees(6.0))
             .unwrap()
             .to_string();
-        assert_eq!(tzais1, "2025-08-04 20:00:13.884113380 IDT");
+        assert_eq!(tzeis1, "2025-08-04 20:00:13.884113380 IDT");
 
         let date2 = Jerusalem.with_ymd_and_hms(2025, 1, 26, 0, 0, 0).unwrap();
-        let tzais2 = tzais(&date2, &loc, false, &ZmanOffset::Degrees(6.0))
+        let tzeis2 = tzeis(&date2, &loc, false, &ZmanOffset::Degrees(6.0))
             .unwrap()
             .to_string();
-        assert_eq!(tzais2, "2025-01-26 17:34:32.830038230 IST");
+        assert_eq!(tzeis2, "2025-01-26 17:34:32.830038230 IST");
 
         let date3 = Jerusalem.with_ymd_and_hms(2005, 5, 15, 0, 0, 0).unwrap();
-        let tzais3 = tzais(&date3, &loc, false, &ZmanOffset::Degrees(6.0))
+        let tzeis3 = tzeis(&date3, &loc, false, &ZmanOffset::Degrees(6.0))
             .unwrap()
             .to_string();
-        assert_eq!(tzais3, "2005-05-15 19:56:34.656301355 IDT");
+        assert_eq!(tzeis3, "2005-05-15 19:56:34.656301355 IDT");
     }
 
     #[test]

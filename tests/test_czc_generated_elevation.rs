@@ -31,7 +31,7 @@ fn test_alos_19_8_degrees() {
 }
 
 #[test]
-fn test_tzais_19_8_degrees() {
+fn test_tzeis_19_8_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:53:34 EDT",
@@ -43,7 +43,7 @@ fn test_tzais_19_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_19_8_degrees().map_or_else(
+        let result = czc.tzeis_19_8_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -73,7 +73,7 @@ fn test_alos_18_degrees() {
 }
 
 #[test]
-fn test_tzais_18_degrees() {
+fn test_tzeis_18_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:44:09 EDT",
@@ -85,7 +85,7 @@ fn test_tzais_18_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_18_degrees().map_or_else(
+        let result = czc.tzeis_18_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -115,7 +115,7 @@ fn test_alos_26_degrees() {
 }
 
 #[test]
-fn test_tzais_26_degrees() {
+fn test_tzeis_26_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 20:26:11 EDT",
@@ -127,7 +127,7 @@ fn test_tzais_26_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_26_degrees().map_or_else(
+        let result = czc.tzeis_26_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -157,7 +157,7 @@ fn test_alos_16_1_degrees() {
 }
 
 #[test]
-fn test_tzais_16_1_degrees() {
+fn test_tzeis_16_1_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:34:14 EDT",
@@ -169,7 +169,7 @@ fn test_tzais_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_16_1_degrees().map_or_else(
+        let result = czc.tzeis_16_1_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -199,7 +199,7 @@ fn test_alos_60_minutes() {
 }
 
 #[test]
-fn test_tzais_60_minutes() {
+fn test_tzeis_60_minutes() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:14:38 EDT",
@@ -211,7 +211,7 @@ fn test_tzais_60_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_60_minutes().map_or_else(
+        let result = czc.tzeis_60_minutes().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -241,7 +241,7 @@ fn test_alos_72_minutes_zmanis() {
 }
 
 #[test]
-fn test_tzais_72_minutes_zmanis() {
+fn test_tzeis_72_minutes_zmanis() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:21:11 EDT",
@@ -253,7 +253,7 @@ fn test_tzais_72_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_72_minutes_zmanis().map_or_else(
+        let result = czc.tzeis_72_minutes_zmanis().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -283,7 +283,7 @@ fn test_alos_90_minutes() {
 }
 
 #[test]
-fn test_tzais_90_minutes() {
+fn test_tzeis_90_minutes() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:44:38 EDT",
@@ -295,7 +295,7 @@ fn test_tzais_90_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_90_minutes().map_or_else(
+        let result = czc.tzeis_90_minutes().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -325,7 +325,7 @@ fn test_alos_90_minutes_zmanis() {
 }
 
 #[test]
-fn test_tzais_90_minutes_zmanis() {
+fn test_tzeis_90_minutes_zmanis() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:37:49 EDT",
@@ -337,7 +337,7 @@ fn test_tzais_90_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_90_minutes_zmanis().map_or_else(
+        let result = czc.tzeis_90_minutes_zmanis().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -367,7 +367,7 @@ fn test_alos_96_minutes_zmanis() {
 }
 
 #[test]
-fn test_tzais_96_minutes_zmanis() {
+fn test_tzeis_96_minutes_zmanis() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:43:22 EDT",
@@ -379,7 +379,7 @@ fn test_tzais_96_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_96_minutes_zmanis().map_or_else(
+        let result = czc.tzeis_96_minutes_zmanis().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -388,7 +388,7 @@ fn test_tzais_96_minutes_zmanis() {
 }
 
 #[test]
-fn test_tzais_ateret_torah() {
+fn test_tzeis_ateret_torah() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:54:38 EDT",
@@ -400,7 +400,7 @@ fn test_tzais_ateret_torah() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_ateret_torah().map_or_else(
+        let result = czc.tzeis_ateret_torah().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -409,7 +409,7 @@ fn test_tzais_ateret_torah() {
 }
 
 #[test]
-fn test_tzais_geonim_3_8_degrees() {
+fn test_tzeis_geonim_3_8_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:29:44 EDT",
@@ -421,7 +421,7 @@ fn test_tzais_geonim_3_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_3_8_degrees().map_or_else(
+        let result = czc.tzeis_geonim_3_8_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -430,7 +430,7 @@ fn test_tzais_geonim_3_8_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_3_7_degrees() {
+fn test_tzeis_geonim_3_7_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:29:12 EDT",
@@ -442,7 +442,7 @@ fn test_tzais_geonim_3_7_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_3_7_degrees().map_or_else(
+        let result = czc.tzeis_geonim_3_7_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -472,7 +472,7 @@ fn test_alos_96_minutes() {
 }
 
 #[test]
-fn test_tzais_96_minutes() {
+fn test_tzeis_96_minutes() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:50:38 EDT",
@@ -484,7 +484,7 @@ fn test_tzais_96_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_96_minutes().map_or_else(
+        let result = czc.tzeis_96_minutes().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -514,7 +514,7 @@ fn test_alos_120_minutes() {
 }
 
 #[test]
-fn test_tzais_120_minutes() {
+fn test_tzeis_120_minutes() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 20:14:38 EDT",
@@ -526,7 +526,7 @@ fn test_tzais_120_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_120_minutes().map_or_else(
+        let result = czc.tzeis_120_minutes().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -556,7 +556,7 @@ fn test_alos_120_minutes_zmanis() {
 }
 
 #[test]
-fn test_tzais_120_minutes_zmanis() {
+fn test_tzeis_120_minutes_zmanis() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 20:05:33 EDT",
@@ -568,7 +568,7 @@ fn test_tzais_120_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_120_minutes_zmanis().map_or_else(
+        let result = czc.tzeis_120_minutes_zmanis().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -577,7 +577,7 @@ fn test_tzais_120_minutes_zmanis() {
 }
 
 #[test]
-fn test_tzais_geonim_7_083_degrees() {
+fn test_tzeis_geonim_7_083_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:47:03 EDT",
@@ -589,7 +589,7 @@ fn test_tzais_geonim_7_083_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_7_083_degrees().map_or_else(
+        let result = czc.tzeis_geonim_7_083_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -1186,7 +1186,7 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_sunset() {
 }
 
 #[test]
-fn test_sof_zman_shema_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
+fn test_sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:03:53 EDT",
@@ -1198,7 +1198,7 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_alos_16_1_degrees_to_tzais_geonim_7_083_degrees().map_or_else(
+        let result = czc.sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -1774,7 +1774,7 @@ fn test_plag_alos_16_1_degrees_to_sunset() {
 }
 
 #[test]
-fn test_plag_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
+fn test_plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:26:03 EDT",
@@ -1786,7 +1786,7 @@ fn test_plag_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_alos_16_1_degrees_to_tzais_geonim_7_083_degrees().map_or_else(
+        let result = czc.plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2026,7 +2026,7 @@ fn test_bein_hashmashos_yereim_2_1_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_5_95_degrees() {
+fn test_tzeis_geonim_5_95_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:41:05 EDT",
@@ -2038,7 +2038,7 @@ fn test_tzais_geonim_5_95_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_5_95_degrees().map_or_else(
+        let result = czc.tzeis_geonim_5_95_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2047,7 +2047,7 @@ fn test_tzais_geonim_5_95_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_4_61_degrees() {
+fn test_tzeis_geonim_4_61_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:34:01 EDT",
@@ -2059,7 +2059,7 @@ fn test_tzais_geonim_4_61_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_4_61_degrees().map_or_else(
+        let result = czc.tzeis_geonim_4_61_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2068,7 +2068,7 @@ fn test_tzais_geonim_4_61_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_4_37_degrees() {
+fn test_tzeis_geonim_4_37_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:32:45 EDT",
@@ -2080,7 +2080,7 @@ fn test_tzais_geonim_4_37_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_4_37_degrees().map_or_else(
+        let result = czc.tzeis_geonim_4_37_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2089,7 +2089,7 @@ fn test_tzais_geonim_4_37_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_5_88_degrees() {
+fn test_tzeis_geonim_5_88_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:40:43 EDT",
@@ -2101,7 +2101,7 @@ fn test_tzais_geonim_5_88_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_5_88_degrees().map_or_else(
+        let result = czc.tzeis_geonim_5_88_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2110,7 +2110,7 @@ fn test_tzais_geonim_5_88_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_4_8_degrees() {
+fn test_tzeis_geonim_4_8_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:35:01 EDT",
@@ -2122,7 +2122,7 @@ fn test_tzais_geonim_4_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_4_8_degrees().map_or_else(
+        let result = czc.tzeis_geonim_4_8_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2131,7 +2131,7 @@ fn test_tzais_geonim_4_8_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_6_45_degrees() {
+fn test_tzeis_geonim_6_45_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:43:43 EDT",
@@ -2143,7 +2143,7 @@ fn test_tzais_geonim_6_45_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_6_45_degrees().map_or_else(
+        let result = czc.tzeis_geonim_6_45_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2152,7 +2152,7 @@ fn test_tzais_geonim_6_45_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_7_67_degrees() {
+fn test_tzeis_geonim_7_67_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:50:08 EDT",
@@ -2164,7 +2164,7 @@ fn test_tzais_geonim_7_67_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_7_67_degrees().map_or_else(
+        let result = czc.tzeis_geonim_7_67_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2173,7 +2173,7 @@ fn test_tzais_geonim_7_67_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_8_5_degrees() {
+fn test_tzeis_geonim_8_5_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:54:29 EDT",
@@ -2185,7 +2185,7 @@ fn test_tzais_geonim_8_5_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_8_5_degrees().map_or_else(
+        let result = czc.tzeis_geonim_8_5_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2194,7 +2194,7 @@ fn test_tzais_geonim_8_5_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_9_3_degrees() {
+fn test_tzeis_geonim_9_3_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:58:41 EDT",
@@ -2206,7 +2206,7 @@ fn test_tzais_geonim_9_3_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_9_3_degrees().map_or_else(
+        let result = czc.tzeis_geonim_9_3_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2215,7 +2215,7 @@ fn test_tzais_geonim_9_3_degrees() {
 }
 
 #[test]
-fn test_tzais_geonim_9_75_degrees() {
+fn test_tzeis_geonim_9_75_degrees() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:01:02 EDT",
@@ -2227,7 +2227,7 @@ fn test_tzais_geonim_9_75_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_geonim_9_75_degrees().map_or_else(
+        let result = czc.tzeis_geonim_9_75_degrees().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2446,7 +2446,7 @@ fn test_plag_baal_hatanya() {
 }
 
 #[test]
-fn test_tzais_baal_hatanya() {
+fn test_tzeis_baal_hatanya() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:41:21 EDT",
@@ -2458,7 +2458,7 @@ fn test_tzais_baal_hatanya() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_baal_hatanya().map_or_else(
+        let result = czc.tzeis_baal_hatanya().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2656,7 +2656,7 @@ fn test_plag_gra_fixed_local_chatzos_to_sunset() {
 }
 
 #[test]
-fn test_tzais_50_minutes() {
+fn test_tzeis_50_minutes() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:04:38 EDT",
@@ -2668,7 +2668,7 @@ fn test_tzais_50_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_50_minutes().map_or_else(
+        let result = czc.tzeis_50_minutes().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );
@@ -2761,7 +2761,7 @@ fn test_chatzos() {
 }
 
 #[test]
-fn test_tzais_72_minutes() {
+fn test_tzeis_72_minutes() {
     let cals = test_helper::basic_location_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:26:38 EDT",
@@ -2773,7 +2773,7 @@ fn test_tzais_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzais_72_minutes().map_or_else(
+        let result = czc.tzeis_72_minutes().map_or_else(
             || String::from("None"),
             |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
         );

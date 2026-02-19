@@ -33,7 +33,7 @@ fn main() {
     let mk = czc.mincha_ketana_baal_hatanya().unwrap();
     let plag = czc.plag_baal_hatanya().unwrap();
     let shkia = czc.shkia().unwrap();
-    let tzais = czc.tzais_baal_hatanya().unwrap();
+    let tzeis = czc.tzeis_baal_hatanya().unwrap();
     let shaah = czc.shaah_zmanis_baal_hatanya().unwrap();
 
     // shaah is a TimeDelta, so we need to pretty-print it manually
@@ -52,7 +52,7 @@ MG:           {mg}
 MK:           {mk}
 shkia:        {shkia}
 plag:         {plag}
-tzais:        {tzais}
+tzeis:        {tzeis}
 shaah zmanis: {sz_hours:02}:{sz_minutes:02}:{sz_seconds:02}.{sz_nanos:02}"
     )
 }

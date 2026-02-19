@@ -59,15 +59,15 @@
 //!     timezone: chrono_tz::Asia::Jerusalem,
 //! };
 //!
-//! // the `zmanim_calculator` lets you make any custom tzais, alos, etc
-//! if let Some(tzais_pi_degrees) = zmanim_calculator::tzais(
+//! // the `zmanim_calculator` lets you make any custom tzeis, alos, etc
+//! if let Some(tzeis_pi_degrees) = zmanim_calculator::tzeis(
 //!     &dt,
 //!     &beit_meir,
 //!     false,
 //!     &ZmanOffset::Degrees(std::f64::consts::PI),
 //! ) {
 //!     assert_eq!(
-//!         tzais_pi_degrees.to_string(),
+//!         tzeis_pi_degrees.to_string(),
 //!         "2025-07-29 19:50:30.090272127 IDT"
 //!     );
 //! }
