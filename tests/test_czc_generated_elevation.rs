@@ -22,10 +22,10 @@ fn test_alos_19_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_19_8_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_19_8_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -43,10 +43,10 @@ fn test_tzais_19_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_19_8_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_19_8_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -64,10 +64,10 @@ fn test_alos_18_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_18_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_18_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -85,10 +85,10 @@ fn test_tzais_18_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_18_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_18_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -106,10 +106,10 @@ fn test_alos_26_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_26_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_26_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -127,10 +127,10 @@ fn test_tzais_26_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_26_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_26_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -148,10 +148,10 @@ fn test_alos_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_16_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -169,10 +169,10 @@ fn test_tzais_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_16_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -190,10 +190,10 @@ fn test_alos_60_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_60_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_60_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -211,10 +211,10 @@ fn test_tzais_60_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_60_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_60_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -232,10 +232,10 @@ fn test_alos_72_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_72_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_72_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -253,10 +253,10 @@ fn test_tzais_72_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_72_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_72_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -274,10 +274,10 @@ fn test_alos_90_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_90_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_90_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -295,10 +295,10 @@ fn test_tzais_90_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_90_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_90_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -316,10 +316,10 @@ fn test_alos_90_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_90_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_90_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -337,10 +337,10 @@ fn test_tzais_90_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_90_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_90_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -358,10 +358,10 @@ fn test_alos_96_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_96_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_96_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -379,10 +379,10 @@ fn test_tzais_96_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_96_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_96_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -400,10 +400,10 @@ fn test_tzais_ateret_torah() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_ateret_torah() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_ateret_torah().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -421,10 +421,10 @@ fn test_tzais_geonim_3_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_3_8_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_3_8_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -442,10 +442,10 @@ fn test_tzais_geonim_3_7_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_3_7_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_3_7_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -463,10 +463,10 @@ fn test_alos_96_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_96_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_96_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -484,10 +484,10 @@ fn test_tzais_96_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_96_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_96_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -505,10 +505,10 @@ fn test_alos_120_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_120_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_120_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -526,10 +526,10 @@ fn test_tzais_120_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_120_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_120_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -547,10 +547,10 @@ fn test_alos_120_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_120_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_120_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -568,10 +568,10 @@ fn test_tzais_120_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_120_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_120_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -589,10 +589,10 @@ fn test_tzais_geonim_7_083_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_7_083_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_7_083_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -610,10 +610,10 @@ fn test_mincha_gedola_30_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_30_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_30_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -631,10 +631,10 @@ fn test_sof_zman_tefila_mga_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_72_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_72_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -652,10 +652,10 @@ fn test_sof_zman_tefila_mga_72_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_72_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_72_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -673,10 +673,10 @@ fn test_sof_zman_tefila_mga_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_16_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -694,10 +694,10 @@ fn test_sof_zman_tefila_baal_hatanya() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_baal_hatanya() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_baal_hatanya().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -715,10 +715,10 @@ fn test_mincha_gedola_baal_hatanya() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_baal_hatanya() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_baal_hatanya().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -736,10 +736,10 @@ fn test_fixed_local_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.fixed_local_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.fixed_local_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -757,10 +757,10 @@ fn test_plag_mga_120_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_120_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_120_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -778,10 +778,10 @@ fn test_plag_mga_120_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_120_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_120_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -799,10 +799,10 @@ fn test_alos_19_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_19_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_19_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -820,10 +820,10 @@ fn test_misheyakir_12_85_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.misheyakir_12_85_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.misheyakir_12_85_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -841,10 +841,10 @@ fn test_misheyakir_11_5_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.misheyakir_11_5_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.misheyakir_11_5_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -862,10 +862,10 @@ fn test_misheyakir_11_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.misheyakir_11_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.misheyakir_11_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -883,10 +883,10 @@ fn test_misheyakir_10_2_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.misheyakir_10_2_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.misheyakir_10_2_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -904,10 +904,10 @@ fn test_misheyakir_7_65_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.misheyakir_7_65_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.misheyakir_7_65_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -925,10 +925,10 @@ fn test_misheyakir_9_5_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.misheyakir_9_5_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.misheyakir_9_5_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -946,10 +946,10 @@ fn test_sof_zman_shema_mga_19_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_19_8_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_19_8_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -967,10 +967,10 @@ fn test_sof_zman_shema_mga_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_16_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -988,10 +988,10 @@ fn test_sof_zman_shema_mga_18_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_18_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_18_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1009,10 +1009,10 @@ fn test_sof_zman_shema_mga_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_72_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_72_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1030,10 +1030,10 @@ fn test_sof_zman_shema_mga_72_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_72_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_72_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1051,10 +1051,10 @@ fn test_sof_zman_shema_mga_90_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_90_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_90_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1072,10 +1072,10 @@ fn test_sof_zman_shema_mga_90_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_90_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_90_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1093,10 +1093,10 @@ fn test_sof_zman_shema_mga_96_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_96_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_96_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1114,10 +1114,10 @@ fn test_sof_zman_shema_mga_96_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_96_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_96_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1135,10 +1135,10 @@ fn test_sof_zman_shema_3_hrs_before_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_3_hrs_before_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_3_hrs_before_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1156,10 +1156,10 @@ fn test_sof_zman_shema_mga_120_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_120_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_120_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1177,10 +1177,10 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_sunset() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_alos_16_1_degrees_to_sunset() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_alos_16_1_degrees_to_sunset().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1198,10 +1198,10 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_alos_16_1_degrees_to_tzais_geonim_7_083_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1219,10 +1219,10 @@ fn test_sof_zman_tefila_mga_19_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_19_8_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_19_8_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1240,10 +1240,10 @@ fn test_sof_zman_tefila_mga_18_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_18_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_18_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1261,10 +1261,10 @@ fn test_sof_zman_tefila_mga_90_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_90_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_90_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1282,10 +1282,10 @@ fn test_sof_zman_tefila_mga_90_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_90_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_90_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1303,10 +1303,10 @@ fn test_sof_zman_tefila_mga_96_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_96_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_96_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1324,10 +1324,10 @@ fn test_sof_zman_tefila_mga_96_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_96_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_96_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1345,10 +1345,10 @@ fn test_sof_zman_tefila_mga_120_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_mga_120_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_mga_120_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1366,10 +1366,10 @@ fn test_sof_zman_tefila_2_hrs_before_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_2_hrs_before_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_2_hrs_before_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1387,10 +1387,10 @@ fn test_mincha_gedola_mga_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_mga_72_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_mga_72_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1408,10 +1408,10 @@ fn test_mincha_gedola_mga_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_mga_16_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_mga_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1429,10 +1429,10 @@ fn test_mincha_gedola_ahavat_shalom() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_ahavat_shalom() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_ahavat_shalom().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1450,10 +1450,10 @@ fn test_mincha_gedola_gra_greater_than_30_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_gra_greater_than_30_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_gra_greater_than_30_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1471,10 +1471,10 @@ fn test_mincha_ketana_mga_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_ketana_mga_16_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_ketana_mga_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1492,10 +1492,10 @@ fn test_mincha_ketana_ahavat_shalom() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_ketana_ahavat_shalom() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_ketana_ahavat_shalom().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1513,10 +1513,10 @@ fn test_mincha_ketana_mga_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_ketana_mga_72_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_ketana_mga_72_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1534,10 +1534,10 @@ fn test_plag_mga_60_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_60_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_60_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1555,10 +1555,10 @@ fn test_plag_mga_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_72_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_72_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1576,10 +1576,10 @@ fn test_plag_mga_90_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_90_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_90_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1597,10 +1597,10 @@ fn test_plag_mga_96_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_96_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_96_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1618,10 +1618,10 @@ fn test_plag_mga_96_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_96_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_96_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1639,10 +1639,10 @@ fn test_plag_mga_90_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_90_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_90_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1660,10 +1660,10 @@ fn test_plag_mga_72_minutes_zmanis() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_72_minutes_zmanis() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_72_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1681,10 +1681,10 @@ fn test_plag_mga_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_16_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1702,10 +1702,10 @@ fn test_plag_mga_19_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_19_8_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_19_8_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1723,10 +1723,10 @@ fn test_plag_mga_26_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_26_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_26_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1744,10 +1744,10 @@ fn test_plag_mga_18_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_mga_18_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_mga_18_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1765,10 +1765,10 @@ fn test_plag_alos_16_1_degrees_to_sunset() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_alos_16_1_degrees_to_sunset() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_alos_16_1_degrees_to_sunset().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1786,10 +1786,10 @@ fn test_plag_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_alos_16_1_degrees_to_tzais_geonim_7_083_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_alos_16_1_degrees_to_tzais_geonim_7_083_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1807,10 +1807,10 @@ fn test_plag_ahavat_shalom() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_ahavat_shalom() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_ahavat_shalom().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1828,10 +1828,10 @@ fn test_bein_hashmashos_rt_13_24_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_rt_13_24_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_rt_13_24_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1849,10 +1849,10 @@ fn test_bein_hashmashos_rt_58_5_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_rt_58_5_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_rt_58_5_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1870,10 +1870,10 @@ fn test_bein_hashmashos_rt_13_5_minutes_before_7_083_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_rt_13_5_minutes_before_7_083_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_rt_13_5_minutes_before_7_083_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1891,10 +1891,10 @@ fn test_bein_hashmashos_rt_2_stars() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_rt_2_stars() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_rt_2_stars().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1912,10 +1912,10 @@ fn test_bein_hashmashos_yereim_18_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_yereim_18_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_yereim_18_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1933,10 +1933,10 @@ fn test_bein_hashmashos_yereim_3_05_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_yereim_3_05_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_yereim_3_05_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1954,10 +1954,10 @@ fn test_bein_hashmashos_yereim_16_875_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_yereim_16_875_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_yereim_16_875_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1975,10 +1975,10 @@ fn test_bein_hashmashos_yereim_2_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_yereim_2_8_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_yereim_2_8_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -1996,10 +1996,10 @@ fn test_bein_hashmashos_yereim_13_5_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_yereim_13_5_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_yereim_13_5_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2017,10 +2017,10 @@ fn test_bein_hashmashos_yereim_2_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.bein_hashmashos_yereim_2_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.bein_hashmashos_yereim_2_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2038,10 +2038,10 @@ fn test_tzais_geonim_5_95_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_5_95_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_5_95_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2059,10 +2059,10 @@ fn test_tzais_geonim_4_61_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_4_61_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_4_61_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2080,10 +2080,10 @@ fn test_tzais_geonim_4_37_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_4_37_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_4_37_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2101,10 +2101,10 @@ fn test_tzais_geonim_5_88_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_5_88_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_5_88_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2122,10 +2122,10 @@ fn test_tzais_geonim_4_8_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_4_8_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_4_8_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2143,10 +2143,10 @@ fn test_tzais_geonim_6_45_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_6_45_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_6_45_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2164,10 +2164,10 @@ fn test_tzais_geonim_7_67_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_7_67_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_7_67_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2185,10 +2185,10 @@ fn test_tzais_geonim_8_5_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_8_5_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_8_5_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2206,10 +2206,10 @@ fn test_tzais_geonim_9_3_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_9_3_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_9_3_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2227,10 +2227,10 @@ fn test_tzais_geonim_9_75_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_geonim_9_75_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_geonim_9_75_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2248,10 +2248,10 @@ fn test_sof_zman_shema_ateret_torah() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_ateret_torah() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_ateret_torah().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2269,10 +2269,10 @@ fn test_sof_zman_tefila_ateret_torah() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_ateret_torah() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_ateret_torah().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2290,10 +2290,10 @@ fn test_mincha_gedola_ateret_torah() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_ateret_torah() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_ateret_torah().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2311,10 +2311,10 @@ fn test_mincha_ketana_ateret_torah() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_ketana_ateret_torah() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_ketana_ateret_torah().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2332,10 +2332,10 @@ fn test_plag_ateret_torah() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_ateret_torah() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_ateret_torah().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2353,10 +2353,10 @@ fn test_alos_baal_hatanya() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_baal_hatanya() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_baal_hatanya().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2374,10 +2374,10 @@ fn test_sof_zman_shema_baal_hatanya() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_baal_hatanya() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_baal_hatanya().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2395,10 +2395,10 @@ fn test_mincha_gedola_baal_hatanya_greater_than_30_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_baal_hatanya_greater_than_30_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_baal_hatanya_greater_than_30_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2416,10 +2416,10 @@ fn test_mincha_ketana_baal_hatanya() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_ketana_baal_hatanya() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_ketana_baal_hatanya().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2437,10 +2437,10 @@ fn test_plag_baal_hatanya() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_baal_hatanya() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_baal_hatanya().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2458,10 +2458,10 @@ fn test_tzais_baal_hatanya() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_baal_hatanya() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_baal_hatanya().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2479,10 +2479,10 @@ fn test_sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2500,10 +2500,10 @@ fn test_sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2521,10 +2521,10 @@ fn test_sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2542,10 +2542,10 @@ fn test_sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2563,10 +2563,10 @@ fn test_sof_zman_shema_gra_sunrise_to_fixed_local_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_gra_sunrise_to_fixed_local_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_gra_sunrise_to_fixed_local_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2584,10 +2584,10 @@ fn test_sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2605,10 +2605,10 @@ fn test_mincha_gedola_gra_fixed_local_chatzos_30_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_gedola_gra_fixed_local_chatzos_30_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_gedola_gra_fixed_local_chatzos_30_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2626,10 +2626,10 @@ fn test_mincha_ketana_gra_fixed_local_chatzos_to_sunset() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.mincha_ketana_gra_fixed_local_chatzos_to_sunset() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.mincha_ketana_gra_fixed_local_chatzos_to_sunset().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2647,10 +2647,10 @@ fn test_plag_gra_fixed_local_chatzos_to_sunset() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.plag_gra_fixed_local_chatzos_to_sunset() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.plag_gra_fixed_local_chatzos_to_sunset().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2668,10 +2668,10 @@ fn test_tzais_50_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_50_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_50_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2689,10 +2689,10 @@ fn test_samuch_lemincha_ketana_gra() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.samuch_lemincha_ketana_gra() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.samuch_lemincha_ketana_gra().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2710,10 +2710,10 @@ fn test_samuch_lemincha_ketana_mga_16_1_degrees() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.samuch_lemincha_ketana_mga_16_1_degrees() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.samuch_lemincha_ketana_mga_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2731,10 +2731,10 @@ fn test_samuch_lemincha_ketana_mga_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.samuch_lemincha_ketana_mga_72_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.samuch_lemincha_ketana_mga_72_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2752,10 +2752,10 @@ fn test_chatzos() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.chatzos() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.chatzos().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2773,10 +2773,10 @@ fn test_tzais_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.tzais_72_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.tzais_72_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2794,10 +2794,10 @@ fn test_alos_72_minutes() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.alos_72_minutes() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.alos_72_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2815,10 +2815,10 @@ fn test_sof_zman_tefila_gra() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_tefila_gra() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_tefila_gra().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2836,10 +2836,10 @@ fn test_sof_zman_shema_gra() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.sof_zman_shema_gra() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.sof_zman_shema_gra().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
@@ -2857,10 +2857,10 @@ fn test_chatzos_halayla() {
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = match czc.chatzos_halayla() {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
-            None => String::from("None"),
-        };
+        let result = czc.chatzos_halayla().map_or_else(
+            || String::from("None"),
+            |dt| dt.format("%Y-%m-%d %H:%M:%S %Z").to_string(),
+        );
         assert_eq!(result, edt)
     }
 }
