@@ -70,28 +70,19 @@ pub const fn basic_locations() -> [GeoLocation; 6] {
 }
 
 #[allow(dead_code)]
-pub fn czc_test_sample() -> ComplexZmanimCalendar {
-    ComplexZmanimCalendar {
-        geo_location: jerusalem(),
-        date: Asia::Jerusalem
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap(),
-        use_elevation: UseElevation::No,
-    }
-}
+pub fn basic_location_czcs(use_elevation: bool) -> [ComplexZmanimCalendar; 6] {
+    let elev = if use_elevation {
+        UseElevation::All
+    } else {
+        UseElevation::No
+    };
 
-#[allow(dead_code)]
-pub fn czc_test_elevation_sample() -> ComplexZmanimCalendar {
-    ComplexZmanimCalendar {
-        geo_location: GeoLocation {
-            latitude: 31.79388,
-            longitude: 35.03684,
-            timezone: Asia::Jerusalem,
-            elevation: 586.19,
-        },
-        date: Asia::Jerusalem
+    basic_locations().map(|loc| ComplexZmanimCalendar {
+        geo_location: loc,
+        date: loc
+            .timezone
             .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
             .unwrap(),
-        use_elevation: UseElevation::All,
-    }
+        use_elevation: elev,
+    })
 }
