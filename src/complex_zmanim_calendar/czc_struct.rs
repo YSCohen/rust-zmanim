@@ -88,6 +88,22 @@ impl ComplexZmanimCalendar {
         zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)
     }
 
+    /// Returns sunrise, for use internally. Will be elevation-adjusted only if
+    /// `use_elevation == All`
+    #[must_use]
+    fn zmanim_sunrise(&self) -> Option<DateTime<Tz>> {
+        let use_elevation = self.use_elevation.to_bool(false);
+        zmanim_calculator::hanetz(&self.date, &self.geo_location, use_elevation)
+    }
+
+    /// Returns sunset, for use internally. Will be elevation-adjusted only if
+    /// `use_elevation == All`
+    #[must_use]
+    fn zmanim_sunset(&self) -> Option<DateTime<Tz>> {
+        let use_elevation = self.use_elevation.to_bool(false);
+        zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)
+    }
+
     /// Returns the latest *zman krias shema* (time to recite *Shema* in the
     /// morning) according to the opinion of the *Magen Avraham* (MGA) based on
     /// *alos* and *tzais* being given offset from sunrise and sunset,
@@ -217,8 +233,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn sof_zman_shema_gra(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_shema(
-            &self.hanetz()?,
-            &self.shkia()?,
+            &self.zmanim_sunrise()?,
+            &self.zmanim_sunset()?,
         ))
     }
 
@@ -229,8 +245,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn sof_zman_tefila_gra(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_tefila(
-            &self.hanetz()?,
-            &self.shkia()?,
+            &self.zmanim_sunrise()?,
+            &self.zmanim_sunset()?,
         ))
     }
 
@@ -241,7 +257,7 @@ impl ComplexZmanimCalendar {
     /// this method will return the *zman* any day of the year.
     #[must_use]
     pub fn sof_zman_biur_chametz_gra(&self) -> Option<DateTime<Tz>> {
-        Some(self.hanetz()? + (self.shaah_zmanis_gra()? * 5))
+        Some(self.zmanim_sunrise()? + (self.shaah_zmanis_gra()? * 5))
     }
 
     /// Returns *mincha gedola* calculated as 6.5 * *shaos zmaniyos*
@@ -249,8 +265,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn mincha_gedola_gra(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::mincha_gedola(
-            &self.hanetz()?,
-            &self.shkia()?,
+            &self.zmanim_sunrise()?,
+            &self.zmanim_sunset()?,
         ))
     }
 
@@ -281,7 +297,7 @@ impl ComplexZmanimCalendar {
     /// *mincha*. See the *Mechaber* and *Mishna Berurah* 232 and 249:2.
     #[must_use]
     pub fn samuch_lemincha_ketana_gra(&self) -> Option<DateTime<Tz>> {
-        Some(self.hanetz()? + (self.shaah_zmanis_gra()? * 9))
+        Some(self.zmanim_sunrise()? + (self.shaah_zmanis_gra()? * 9))
     }
 
     /// Returns *mincha ketana* calculated as 9.5 * *shaos zmaniyos*
@@ -289,8 +305,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn mincha_ketana_gra(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::mincha_ketana(
-            &self.hanetz()?,
-            &self.shkia()?,
+            &self.zmanim_sunrise()?,
+            &self.zmanim_sunset()?,
         ))
     }
 
@@ -299,8 +315,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn plag_gra(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::plag_hamincha(
-            &self.hanetz()?,
-            &self.shkia()?,
+            &self.zmanim_sunrise()?,
+            &self.zmanim_sunset()?,
         ))
     }
 
@@ -311,8 +327,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn shaah_zmanis_gra(&self) -> Option<TimeDelta> {
         Some(zmanim_calculator::shaah_zmanis(
-            &self.hanetz()?,
-            &self.shkia()?,
+            &self.zmanim_sunrise()?,
+            &self.zmanim_sunset()?,
         ))
     }
 
@@ -575,7 +591,7 @@ impl ComplexZmanimCalendar {
     /// this half-day.
     #[must_use]
     pub fn sof_zman_shema_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
-        let alos = self.hanetz()?;
+        let alos = self.zmanim_sunrise()?;
         let offset = (self.fixed_local_chatzos()? - alos) / 2;
         Some(alos + offset)
     }
@@ -589,7 +605,7 @@ impl ComplexZmanimCalendar {
     /// sunrise or 2/3 of this half-day.
     #[must_use]
     pub fn sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<DateTime<Tz>> {
-        let alos = self.hanetz()?;
+        let alos = self.zmanim_sunrise()?;
         let offset = ((self.fixed_local_chatzos()? - alos) * 2) / 3;
         Some(alos + offset)
     }
@@ -609,7 +625,7 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn mincha_ketana_gra_fixed_local_chatzos_to_sunset(&self) -> Option<DateTime<Tz>> {
         let chatzos = self.fixed_local_chatzos()?;
-        let half_shaah = (self.shkia()? - chatzos) / 12;
+        let half_shaah = (self.zmanim_sunset()? - chatzos) / 12;
         Some(chatzos + (half_shaah * 7))
     }
 
@@ -621,7 +637,7 @@ impl ComplexZmanimCalendar {
     pub fn plag_gra_fixed_local_chatzos_to_sunset(&self) -> Option<DateTime<Tz>> {
         let chatzos = self.fixed_local_chatzos()?;
         // (19/24) == (4.75/6)
-        let quarter_shaah = (self.shkia()? - chatzos) / 24;
+        let quarter_shaah = (self.zmanim_sunset()? - chatzos) / 24;
         Some(chatzos + (quarter_shaah * 19))
     }
 
@@ -891,7 +907,7 @@ impl ComplexZmanimCalendar {
     pub fn sof_zman_shema_alos_16_1_degrees_to_sunset(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::sof_zman_shema(
             &self.alos_16_1_degrees()?,
-            &self.sea_level_sunset()?,
+            &self.zmanim_sunset()?,
         ))
     }
 
@@ -899,7 +915,7 @@ impl ComplexZmanimCalendar {
     /// This method should be used *lechumra* only and returns the time of *plag
     /// hamincha* based on the opinion that the day starts at *alos* 16.1&deg;
     /// and ends at sunset.
-    /// 
+    ///
     /// 10.75 *shaos zmaniyos* are calculated based on
     /// this day and added to *alos*to reach this time. This time is 10.75
     /// *shaos zmaniyos* (temporal hours) after dawn based on the opinion
@@ -911,7 +927,7 @@ impl ComplexZmanimCalendar {
     pub fn plag_alos_16_1_degrees_to_sunset(&self) -> Option<DateTime<Tz>> {
         Some(zmanim_calculator::plag_hamincha(
             &self.alos_16_1_degrees()?,
-            &self.shkia()?,
+            &self.zmanim_sunset()?,
         ))
     }
 
@@ -1384,10 +1400,10 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn bein_hashmashos_rt_2_stars(&self) -> Option<DateTime<Tz>> {
         let offset_seconds =
-            (self.hanetz()? - self.alos_19_8_degrees()?).as_seconds_f64() * (5.0 / 18.0);
+            (self.zmanim_sunrise()? - self.alos_19_8_degrees()?).as_seconds_f64() * (5.0 / 18.0);
         let offset_delta = TimeDelta::seconds(offset_seconds.trunc() as i64)
             + TimeDelta::nanoseconds((offset_seconds.fract() * 1_000_000_000.0) as i64);
-        Some(self.shkia()? + offset_delta)
+        Some(self.zmanim_sunset()? + offset_delta)
     }
 
     // Other Tzais
