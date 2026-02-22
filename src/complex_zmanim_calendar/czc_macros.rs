@@ -1,129 +1,109 @@
 #[macro_export]
 macro_rules! zmanim_for_offset {
-    // Main entry point with method selection
-    ($name:ident, $offset_fn:expr, [$($method:ident => $doc:expr),* $(,)?]) => {
+    // Main entry point with explicit function names
+    ($offset_fn:expr, [$($fn_name:ident => $zman_type:ident, $doc:expr),* $(,)?]) => {
         $(
-            zmanim_for_offset!(@method_custom $name, $offset_fn, $method, $doc);
+            zmanim_for_offset!(@method_custom $fn_name, $offset_fn, $zman_type, $doc);
         )*
     };
 
-    // Generate alos method
-    (@method_custom $name:ident, $offset_fn:expr, alos, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<alos $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.alos(&offset)
-            }
+    // alos
+    (@method_custom $fn_name:ident, $offset_fn:expr, alos, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.alos(&offset)
         }
     };
 
-    // Generate tzeis method
-    (@method_custom $name:ident, $offset_fn:expr, tzeis, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<tzeis $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.tzeis(&offset)
-            }
+    // tzeis
+    (@method_custom $fn_name:ident, $offset_fn:expr, tzeis, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.tzeis(&offset)
         }
     };
 
-    // Generate shaah_zmanis_mga method
-    (@method_custom $name:ident, $offset_fn:expr, shaah_zmanis_mga, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<shaah_zmanis_mga $name>](&self) -> Option<TimeDelta> {
-                let offset = ($offset_fn)(self)?;
-                self.shaah_zmanis_mga(&offset)
-            }
+    // shaah_zmanis_mga
+    (@method_custom $fn_name:ident, $offset_fn:expr, shaah_zmanis_mga, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<TimeDelta> {
+            let offset = ($offset_fn)(self)?;
+            self.shaah_zmanis_mga(&offset)
         }
     };
 
-    // Generate sof_zman_shema_mga method
-    (@method_custom $name:ident, $offset_fn:expr, sof_zman_shema_mga, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<sof_zman_shema_mga $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.sof_zman_shema_mga(&offset)
-            }
+    // sof_zman_shema_mga
+    (@method_custom $fn_name:ident, $offset_fn:expr, sof_zman_shema_mga, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.sof_zman_shema_mga(&offset)
         }
     };
 
-    // Generate sof_zman_tefila_mga method
-    (@method_custom $name:ident, $offset_fn:expr, sof_zman_tefila_mga, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<sof_zman_tefila_mga $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.sof_zman_tefila_mga(&offset)
-            }
+    // sof_zman_tefila_mga
+    (@method_custom $fn_name:ident, $offset_fn:expr, sof_zman_tefila_mga, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.sof_zman_tefila_mga(&offset)
         }
     };
 
-    // Generate sof_zman_biur_chametz_mga method
-    (@method_custom $name:ident, $offset_fn:expr, sof_zman_biur_chametz_mga, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<sof_zman_biur_chametz_mga $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.sof_zman_biur_chametz_mga(&offset)
-            }
+    // sof_zman_biur_chametz_mga
+    (@method_custom $fn_name:ident, $offset_fn:expr, sof_zman_biur_chametz_mga, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.sof_zman_biur_chametz_mga(&offset)
         }
     };
 
-    // Generate mincha_gedola_mga method
-    (@method_custom $name:ident, $offset_fn:expr, mincha_gedola_mga, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<mincha_gedola_mga $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.mincha_gedola_mga(&offset)
-            }
+    // mincha_gedola_mga
+    (@method_custom $fn_name:ident, $offset_fn:expr, mincha_gedola_mga, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.mincha_gedola_mga(&offset)
         }
     };
 
-    // Generate samuch_lemincha_ketana_mga method
-    (@method_custom $name:ident, $offset_fn:expr, samuch_lemincha_ketana_mga, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<samuch_lemincha_ketana_mga $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.samuch_lemincha_ketana_mga(&offset)
-            }
+    // samuch_lemincha_ketana_mga
+    (@method_custom $fn_name:ident, $offset_fn:expr, samuch_lemincha_ketana_mga, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.samuch_lemincha_ketana_mga(&offset)
         }
     };
 
-    // Generate mincha_ketana_mga method
-    (@method_custom $name:ident, $offset_fn:expr, mincha_ketana_mga, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<mincha_ketana_mga $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.mincha_ketana_mga(&offset)
-            }
+    // mincha_ketana_mga
+    (@method_custom $fn_name:ident, $offset_fn:expr, mincha_ketana_mga, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.mincha_ketana_mga(&offset)
         }
     };
 
-    // Generate plag_mga method
-    (@method_custom $name:ident, $offset_fn:expr, plag_mga, $doc:expr) => {
-        paste! {
-            #[must_use]
-            #[doc = $doc]
-            pub fn [<plag_mga $name>](&self) -> Option<DateTime<Tz>> {
-                let offset = ($offset_fn)(self)?;
-                self.plag_mga(&offset)
-            }
+    // plag_mga
+    (@method_custom $fn_name:ident, $offset_fn:expr, plag_mga, $doc:expr) => {
+        #[must_use]
+        #[doc = $doc]
+        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+            let offset = ($offset_fn)(self)?;
+            self.plag_mga(&offset)
         }
     };
 }

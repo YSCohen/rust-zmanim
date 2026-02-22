@@ -8,7 +8,6 @@ use crate::{
 
 use chrono::{DateTime, TimeDelta};
 use chrono_tz::Tz;
-use pastey::paste;
 
 /// Struct to store a 4-dimensional location and settings, to simplify getting
 /// many *zmanim* for the same location. Has premade methods for many common
@@ -877,21 +876,21 @@ impl ComplexZmanimCalendar {
     }
 
     zmanim_for_offset!(
-        _16_1_degrees,
         |_| Some(Degrees(16.1)),
         [
-            alos => alos_degrees_basedon_doc!(16.1, 72),
-            tzeis => tzeis_degrees_basedon_doc!(16.1, 72),
-            shaah_zmanis_mga => shaah_mga_degrees_basedon_doc!(16.1, 72),
-            sof_zman_shema_mga => szks_mga_degrees_doc!(16.1),
-            sof_zman_tefila_mga => szt_mga_degrees_doc!(16.1),
-            sof_zman_biur_chametz_mga => sz_biur_chametz_mga_degrees_doc!(16.1),
-            mincha_gedola_mga => mg_mga_degrees_doc!(16.1),
-            samuch_lemincha_ketana_mga => slmk_mga_degrees_doc!(16.1),
-            mincha_ketana_mga => mk_mga_degrees_doc!(16.1),
-            plag_mga => plag_mga_degrees_lechumra_doc!(16.1),
+            alos_16_1_degrees => alos, alos_degrees_basedon_doc!(16.1, 72),
+            tzeis_16_1_degrees => tzeis, tzeis_degrees_basedon_doc!(16.1, 72),
+            shaah_zmanis_mga_16_1_degrees => shaah_zmanis_mga, shaah_mga_degrees_basedon_doc!(16.1, 72),
+            sof_zman_shema_mga_16_1_degrees => sof_zman_shema_mga, szks_mga_degrees_doc!(16.1),
+            sof_zman_tefila_mga_16_1_degrees => sof_zman_tefila_mga, szt_mga_degrees_doc!(16.1),
+            sof_zman_biur_chametz_mga_16_1_degrees => sof_zman_biur_chametz_mga, sz_biur_chametz_mga_degrees_doc!(16.1),
+            mincha_gedola_mga_16_1_degrees => mincha_gedola_mga, mg_mga_degrees_doc!(16.1),
+            samuch_lemincha_ketana_mga_16_1_degrees => samuch_lemincha_ketana_mga, slmk_mga_degrees_doc!(16.1),
+            mincha_ketana_mga_16_1_degrees => mincha_ketana_mga, mk_mga_degrees_doc!(16.1),
+            plag_mga_16_1_degrees => plag_mga, plag_mga_degrees_lechumra_doc!(16.1),
         ]
     );
+
     // *alos* 16.1 degrees to sunset
     /// Returns the latest *zman krias shema* (time to recite
     /// *Shema* in the morning) based on the opinion that the day starts at
@@ -966,15 +965,14 @@ impl ComplexZmanimCalendar {
     }
 
     zmanim_for_offset!(
-        _18_degrees,
         |_| Some(Degrees(18.0)),
         [
-            alos => alos_degrees_doc!(18),
-            tzeis => tzeis_degrees_doc!(18),
-            shaah_zmanis_mga => shaah_mga_degrees_doc!(18),
-            sof_zman_shema_mga => szks_mga_degrees_doc!(18),
-            sof_zman_tefila_mga => szt_mga_degrees_doc!(18),
-            plag_mga => plag_mga_degrees_lechumra_doc!(18),
+            alos_18_degrees => alos, alos_degrees_doc!(18),
+            tzeis_18_degrees => tzeis, tzeis_degrees_doc!(18),
+            shaah_zmanis_mga_18_degrees => shaah_zmanis_mga, shaah_mga_degrees_doc!(18),
+            sof_zman_shema_mga_18_degrees => sof_zman_shema_mga, szks_mga_degrees_doc!(18),
+            sof_zman_tefila_mga_18_degrees => sof_zman_tefila_mga, szt_mga_degrees_doc!(18),
+            plag_mga_18_degrees => plag_mga, plag_mga_degrees_lechumra_doc!(18),
         ]
     );
 
@@ -990,59 +988,54 @@ impl ComplexZmanimCalendar {
     }
 
     zmanim_for_offset!(
-        _19_8_degrees,
         |_| Some(Degrees(19.8)),
         [
-            alos => alos_degrees_basedon_doc!(19.8, 90),
-            tzeis => tzeis_degrees_basedon_doc!(19.8, 90),
-            shaah_zmanis_mga => shaah_mga_degrees_basedon_doc!(19.8, 90),
-            sof_zman_shema_mga => szks_mga_degrees_doc!(19.8),
-            sof_zman_tefila_mga => szt_mga_degrees_doc!(19.8),
-            plag_mga => plag_mga_degrees_lechumra_doc!(19.8),
+            alos_19_8_degrees => alos, alos_degrees_basedon_doc!(19.8, 90),
+            tzeis_19_8_degrees => tzeis, tzeis_degrees_basedon_doc!(19.8, 90),
+            shaah_zmanis_mga_19_8_degrees => shaah_zmanis_mga, shaah_mga_degrees_basedon_doc!(19.8, 90),
+            sof_zman_shema_mga_19_8_degrees => sof_zman_shema_mga, szks_mga_degrees_doc!(19.8),
+            sof_zman_tefila_mga_19_8_degrees => sof_zman_tefila_mga, szt_mga_degrees_doc!(19.8),
+            plag_mga_19_8_degrees => plag_mga, plag_mga_degrees_lechumra_doc!(19.8),
         ]
     );
 
     zmanim_for_offset!(
-        _26_degrees,
         |_| Some(Degrees(26.0)),
         [
-            alos => alos_degrees_basedon_lechumra_doc!(26, 120),
-            tzeis => tzeis_degrees_basedon_doc!(26, 120),
-            shaah_zmanis_mga => shaah_mga_degrees_lechumra_basedon_doc!(26, 120),
-            plag_mga => plag_mga_degrees_lechumra_doc!(26),
+            alos_26_degrees => alos, alos_degrees_basedon_lechumra_doc!(26, 120),
+            tzeis_26_degrees => tzeis, tzeis_degrees_basedon_doc!(26, 120),
+            shaah_zmanis_mga_26_degrees => shaah_zmanis_mga, shaah_mga_degrees_lechumra_basedon_doc!(26, 120),
+            plag_mga_26_degrees => plag_mga, plag_mga_degrees_lechumra_doc!(26),
         ]
     );
 
     zmanim_for_offset!(
-        _60_minutes,
         |_| Some(Minutes(60.0)),
         [
-            alos => "Returns *alos* (dawn) calculated as 60 minutes before sunrise. This is the time to walk the distance of 4 *mil* at 15 minutes a *mil*. This seems to be the opinion of the *Chavas Yair* in the *Mekor Chaim, Orach Chaim* Ch. 90, though the *Mekor Chaim* in Ch. 58 and in the *Chut Hashani* Ch. 97 states that a person walks 3 and a 1/3 *mil* in an hour, or an 18-minute *mil*. Also see the *Divrei Malkiel* Vol. 4, Ch. 20, page 34) who mentions the 15 minute *mil lechumra* by baking *matzos*. Also see the *Maharik* Ch. 173 where the questioner quoting the *Ra'avan* is of the opinion that the time to walk a *mil* is 15 minutes (5 *mil* in a little over an hour). There are many who believe that there is a *ta'us sofer* (scribeal error) in the *Ra'avan*, and it should 4 *mil* in a little over an hour, or an 18-minute *mil*. Time based offset calculations are based on the opinion of the *Rishonim* who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 4 *mil*.",
-            tzeis => "Returns *tzeis hakochavim* (nightfall) based on the opinion of the *Chavas Yair* and *Divrei Malkiel* that the time to walk the distance of a mil is 15 minutes, for a total of 60 minutes for 4 *mil* after sunset. See detailed documentation explaining the 60 minute concept at [alos_60_minutes](ComplexZmanimCalendar::alos_60_minutes).",
-            shaah_zmanis_mga => shaah_mga_minutes_doc!(60),
-            plag_mga => plag_mga_minutes_doc!(60),
+            alos_60_minutes => alos, "Returns *alos* (dawn) calculated as 60 minutes before sunrise. This is the time to walk the distance of 4 *mil* at 15 minutes a *mil*. This seems to be the opinion of the *Chavas Yair* in the *Mekor Chaim, Orach Chaim* Ch. 90, though the *Mekor Chaim* in Ch. 58 and in the *Chut Hashani* Ch. 97 states that a person walks 3 and a 1/3 *mil* in an hour, or an 18-minute *mil*. Also see the *Divrei Malkiel* Vol. 4, Ch. 20, page 34) who mentions the 15 minute *mil lechumra* by baking *matzos*. Also see the *Maharik* Ch. 173 where the questioner quoting the *Ra'avan* is of the opinion that the time to walk a *mil* is 15 minutes (5 *mil* in a little over an hour). There are many who believe that there is a *ta'us sofer* (scribeal error) in the *Ra'avan*, and it should 4 *mil* in a little over an hour, or an 18-minute *mil*. Time based offset calculations are based on the opinion of the *Rishonim* who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 4 *mil*.",
+            tzeis_60_minutes => tzeis, "Returns *tzeis hakochavim* (nightfall) based on the opinion of the *Chavas Yair* and *Divrei Malkiel* that the time to walk the distance of a mil is 15 minutes, for a total of 60 minutes for 4 *mil* after sunset. See detailed documentation explaining the 60 minute concept at [alos_60_minutes](ComplexZmanimCalendar::alos_60_minutes).",
+            shaah_zmanis_mga_60_minutes => shaah_zmanis_mga, shaah_mga_minutes_doc!(60),
+            plag_mga_60_minutes => plag_mga, plag_mga_minutes_doc!(60),
         ]
     );
 
     zmanim_for_offset!(
-        _72_minutes,
         |_| Some(Minutes(72.0)),
         [
-            alos => alos_minutes_basedon_doc!(72, 18),
-            tzeis => "Returns *tzeis hakochavim* (nightfall) based on the opinion of *Rabbeinu Tam* that *tzeis hakochavim* is calculated as 72 minutes after sunset, the time it takes to walk 4 *mil* at 18 minutes a mil. According to the *Machtzis Hashekel* in *Orach Chaim* 235:3, the *Pri Megadim* in *Orach Chaim* 261:2 (see the *Biur Halacha*) and others (see *Hazmanim Bahalacha* 17:3 and 17:5) the 72 minutes are standard clock minutes any time of the year in any location.",
-            shaah_zmanis_mga => shaah_mga_minutes_doc!(72),
-            sof_zman_shema_mga => szks_mga_minutes_doc!(72),
-            sof_zman_tefila_mga => szt_mga_minutes_doc!(72),
-            sof_zman_biur_chametz_mga => sz_biur_chametz_mga_minutes_doc!(72),
-            mincha_gedola_mga => mg_mga_minutes_doc!(72),
-            samuch_lemincha_ketana_mga => slmk_mga_minutes_doc!(72),
-            mincha_ketana_mga => mk_mga_minutes_doc!(72),
-            plag_mga => plag_mga_minutes_lechumra_doc!(72),
+            alos_72_minutes => alos, alos_minutes_basedon_doc!(72, 18),
+            tzeis_72_minutes => tzeis, "Returns *tzeis hakochavim* (nightfall) based on the opinion of *Rabbeinu Tam* that *tzeis hakochavim* is calculated as 72 minutes after sunset, the time it takes to walk 4 *mil* at 18 minutes a mil. According to the *Machtzis Hashekel* in *Orach Chaim* 235:3, the *Pri Megadim* in *Orach Chaim* 261:2 (see the *Biur Halacha*) and others (see *Hazmanim Bahalacha* 17:3 and 17:5) the 72 minutes are standard clock minutes any time of the year in any location.",
+            shaah_zmanis_mga_72_minutes => shaah_zmanis_mga, shaah_mga_minutes_doc!(72),
+            sof_zman_shema_mga_72_minutes => sof_zman_shema_mga, szks_mga_minutes_doc!(72),
+            sof_zman_tefila_mga_72_minutes => sof_zman_tefila_mga, szt_mga_minutes_doc!(72),
+            sof_zman_biur_chametz_mga_72_minutes => sof_zman_biur_chametz_mga, sz_biur_chametz_mga_minutes_doc!(72),
+            mincha_gedola_mga_72_minutes => mincha_gedola_mga, mg_mga_minutes_doc!(72),
+            samuch_lemincha_ketana_mga_72_minutes => samuch_lemincha_ketana_mga, slmk_mga_minutes_doc!(72),
+            mincha_ketana_mga_72_minutes => mincha_ketana_mga, mk_mga_minutes_doc!(72),
+            plag_mga_72_minutes => plag_mga, plag_mga_minutes_lechumra_doc!(72),
         ]
     );
 
     zmanim_for_offset!(
-        _72_minutes_zmanis,
         |this: &ComplexZmanimCalendar| {
             Some(MinutesZmaniyos {
                 minutes_zmaniyos: 72.0,
@@ -1050,34 +1043,32 @@ impl ComplexZmanimCalendar {
             })
         },
         [
-            alos => concat!(
+            alos_72_minutes_zmanis => alos, concat!(
                 alos_minutes_zmanis_basedon_doc!(72, 18, "1/10th"),
                 "\nThis calculation is used in the calendars published by the Hisachdus Harabanim D'Artzos Habris Ve'Canada."
             ),
-            tzeis => "Returns *tzeis hakochavim* (nightfall) calculated as 72 minutes *zmaniyos*, or 1/10th of the day after sunset. This is the way that the *Minchas Cohen* in *Ma'amar* 2:4 calculates *Rebbeinu Tam*'s time of *tzeis*. It should be noted that this calculation results in the shortest time from sunset to *tzeis* being during the winter solstice, the longest at the summer solstice and 72 clock minutes at the equinox. This does not match reality, since there is no direct relationship between the length of the day and twilight. The shortest twilight is during the equinox, the longest is during the summer solstice, and in the winter with the shortest daylight, the twilight period is longer than during the equinoxes.",
-            shaah_zmanis_mga => shaah_mga_minutes_zmanis_doc!(72, "1/10th"),
-            sof_zman_shema_mga => szks_mga_minutes_zmanis_doc!(72, "1/10th"),
-            sof_zman_tefila_mga => szt_mga_minutes_zmanis_doc!(72, "1/10th"),
-            sof_zman_biur_chametz_mga => sz_biur_chametz_mga_minutes_zmanis_doc!(72, "1/10th"),
-            plag_mga => plag_mga_minutes_zmanis_lechumra_doc!(72, "1/10th"),
+            tzeis_72_minutes_zmanis => tzeis, "Returns *tzeis hakochavim* (nightfall) calculated as 72 minutes *zmaniyos*, or 1/10th of the day after sunset. This is the way that the *Minchas Cohen* in *Ma'amar* 2:4 calculates *Rebbeinu Tam*'s time of *tzeis*. It should be noted that this calculation results in the shortest time from sunset to *tzeis* being during the winter solstice, the longest at the summer solstice and 72 clock minutes at the equinox. This does not match reality, since there is no direct relationship between the length of the day and twilight. The shortest twilight is during the equinox, the longest is during the summer solstice, and in the winter with the shortest daylight, the twilight period is longer than during the equinoxes.",
+            shaah_zmanis_mga_72_minutes_zmanis => shaah_zmanis_mga, shaah_mga_minutes_zmanis_doc!(72, "1/10th"),
+            sof_zman_shema_mga_72_minutes_zmanis => sof_zman_shema_mga, szks_mga_minutes_zmanis_doc!(72, "1/10th"),
+            sof_zman_tefila_mga_72_minutes_zmanis => sof_zman_tefila_mga, szt_mga_minutes_zmanis_doc!(72, "1/10th"),
+            sof_zman_biur_chametz_mga_72_minutes_zmanis => sof_zman_biur_chametz_mga, sz_biur_chametz_mga_minutes_zmanis_doc!(72, "1/10th"),
+            plag_mga_72_minutes_zmanis => plag_mga, plag_mga_minutes_zmanis_lechumra_doc!(72, "1/10th"),
         ]
     );
 
     zmanim_for_offset!(
-        _90_minutes,
         |_| Some(Minutes(90.0)),
         [
-            alos => alos_minutes_basedon_doc!(90, 22.5),
-            tzeis => "Returns *tzeis hakochavim* (dusk) calculated as 90 minutes after sunset. This method returns *tzeis* based on the opinion of the *Magen Avraham* that the time to walk the distance of a *mil* according to the *Rambam*'s opinion is 18 minutes, for a total of 90 minutes based on the opinion of Ula who calculated *tzeis* as 5 *mil* after *shkiah* (sunset). A similar calculation [tzeis_19_8_degrees](ComplexZmanimCalendar::tzeis_19_8_degrees) uses solar position calculations based on this time.",
-            shaah_zmanis_mga => shaah_mga_minutes_doc!(90),
-            sof_zman_shema_mga => szks_mga_minutes_doc!(90),
-            sof_zman_tefila_mga => szt_mga_minutes_doc!(90),
-            plag_mga => plag_mga_minutes_lechumra_doc!(90),
+            alos_90_minutes => alos, alos_minutes_basedon_doc!(90, 22.5),
+            tzeis_90_minutes => tzeis, "Returns *tzeis hakochavim* (dusk) calculated as 90 minutes after sunset. This method returns *tzeis* based on the opinion of the *Magen Avraham* that the time to walk the distance of a *mil* according to the *Rambam*'s opinion is 18 minutes, for a total of 90 minutes based on the opinion of Ula who calculated *tzeis* as 5 *mil* after *shkiah* (sunset). A similar calculation [tzeis_19_8_degrees](ComplexZmanimCalendar::tzeis_19_8_degrees) uses solar position calculations based on this time.",
+            shaah_zmanis_mga_90_minutes => shaah_zmanis_mga, shaah_mga_minutes_doc!(90),
+            sof_zman_shema_mga_90_minutes => sof_zman_shema_mga, szks_mga_minutes_doc!(90),
+            sof_zman_tefila_mga_90_minutes => sof_zman_tefila_mga, szt_mga_minutes_doc!(90),
+            plag_mga_90_minutes => plag_mga, plag_mga_minutes_lechumra_doc!(90),
         ]
     );
 
     zmanim_for_offset!(
-        _90_minutes_zmanis,
         |this: &ComplexZmanimCalendar| {
             Some(MinutesZmaniyos {
                 minutes_zmaniyos: 90.0,
@@ -1085,33 +1076,31 @@ impl ComplexZmanimCalendar {
             })
         },
         [
-            alos => alos_minutes_zmanis_basedon_doc!(90, 22.5, "1/8th"),
-            tzeis => concat!(
+            alos_90_minutes_zmanis => alos, alos_minutes_zmanis_basedon_doc!(90, 22.5, "1/8th"),
+            tzeis_90_minutes_zmanis => tzeis, concat!(
                 tzeis_minutes_zmanis_basedon_doc!(90, 22.5, "1/8th"),
                 " This time is known in Yiddish as the *achtel* (an eighth) *zman*."
             ),
-            shaah_zmanis_mga => shaah_mga_minutes_zmanis_doc!(90, "1/8th"),
-            sof_zman_shema_mga => szks_mga_minutes_zmanis_doc!(90, "1/8th"),
-            sof_zman_tefila_mga => szt_mga_minutes_zmanis_doc!(90, "1/8th"),
-            plag_mga => plag_mga_minutes_zmanis_lechumra_doc!(90, "1/8th"),
+            shaah_zmanis_mga_90_minutes_zmanis => shaah_zmanis_mga, shaah_mga_minutes_zmanis_doc!(90, "1/8th"),
+            sof_zman_shema_mga_90_minutes_zmanis => sof_zman_shema_mga, szks_mga_minutes_zmanis_doc!(90, "1/8th"),
+            sof_zman_tefila_mga_90_minutes_zmanis => sof_zman_tefila_mga, szt_mga_minutes_zmanis_doc!(90, "1/8th"),
+            plag_mga_90_minutes_zmanis => plag_mga, plag_mga_minutes_zmanis_lechumra_doc!(90, "1/8th"),
         ]
     );
 
     zmanim_for_offset!(
-        _96_minutes,
         |_| Some(Minutes(96.0)),
         [
-            alos => alos_minutes_basedon_doc!(96, 24),
-            tzeis => tzeis_minutes_basedon_doc!(96, 24),
-            shaah_zmanis_mga => shaah_mga_minutes_doc!(96),
-            sof_zman_shema_mga => szks_mga_minutes_doc!(96),
-            sof_zman_tefila_mga => szt_mga_minutes_doc!(96),
-            plag_mga => plag_mga_minutes_lechumra_doc!(96),
+            alos_96_minutes => alos, alos_minutes_basedon_doc!(96, 24),
+            tzeis_96_minutes => tzeis, tzeis_minutes_basedon_doc!(96, 24),
+            shaah_zmanis_mga_96_minutes => shaah_zmanis_mga, shaah_mga_minutes_doc!(96),
+            sof_zman_shema_mga_96_minutes => sof_zman_shema_mga, szks_mga_minutes_doc!(96),
+            sof_zman_tefila_mga_96_minutes => sof_zman_tefila_mga, szt_mga_minutes_doc!(96),
+            plag_mga_96_minutes => plag_mga, plag_mga_minutes_lechumra_doc!(96),
         ]
     );
 
     zmanim_for_offset!(
-        _96_minutes_zmanis,
         |this: &ComplexZmanimCalendar| {
             Some(MinutesZmaniyos {
                 minutes_zmaniyos: 96.0,
@@ -1119,30 +1108,28 @@ impl ComplexZmanimCalendar {
             })
         },
         [
-            alos => alos_minutes_zmanis_basedon_doc!(96, 22.5, "1/7.5th"),
-            tzeis => tzeis_minutes_zmanis_basedon_doc!(96, 22.5, "1/7.5th"),
-            shaah_zmanis_mga => shaah_mga_minutes_zmanis_doc!(96, "1/7.5th"),
-            sof_zman_shema_mga => szks_mga_minutes_zmanis_doc!(96, "1/7.5th"),
-            sof_zman_tefila_mga => szt_mga_minutes_zmanis_doc!(96, "1/7.5th"),
-            plag_mga => plag_mga_minutes_zmanis_lechumra_doc!(96, "1/7.5th"),
+            alos_96_minutes_zmanis => alos, alos_minutes_zmanis_basedon_doc!(96, 22.5, "1/7.5th"),
+            tzeis_96_minutes_zmanis => tzeis, tzeis_minutes_zmanis_basedon_doc!(96, 22.5, "1/7.5th"),
+            shaah_zmanis_mga_96_minutes_zmanis => shaah_zmanis_mga, shaah_mga_minutes_zmanis_doc!(96, "1/7.5th"),
+            sof_zman_shema_mga_96_minutes_zmanis => sof_zman_shema_mga, szks_mga_minutes_zmanis_doc!(96, "1/7.5th"),
+            sof_zman_tefila_mga_96_minutes_zmanis => sof_zman_tefila_mga, szt_mga_minutes_zmanis_doc!(96, "1/7.5th"),
+            plag_mga_96_minutes_zmanis => plag_mga, plag_mga_minutes_zmanis_lechumra_doc!(96, "1/7.5th"),
         ]
     );
 
     zmanim_for_offset!(
-        _120_minutes,
         |_| Some(Minutes(120.0)),
         [
-            alos => "This method should be used *lechumra* only and returns *alos* (dawn) calculated using 120 minutes before sea level sunrise (no adjustment for elevation is made) based on the time to walk the distance of 5 *mil* (Ula) at 24 minutes a *mil*. Time based offset calculations for *alos* are based on the* opinion of the Rishonim who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 5 *mil* (Ula). Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
-            tzeis => "Returns *tzeis hakochavim* (dusk) calculated as 120 minutes after sunset. For information on how this is calculated see the documentation on [alos_120_minutes](ComplexZmanimCalendar::alos_120_minutes).",
-            shaah_zmanis_mga => shaah_mga_minutes_doc!(120),
-            sof_zman_shema_mga => szks_mga_minutes_doc!(120),
-            sof_zman_tefila_mga => szt_mga_minutes_doc!(120),
-            plag_mga => plag_mga_minutes_lechumra_doc!(120),
+            alos_120_minutes => alos, "This method should be used *lechumra* only and returns *alos* (dawn) calculated using 120 minutes before sea level sunrise (no adjustment for elevation is made) based on the time to walk the distance of 5 *mil* (Ula) at 24 minutes a *mil*. Time based offset calculations for *alos* are based on the* opinion of the Rishonim who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 5 *mil* (Ula). Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
+            tzeis_120_minutes => tzeis, "Returns *tzeis hakochavim* (dusk) calculated as 120 minutes after sunset. For information on how this is calculated see the documentation on [alos_120_minutes](ComplexZmanimCalendar::alos_120_minutes).",
+            shaah_zmanis_mga_120_minutes => shaah_zmanis_mga, shaah_mga_minutes_doc!(120),
+            sof_zman_shema_mga_120_minutes => sof_zman_shema_mga, szks_mga_minutes_doc!(120),
+            sof_zman_tefila_mga_120_minutes => sof_zman_tefila_mga, szt_mga_minutes_doc!(120),
+            plag_mga_120_minutes => plag_mga, plag_mga_minutes_lechumra_doc!(120),
         ]
     );
 
     zmanim_for_offset!(
-        _120_minutes_zmanis,
         |this: &ComplexZmanimCalendar| {
             Some(MinutesZmaniyos {
                 minutes_zmaniyos: 120.0,
@@ -1150,10 +1137,10 @@ impl ComplexZmanimCalendar {
             })
         },
         [
-            alos => "This method should be used *lechumra* only and method returns *alos* (dawn) calculated using 120 minutes *zmaniyos* or 1/6th of the day before sunrise. This is based on a 24-minute *mil* so the time for 5 mil is 120 minutes which is 1/6th of a day `(12 * 60) / 6 = 120`. The day is calculated from sunrise to sunset. The actual calculation used is `astronomical_calculator::sunrise(&self.date, &self.geo_location) - (&self.shaah_zmanis_gra()? * 2.0)`. Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
-            tzeis => "This method should be used *lechumra* only and returns *tzeis* (dusk) calculated using 120 minutes *zmaniyos* after sunset. Since the *zman* is extremely late and at a time when the sun is well below the 18&deg; point (scientifically the darkest point) in most places on the globe, it should only be used *lechumra*, such as delaying the start of nighttime mitzvos.",
-            shaah_zmanis_mga => "Returns a *shaah zmanis* (temporal hour) calculated using a dip of 120 minutes. This calculation divides the day based on the opinion of the *Magen Avraham* (MGA) that the day runs from dawn to dusk. Dawn for this calculation is 120 minutes before sunrise and dusk is 120 minutes after sunset. This day is split into 12 equal parts with each part being a *shaah zmanis*. This is identical to 1/6th of the day from sunrise to sunset. Since *zmanim* that use this method are extremely late or early and at a point when the sky is a long time past the 18&deg; point where the darkest point is reached, *zmanim* that use this should only be used *lechumra* only, such as delaying the start of nighttime *mitzvos*.",
-            plag_mga => plag_mga_minutes_zmanis_lechumra_doc!(120, "1/6th"),
+            alos_120_minutes_zmanis => alos, "This method should be used *lechumra* only and method returns *alos* (dawn) calculated using 120 minutes *zmaniyos* or 1/6th of the day before sunrise. This is based on a 24-minute *mil* so the time for 5 mil is 120 minutes which is 1/6th of a day `(12 * 60) / 6 = 120`. The day is calculated from sunrise to sunset. The actual calculation used is `astronomical_calculator::sunrise(&self.date, &self.geo_location) - (&self.shaah_zmanis_gra()? * 2.0)`. Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
+            tzeis_120_minutes_zmanis => tzeis, "This method should be used *lechumra* only and returns *tzeis* (dusk) calculated using 120 minutes *zmaniyos* after sunset. Since the *zman* is extremely late and at a time when the sun is well below the 18&deg; point (scientifically the darkest point) in most places on the globe, it should only be used *lechumra*, such as delaying the start of nighttime mitzvos.",
+            shaah_zmanis_mga_120_minutes_zmanis => shaah_zmanis_mga, "Returns a *shaah zmanis* (temporal hour) calculated using a dip of 120 minutes. This calculation divides the day based on the opinion of the *Magen Avraham* (MGA) that the day runs from dawn to dusk. Dawn for this calculation is 120 minutes before sunrise and dusk is 120 minutes after sunset. This day is split into 12 equal parts with each part being a *shaah zmanis*. This is identical to 1/6th of the day from sunrise to sunset. Since *zmanim* that use this method are extremely late or early and at a point when the sky is a long time past the 18&deg; point where the darkest point is reached, *zmanim* that use this should only be used *lechumra* only, such as delaying the start of nighttime *mitzvos*.",
+            plag_mga_120_minutes_zmanis => plag_mga, plag_mga_minutes_zmanis_lechumra_doc!(120, "1/6th"),
         ]
     );
 
