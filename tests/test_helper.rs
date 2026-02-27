@@ -57,6 +57,33 @@ const fn arctic_nunavut() -> GeoLocation {
     }
 }
 
+const fn fiji() -> GeoLocation {
+    GeoLocation {
+        latitude: -17.633056,
+        longitude: 178.016667,
+        timezone: Pacific::Fiji,
+        elevation: 1324.0,
+    }
+}
+
+const fn honolulu() -> GeoLocation {
+    GeoLocation {
+        latitude: 21.466667,
+        longitude: -157.966667,
+        timezone: America::Adak,
+        elevation: 10.0,
+    }
+}
+
+const fn niue() -> GeoLocation {
+    GeoLocation {
+        latitude: -19.053006,
+        longitude: -169.859199,
+        timezone: Pacific::Niue,
+        elevation: 75.0,
+    }
+}
+
 #[allow(dead_code)]
 pub const fn basic_locations() -> [GeoLocation; 6] {
     [
@@ -70,14 +97,29 @@ pub const fn basic_locations() -> [GeoLocation; 6] {
 }
 
 #[allow(dead_code)]
-pub fn basic_location_czcs(use_elevation: bool) -> [ComplexZmanimCalendar; 6] {
+pub const fn more_locations() -> [GeoLocation; 9] {
+    [
+        lakewood(),
+        jerusalem(),
+        los_angeles(),
+        tokyo(),
+        arctic_nunavut(),
+        samoa(),
+        fiji(),
+        honolulu(),
+        niue(),
+    ]
+}
+
+#[allow(dead_code)]
+pub fn more_locations_czcs(use_elevation: bool) -> [ComplexZmanimCalendar; 9] {
     let elev = if use_elevation {
         UseElevation::All
     } else {
         UseElevation::No
     };
 
-    basic_locations().map(|loc| ComplexZmanimCalendar {
+    more_locations().map(|loc| ComplexZmanimCalendar {
         geo_location: loc,
         date: loc
             .timezone

@@ -11,7 +11,7 @@ use std::iter::zip;
 
 #[test]
 fn test_alos_19_8_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:30:07 EDT",
         "2017-10-17 05:13:59 IDT",
@@ -19,6 +19,9 @@ fn test_alos_19_8_degrees() {
         "2017-10-17 04:15:28 JST",
         "None",
         "2017-10-17 05:40:07 +14",
+        "2017-10-17 04:16:19 +12",
+        "2017-10-17 06:06:28 HDT",
+        "2017-10-17 04:25:07 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -32,7 +35,7 @@ fn test_alos_19_8_degrees() {
 
 #[test]
 fn test_tzeis_19_8_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:53:34 EDT",
         "2017-10-17 19:34:15 IDT",
@@ -40,6 +43,9 @@ fn test_tzeis_19_8_degrees() {
         "2017-10-17 18:37:32 JST",
         "None",
         "2017-10-17 20:45:24 +14",
+        "2017-10-17 19:30:43 +12",
+        "2017-10-17 20:27:21 HDT",
+        "2017-10-17 19:44:34 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -53,7 +59,7 @@ fn test_tzeis_19_8_degrees() {
 
 #[test]
 fn test_alos_18_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:39:33 EDT",
         "2017-10-17 05:22:27 IDT",
@@ -61,6 +67,9 @@ fn test_alos_18_degrees() {
         "2017-10-17 04:24:20 JST",
         "None",
         "2017-10-17 05:47:48 +14",
+        "2017-10-17 04:24:11 +12",
+        "2017-10-17 06:14:13 HDT",
+        "2017-10-17 04:33:06 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -74,7 +83,7 @@ fn test_alos_18_degrees() {
 
 #[test]
 fn test_tzeis_18_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:44:09 EDT",
         "2017-10-17 19:25:47 IDT",
@@ -82,6 +91,9 @@ fn test_tzeis_18_degrees() {
         "2017-10-17 18:28:40 JST",
         "None",
         "2017-10-17 20:37:43 +14",
+        "2017-10-17 19:22:50 +12",
+        "2017-10-17 20:19:36 HDT",
+        "2017-10-17 19:36:34 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -95,7 +107,7 @@ fn test_tzeis_18_degrees() {
 
 #[test]
 fn test_alos_26_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 04:57:25 EDT",
         "2017-10-17 04:44:44 IDT",
@@ -103,6 +115,9 @@ fn test_alos_26_degrees() {
         "2017-10-17 03:44:47 JST",
         "None",
         "2017-10-17 05:13:31 +14",
+        "2017-10-17 03:48:54 +12",
+        "2017-10-17 05:39:48 HDT",
+        "2017-10-17 03:57:17 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -116,7 +131,7 @@ fn test_alos_26_degrees() {
 
 #[test]
 fn test_tzeis_26_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 20:26:11 EDT",
         "2017-10-17 20:03:26 IDT",
@@ -124,6 +139,9 @@ fn test_tzeis_26_degrees() {
         "2017-10-17 19:08:09 JST",
         "None",
         "2017-10-17 21:12:04 +14",
+        "2017-10-17 19:58:12 +12",
+        "2017-10-17 20:54:00 HDT",
+        "2017-10-17 20:12:29 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -137,7 +155,7 @@ fn test_tzeis_26_degrees() {
 
 #[test]
 fn test_alos_16_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:49:30 EDT",
         "2017-10-17 05:31:24 IDT",
@@ -145,6 +163,9 @@ fn test_alos_16_1_degrees() {
         "2017-10-17 04:33:42 JST",
         "2017-10-17 02:22:35 EDT",
         "2017-10-17 05:55:52 +14",
+        "2017-10-17 04:32:28 +12",
+        "2017-10-17 06:22:24 HDT",
+        "2017-10-17 04:41:29 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -158,7 +179,7 @@ fn test_alos_16_1_degrees() {
 
 #[test]
 fn test_tzeis_16_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:34:14 EDT",
         "2017-10-17 19:16:51 IDT",
@@ -166,6 +187,9 @@ fn test_tzeis_16_1_degrees() {
         "2017-10-17 18:19:19 JST",
         "2017-10-17 21:32:57 EDT",
         "2017-10-17 20:29:38 +14",
+        "2017-10-17 19:14:32 +12",
+        "2017-10-17 20:11:25 HDT",
+        "2017-10-17 19:28:09 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -179,7 +203,7 @@ fn test_tzeis_16_1_degrees() {
 
 #[test]
 fn test_alos_60_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 06:09:11 EDT",
         "2017-10-17 05:39:32 IDT",
@@ -187,6 +211,9 @@ fn test_alos_60_minutes() {
         "2017-10-17 04:48:20 JST",
         "None",
         "2017-10-17 05:54:18 +14",
+        "2017-10-17 04:33:07 +12",
+        "2017-10-17 06:28:06 HDT",
+        "2017-10-17 04:46:39 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -200,7 +227,7 @@ fn test_alos_60_minutes() {
 
 #[test]
 fn test_tzeis_60_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:14:38 EDT",
         "2017-10-17 19:08:46 IDT",
@@ -208,6 +235,9 @@ fn test_tzeis_60_minutes() {
         "2017-10-17 18:04:46 JST",
         "None",
         "2017-10-17 20:31:07 +14",
+        "2017-10-17 19:13:47 +12",
+        "2017-10-17 20:05:44 HDT",
+        "2017-10-17 19:22:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -221,7 +251,7 @@ fn test_tzeis_60_minutes() {
 
 #[test]
 fn test_alos_72_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 06:02:39 EDT",
         "2017-10-17 05:30:36 IDT",
@@ -229,6 +259,9 @@ fn test_alos_72_minutes_zmanis() {
         "2017-10-17 04:40:41 JST",
         "None",
         "2017-10-17 05:38:37 +14",
+        "2017-10-17 04:17:03 +12",
+        "2017-10-17 06:18:21 HDT",
+        "2017-10-17 04:31:02 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -242,7 +275,7 @@ fn test_alos_72_minutes_zmanis() {
 
 #[test]
 fn test_tzeis_72_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:21:11 EDT",
         "2017-10-17 19:17:42 IDT",
@@ -250,6 +283,9 @@ fn test_tzeis_72_minutes_zmanis() {
         "2017-10-17 18:12:25 JST",
         "None",
         "2017-10-17 20:46:48 +14",
+        "2017-10-17 19:29:51 +12",
+        "2017-10-17 20:15:30 HDT",
+        "2017-10-17 19:38:30 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -263,7 +299,7 @@ fn test_tzeis_72_minutes_zmanis() {
 
 #[test]
 fn test_alos_90_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:39:11 EDT",
         "2017-10-17 05:09:32 IDT",
@@ -271,6 +307,9 @@ fn test_alos_90_minutes() {
         "2017-10-17 04:18:20 JST",
         "None",
         "2017-10-17 05:24:18 +14",
+        "2017-10-17 04:03:07 +12",
+        "2017-10-17 05:58:06 HDT",
+        "2017-10-17 04:16:39 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -284,7 +323,7 @@ fn test_alos_90_minutes() {
 
 #[test]
 fn test_tzeis_90_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:44:38 EDT",
         "2017-10-17 19:38:46 IDT",
@@ -292,6 +331,9 @@ fn test_tzeis_90_minutes() {
         "2017-10-17 18:34:46 JST",
         "None",
         "2017-10-17 21:01:07 +14",
+        "2017-10-17 19:43:47 +12",
+        "2017-10-17 20:35:44 HDT",
+        "2017-10-17 19:52:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -305,7 +347,7 @@ fn test_tzeis_90_minutes() {
 
 #[test]
 fn test_alos_90_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:46:00 EDT",
         "2017-10-17 05:13:22 IDT",
@@ -313,6 +355,9 @@ fn test_alos_90_minutes_zmanis() {
         "2017-10-17 04:23:47 JST",
         "None",
         "2017-10-17 05:19:42 +14",
+        "2017-10-17 03:58:02 +12",
+        "2017-10-17 06:00:54 HDT",
+        "2017-10-17 04:12:08 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -326,7 +371,7 @@ fn test_alos_90_minutes_zmanis() {
 
 #[test]
 fn test_tzeis_90_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:37:49 EDT",
         "2017-10-17 19:34:56 IDT",
@@ -334,6 +379,9 @@ fn test_tzeis_90_minutes_zmanis() {
         "2017-10-17 18:29:19 JST",
         "None",
         "2017-10-17 21:05:43 +14",
+        "2017-10-17 19:48:52 +12",
+        "2017-10-17 20:32:57 HDT",
+        "2017-10-17 19:57:24 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -347,7 +395,7 @@ fn test_tzeis_90_minutes_zmanis() {
 
 #[test]
 fn test_alos_96_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:40:28 EDT",
         "2017-10-17 05:07:38 IDT",
@@ -355,6 +403,9 @@ fn test_alos_96_minutes_zmanis() {
         "2017-10-17 04:18:09 JST",
         "None",
         "2017-10-17 05:13:23 +14",
+        "2017-10-17 03:51:42 +12",
+        "2017-10-17 05:55:05 HDT",
+        "2017-10-17 04:05:50 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -368,7 +419,7 @@ fn test_alos_96_minutes_zmanis() {
 
 #[test]
 fn test_tzeis_96_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:43:22 EDT",
         "2017-10-17 19:40:40 IDT",
@@ -376,6 +427,9 @@ fn test_tzeis_96_minutes_zmanis() {
         "2017-10-17 18:34:58 JST",
         "None",
         "2017-10-17 21:12:01 +14",
+        "2017-10-17 19:55:12 +12",
+        "2017-10-17 20:38:45 HDT",
+        "2017-10-17 20:03:42 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -389,7 +443,7 @@ fn test_tzeis_96_minutes_zmanis() {
 
 #[test]
 fn test_tzeis_ateret_torah() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:54:38 EDT",
         "2017-10-17 18:48:46 IDT",
@@ -397,6 +451,9 @@ fn test_tzeis_ateret_torah() {
         "2017-10-17 17:44:46 JST",
         "None",
         "2017-10-17 20:11:07 +14",
+        "2017-10-17 18:53:47 +12",
+        "2017-10-17 19:45:44 HDT",
+        "2017-10-17 19:02:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -410,7 +467,7 @@ fn test_tzeis_ateret_torah() {
 
 #[test]
 fn test_tzeis_geonim_3_8_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:29:44 EDT",
         "2017-10-17 18:18:45 IDT",
@@ -418,6 +475,9 @@ fn test_tzeis_geonim_3_8_degrees() {
         "2017-10-17 17:18:34 JST",
         "2017-10-17 15:10:07 EDT",
         "2017-10-17 19:37:44 +14",
+        "2017-10-17 18:21:28 +12",
+        "2017-10-17 19:18:13 HDT",
+        "2017-10-17 18:34:28 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -431,7 +491,7 @@ fn test_tzeis_geonim_3_8_degrees() {
 
 #[test]
 fn test_tzeis_geonim_3_7_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:29:12 EDT",
         "2017-10-17 18:18:16 IDT",
@@ -439,6 +499,9 @@ fn test_tzeis_geonim_3_7_degrees() {
         "2017-10-17 17:18:04 JST",
         "2017-10-17 15:06:14 EDT",
         "2017-10-17 19:37:19 +14",
+        "2017-10-17 18:21:02 +12",
+        "2017-10-17 19:17:47 HDT",
+        "2017-10-17 18:34:03 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -452,7 +515,7 @@ fn test_tzeis_geonim_3_7_degrees() {
 
 #[test]
 fn test_alos_96_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:33:11 EDT",
         "2017-10-17 05:03:32 IDT",
@@ -460,6 +523,9 @@ fn test_alos_96_minutes() {
         "2017-10-17 04:12:20 JST",
         "None",
         "2017-10-17 05:18:18 +14",
+        "2017-10-17 03:57:07 +12",
+        "2017-10-17 05:52:06 HDT",
+        "2017-10-17 04:10:39 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -473,7 +539,7 @@ fn test_alos_96_minutes() {
 
 #[test]
 fn test_tzeis_96_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:50:38 EDT",
         "2017-10-17 19:44:46 IDT",
@@ -481,6 +547,9 @@ fn test_tzeis_96_minutes() {
         "2017-10-17 18:40:46 JST",
         "None",
         "2017-10-17 21:07:07 +14",
+        "2017-10-17 19:49:47 +12",
+        "2017-10-17 20:41:44 HDT",
+        "2017-10-17 19:58:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -494,7 +563,7 @@ fn test_tzeis_96_minutes() {
 
 #[test]
 fn test_alos_120_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:09:11 EDT",
         "2017-10-17 04:39:32 IDT",
@@ -502,6 +571,9 @@ fn test_alos_120_minutes() {
         "2017-10-17 03:48:20 JST",
         "None",
         "2017-10-17 04:54:18 +14",
+        "2017-10-17 03:33:07 +12",
+        "2017-10-17 05:28:06 HDT",
+        "2017-10-17 03:46:39 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -515,7 +587,7 @@ fn test_alos_120_minutes() {
 
 #[test]
 fn test_tzeis_120_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 20:14:38 EDT",
         "2017-10-17 20:08:46 IDT",
@@ -523,6 +595,9 @@ fn test_tzeis_120_minutes() {
         "2017-10-17 19:04:46 JST",
         "None",
         "2017-10-17 21:31:07 +14",
+        "2017-10-17 20:13:47 +12",
+        "2017-10-17 21:05:44 HDT",
+        "2017-10-17 20:22:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -536,7 +611,7 @@ fn test_tzeis_120_minutes() {
 
 #[test]
 fn test_alos_120_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:18:17 EDT",
         "2017-10-17 04:44:39 IDT",
@@ -544,6 +619,9 @@ fn test_alos_120_minutes_zmanis() {
         "2017-10-17 03:55:36 JST",
         "None",
         "2017-10-17 04:48:10 +14",
+        "2017-10-17 03:26:20 +12",
+        "2017-10-17 05:31:50 HDT",
+        "2017-10-17 03:40:37 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -557,7 +635,7 @@ fn test_alos_120_minutes_zmanis() {
 
 #[test]
 fn test_tzeis_120_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 20:05:33 EDT",
         "2017-10-17 20:03:39 IDT",
@@ -565,6 +643,9 @@ fn test_tzeis_120_minutes_zmanis() {
         "2017-10-17 18:57:31 JST",
         "None",
         "2017-10-17 21:37:15 +14",
+        "2017-10-17 20:20:34 +12",
+        "2017-10-17 21:02:01 HDT",
+        "2017-10-17 20:28:55 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -578,7 +659,7 @@ fn test_tzeis_120_minutes_zmanis() {
 
 #[test]
 fn test_tzeis_geonim_7_083_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:47:03 EDT",
         "2017-10-17 18:34:20 IDT",
@@ -586,6 +667,9 @@ fn test_tzeis_geonim_7_083_degrees() {
         "2017-10-17 17:34:52 JST",
         "2017-10-17 16:57:02 EDT",
         "2017-10-17 19:51:31 +14",
+        "2017-10-17 18:35:32 +12",
+        "2017-10-17 19:32:28 HDT",
+        "2017-10-17 18:48:42 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -599,7 +683,7 @@ fn test_tzeis_geonim_7_083_degrees() {
 
 #[test]
 fn test_mincha_gedola_30_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:12:18 EDT",
         "2017-10-17 12:54:28 IDT",
@@ -607,6 +691,9 @@ fn test_mincha_gedola_30_minutes() {
         "2017-10-17 11:56:55 JST",
         "2017-10-17 12:34:32 EDT",
         "2017-10-17 13:42:43 +14",
+        "2017-10-17 12:23:26 +12",
+        "2017-10-17 13:47:10 HDT",
+        "2017-10-17 12:34:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -620,7 +707,7 @@ fn test_mincha_gedola_30_minutes() {
 
 #[test]
 fn test_sof_zman_tefila_mga_72_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:27:00 EDT",
         "2017-10-17 10:05:17 IDT",
@@ -628,6 +715,9 @@ fn test_sof_zman_tefila_mga_72_minutes() {
         "2017-10-17 09:09:49 JST",
         "None",
         "2017-10-17 10:42:34 +14",
+        "2017-10-17 09:22:40 +12",
+        "2017-10-17 10:56:39 HDT",
+        "2017-10-17 09:34:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -641,7 +731,7 @@ fn test_sof_zman_tefila_mga_72_minutes() {
 
 #[test]
 fn test_sof_zman_tefila_mga_72_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:28:49 EDT",
         "2017-10-17 10:06:18 IDT",
@@ -649,6 +739,9 @@ fn test_sof_zman_tefila_mga_72_minutes_zmanis() {
         "2017-10-17 09:11:16 JST",
         "None",
         "2017-10-17 10:41:21 +14",
+        "2017-10-17 09:21:19 +12",
+        "2017-10-17 10:57:24 HDT",
+        "2017-10-17 09:33:31 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -662,7 +755,7 @@ fn test_sof_zman_tefila_mga_72_minutes_zmanis() {
 
 #[test]
 fn test_sof_zman_tefila_mga_16_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:24:24 EDT",
         "2017-10-17 10:06:33 IDT",
@@ -670,6 +763,9 @@ fn test_sof_zman_tefila_mga_16_1_degrees() {
         "2017-10-17 09:08:55 JST",
         "2017-10-17 08:46:02 EDT",
         "2017-10-17 10:47:07 +14",
+        "2017-10-17 09:26:29 +12",
+        "2017-10-17 10:58:45 HDT",
+        "2017-10-17 09:37:03 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -683,7 +779,7 @@ fn test_sof_zman_tefila_mga_16_1_degrees() {
 
 #[test]
 fn test_sof_zman_tefila_baal_hatanya() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:49:54 EDT",
         "2017-10-17 10:29:28 IDT",
@@ -691,6 +787,9 @@ fn test_sof_zman_tefila_baal_hatanya() {
         "2017-10-17 09:32:54 JST",
         "2017-10-17 11:40:07 EDT",
         "2017-10-17 11:07:27 +14",
+        "2017-10-17 09:47:16 +12",
+        "2017-10-17 11:19:43 HDT",
+        "2017-10-17 09:58:03 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -704,7 +803,7 @@ fn test_sof_zman_tefila_baal_hatanya() {
 
 #[test]
 fn test_mincha_gedola_baal_hatanya() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:09:55 EDT",
         "2017-10-17 12:52:49 IDT",
@@ -712,6 +811,9 @@ fn test_mincha_gedola_baal_hatanya() {
         "2017-10-17 11:54:58 JST",
         "2017-10-17 12:08:26 EDT",
         "2017-10-17 13:44:01 +14",
+        "2017-10-17 12:25:00 +12",
+        "2017-10-17 13:46:14 HDT",
+        "2017-10-17 12:36:27 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -725,7 +827,7 @@ fn test_mincha_gedola_baal_hatanya() {
 
 #[test]
 fn test_fixed_local_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 12:56:57 EDT",
         "2017-10-17 12:39:03 IDT",
@@ -733,6 +835,9 @@ fn test_fixed_local_chatzos() {
         "2017-10-17 11:41:26 JST",
         "2017-10-17 12:19:10 EDT",
         "2017-10-17 13:27:12 +14",
+        "2017-10-17 12:07:55 +12",
+        "2017-10-17 13:31:52 HDT",
+        "2017-10-17 12:19:26 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -746,7 +851,7 @@ fn test_fixed_local_chatzos() {
 
 #[test]
 fn test_plag_mga_120_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:33:07 EDT",
         "2017-10-17 18:27:55 IDT",
@@ -754,6 +859,9 @@ fn test_plag_mga_120_minutes_zmanis() {
         "2017-10-17 17:23:34 JST",
         "None",
         "2017-10-17 19:52:08 +14",
+        "2017-10-17 18:34:55 +12",
+        "2017-10-17 19:25:07 HDT",
+        "2017-10-17 18:43:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -767,7 +875,7 @@ fn test_plag_mga_120_minutes_zmanis() {
 
 #[test]
 fn test_plag_mga_120_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:40:19 EDT",
         "2017-10-17 18:31:59 IDT",
@@ -775,6 +883,9 @@ fn test_plag_mga_120_minutes() {
         "2017-10-17 17:29:18 JST",
         "None",
         "2017-10-17 19:47:17 +14",
+        "2017-10-17 18:29:33 +12",
+        "2017-10-17 19:28:04 HDT",
+        "2017-10-17 18:39:06 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -788,7 +899,7 @@ fn test_plag_mga_120_minutes() {
 
 #[test]
 fn test_alos_19_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:34:19 EDT",
         "2017-10-17 05:17:45 IDT",
@@ -796,6 +907,9 @@ fn test_alos_19_degrees() {
         "2017-10-17 04:19:25 JST",
         "None",
         "2017-10-17 05:43:32 +14",
+        "2017-10-17 04:19:49 +12",
+        "2017-10-17 06:09:55 HDT",
+        "2017-10-17 04:28:40 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -809,7 +923,7 @@ fn test_alos_19_degrees() {
 
 #[test]
 fn test_misheyakir_12_85_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 06:06:30 EDT",
         "2017-10-17 05:46:42 IDT",
@@ -817,6 +931,9 @@ fn test_misheyakir_12_85_degrees() {
         "2017-10-17 04:49:43 JST",
         "2017-10-17 04:21:54 EDT",
         "2017-10-17 06:09:38 +14",
+        "2017-10-17 04:46:34 +12",
+        "2017-10-17 06:36:25 HDT",
+        "2017-10-17 04:55:46 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -830,7 +947,7 @@ fn test_misheyakir_12_85_degrees() {
 
 #[test]
 fn test_misheyakir_11_5_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 06:13:34 EDT",
         "2017-10-17 05:53:04 IDT",
@@ -838,6 +955,9 @@ fn test_misheyakir_11_5_degrees() {
         "2017-10-17 04:56:23 JST",
         "2017-10-17 05:02:03 EDT",
         "2017-10-17 06:15:20 +14",
+        "2017-10-17 04:52:24 +12",
+        "2017-10-17 06:42:15 HDT",
+        "2017-10-17 05:01:40 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -851,7 +971,7 @@ fn test_misheyakir_11_5_degrees() {
 
 #[test]
 fn test_misheyakir_11_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 06:16:11 EDT",
         "2017-10-17 05:55:26 IDT",
@@ -859,6 +979,9 @@ fn test_misheyakir_11_degrees() {
         "2017-10-17 04:58:51 JST",
         "2017-10-17 05:16:25 EDT",
         "2017-10-17 06:17:26 +14",
+        "2017-10-17 04:54:33 +12",
+        "2017-10-17 06:44:25 HDT",
+        "2017-10-17 05:03:51 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -872,7 +995,7 @@ fn test_misheyakir_11_degrees() {
 
 #[test]
 fn test_misheyakir_10_2_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 06:20:22 EDT",
         "2017-10-17 05:59:13 IDT",
@@ -880,6 +1003,9 @@ fn test_misheyakir_10_2_degrees() {
         "2017-10-17 05:02:48 JST",
         "2017-10-17 05:39:04 EDT",
         "2017-10-17 06:20:48 +14",
+        "2017-10-17 04:58:00 +12",
+        "2017-10-17 06:47:52 HDT",
+        "2017-10-17 05:07:20 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -893,7 +1019,7 @@ fn test_misheyakir_10_2_degrees() {
 
 #[test]
 fn test_misheyakir_7_65_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 06:33:46 EDT",
         "2017-10-17 06:11:16 IDT",
@@ -901,6 +1027,9 @@ fn test_misheyakir_7_65_degrees() {
         "2017-10-17 05:15:24 JST",
         "2017-10-17 06:51:04 EDT",
         "2017-10-17 06:31:32 +14",
+        "2017-10-17 05:08:58 +12",
+        "2017-10-17 06:58:55 HDT",
+        "2017-10-17 05:18:25 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -914,7 +1043,7 @@ fn test_misheyakir_7_65_degrees() {
 
 #[test]
 fn test_misheyakir_9_5_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 06:24:03 EDT",
         "2017-10-17 06:02:31 IDT",
@@ -922,6 +1051,9 @@ fn test_misheyakir_9_5_degrees() {
         "2017-10-17 05:06:15 JST",
         "2017-10-17 05:58:44 EDT",
         "2017-10-17 06:23:45 +14",
+        "2017-10-17 05:01:01 +12",
+        "2017-10-17 06:50:54 HDT",
+        "2017-10-17 05:10:23 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -935,7 +1067,7 @@ fn test_misheyakir_9_5_degrees() {
 
 #[test]
 fn test_sof_zman_shema_mga_19_8_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:05:59 EDT",
         "2017-10-17 08:49:03 IDT",
@@ -943,6 +1075,9 @@ fn test_sof_zman_shema_mga_19_8_degrees() {
         "2017-10-17 07:50:59 JST",
         "None",
         "2017-10-17 09:26:27 +14",
+        "2017-10-17 08:04:55 +12",
+        "2017-10-17 09:41:41 HDT",
+        "2017-10-17 08:14:59 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -956,7 +1091,7 @@ fn test_sof_zman_shema_mga_19_8_degrees() {
 
 #[test]
 fn test_sof_zman_shema_mga_16_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:15:41 EDT",
         "2017-10-17 08:57:46 IDT",
@@ -964,6 +1099,9 @@ fn test_sof_zman_shema_mga_16_1_degrees() {
         "2017-10-17 08:00:06 JST",
         "2017-10-17 07:10:10 EDT",
         "2017-10-17 09:34:18 +14",
+        "2017-10-17 08:12:59 +12",
+        "2017-10-17 09:49:40 HDT",
+        "2017-10-17 08:23:09 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -977,7 +1115,7 @@ fn test_sof_zman_shema_mga_16_1_degrees() {
 
 #[test]
 fn test_sof_zman_shema_mga_18_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:10:42 EDT",
         "2017-10-17 08:53:17 IDT",
@@ -985,6 +1123,9 @@ fn test_sof_zman_shema_mga_18_degrees() {
         "2017-10-17 07:55:25 JST",
         "None",
         "2017-10-17 09:30:16 +14",
+        "2017-10-17 08:08:51 +12",
+        "2017-10-17 09:45:34 HDT",
+        "2017-10-17 08:18:58 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -998,7 +1139,7 @@ fn test_sof_zman_shema_mga_18_degrees() {
 
 #[test]
 fn test_sof_zman_shema_mga_72_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:19:33 EDT",
         "2017-10-17 08:55:50 IDT",
@@ -1006,6 +1147,9 @@ fn test_sof_zman_shema_mga_72_minutes() {
         "2017-10-17 08:01:27 JST",
         "None",
         "2017-10-17 09:27:30 +14",
+        "2017-10-17 08:07:17 +12",
+        "2017-10-17 09:46:31 HDT",
+        "2017-10-17 08:19:43 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1019,7 +1163,7 @@ fn test_sof_zman_shema_mga_72_minutes() {
 
 #[test]
 fn test_sof_zman_shema_mga_72_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:22:17 EDT",
         "2017-10-17 08:57:23 IDT",
@@ -1027,6 +1171,9 @@ fn test_sof_zman_shema_mga_72_minutes_zmanis() {
         "2017-10-17 08:03:37 JST",
         "None",
         "2017-10-17 09:25:40 +14",
+        "2017-10-17 08:05:15 +12",
+        "2017-10-17 09:47:38 HDT",
+        "2017-10-17 08:17:54 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1040,7 +1187,7 @@ fn test_sof_zman_shema_mga_72_minutes_zmanis() {
 
 #[test]
 fn test_sof_zman_shema_mga_90_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:10:33 EDT",
         "2017-10-17 08:46:50 IDT",
@@ -1048,6 +1195,9 @@ fn test_sof_zman_shema_mga_90_minutes() {
         "2017-10-17 07:52:27 JST",
         "None",
         "2017-10-17 09:18:30 +14",
+        "2017-10-17 07:58:17 +12",
+        "2017-10-17 09:37:31 HDT",
+        "2017-10-17 08:10:43 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1061,7 +1211,7 @@ fn test_sof_zman_shema_mga_90_minutes() {
 
 #[test]
 fn test_sof_zman_shema_mga_90_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:13:58 EDT",
         "2017-10-17 08:48:46 IDT",
@@ -1069,6 +1219,9 @@ fn test_sof_zman_shema_mga_90_minutes_zmanis() {
         "2017-10-17 07:55:10 JST",
         "None",
         "2017-10-17 09:16:12 +14",
+        "2017-10-17 07:55:45 +12",
+        "2017-10-17 09:38:55 HDT",
+        "2017-10-17 08:08:27 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1082,7 +1235,7 @@ fn test_sof_zman_shema_mga_90_minutes_zmanis() {
 
 #[test]
 fn test_sof_zman_shema_mga_96_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:07:33 EDT",
         "2017-10-17 08:43:50 IDT",
@@ -1090,6 +1243,9 @@ fn test_sof_zman_shema_mga_96_minutes() {
         "2017-10-17 07:49:27 JST",
         "None",
         "2017-10-17 09:15:30 +14",
+        "2017-10-17 07:55:17 +12",
+        "2017-10-17 09:34:31 HDT",
+        "2017-10-17 08:07:43 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1103,7 +1259,7 @@ fn test_sof_zman_shema_mga_96_minutes() {
 
 #[test]
 fn test_sof_zman_shema_mga_96_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:11:11 EDT",
         "2017-10-17 08:45:53 IDT",
@@ -1111,6 +1267,9 @@ fn test_sof_zman_shema_mga_96_minutes_zmanis() {
         "2017-10-17 07:52:21 JST",
         "None",
         "2017-10-17 09:13:03 +14",
+        "2017-10-17 07:52:34 +12",
+        "2017-10-17 09:36:00 HDT",
+        "2017-10-17 08:05:18 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1124,7 +1283,7 @@ fn test_sof_zman_shema_mga_96_minutes_zmanis() {
 
 #[test]
 fn test_sof_zman_shema_3_hrs_before_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:42:18 EDT",
         "2017-10-17 09:24:28 IDT",
@@ -1132,6 +1291,9 @@ fn test_sof_zman_shema_3_hrs_before_chatzos() {
         "2017-10-17 08:26:55 JST",
         "2017-10-17 09:04:32 EDT",
         "2017-10-17 10:12:43 +14",
+        "2017-10-17 08:53:26 +12",
+        "2017-10-17 10:17:10 HDT",
+        "2017-10-17 09:04:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1145,7 +1307,7 @@ fn test_sof_zman_shema_3_hrs_before_chatzos() {
 
 #[test]
 fn test_sof_zman_shema_mga_120_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 08:55:33 EDT",
         "2017-10-17 08:31:50 IDT",
@@ -1153,6 +1315,9 @@ fn test_sof_zman_shema_mga_120_minutes() {
         "2017-10-17 07:37:27 JST",
         "None",
         "2017-10-17 09:03:30 +14",
+        "2017-10-17 07:43:17 +12",
+        "2017-10-17 09:22:31 HDT",
+        "2017-10-17 07:55:43 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1166,7 +1331,7 @@ fn test_sof_zman_shema_mga_120_minutes() {
 
 #[test]
 fn test_sof_zman_shema_alos_16_1_degrees_to_sunset() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 08:55:47 EDT",
         "2017-10-17 08:40:44 IDT",
@@ -1174,6 +1339,9 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_sunset() {
         "2017-10-17 07:41:28 JST",
         "None",
         "2017-10-17 09:19:41 +14",
+        "2017-10-17 07:57:48 +12",
+        "2017-10-17 09:33:14 HDT",
+        "2017-10-17 08:06:50 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1187,7 +1355,7 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_sunset() {
 
 #[test]
 fn test_sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:03:53 EDT",
         "2017-10-17 08:47:08 IDT",
@@ -1195,6 +1363,9 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
         "2017-10-17 07:49:00 JST",
         "2017-10-17 06:01:11 EDT",
         "2017-10-17 09:24:47 +14",
+        "2017-10-17 08:03:14 +12",
+        "2017-10-17 09:39:55 HDT",
+        "2017-10-17 08:13:18 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1208,7 +1379,7 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
 
 #[test]
 fn test_sof_zman_tefila_mga_19_8_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:17:56 EDT",
         "2017-10-17 10:00:44 IDT",
@@ -1216,6 +1387,9 @@ fn test_sof_zman_tefila_mga_19_8_degrees() {
         "2017-10-17 09:02:49 JST",
         "None",
         "2017-10-17 10:41:53 +14",
+        "2017-10-17 09:21:07 +12",
+        "2017-10-17 10:53:26 HDT",
+        "2017-10-17 09:31:36 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1229,7 +1403,7 @@ fn test_sof_zman_tefila_mga_19_8_degrees() {
 
 #[test]
 fn test_sof_zman_tefila_mga_18_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:21:05 EDT",
         "2017-10-17 10:03:34 IDT",
@@ -1237,6 +1411,9 @@ fn test_sof_zman_tefila_mga_18_degrees() {
         "2017-10-17 09:05:47 JST",
         "None",
         "2017-10-17 10:44:26 +14",
+        "2017-10-17 09:23:44 +12",
+        "2017-10-17 10:56:01 HDT",
+        "2017-10-17 09:34:15 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1250,7 +1427,7 @@ fn test_sof_zman_tefila_mga_18_degrees() {
 
 #[test]
 fn test_sof_zman_tefila_mga_90_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:21:00 EDT",
         "2017-10-17 09:59:17 IDT",
@@ -1258,6 +1435,9 @@ fn test_sof_zman_tefila_mga_90_minutes() {
         "2017-10-17 09:03:49 JST",
         "None",
         "2017-10-17 10:36:34 +14",
+        "2017-10-17 09:16:40 +12",
+        "2017-10-17 10:50:39 HDT",
+        "2017-10-17 09:28:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1271,7 +1451,7 @@ fn test_sof_zman_tefila_mga_90_minutes() {
 
 #[test]
 fn test_sof_zman_tefila_mga_90_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:23:17 EDT",
         "2017-10-17 10:00:33 IDT",
@@ -1279,6 +1459,9 @@ fn test_sof_zman_tefila_mga_90_minutes_zmanis() {
         "2017-10-17 09:05:38 JST",
         "None",
         "2017-10-17 10:35:02 +14",
+        "2017-10-17 09:14:59 +12",
+        "2017-10-17 10:51:35 HDT",
+        "2017-10-17 09:27:13 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1292,7 +1475,7 @@ fn test_sof_zman_tefila_mga_90_minutes_zmanis() {
 
 #[test]
 fn test_sof_zman_tefila_mga_96_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:19:00 EDT",
         "2017-10-17 09:57:17 IDT",
@@ -1300,6 +1483,9 @@ fn test_sof_zman_tefila_mga_96_minutes() {
         "2017-10-17 09:01:49 JST",
         "None",
         "2017-10-17 10:34:34 +14",
+        "2017-10-17 09:14:40 +12",
+        "2017-10-17 10:48:39 HDT",
+        "2017-10-17 09:26:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1313,7 +1499,7 @@ fn test_sof_zman_tefila_mga_96_minutes() {
 
 #[test]
 fn test_sof_zman_tefila_mga_96_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:21:26 EDT",
         "2017-10-17 09:58:39 IDT",
@@ -1321,6 +1507,9 @@ fn test_sof_zman_tefila_mga_96_minutes_zmanis() {
         "2017-10-17 09:03:45 JST",
         "None",
         "2017-10-17 10:32:56 +14",
+        "2017-10-17 09:12:52 +12",
+        "2017-10-17 10:49:39 HDT",
+        "2017-10-17 09:25:07 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1334,7 +1523,7 @@ fn test_sof_zman_tefila_mga_96_minutes_zmanis() {
 
 #[test]
 fn test_sof_zman_tefila_mga_120_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:11:00 EDT",
         "2017-10-17 09:49:17 IDT",
@@ -1342,6 +1531,9 @@ fn test_sof_zman_tefila_mga_120_minutes() {
         "2017-10-17 08:53:49 JST",
         "None",
         "2017-10-17 10:26:34 +14",
+        "2017-10-17 09:06:40 +12",
+        "2017-10-17 10:40:39 HDT",
+        "2017-10-17 09:18:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1355,7 +1547,7 @@ fn test_sof_zman_tefila_mga_120_minutes() {
 
 #[test]
 fn test_sof_zman_tefila_2_hrs_before_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:42:18 EDT",
         "2017-10-17 10:24:28 IDT",
@@ -1363,6 +1555,9 @@ fn test_sof_zman_tefila_2_hrs_before_chatzos() {
         "2017-10-17 09:26:55 JST",
         "2017-10-17 10:04:32 EDT",
         "2017-10-17 11:12:43 +14",
+        "2017-10-17 09:53:26 +12",
+        "2017-10-17 11:17:10 HDT",
+        "2017-10-17 10:04:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1376,7 +1571,7 @@ fn test_sof_zman_tefila_2_hrs_before_chatzos() {
 
 #[test]
 fn test_mincha_gedola_mga_72_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:15:38 EDT",
         "2017-10-17 12:58:52 IDT",
@@ -1384,6 +1579,9 @@ fn test_mincha_gedola_mga_72_minutes() {
         "2017-10-17 12:00:44 JST",
         "None",
         "2017-10-17 13:50:14 +14",
+        "2017-10-17 12:31:09 +12",
+        "2017-10-17 13:51:59 HDT",
+        "2017-10-17 12:42:17 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1397,7 +1595,7 @@ fn test_mincha_gedola_mga_72_minutes() {
 
 #[test]
 fn test_mincha_gedola_mga_16_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:16:13 EDT",
         "2017-10-17 12:58:31 IDT",
@@ -1405,6 +1603,9 @@ fn test_mincha_gedola_mga_16_1_degrees() {
         "2017-10-17 12:00:55 JST",
         "2017-10-17 12:45:42 EDT",
         "2017-10-17 13:49:09 +14",
+        "2017-10-17 12:30:15 +12",
+        "2017-10-17 13:51:27 HDT",
+        "2017-10-17 12:41:46 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1418,7 +1619,7 @@ fn test_mincha_gedola_mga_16_1_degrees() {
 
 #[test]
 fn test_mincha_gedola_ahavat_shalom() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:13:58 EDT",
         "2017-10-17 12:56:26 IDT",
@@ -1426,6 +1627,9 @@ fn test_mincha_gedola_ahavat_shalom() {
         "2017-10-17 11:58:45 JST",
         "2017-10-17 12:36:21 EDT",
         "2017-10-17 13:46:56 +14",
+        "2017-10-17 12:27:57 +12",
+        "2017-10-17 13:49:28 HDT",
+        "2017-10-17 12:39:25 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1439,7 +1643,7 @@ fn test_mincha_gedola_ahavat_shalom() {
 
 #[test]
 fn test_mincha_gedola_gra_greater_than_30_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:12:18 EDT",
         "2017-10-17 12:54:28 IDT",
@@ -1447,6 +1651,9 @@ fn test_mincha_gedola_gra_greater_than_30_minutes() {
         "2017-10-17 11:56:55 JST",
         "None",
         "2017-10-17 13:44:14 +14",
+        "2017-10-17 12:25:09 +12",
+        "2017-10-17 13:47:10 HDT",
+        "2017-10-17 12:36:17 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1460,7 +1667,7 @@ fn test_mincha_gedola_gra_greater_than_30_minutes() {
 
 #[test]
 fn test_mincha_ketana_mga_16_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 16:42:24 EDT",
         "2017-10-17 16:24:53 IDT",
@@ -1468,6 +1675,9 @@ fn test_mincha_ketana_mga_16_1_degrees() {
         "2017-10-17 15:27:19 JST",
         "2017-10-17 17:33:18 EDT",
         "2017-10-17 17:27:36 +14",
+        "2017-10-17 16:10:46 +12",
+        "2017-10-17 17:18:43 HDT",
+        "2017-10-17 16:23:26 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1481,7 +1691,7 @@ fn test_mincha_ketana_mga_16_1_degrees() {
 
 #[test]
 fn test_mincha_ketana_ahavat_shalom() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 15:51:21 EDT",
         "2017-10-17 15:38:53 IDT",
@@ -1489,6 +1699,9 @@ fn test_mincha_ketana_ahavat_shalom() {
         "2017-10-17 14:39:13 JST",
         "2017-10-17 12:30:13 EDT",
         "2017-10-17 16:46:31 +14",
+        "2017-10-17 15:28:45 +12",
+        "2017-10-17 16:36:35 HDT",
+        "2017-10-17 15:40:56 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1502,7 +1715,7 @@ fn test_mincha_ketana_ahavat_shalom() {
 
 #[test]
 fn test_mincha_ketana_mga_72_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 16:38:00 EDT",
         "2017-10-17 16:27:11 IDT",
@@ -1510,6 +1723,9 @@ fn test_mincha_ketana_mga_72_minutes() {
         "2017-10-17 15:25:51 JST",
         "None",
         "2017-10-17 17:35:27 +14",
+        "2017-10-17 16:17:19 +12",
+        "2017-10-17 17:22:24 HDT",
+        "2017-10-17 16:27:20 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1523,7 +1739,7 @@ fn test_mincha_ketana_mga_72_minutes() {
 
 #[test]
 fn test_plag_mga_60_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:52:49 EDT",
         "2017-10-17 17:44:29 IDT",
@@ -1531,6 +1747,9 @@ fn test_plag_mga_60_minutes() {
         "2017-10-17 16:41:48 JST",
         "None",
         "2017-10-17 18:59:47 +14",
+        "2017-10-17 17:42:03 +12",
+        "2017-10-17 18:40:34 HDT",
+        "2017-10-17 17:51:36 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1544,7 +1763,7 @@ fn test_plag_mga_60_minutes() {
 
 #[test]
 fn test_plag_mga_72_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:02:19 EDT",
         "2017-10-17 17:53:59 IDT",
@@ -1552,6 +1771,9 @@ fn test_plag_mga_72_minutes() {
         "2017-10-17 16:51:18 JST",
         "None",
         "2017-10-17 19:09:17 +14",
+        "2017-10-17 17:51:33 +12",
+        "2017-10-17 18:50:04 HDT",
+        "2017-10-17 18:01:06 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1565,7 +1787,7 @@ fn test_plag_mga_72_minutes() {
 
 #[test]
 fn test_plag_mga_90_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:16:34 EDT",
         "2017-10-17 18:08:14 IDT",
@@ -1573,6 +1795,9 @@ fn test_plag_mga_90_minutes() {
         "2017-10-17 17:05:33 JST",
         "None",
         "2017-10-17 19:23:32 +14",
+        "2017-10-17 18:05:48 +12",
+        "2017-10-17 19:04:19 HDT",
+        "2017-10-17 18:15:21 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1586,7 +1811,7 @@ fn test_plag_mga_90_minutes() {
 
 #[test]
 fn test_plag_mga_96_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:21:19 EDT",
         "2017-10-17 18:12:59 IDT",
@@ -1594,6 +1819,9 @@ fn test_plag_mga_96_minutes() {
         "2017-10-17 17:10:18 JST",
         "None",
         "2017-10-17 19:28:17 +14",
+        "2017-10-17 18:10:33 +12",
+        "2017-10-17 19:09:04 HDT",
+        "2017-10-17 18:20:06 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1607,7 +1835,7 @@ fn test_plag_mga_96_minutes() {
 
 #[test]
 fn test_plag_mga_96_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:15:34 EDT",
         "2017-10-17 18:09:44 IDT",
@@ -1615,6 +1843,9 @@ fn test_plag_mga_96_minutes_zmanis() {
         "2017-10-17 17:05:43 JST",
         "None",
         "2017-10-17 19:32:10 +14",
+        "2017-10-17 18:14:50 +12",
+        "2017-10-17 19:06:42 HDT",
+        "2017-10-17 18:23:56 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1628,7 +1859,7 @@ fn test_plag_mga_96_minutes_zmanis() {
 
 #[test]
 fn test_plag_mga_90_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:11:10 EDT",
         "2017-10-17 18:05:11 IDT",
@@ -1636,6 +1867,9 @@ fn test_plag_mga_90_minutes_zmanis() {
         "2017-10-17 17:01:15 JST",
         "None",
         "2017-10-17 19:27:10 +14",
+        "2017-10-17 18:09:49 +12",
+        "2017-10-17 19:02:06 HDT",
+        "2017-10-17 18:18:56 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1649,7 +1883,7 @@ fn test_plag_mga_90_minutes_zmanis() {
 
 #[test]
 fn test_plag_mga_72_minutes_zmanis() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:58:00 EDT",
         "2017-10-17 17:51:32 IDT",
@@ -1657,6 +1891,9 @@ fn test_plag_mga_72_minutes_zmanis() {
         "2017-10-17 16:47:52 JST",
         "None",
         "2017-10-17 19:12:12 +14",
+        "2017-10-17 17:54:46 +12",
+        "2017-10-17 18:48:18 HDT",
+        "2017-10-17 18:03:58 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1670,7 +1907,7 @@ fn test_plag_mga_72_minutes_zmanis() {
 
 #[test]
 fn test_plag_mga_16_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:08:19 EDT",
         "2017-10-17 17:50:52 IDT",
@@ -1678,6 +1915,9 @@ fn test_plag_mga_16_1_degrees() {
         "2017-10-17 16:53:19 JST",
         "2017-10-17 19:33:08 EDT",
         "2017-10-17 18:58:37 +14",
+        "2017-10-17 17:42:39 +12",
+        "2017-10-17 18:45:04 HDT",
+        "2017-10-17 17:55:48 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1691,7 +1931,7 @@ fn test_plag_mga_16_1_degrees() {
 
 #[test]
 fn test_plag_mga_19_8_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:23:38 EDT",
         "2017-10-17 18:04:38 IDT",
@@ -1699,6 +1939,9 @@ fn test_plag_mga_19_8_degrees() {
         "2017-10-17 17:07:44 JST",
         "None",
         "2017-10-17 19:11:06 +14",
+        "2017-10-17 17:55:28 +12",
+        "2017-10-17 18:57:40 HDT",
+        "2017-10-17 18:08:48 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1712,7 +1955,7 @@ fn test_plag_mga_19_8_degrees() {
 
 #[test]
 fn test_plag_mga_26_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:49:27 EDT",
         "2017-10-17 18:27:44 IDT",
@@ -1720,6 +1963,9 @@ fn test_plag_mga_26_degrees() {
         "2017-10-17 17:31:58 JST",
         "None",
         "2017-10-17 19:32:13 +14",
+        "2017-10-17 18:17:14 +12",
+        "2017-10-17 19:18:46 HDT",
+        "2017-10-17 18:30:54 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1733,7 +1979,7 @@ fn test_plag_mga_26_degrees() {
 
 #[test]
 fn test_plag_mga_18_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:16:10 EDT",
         "2017-10-17 17:57:56 IDT",
@@ -1741,6 +1987,9 @@ fn test_plag_mga_18_degrees() {
         "2017-10-17 17:00:43 JST",
         "None",
         "2017-10-17 19:05:01 +14",
+        "2017-10-17 17:49:13 +12",
+        "2017-10-17 18:51:33 HDT",
+        "2017-10-17 18:02:27 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1754,7 +2003,7 @@ fn test_plag_mga_18_degrees() {
 
 #[test]
 fn test_plag_alos_16_1_degrees_to_sunset() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 16:57:01 EDT",
         "2017-10-17 16:49:53 IDT",
@@ -1762,6 +2011,9 @@ fn test_plag_alos_16_1_degrees_to_sunset() {
         "2017-10-17 15:46:32 JST",
         "None",
         "2017-10-17 18:06:12 +14",
+        "2017-10-17 16:48:14 +12",
+        "2017-10-17 17:46:13 HDT",
+        "2017-10-17 16:57:19 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1775,7 +2027,7 @@ fn test_plag_alos_16_1_degrees_to_sunset() {
 
 #[test]
 fn test_plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:26:03 EDT",
         "2017-10-17 17:12:46 IDT",
@@ -1783,6 +2035,9 @@ fn test_plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
         "2017-10-17 16:13:30 JST",
         "2017-10-17 15:25:56 EDT",
         "2017-10-17 18:24:29 +14",
+        "2017-10-17 17:07:43 +12",
+        "2017-10-17 18:10:10 HDT",
+        "2017-10-17 17:20:27 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1796,7 +2051,7 @@ fn test_plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
 
 #[test]
 fn test_plag_ahavat_shalom() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:10:33 EDT",
         "2017-10-17 16:58:49 IDT",
@@ -1804,6 +2059,9 @@ fn test_plag_ahavat_shalom() {
         "2017-10-17 15:58:54 JST",
         "2017-10-17 13:50:10 EDT",
         "2017-10-17 18:12:08 +14",
+        "2017-10-17 16:55:07 +12",
+        "2017-10-17 17:57:24 HDT",
+        "2017-10-17 17:07:42 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1817,7 +2075,7 @@ fn test_plag_ahavat_shalom() {
 
 #[test]
 fn test_bein_hashmashos_rt_13_24_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:19:17 EDT",
         "2017-10-17 19:03:23 IDT",
@@ -1825,6 +2083,9 @@ fn test_bein_hashmashos_rt_13_24_degrees() {
         "2017-10-17 18:05:15 JST",
         "2017-10-17 19:51:46 EDT",
         "2017-10-17 20:17:30 +14",
+        "2017-10-17 19:02:06 +12",
+        "2017-10-17 19:59:05 HDT",
+        "2017-10-17 19:15:34 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1838,7 +2099,7 @@ fn test_bein_hashmashos_rt_13_24_degrees() {
 
 #[test]
 fn test_bein_hashmashos_rt_58_5_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:13:08 EDT",
         "2017-10-17 19:07:16 IDT",
@@ -1846,6 +2107,9 @@ fn test_bein_hashmashos_rt_58_5_minutes() {
         "2017-10-17 18:03:16 JST",
         "None",
         "2017-10-17 20:29:37 +14",
+        "2017-10-17 19:12:17 +12",
+        "2017-10-17 20:04:14 HDT",
+        "2017-10-17 19:21:23 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1859,7 +2123,7 @@ fn test_bein_hashmashos_rt_58_5_minutes() {
 
 #[test]
 fn test_bein_hashmashos_rt_13_5_minutes_before_7_083_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:33:33 EDT",
         "2017-10-17 18:20:50 IDT",
@@ -1867,6 +2131,9 @@ fn test_bein_hashmashos_rt_13_5_minutes_before_7_083_degrees() {
         "2017-10-17 17:21:22 JST",
         "2017-10-17 16:43:32 EDT",
         "2017-10-17 19:38:01 +14",
+        "2017-10-17 18:22:02 +12",
+        "2017-10-17 19:18:58 HDT",
+        "2017-10-17 18:35:12 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1880,7 +2147,7 @@ fn test_bein_hashmashos_rt_13_5_minutes_before_7_083_degrees() {
 
 #[test]
 fn test_bein_hashmashos_rt_2_stars() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:42:09 EDT",
         "2017-10-17 18:32:32 IDT",
@@ -1888,6 +2155,9 @@ fn test_bein_hashmashos_rt_2_stars() {
         "2017-10-17 17:30:34 JST",
         "None",
         "2017-10-17 19:51:43 +14",
+        "2017-10-17 18:35:07 +12",
+        "2017-10-17 19:28:25 HDT",
+        "2017-10-17 18:45:32 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1901,7 +2171,7 @@ fn test_bein_hashmashos_rt_2_stars() {
 
 #[test]
 fn test_bein_hashmashos_yereim_18_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:56:38 EDT",
         "2017-10-17 17:50:46 IDT",
@@ -1909,6 +2179,9 @@ fn test_bein_hashmashos_yereim_18_minutes() {
         "2017-10-17 16:46:46 JST",
         "None",
         "2017-10-17 19:13:07 +14",
+        "2017-10-17 17:55:47 +12",
+        "2017-10-17 18:47:44 HDT",
+        "2017-10-17 18:04:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1922,7 +2195,7 @@ fn test_bein_hashmashos_yereim_18_minutes() {
 
 #[test]
 fn test_bein_hashmashos_yereim_3_05_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:53:07 EDT",
         "2017-10-17 17:45:56 IDT",
@@ -1930,6 +2203,9 @@ fn test_bein_hashmashos_yereim_3_05_degrees() {
         "2017-10-17 16:44:11 JST",
         "None",
         "2017-10-17 19:09:06 +14",
+        "2017-10-17 17:52:16 +12",
+        "2017-10-17 18:48:19 HDT",
+        "2017-10-17 18:05:00 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1943,7 +2219,7 @@ fn test_bein_hashmashos_yereim_3_05_degrees() {
 
 #[test]
 fn test_bein_hashmashos_yereim_16_875_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:57:46 EDT",
         "2017-10-17 17:51:54 IDT",
@@ -1951,6 +2227,9 @@ fn test_bein_hashmashos_yereim_16_875_minutes() {
         "2017-10-17 16:47:54 JST",
         "None",
         "2017-10-17 19:14:14 +14",
+        "2017-10-17 17:56:55 +12",
+        "2017-10-17 18:48:52 HDT",
+        "2017-10-17 18:06:00 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1964,7 +2243,7 @@ fn test_bein_hashmashos_yereim_16_875_minutes() {
 
 #[test]
 fn test_bein_hashmashos_yereim_2_8_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:54:28 EDT",
         "2017-10-17 17:47:09 IDT",
@@ -1972,6 +2251,9 @@ fn test_bein_hashmashos_yereim_2_8_degrees() {
         "2017-10-17 16:45:27 JST",
         "None",
         "2017-10-17 19:10:09 +14",
+        "2017-10-17 17:53:20 +12",
+        "2017-10-17 18:49:24 HDT",
+        "2017-10-17 18:06:04 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -1985,7 +2267,7 @@ fn test_bein_hashmashos_yereim_2_8_degrees() {
 
 #[test]
 fn test_bein_hashmashos_yereim_13_5_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:01:08 EDT",
         "2017-10-17 17:55:16 IDT",
@@ -1993,6 +2275,9 @@ fn test_bein_hashmashos_yereim_13_5_minutes() {
         "2017-10-17 16:51:16 JST",
         "None",
         "2017-10-17 19:17:37 +14",
+        "2017-10-17 18:00:17 +12",
+        "2017-10-17 18:52:14 HDT",
+        "2017-10-17 18:09:23 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2006,7 +2291,7 @@ fn test_bein_hashmashos_yereim_13_5_minutes() {
 
 #[test]
 fn test_bein_hashmashos_yereim_2_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:58:15 EDT",
         "2017-10-17 17:50:31 IDT",
@@ -2014,6 +2299,9 @@ fn test_bein_hashmashos_yereim_2_1_degrees() {
         "2017-10-17 16:49:00 JST",
         "None",
         "2017-10-17 19:13:04 +14",
+        "2017-10-17 17:56:18 +12",
+        "2017-10-17 18:52:28 HDT",
+        "2017-10-17 18:09:04 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2027,7 +2315,7 @@ fn test_bein_hashmashos_yereim_2_1_degrees() {
 
 #[test]
 fn test_tzeis_geonim_5_95_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:41:05 EDT",
         "2017-10-17 18:28:57 IDT",
@@ -2035,6 +2323,9 @@ fn test_tzeis_geonim_5_95_degrees() {
         "2017-10-17 17:29:15 JST",
         "2017-10-17 16:23:10 EDT",
         "2017-10-17 19:46:46 +14",
+        "2017-10-17 18:30:40 +12",
+        "2017-10-17 19:27:33 HDT",
+        "2017-10-17 18:43:47 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2048,7 +2339,7 @@ fn test_tzeis_geonim_5_95_degrees() {
 
 #[test]
 fn test_tzeis_geonim_4_61_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:34:01 EDT",
         "2017-10-17 18:22:36 IDT",
@@ -2056,6 +2347,9 @@ fn test_tzeis_geonim_4_61_degrees() {
         "2017-10-17 17:22:36 JST",
         "2017-10-17 15:39:36 EDT",
         "2017-10-17 19:41:08 +14",
+        "2017-10-17 18:24:56 +12",
+        "2017-10-17 19:21:44 HDT",
+        "2017-10-17 18:37:59 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2069,7 +2363,7 @@ fn test_tzeis_geonim_4_61_degrees() {
 
 #[test]
 fn test_tzeis_geonim_4_37_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:32:45 EDT",
         "2017-10-17 18:21:27 IDT",
@@ -2077,6 +2371,9 @@ fn test_tzeis_geonim_4_37_degrees() {
         "2017-10-17 17:21:24 JST",
         "2017-10-17 15:31:11 EDT",
         "2017-10-17 19:40:08 +14",
+        "2017-10-17 18:23:54 +12",
+        "2017-10-17 19:20:42 HDT",
+        "2017-10-17 18:36:56 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2090,7 +2387,7 @@ fn test_tzeis_geonim_4_37_degrees() {
 
 #[test]
 fn test_tzeis_geonim_5_88_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:40:43 EDT",
         "2017-10-17 18:28:38 IDT",
@@ -2098,6 +2395,9 @@ fn test_tzeis_geonim_5_88_degrees() {
         "2017-10-17 17:28:54 JST",
         "2017-10-17 16:21:00 EDT",
         "2017-10-17 19:46:28 +14",
+        "2017-10-17 18:30:22 +12",
+        "2017-10-17 19:27:15 HDT",
+        "2017-10-17 18:43:29 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2111,7 +2411,7 @@ fn test_tzeis_geonim_5_88_degrees() {
 
 #[test]
 fn test_tzeis_geonim_4_8_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:35:01 EDT",
         "2017-10-17 18:23:30 IDT",
@@ -2119,6 +2419,9 @@ fn test_tzeis_geonim_4_8_degrees() {
         "2017-10-17 17:23:32 JST",
         "2017-10-17 15:46:07 EDT",
         "2017-10-17 19:41:56 +14",
+        "2017-10-17 18:25:45 +12",
+        "2017-10-17 19:22:34 HDT",
+        "2017-10-17 18:38:48 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2132,7 +2435,7 @@ fn test_tzeis_geonim_4_8_degrees() {
 
 #[test]
 fn test_tzeis_geonim_6_45_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:43:43 EDT",
         "2017-10-17 18:31:20 IDT",
@@ -2140,6 +2443,9 @@ fn test_tzeis_geonim_6_45_degrees() {
         "2017-10-17 17:31:44 JST",
         "2017-10-17 16:38:21 EDT",
         "2017-10-17 19:48:52 +14",
+        "2017-10-17 18:32:49 +12",
+        "2017-10-17 19:29:43 HDT",
+        "2017-10-17 18:45:57 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2153,7 +2459,7 @@ fn test_tzeis_geonim_6_45_degrees() {
 
 #[test]
 fn test_tzeis_geonim_7_67_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:50:08 EDT",
         "2017-10-17 18:37:06 IDT",
@@ -2161,6 +2467,9 @@ fn test_tzeis_geonim_7_67_degrees() {
         "2017-10-17 17:37:46 JST",
         "2017-10-17 17:13:54 EDT",
         "2017-10-17 19:54:00 +14",
+        "2017-10-17 18:38:03 +12",
+        "2017-10-17 19:35:01 HDT",
+        "2017-10-17 18:51:15 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2174,7 +2483,7 @@ fn test_tzeis_geonim_7_67_degrees() {
 
 #[test]
 fn test_tzeis_geonim_8_5_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:54:29 EDT",
         "2017-10-17 18:41:02 IDT",
@@ -2182,6 +2491,9 @@ fn test_tzeis_geonim_8_5_degrees() {
         "2017-10-17 17:41:52 JST",
         "2017-10-17 17:37:18 EDT",
         "2017-10-17 19:57:29 +14",
+        "2017-10-17 18:41:38 +12",
+        "2017-10-17 19:38:36 HDT",
+        "2017-10-17 18:54:51 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2195,7 +2507,7 @@ fn test_tzeis_geonim_8_5_degrees() {
 
 #[test]
 fn test_tzeis_geonim_9_3_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:58:41 EDT",
         "2017-10-17 18:44:49 IDT",
@@ -2203,6 +2515,9 @@ fn test_tzeis_geonim_9_3_degrees() {
         "2017-10-17 17:45:49 JST",
         "2017-10-17 17:59:32 EDT",
         "2017-10-17 20:00:51 +14",
+        "2017-10-17 18:45:04 +12",
+        "2017-10-17 19:42:04 HDT",
+        "2017-10-17 18:58:20 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2216,7 +2531,7 @@ fn test_tzeis_geonim_9_3_degrees() {
 
 #[test]
 fn test_tzeis_geonim_9_75_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:01:02 EDT",
         "2017-10-17 18:46:56 IDT",
@@ -2224,6 +2539,9 @@ fn test_tzeis_geonim_9_75_degrees() {
         "2017-10-17 17:48:03 JST",
         "2017-10-17 18:11:59 EDT",
         "2017-10-17 20:02:45 +14",
+        "2017-10-17 18:47:01 +12",
+        "2017-10-17 19:44:01 HDT",
+        "2017-10-17 19:00:18 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2237,7 +2555,7 @@ fn test_tzeis_geonim_9_75_degrees() {
 
 #[test]
 fn test_sof_zman_shema_ateret_torah() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:15:39 EDT",
         "2017-10-17 08:50:09 IDT",
@@ -2245,6 +2563,9 @@ fn test_sof_zman_shema_ateret_torah() {
         "2017-10-17 07:56:43 JST",
         "None",
         "2017-10-17 09:16:44 +14",
+        "2017-10-17 07:56:14 +12",
+        "2017-10-17 09:40:12 HDT",
+        "2017-10-17 08:09:00 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2258,7 +2579,7 @@ fn test_sof_zman_shema_ateret_torah() {
 
 #[test]
 fn test_sof_zman_tefila_ateret_torah() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:19:58 EDT",
         "2017-10-17 09:56:40 IDT",
@@ -2266,6 +2587,9 @@ fn test_sof_zman_tefila_ateret_torah() {
         "2017-10-17 09:02:03 JST",
         "None",
         "2017-10-17 10:29:27 +14",
+        "2017-10-17 09:09:18 +12",
+        "2017-10-17 10:47:29 HDT",
+        "2017-10-17 09:21:39 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2279,7 +2603,7 @@ fn test_sof_zman_tefila_ateret_torah() {
 
 #[test]
 fn test_mincha_gedola_ateret_torah() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:00:48 EDT",
         "2017-10-17 12:42:57 IDT",
@@ -2287,6 +2611,9 @@ fn test_mincha_gedola_ateret_torah() {
         "2017-10-17 11:45:24 JST",
         "None",
         "2017-10-17 13:31:13 +14",
+        "2017-10-17 12:11:57 +12",
+        "2017-10-17 13:35:41 HDT",
+        "2017-10-17 12:23:17 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2300,7 +2627,7 @@ fn test_mincha_gedola_ateret_torah() {
 
 #[test]
 fn test_mincha_ketana_ateret_torah() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 16:13:48 EDT",
         "2017-10-17 16:02:29 IDT",
@@ -2308,6 +2635,9 @@ fn test_mincha_ketana_ateret_torah() {
         "2017-10-17 15:01:25 JST",
         "None",
         "2017-10-17 17:09:21 +14",
+        "2017-10-17 15:51:08 +12",
+        "2017-10-17 16:57:32 HDT",
+        "2017-10-17 16:01:15 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2321,7 +2651,7 @@ fn test_mincha_ketana_ateret_torah() {
 
 #[test]
 fn test_plag_ateret_torah() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:34:13 EDT",
         "2017-10-17 17:25:38 IDT",
@@ -2329,6 +2659,9 @@ fn test_plag_ateret_torah() {
         "2017-10-17 16:23:06 JST",
         "None",
         "2017-10-17 18:40:14 +14",
+        "2017-10-17 17:22:27 +12",
+        "2017-10-17 18:21:38 HDT",
+        "2017-10-17 17:32:04 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2342,7 +2675,7 @@ fn test_plag_ateret_torah() {
 
 #[test]
 fn test_alos_baal_hatanya() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:45:19 EDT",
         "2017-10-17 05:27:38 IDT",
@@ -2350,6 +2683,9 @@ fn test_alos_baal_hatanya() {
         "2017-10-17 04:29:46 JST",
         "2017-10-17 01:36:59 EDT",
         "2017-10-17 05:52:28 +14",
+        "2017-10-17 04:28:59 +12",
+        "2017-10-17 06:18:57 HDT",
+        "2017-10-17 04:37:58 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2363,7 +2699,7 @@ fn test_alos_baal_hatanya() {
 
 #[test]
 fn test_sof_zman_shema_baal_hatanya() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:53:53 EDT",
         "2017-10-17 09:32:08 IDT",
@@ -2371,6 +2707,9 @@ fn test_sof_zman_shema_baal_hatanya() {
         "2017-10-17 08:36:04 JST",
         "2017-10-17 11:28:48 EDT",
         "2017-10-17 10:04:50 +14",
+        "2017-10-17 08:44:11 +12",
+        "2017-10-17 10:21:06 HDT",
+        "2017-10-17 08:54:42 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2384,7 +2723,7 @@ fn test_sof_zman_shema_baal_hatanya() {
 
 #[test]
 fn test_mincha_gedola_baal_hatanya_greater_than_30_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:12:18 EDT",
         "2017-10-17 12:54:28 IDT",
@@ -2392,6 +2731,9 @@ fn test_mincha_gedola_baal_hatanya_greater_than_30_minutes() {
         "2017-10-17 11:56:55 JST",
         "2017-10-17 12:34:32 EDT",
         "2017-10-17 13:44:01 +14",
+        "2017-10-17 12:25:00 +12",
+        "2017-10-17 13:47:10 HDT",
+        "2017-10-17 12:36:27 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2405,7 +2747,7 @@ fn test_mincha_gedola_baal_hatanya_greater_than_30_minutes() {
 
 #[test]
 fn test_mincha_ketana_baal_hatanya() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 15:57:57 EDT",
         "2017-10-17 15:44:50 IDT",
@@ -2413,6 +2755,9 @@ fn test_mincha_ketana_baal_hatanya() {
         "2017-10-17 14:45:26 JST",
         "2017-10-17 12:42:24 EDT",
         "2017-10-17 16:51:54 +14",
+        "2017-10-17 15:34:16 +12",
+        "2017-10-17 16:42:03 HDT",
+        "2017-10-17 15:46:31 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2426,7 +2771,7 @@ fn test_mincha_ketana_baal_hatanya() {
 
 #[test]
 fn test_plag_baal_hatanya() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:07:57 EDT",
         "2017-10-17 16:56:30 IDT",
@@ -2434,6 +2779,9 @@ fn test_plag_baal_hatanya() {
         "2017-10-17 15:56:28 JST",
         "2017-10-17 12:56:33 EDT",
         "2017-10-17 18:10:10 +14",
+        "2017-10-17 16:53:08 +12",
+        "2017-10-17 17:55:18 HDT",
+        "2017-10-17 17:05:43 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2447,7 +2795,7 @@ fn test_plag_baal_hatanya() {
 
 #[test]
 fn test_tzeis_baal_hatanya() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 18:41:21 EDT",
         "2017-10-17 18:29:12 IDT",
@@ -2455,6 +2803,9 @@ fn test_tzeis_baal_hatanya() {
         "2017-10-17 17:29:30 JST",
         "2017-10-17 16:24:42 EDT",
         "2017-10-17 19:46:58 +14",
+        "2017-10-17 18:30:53 +12",
+        "2017-10-17 19:27:46 HDT",
+        "2017-10-17 18:44:00 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2468,7 +2819,7 @@ fn test_tzeis_baal_hatanya() {
 
 #[test]
 fn test_sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:18:15 EDT",
         "2017-10-17 09:00:45 IDT",
@@ -2476,6 +2827,9 @@ fn test_sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos() {
         "2017-10-17 08:02:53 JST",
         "None",
         "2017-10-17 09:37:30 +14",
+        "2017-10-17 08:16:03 +12",
+        "2017-10-17 09:53:02 HDT",
+        "2017-10-17 08:26:16 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2489,7 +2843,7 @@ fn test_sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos() {
 
 #[test]
 fn test_sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:23:13 EDT",
         "2017-10-17 09:05:14 IDT",
@@ -2497,6 +2851,9 @@ fn test_sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos() {
         "2017-10-17 08:07:34 JST",
         "2017-10-17 07:20:52 EDT",
         "2017-10-17 09:41:32 +14",
+        "2017-10-17 08:20:12 +12",
+        "2017-10-17 09:57:08 HDT",
+        "2017-10-17 08:30:28 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2510,7 +2867,7 @@ fn test_sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos() {
 
 #[test]
 fn test_sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:18:04 EDT",
         "2017-10-17 08:54:18 IDT",
@@ -2518,6 +2875,9 @@ fn test_sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos() {
         "2017-10-17 07:59:53 JST",
         "None",
         "2017-10-17 09:25:45 +14",
+        "2017-10-17 08:05:31 +12",
+        "2017-10-17 09:44:59 HDT",
+        "2017-10-17 08:18:03 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2531,7 +2891,7 @@ fn test_sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos() {
 
 #[test]
 fn test_sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:27:04 EDT",
         "2017-10-17 09:03:18 IDT",
@@ -2539,6 +2899,9 @@ fn test_sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos() {
         "2017-10-17 08:08:53 JST",
         "None",
         "2017-10-17 09:34:45 +14",
+        "2017-10-17 08:14:31 +12",
+        "2017-10-17 09:53:59 HDT",
+        "2017-10-17 08:27:03 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2552,7 +2915,7 @@ fn test_sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos() {
 
 #[test]
 fn test_sof_zman_shema_gra_sunrise_to_fixed_local_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:03:04 EDT",
         "2017-10-17 09:39:18 IDT",
@@ -2560,6 +2923,9 @@ fn test_sof_zman_shema_gra_sunrise_to_fixed_local_chatzos() {
         "2017-10-17 08:44:53 JST",
         "None",
         "2017-10-17 10:10:45 +14",
+        "2017-10-17 08:50:31 +12",
+        "2017-10-17 10:29:59 HDT",
+        "2017-10-17 09:03:03 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2573,7 +2939,7 @@ fn test_sof_zman_shema_gra_sunrise_to_fixed_local_chatzos() {
 
 #[test]
 fn test_sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 11:01:02 EDT",
         "2017-10-17 10:39:13 IDT",
@@ -2581,6 +2947,9 @@ fn test_sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos() {
         "2017-10-17 09:43:44 JST",
         "None",
         "2017-10-17 11:16:14 +14",
+        "2017-10-17 09:56:19 +12",
+        "2017-10-17 11:30:36 HDT",
+        "2017-10-17 10:08:30 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2594,7 +2963,7 @@ fn test_sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos() {
 
 #[test]
 fn test_mincha_gedola_gra_fixed_local_chatzos_30_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 13:26:57 EDT",
         "2017-10-17 13:09:03 IDT",
@@ -2602,6 +2971,9 @@ fn test_mincha_gedola_gra_fixed_local_chatzos_30_minutes() {
         "2017-10-17 12:11:26 JST",
         "2017-10-17 12:49:10 EDT",
         "2017-10-17 13:57:12 +14",
+        "2017-10-17 12:37:55 +12",
+        "2017-10-17 14:01:52 HDT",
+        "2017-10-17 12:49:26 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2615,7 +2987,7 @@ fn test_mincha_gedola_gra_fixed_local_chatzos_30_minutes() {
 
 #[test]
 fn test_mincha_ketana_gra_fixed_local_chatzos_to_sunset() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 16:02:16 EDT",
         "2017-10-17 15:51:23 IDT",
@@ -2623,6 +2995,9 @@ fn test_mincha_ketana_gra_fixed_local_chatzos_to_sunset() {
         "2017-10-17 14:50:03 JST",
         "None",
         "2017-10-17 16:59:29 +14",
+        "2017-10-17 15:41:21 +12",
+        "2017-10-17 16:46:37 HDT",
+        "2017-10-17 15:51:26 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2636,7 +3011,7 @@ fn test_mincha_ketana_gra_fixed_local_chatzos_to_sunset() {
 
 #[test]
 fn test_plag_gra_fixed_local_chatzos_to_sunset() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 17:08:27 EDT",
         "2017-10-17 17:00:05 IDT",
@@ -2644,6 +3019,9 @@ fn test_plag_gra_fixed_local_chatzos_to_sunset() {
         "2017-10-17 15:57:24 JST",
         "None",
         "2017-10-17 18:15:18 +14",
+        "2017-10-17 16:57:34 +12",
+        "2017-10-17 17:56:11 HDT",
+        "2017-10-17 17:07:10 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2657,7 +3035,7 @@ fn test_plag_gra_fixed_local_chatzos_to_sunset() {
 
 #[test]
 fn test_tzeis_50_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:04:38 EDT",
         "2017-10-17 18:58:46 IDT",
@@ -2665,6 +3043,9 @@ fn test_tzeis_50_minutes() {
         "2017-10-17 17:54:46 JST",
         "None",
         "2017-10-17 20:21:07 +14",
+        "2017-10-17 19:03:47 +12",
+        "2017-10-17 19:55:44 HDT",
+        "2017-10-17 19:12:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2678,7 +3059,7 @@ fn test_tzeis_50_minutes() {
 
 #[test]
 fn test_samuch_lemincha_ketana_gra() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 15:28:17 EDT",
         "2017-10-17 15:16:28 IDT",
@@ -2686,6 +3067,9 @@ fn test_samuch_lemincha_ketana_gra() {
         "2017-10-17 14:15:40 JST",
         "None",
         "2017-10-17 16:21:55 +14",
+        "2017-10-17 15:03:37 +12",
+        "2017-10-17 16:11:20 HDT",
+        "2017-10-17 15:13:49 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2699,7 +3083,7 @@ fn test_samuch_lemincha_ketana_gra() {
 
 #[test]
 fn test_samuch_lemincha_ketana_mga_16_1_degrees() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 16:08:03 EDT",
         "2017-10-17 15:50:29 IDT",
@@ -2707,6 +3091,9 @@ fn test_samuch_lemincha_ketana_mga_16_1_degrees() {
         "2017-10-17 14:52:55 JST",
         "2017-10-17 16:45:22 EDT",
         "2017-10-17 16:51:11 +14",
+        "2017-10-17 15:34:01 +12",
+        "2017-10-17 16:44:10 HDT",
+        "2017-10-17 15:46:29 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2720,7 +3107,7 @@ fn test_samuch_lemincha_ketana_mga_16_1_degrees() {
 
 #[test]
 fn test_samuch_lemincha_ketana_mga_72_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 16:04:17 EDT",
         "2017-10-17 15:52:28 IDT",
@@ -2728,6 +3115,9 @@ fn test_samuch_lemincha_ketana_mga_72_minutes() {
         "2017-10-17 14:51:40 JST",
         "None",
         "2017-10-17 16:57:55 +14",
+        "2017-10-17 15:39:37 +12",
+        "2017-10-17 16:47:20 HDT",
+        "2017-10-17 15:49:49 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2741,7 +3131,7 @@ fn test_samuch_lemincha_ketana_mga_72_minutes() {
 
 #[test]
 fn test_chatzos() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 12:42:18 EDT",
         "2017-10-17 12:24:28 IDT",
@@ -2749,6 +3139,9 @@ fn test_chatzos() {
         "2017-10-17 11:26:55 JST",
         "2017-10-17 12:04:32 EDT",
         "2017-10-17 13:12:43 +14",
+        "2017-10-17 11:53:26 +12",
+        "2017-10-17 13:17:10 HDT",
+        "2017-10-17 12:04:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2762,7 +3155,7 @@ fn test_chatzos() {
 
 #[test]
 fn test_tzeis_72_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 19:26:38 EDT",
         "2017-10-17 19:20:46 IDT",
@@ -2770,6 +3163,9 @@ fn test_tzeis_72_minutes() {
         "2017-10-17 18:16:46 JST",
         "None",
         "2017-10-17 20:43:07 +14",
+        "2017-10-17 19:25:47 +12",
+        "2017-10-17 20:17:44 HDT",
+        "2017-10-17 19:34:53 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2783,7 +3179,7 @@ fn test_tzeis_72_minutes() {
 
 #[test]
 fn test_alos_72_minutes() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 05:57:11 EDT",
         "2017-10-17 05:27:32 IDT",
@@ -2791,6 +3187,9 @@ fn test_alos_72_minutes() {
         "2017-10-17 04:36:20 JST",
         "None",
         "2017-10-17 05:42:18 +14",
+        "2017-10-17 04:21:07 +12",
+        "2017-10-17 06:16:06 HDT",
+        "2017-10-17 04:34:39 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2804,7 +3203,7 @@ fn test_alos_72_minutes() {
 
 #[test]
 fn test_sof_zman_tefila_gra() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 10:51:00 EDT",
         "2017-10-17 10:29:17 IDT",
@@ -2812,6 +3211,9 @@ fn test_sof_zman_tefila_gra() {
         "2017-10-17 09:33:49 JST",
         "None",
         "2017-10-17 11:06:34 +14",
+        "2017-10-17 09:46:40 +12",
+        "2017-10-17 11:20:39 HDT",
+        "2017-10-17 09:58:44 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2825,7 +3227,7 @@ fn test_sof_zman_tefila_gra() {
 
 #[test]
 fn test_sof_zman_shema_gra() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-17 09:55:33 EDT",
         "2017-10-17 09:31:50 IDT",
@@ -2833,6 +3235,9 @@ fn test_sof_zman_shema_gra() {
         "2017-10-17 08:37:27 JST",
         "None",
         "2017-10-17 10:03:30 +14",
+        "2017-10-17 08:43:17 +12",
+        "2017-10-17 10:22:31 HDT",
+        "2017-10-17 08:55:43 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
@@ -2846,7 +3251,7 @@ fn test_sof_zman_shema_gra() {
 
 #[test]
 fn test_chatzos_halayla() {
-    let cals = test_helper::basic_location_czcs(true);
+    let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
         "2017-10-18 00:42:12 EDT",
         "2017-10-18 00:24:22 IDT",
@@ -2854,6 +3259,9 @@ fn test_chatzos_halayla() {
         "2017-10-17 23:26:48 JST",
         "2017-10-18 00:04:26 EDT",
         "2017-10-18 01:12:36 +14",
+        "2017-10-17 23:53:19 +12",
+        "2017-10-18 01:17:04 HDT",
+        "2017-10-18 00:04:38 -11",
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
