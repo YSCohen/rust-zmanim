@@ -1493,7 +1493,7 @@ impl ComplexZmanimCalendar {
     /// Bahalacha* vol 2, pages 520-521 for more details.
     #[must_use]
     pub fn tzeis_geonim_7_083_degrees(&self) -> Option<DateTime<Tz>> {
-        self.tzeis(&Degrees(7.083))
+        self.tzeis(&Degrees(7.0 + (5.0/60.0)))
     }
 
     /// Returns *tzeis* (nightfall) based on the opinion of the
