@@ -51,8 +51,8 @@ pub fn elevation_adjustment(elevation: f64) -> f64 {
 /// not, in fact, correspond to true sunset or sunrise, instead the center of
 /// the Sun's disk must lie just below the horizon for the upper edge to be
 /// obscured. This means that a zenith of just above 90&deg; must be used. The
-/// Sun subtends an angle of [16 minutes of arc](SOLAR_RADIUS) and atmospheric
-/// refraction accounts for [34 minutes](REFRACTION) or so, giving a total of 50
+/// Sun subtends an angle of 16 minutes of arc and atmospheric
+/// refraction accounts for 34 minutes or so, giving a total of 50
 /// arcminutes. The total value is therefore 90+(5/6) or 90.8333333&deg; for
 /// true sunrise/sunset. Since a person at an elevation can see below the
 /// horizon of a person at sea level, this will also adjust the zenith to
