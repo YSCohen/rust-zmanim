@@ -272,7 +272,7 @@ fn offset_by_minutes_zmanis(time: &Zoned, minutes: f64, shaah_zmanis: SignedDura
 /// end of the day passed to this function.
 ///
 /// The time from the start of day to the end of day are divided into 12 *shaos
-/// zmaniyos*, and the returned `DateTime` is `shaos` of those *shaos zmaniyos*
+/// zmaniyos*, and the returned `Zoned` is `shaos` of those *shaos zmaniyos*
 /// after the beginning of the day
 fn shaos_into_day(day_start: &Zoned, day_end: &Zoned, shaos: f64) -> Zoned {
     let shaah_zmanis = astronomical_calculator::temporal_hour(day_start, day_end);
