@@ -9,8 +9,9 @@
 //! <a href="https://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation</a>
 //! article
 
-use chrono::{TimeDelta, prelude::*};
-use chrono_tz::Tz;
+use std::ops::{Add, Sub};
+
+use jiff::{Span, Zoned, civil::Date};
 
 use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::HOUR_SECONDS;
@@ -23,19 +24,19 @@ const JULIAN_DAY_JAN_1_2000: f64 = 2_451_545.0;
 /// Julian days per century
 const JULIAN_DAYS_PER_CENTURY: f64 = 36_525.0;
 
-/// Return the Julian day (at midnight) from a DateTime
-fn datetime_to_julian_day(date: &DateTime<Tz>) -> f64 {
+/// Return the Julian day (at midnight) from a Zoned datetime
+fn datetime_to_julian_day(dt: &Zoned) -> f64 {
     // adjust for weird TZs
-    let offset = date.offset().fix().local_minus_utc() / HOUR_SECONDS as i32;
+    let offset = dt.offset().seconds() / HOUR_SECONDS as i32;
     let date = if offset > 12 {
         // Samoa
-        *date - TimeDelta::days(1)
+        dt.sub(Span::new().days(1))
     } else if offset < -12 {
         // nowhere?
-        *date + TimeDelta::days(1)
+        dt.add(Span::new().days(1))
     } else {
         // most places
-        *date
+        dt.clone()
     };
 
     let mut year = date.year() as f64;
@@ -67,8 +68,13 @@ fn sun_hour_angle_at_horizon(latitude: f64, solar_dec: f64, zenith: f64, mode: &
     let solar_dec_r = solar_dec.to_radians();
     let zenith_r = zenith.to_radians();
 
-    let mut hour_angle = lat_r.tan().mul_add(-solar_dec_r.tan(), zenith_r.cos() / (lat_r.cos() * solar_dec_r.cos()))
-    .acos();
+    let mut hour_angle = lat_r
+        .tan()
+        .mul_add(
+            -solar_dec_r.tan(),
+            zenith_r.cos() / (lat_r.cos() * solar_dec_r.cos()),
+        )
+        .acos();
 
     if *mode == Mode::SunsetMidnight {
         hour_angle *= -1.0;
@@ -78,24 +84,37 @@ fn sun_hour_angle_at_horizon(latitude: f64, solar_dec: f64, zenith: f64, mode: &
 
 /// Return the unitless eccentricity of earth's orbit
 fn earth_orbit_eccentricity(julian_centuries: f64) -> f64 {
-    julian_centuries.mul_add(-0.0000001267f64.mul_add(julian_centuries, 0.000042037), 0.016708634) // unitless
+    julian_centuries.mul_add(
+        -0.0000001267f64.mul_add(julian_centuries, 0.000042037),
+        0.016708634,
+    )
+    // unitless
 }
 
 /// Return the Geometric Mean Anomaly of the Sun in degrees
 fn sun_geometric_mean_anomaly(julian_centuries: f64) -> f64 {
-    let anomaly = julian_centuries.mul_add(0.0001537f64.mul_add(-julian_centuries, 35999.05029), 357.52911); // in degrees
+    let anomaly = julian_centuries.mul_add(
+        0.0001537f64.mul_add(-julian_centuries, 35999.05029),
+        357.52911,
+    ); // in degrees
     anomaly % 360.0 // normalized (0...360)
 }
 
 /// Return the Geometric Mean Longitude of the Sun
 fn sun_geometric_mean_longitude(julian_centuries: f64) -> f64 {
-    let longitude = julian_centuries.mul_add(0.0003032f64.mul_add(julian_centuries, 36000.76983), 280.46646); // in degrees
+    let longitude = julian_centuries.mul_add(
+        0.0003032f64.mul_add(julian_centuries, 36000.76983),
+        280.46646,
+    ); // in degrees
     longitude % 360.0 // normalized (0...360)
 }
 
 /// Return the mean obliquity of the ecliptic (Axial tilt)
 fn mean_obliquity_of_ecliptic(julian_centuries: f64) -> f64 {
-    let seconds = julian_centuries.mul_add(-julian_centuries.mul_add(julian_centuries.mul_add(-0.001813, 0.00059), 46.8150), 21.448);
+    let seconds = julian_centuries.mul_add(
+        -julian_centuries.mul_add(julian_centuries.mul_add(-0.001813, 0.00059), 46.8150),
+        21.448,
+    );
     23.0 + ((26.0 + (seconds / 60.0)) / 60.0) // in degrees
 }
 
@@ -126,7 +145,13 @@ fn equation_of_time(julian_centuries: f64) -> f64 {
     let sinm = (sgma).sin();
     let sin2m = (2.0 * sgma).sin();
 
-    let eq_time = (1.25 * eoe * eoe).mul_add(-sin2m, (0.5 * y * y).mul_add(-sin4l0, (4.0 * eoe * y * sinm).mul_add(cos2l0, (y * sin2l0) - (2.0 * eoe * sinm))));
+    let eq_time = (1.25 * eoe * eoe).mul_add(
+        -sin2m,
+        (0.5 * y * y).mul_add(
+            -sin4l0,
+            (4.0 * eoe * y * sinm).mul_add(cos2l0, (y * sin2l0) - (2.0 * eoe * sinm)),
+        ),
+    );
     eq_time.to_degrees() * 4.0 // minutes of time
 }
 
@@ -155,8 +180,10 @@ fn sun_equation_of_center(julian_centuries: f64) -> f64 {
     let sin2m = (2.0 * mrad).sin();
     let sin3m = (3.0 * mrad).sin();
 
-    sinm.mul_add(julian_centuries.mul_add(-0.000014f64.mul_add(julian_centuries, 0.004817), 1.914602), sin2m * 0.000101f64.mul_add(-julian_centuries, 0.019993))
-        + (sin3m * 0.000289) // in degrees
+    sinm.mul_add(
+        julian_centuries.mul_add(-0.000014f64.mul_add(julian_centuries, 0.004817), 1.914602),
+        sin2m * 0.000101f64.mul_add(-julian_centuries, 0.019993),
+    ) + (sin3m * 0.000289) // in degrees
 }
 
 /// Return the true longitude of the sun, in degrees
@@ -205,7 +232,7 @@ fn approximate_utc_sun_position(
 /// zenith](adjusted_zenith) for refraction, solar radius
 /// and optionally elevation)
 fn utc_sun_rise_set(
-    date: &DateTime<Tz>,
+    date: &Date,
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
@@ -218,7 +245,7 @@ fn utc_sun_rise_set(
     };
 
     let adjusted_zenith = adjusted_zenith(zenith, elevation);
-    let julian_day = datetime_to_julian_day(date);
+    let julian_day = datetime_to_julian_day(&date.to_zoned(geo_location.timezone.clone()).unwrap());
 
     // first pass using solar noon
     let noonmin = solar_noon_utc(
@@ -237,7 +264,7 @@ fn utc_sun_rise_set(
     // refine using output of first pass
     let trefinement = julian_centuries_from_julian_day(julian_day + (first_pass / 1_440.0));
 
-    let tim = approximate_utc_sun_position(
+    let time = approximate_utc_sun_position(
         trefinement,
         geo_location.latitude,
         -geo_location.longitude,
@@ -245,15 +272,15 @@ fn utc_sun_rise_set(
         mode,
     ) / 60.0;
 
-    if tim.is_nan() {
+    if time.is_nan() {
         None
+    } else if time > 0.0 {
+        // ensure that the time is < 24
+        Some(time % 24.0)
     } else {
-        Some(if tim > 0.0 {
-            tim % 24.0
-        } else {
-            tim % 24.0 + 24.0
-        })
-    } // ensure that the time is >= 0 and < 24
+        // and >= 0
+        Some(time % 24.0 + 24.0)
+    }
 }
 
 // public interface for utc_sun_rise_set
@@ -261,7 +288,7 @@ fn utc_sun_rise_set(
 /// radius, and optionally elevation
 #[must_use]
 pub fn utc_sunrise(
-    date: &DateTime<Tz>,
+    date: &Date,
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
@@ -279,7 +306,7 @@ pub fn utc_sunrise(
 /// radius, and optionally elevation
 #[must_use]
 pub fn utc_sunset(
-    date: &DateTime<Tz>,
+    date: &Date,
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
@@ -297,12 +324,14 @@ pub fn utc_sunset(
 /// Return the UTC of the current day's solar noon or the the upcoming midnight
 /// (about 12 hours after solar noon) of the given day at the given location on
 /// earth.
-fn utc_solar_noon_midnight(julian_day: f64, longitude: f64, mode: &Mode) -> Option<f64> {
-    let julian_day = if *mode == Mode::SunriseNoon {
-        julian_day
-    } else {
-        julian_day + 0.5
-    };
+fn utc_solar_noon_midnight(date: &Date, geo_location: &GeoLocation, mode: &Mode) -> Option<f64> {
+    let mut julian_day =
+        datetime_to_julian_day(&date.to_zoned(geo_location.timezone.clone()).unwrap());
+    let longitude = -geo_location.longitude;
+
+    if *mode == Mode::SunsetMidnight {
+        julian_day += 0.5;
+    }
     // First pass for approximate solar noon to calculate equation of time
     let tnoon = julian_centuries_from_julian_day(julian_day + longitude / 360.0);
     let eot = equation_of_time(tnoon);
@@ -314,14 +343,21 @@ fn utc_solar_noon_midnight(julian_day: f64, longitude: f64, mode: &Mode) -> Opti
     if eot.is_nan() {
         None
     } else {
-        Some(
-            longitude.mul_add(4.0, if *mode == Mode::SunriseNoon {
+        let minutes = longitude.mul_add(
+            4.0,
+            if *mode == Mode::SunriseNoon {
                 720.0
             } else {
                 1440.0
-            })
-                - eot,
-        )
+            },
+        ) - eot;
+
+        let time = minutes / 60.0;
+        Some(if time > 0.0 {
+            time % 24.0
+        } else {
+            (time % 24.0) + 24.0
+        })
     }
 }
 
@@ -330,17 +366,8 @@ fn utc_solar_noon_midnight(julian_day: f64, longitude: f64, mode: &Mode) -> Opti
 /// halfway between sunrise and sunset. Other calculators may return a more
 /// simplified calculation of halfway between sunrise and sunset.
 #[must_use]
-pub fn utc_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f64> {
-    let noon = utc_solar_noon_midnight(
-        datetime_to_julian_day(date),
-        -geo_location.longitude,
-        &Mode::SunriseNoon,
-    )? / 60.0;
-    Some(if noon > 0.0 {
-        noon % 24.0
-    } else {
-        (noon % 24.0) + 24.0
-    }) // ensure that the time is >= 0 and < 24
+pub fn utc_noon(date: &Date, geo_location: &GeoLocation) -> Option<f64> {
+    utc_solar_noon_midnight(date, geo_location, &Mode::SunriseNoon)
 }
 
 /// Return the UTC of the solar midnight for the end of the given civil day at
@@ -349,17 +376,8 @@ pub fn utc_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f64> 
 /// between sunrise and sunset. Other calculators may return a more simplified
 /// calculation of halfway between sunrise and sunset.
 #[must_use]
-pub fn utc_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<f64> {
-    let midnight = utc_solar_noon_midnight(
-        datetime_to_julian_day(date),
-        -geo_location.longitude,
-        &Mode::SunsetMidnight,
-    )? / 60.0;
-    Some(if midnight > 0.0 {
-        midnight % 24.0
-    } else {
-        (midnight % 24.0) + 24.0
-    }) // ensure that the time is >= 0 and < 24
+pub fn utc_midnight(date: &Date, geo_location: &GeoLocation) -> Option<f64> {
+    utc_solar_noon_midnight(date, geo_location, &Mode::SunsetMidnight)
 }
 
 /// Used internally to specify which solar event should be calculated, to a

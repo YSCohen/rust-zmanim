@@ -2,18 +2,18 @@
 //! MGA *zmanim* from *alos* 10&deg; to *tzeis* 13&deg;, with elevation-adjusted
 //! *shkia* and *hanetz*. THIS IS NOT A REAL *SHITA*, just an example
 
-use chrono::Utc;
-use chrono_tz::Asia::Jerusalem;
+use jiff::{Zoned, tz::TimeZone};
 use rust_zmanim::prelude::*;
 
 fn main() {
-    let today = Utc::now().with_timezone(&Jerusalem);
+    let jerusalem = TimeZone::get("Asia/Jerusalem").unwrap();
+    let today = Zoned::now().date();
 
     let kosel = GeoLocation {
         latitude: 31.777,
         longitude: 35.234,
         elevation: 700.0,
-        timezone: Jerusalem,
+        timezone: jerusalem,
     };
 
     let alos_10_deg =
@@ -30,12 +30,6 @@ fn main() {
     let shkia = zmanim_calculator::shkia(&today, &kosel, true).unwrap();
     let shaah = zmanim_calculator::shaah_zmanis(&alos_10_deg, &tzeis_13_deg);
 
-    // shaah is a TimeDelta, so we need to pretty-print it manually
-    let sz_hours = shaah.num_hours();
-    let sz_minutes = shaah.num_minutes() % 60;
-    let sz_seconds = shaah.num_seconds() % 60;
-    let sz_nanos = shaah.subsec_nanos();
-
     println!(
         "alos:         {alos_10_deg}
 hanetz:       {hanetz}
@@ -47,6 +41,6 @@ MK:           {mk}
 shkia:        {shkia}
 plag:         {plag}
 tzeis:        {tzeis_13_deg}
-shaah zmanis: {sz_hours:02}:{sz_minutes:02}:{sz_seconds:02}.{sz_nanos:02}"
+shaah zmanis: {shaah}"
     )
 }

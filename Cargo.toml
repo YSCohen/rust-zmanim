@@ -11,5 +11,4 @@ repository = "https://github.com/YSCohen/rust-zmanim"
 documentation = "https://docs.rs/rust-zmanim/"
 
 [dependencies]
-chrono = "0.4"
-chrono-tz = "0.10"
+jiff = "0.2"

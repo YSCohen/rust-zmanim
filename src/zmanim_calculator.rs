@@ -15,8 +15,9 @@
 //! When a *zman* will not occur these functions return `None`. See note in
 //! [`astronomical_calculator`]
 
-use chrono::{TimeDelta, prelude::*};
-use chrono_tz::Tz;
+use std::ops::{Add, Sub};
+
+use jiff::{SignedDuration, Zoned, civil::Date};
 
 use crate::astronomical_calculator;
 use crate::util::geolocation::GeoLocation;
@@ -27,11 +28,11 @@ use crate::util::math_helper::MINUTE_NANOS;
 /// offset before sunrise
 #[must_use]
 pub fn alos(
-    date: &DateTime<Tz>,
+    date: &Date,
     geo_location: &GeoLocation,
     use_elevation: bool,
     offset: &ZmanOffset,
-) -> Option<DateTime<Tz>> {
+) -> Option<Zoned> {
     match offset {
         ZmanOffset::Degrees(deg) => astronomical_calculator::sunrise_offset_by_degrees(
             date,
@@ -40,7 +41,7 @@ pub fn alos(
         ),
         ZmanOffset::Minutes(min) => Some(
             hanetz(date, geo_location, use_elevation)?
-                + TimeDelta::nanoseconds((-min * MINUTE_NANOS).round() as i64),
+                .sub(SignedDuration::from_nanos((min * MINUTE_NANOS) as i64)),
         ),
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
@@ -62,11 +63,7 @@ pub fn alos(
 /// This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
 #[must_use]
-pub fn hanetz(
-    date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-    use_elevation: bool,
-) -> Option<DateTime<Tz>> {
+pub fn hanetz(date: &Date, geo_location: &GeoLocation, use_elevation: bool) -> Option<Zoned> {
     if use_elevation {
         astronomical_calculator::sunrise(date, geo_location)
     } else {
@@ -83,7 +80,7 @@ pub fn hanetz(
 /// zmaniyos*, and the latest *zman krias shema* is calculated as 3 of those
 /// *shaos zmaniyos* after the beginning of the day
 #[must_use]
-pub fn sof_zman_shema(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+pub fn sof_zman_shema(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 3.0)
 }
 
@@ -96,7 +93,7 @@ pub fn sof_zman_shema(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateT
 /// zmaniyos*, and the latest *zman tefila* is calculated as 4 of those *shaos
 /// zmaniyos* after the beginning of the day
 #[must_use]
-pub fn sof_zman_tefila(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+pub fn sof_zman_tefila(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 4.0)
 }
 
@@ -109,21 +106,21 @@ pub fn sof_zman_tefila(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> Date
 /// zmaniyos*, and the latest *zman tefila* is calculated as 5 of those *shaos
 /// zmaniyos* after the beginning of the day
 #[must_use]
-pub fn sof_zman_biur_chametz(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+pub fn sof_zman_biur_chametz(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 5.0)
 }
 
 /// Returns [Astronomical
 /// noon](crate::astronomical_calculator::solar_noon).
 #[must_use]
-pub fn chatzos(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+pub fn chatzos(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     astronomical_calculator::solar_noon(date, geo_location)
 }
 
 /// Returns [Astronomical
 /// midnight](crate::astronomical_calculator::solar_midnight).
 #[must_use]
-pub fn chatzos_halayla(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+pub fn chatzos_halayla(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     astronomical_calculator::solar_midnight(date, geo_location)
 }
 
@@ -141,10 +138,7 @@ pub fn chatzos_halayla(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Optio
 /// not tied to the theoretical 15&deg; time zones, but will adjust to the
 /// actual time zone and Daylight saving time.
 #[must_use]
-pub fn fixed_local_chatzos(
-    date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-) -> Option<DateTime<Tz>> {
+pub fn fixed_local_chatzos(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     astronomical_calculator::local_mean_time(date, geo_location, 12.0)
 }
 
@@ -156,15 +150,10 @@ pub fn fixed_local_chatzos(
 /// start *mincha* before the standard *mincha gedola*. See *Shulchan Aruch
 /// Orach Chayim* 234:1 and the *Shaar Hatziyon seif katan ches*.
 #[must_use]
-pub fn mincha_gedola_30_minutes(
-    date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-) -> Option<DateTime<Tz>> {
-    Some(chatzos(date, geo_location)? + TimeDelta::minutes(30))
+pub fn mincha_gedola_30_minutes(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
+    Some(chatzos(date, geo_location)?.add(SignedDuration::from_mins(30)))
 }
 
-/// A generic function for calculating *mincha gedola* that is 6.5 *shaos
-/// zmaniyos* (temporal hours) after the start of the day, calculated using the
 /// start and end of the day passed to this function.
 ///
 /// Mincha gedola is the
@@ -177,7 +166,7 @@ pub fn mincha_gedola_30_minutes(
 /// zmaniyos*, and *mincha gedola* is calculated as 6.5 of those *shaos
 /// zmaniyos* after the beginning of the day
 #[must_use]
-pub fn mincha_gedola(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+pub fn mincha_gedola(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 6.5)
 }
 
@@ -192,7 +181,7 @@ pub fn mincha_gedola(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// zmaniyos*, and *mincha ketana* is calculated as 9 of those *shaos
 /// zmaniyos* after the beginning of the day
 #[must_use]
-pub fn samuch_lemincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+pub fn samuch_lemincha_ketana(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 9.0)
 }
 
@@ -205,7 +194,7 @@ pub fn samuch_lemincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) 
 /// zmaniyos*, and *mincha ketana* is calculated as 9.5 of those *shaos
 /// zmaniyos* after the beginning of the day
 #[must_use]
-pub fn mincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+pub fn mincha_ketana(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 9.5)
 }
 
@@ -215,7 +204,7 @@ pub fn mincha_ketana(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// *shaos zmaniyos* (temporal hours) after the start of the day, calculated
 /// using the start and end of the day passed to this function.
 #[must_use]
-pub fn plag_hamincha(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTime<Tz> {
+pub fn plag_hamincha(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 10.75)
 }
 
@@ -225,11 +214,7 @@ pub fn plag_hamincha(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> DateTi
 /// This allows relevant *zmanim* to automatically adjust to the
 /// elevation setting
 #[must_use]
-pub fn shkia(
-    date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-    use_elevation: bool,
-) -> Option<DateTime<Tz>> {
+pub fn shkia(date: &Date, geo_location: &GeoLocation, use_elevation: bool) -> Option<Zoned> {
     if use_elevation {
         astronomical_calculator::sunset(date, geo_location)
     } else {
@@ -242,11 +227,11 @@ pub fn shkia(
 /// offset after sunset
 #[must_use]
 pub fn tzeis(
-    date: &DateTime<Tz>,
+    date: &Date,
     geo_location: &GeoLocation,
     use_elevation: bool,
     offset: &ZmanOffset,
-) -> Option<DateTime<Tz>> {
+) -> Option<Zoned> {
     match offset {
         ZmanOffset::Degrees(deg) => astronomical_calculator::sunset_offset_by_degrees(
             date,
@@ -255,7 +240,7 @@ pub fn tzeis(
         ),
         ZmanOffset::Minutes(min) => {
             let sunset = shkia(date, geo_location, use_elevation)?;
-            Some(sunset + TimeDelta::nanoseconds((min * MINUTE_NANOS).round() as i64))
+            Some(sunset.add(SignedDuration::from_nanos((min * MINUTE_NANOS) as i64)))
         }
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
@@ -270,22 +255,16 @@ pub fn tzeis(
 /// Gives the length of a *shaah zmanis* (temporal hour), given the
 /// start (usually *hanetz* or *alos*) and end (*shkia* or *tzeis*) of the day
 #[must_use]
-pub fn shaah_zmanis(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>) -> TimeDelta {
+pub fn shaah_zmanis(day_start: &Zoned, day_end: &Zoned) -> SignedDuration {
     astronomical_calculator::temporal_hour(day_start, day_end)
 }
 
-/// Returns a `DateTime` which is `minutes` minutes *zmaniyos* after `time`,
-/// where `shaah_zmanis` is the length in minutes of a *shaah zmanis*
-fn offset_by_minutes_zmanis(
-    time: &DateTime<Tz>,
-    minutes: f64,
-    shaah_zmanis: TimeDelta,
-) -> DateTime<Tz> {
-    // Unfortunately you can't multiply TimeDelta by f64, so this is a bit messy
-    *time
-        + TimeDelta::nanoseconds(
-            ((shaah_zmanis / 60).num_nanoseconds().unwrap() as f64 * minutes).round() as i64,
-        )
+/// Returns a `Zoned` datetime which is `minutes` minutes *zmaniyos* after
+/// `time`, where `shaah_zmanis` is the length in minutes of a *shaah zmanis*
+fn offset_by_minutes_zmanis(time: &Zoned, minutes: f64, shaah_zmanis: SignedDuration) -> Zoned {
+    time.add(SignedDuration::from_secs_f64(
+        (shaah_zmanis / 60).as_secs_f64() * minutes,
+    ))
 }
 
 /// A generic function for calculating a given number of *shaos zmaniyos*
@@ -295,13 +274,12 @@ fn offset_by_minutes_zmanis(
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and the returned `DateTime` is `shaos` of those *shaos zmaniyos*
 /// after the beginning of the day
-fn shaos_into_day(day_start: &DateTime<Tz>, day_end: &DateTime<Tz>, shaos: f64) -> DateTime<Tz> {
+fn shaos_into_day(day_start: &Zoned, day_end: &Zoned, shaos: f64) -> Zoned {
     let shaah_zmanis = astronomical_calculator::temporal_hour(day_start, day_end);
     offset_by_minutes_zmanis(day_start, shaos * 60.0, shaah_zmanis)
 }
 
-/// Offset used for *alos* or *tzeis*
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum ZmanOffset {
     /// Some degrees under the horizon
     Degrees(f64),
@@ -315,6 +293,6 @@ pub enum ZmanOffset {
         minutes_zmaniyos: f64,
         /// Length of a *shaah zmanis* in minutes. Each minute *zmanis* will be
         /// 1/60 of this
-        shaah_zmanis: TimeDelta,
+        shaah_zmanis: SignedDuration,
     },
 }

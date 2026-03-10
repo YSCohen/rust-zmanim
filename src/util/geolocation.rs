@@ -1,8 +1,9 @@
 //! Geolocation struct, with some math for [local mean
 //! time](crate::astronomical_calculator::local_mean_time)
 use crate::util::math_helper::HOUR_MINUTES;
+use jiff::tz::TimeZone;
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 /// A struct that contains location information such as latitude and longitude
 /// required for astronomical calculations. The elevation field may not be used
 /// by some calculations and would be ignored if set
@@ -15,8 +16,8 @@ pub struct GeoLocation {
     pub longitude: f64,
     /// The elevation in meters above sea level
     pub elevation: f64,
-    /// The location's time zone, from [`chrono_tz`]
-    pub timezone: chrono_tz::Tz,
+    /// The location's time zone
+    pub timezone: TimeZone,
 }
 impl GeoLocation {
     /// Returns the location's local mean time offset from UTC in hours. The

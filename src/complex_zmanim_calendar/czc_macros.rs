@@ -7,21 +7,21 @@ macro_rules! zmanim_for_offset {
         )*
     };
 
-    // shaah_zmanis_mga - separate variant due to different return type (TimeDelta)
+    // shaah_zmanis_mga - separate variant due to different return type
     (@method_custom $fn_name:ident, $offset_fn:expr, shaah_zmanis_mga, $doc:expr) => {
         #[must_use]
         #[doc = $doc]
-        pub fn $fn_name(&self) -> Option<TimeDelta> {
+        pub fn $fn_name(&self) -> Option<SignedDuration> {
             let offset = ($offset_fn)(self)?;
             self.shaah_zmanis_mga(&offset)
         }
     };
 
-    // Generic variant for other zman types returning DateTime<Tz>
+    // Generic variant for other zman types returning Zoned
     (@method_custom $fn_name:ident, $offset_fn:expr, $zman_type:ident, $doc:expr) => {
         #[must_use]
         #[doc = $doc]
-        pub fn $fn_name(&self) -> Option<DateTime<Tz>> {
+        pub fn $fn_name(&self) -> Option<Zoned> {
             let offset = ($offset_fn)(self)?;
             self.$zman_type(&offset)
         }

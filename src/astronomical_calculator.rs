@@ -10,12 +10,12 @@
 //! at certain times of the year. When the calculations encounter this condition
 //! they will return `None`.
 
-use chrono::TimeDelta;
-use chrono::prelude::*;
-use chrono_tz::Tz;
+use std::ops::{Add, Sub};
+
+use jiff::{SignedDuration, Span, Zoned, civil::Date, tz::TimeZone};
 
 use crate::util::geolocation::GeoLocation;
-use crate::util::math_helper::{HOUR_SECONDS, MINUTE_SECONDS, SECOND_NANOS};
+use crate::util::math_helper::HOUR_NANOS;
 use crate::util::noaa_calculator;
 
 /// 90&deg; below the vertical. Used as a basis for most calculations since the
@@ -39,14 +39,14 @@ pub const ASTRONOMICAL_ZENITH: f64 = 108.0;
 /// Returns the sunrise in UTC time without correction for time
 /// zone offset from GMT and without using daylight savings time
 #[must_use]
-pub fn utc_sunrise(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
+pub fn utc_sunrise(date: &Date, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, true)
 }
 
 /// Returns the sunset in UTC time without correction for time
 /// zone offset from GMT and without using daylight savings time
 #[must_use]
-pub fn utc_sunset(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
+pub fn utc_sunset(date: &Date, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunset(date, geo_location, zenith, true)
 }
 
@@ -54,11 +54,7 @@ pub fn utc_sunset(date: &DateTime<Tz>, zenith: f64, geo_location: &GeoLocation) 
 /// elevation, time zone offset from GMT and without using daylight savings
 /// time
 #[must_use]
-pub fn utc_sea_level_sunrise(
-    date: &DateTime<Tz>,
-    zenith: f64,
-    geo_location: &GeoLocation,
-) -> Option<f64> {
+pub fn utc_sea_level_sunrise(date: &Date, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, false)
 }
 
@@ -66,11 +62,7 @@ pub fn utc_sea_level_sunrise(
 /// elevation, time zone offset from GMT and without using daylight savings
 /// time
 #[must_use]
-pub fn utc_sea_level_sunset(
-    date: &DateTime<Tz>,
-    zenith: f64,
-    geo_location: &GeoLocation,
-) -> Option<f64> {
+pub fn utc_sea_level_sunset(date: &Date, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunset(date, geo_location, zenith, false)
 }
 
@@ -82,11 +74,11 @@ pub fn utc_sea_level_sunset(
 /// approximately 50/60 of a degree to account for 34 arcminutes of refraction
 /// and 16 arcminutes for the sun's radius for a total of 90.83333&deg;
 #[must_use]
-pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+pub fn sunrise(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     Some(date_time_from_time_of_day(
         date,
         noaa_calculator::utc_sunrise(date, geo_location, GEOMETRIC_ZENITH, true)?,
-        geo_location.timezone,
+        &geo_location.timezone,
     ))
 }
 
@@ -98,24 +90,24 @@ pub fn sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTi
 /// approximately 50/60 of a degree to account for 34 arcminutes of refraction
 /// and 16 arcminutes for the sun's radius for a total of 90.83333&deg;
 #[must_use]
-pub fn sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+pub fn sunset(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     Some(date_time_from_time_of_day(
         date,
         noaa_calculator::utc_sunset(date, geo_location, GEOMETRIC_ZENITH, true)?,
-        geo_location.timezone,
+        &geo_location.timezone,
     ))
 }
 
 /// Returns the sunrise without elevation adjustment, i.e. at sea level
 #[must_use]
-pub fn sea_level_sunrise(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+pub fn sea_level_sunrise(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
 /// Returns the sunset without elevation adjustment, i.e. at sea
 /// level
 #[must_use]
-pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+pub fn sea_level_sunset(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
@@ -127,14 +119,14 @@ pub fn sea_level_sunset(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Opti
 /// [`GEOMETRIC_ZENITH`] = 104 would have to be passed as a parameter
 #[must_use]
 pub fn sunrise_offset_by_degrees(
-    date: &DateTime<Tz>,
+    date: &Date,
     geo_location: &GeoLocation,
     offset_zenith: f64,
-) -> Option<DateTime<Tz>> {
+) -> Option<Zoned> {
     Some(date_time_from_time_of_day(
         date,
         utc_sea_level_sunrise(date, offset_zenith, geo_location)?,
-        geo_location.timezone,
+        &geo_location.timezone,
     ))
 }
 
@@ -146,14 +138,14 @@ pub fn sunrise_offset_by_degrees(
 /// [`GEOMETRIC_ZENITH`] = 104 would have to be passed as a parameter
 #[must_use]
 pub fn sunset_offset_by_degrees(
-    date: &DateTime<Tz>,
+    date: &Date,
     geo_location: &GeoLocation,
     offset_zenith: f64,
-) -> Option<DateTime<Tz>> {
+) -> Option<Zoned> {
     Some(date_time_from_time_of_day(
         date,
         utc_sea_level_sunset(date, offset_zenith, geo_location)?,
-        geo_location.timezone,
+        &geo_location.timezone,
     ))
 }
 
@@ -161,67 +153,70 @@ pub fn sunset_offset_by_degrees(
 /// hour based on the sunrise and sunset passed as parameters to this
 /// function
 #[must_use]
-pub fn temporal_hour(sunrise: &DateTime<Tz>, sunset: &DateTime<Tz>) -> TimeDelta {
-    (*sunset - *sunrise) / 12
+pub fn temporal_hour(sunrise: &Zoned, sunset: &Zoned) -> SignedDuration {
+    sunset.duration_since(sunrise) / 12
 }
 
 /// Returns solar noon. It occurs when the Sun is transiting the celestial
 /// meridian, the apparent highest point in the sky
 #[must_use]
-pub fn solar_noon(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+pub fn solar_noon(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     Some(date_time_from_time_of_day(
         date,
         noaa_calculator::utc_noon(date, geo_location)?,
-        geo_location.timezone,
+        &geo_location.timezone,
     ))
 }
 
 /// Returns solar midnight. It occurs when the Sun closest to the nadir, or the
 /// direction pointing directly below the given location
 #[must_use]
-pub fn solar_midnight(date: &DateTime<Tz>, geo_location: &GeoLocation) -> Option<DateTime<Tz>> {
+pub fn solar_midnight(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     let midnight = date_time_from_time_of_day(
         date,
         noaa_calculator::utc_midnight(date, geo_location)?,
-        geo_location.timezone,
+        &geo_location.timezone,
     );
-    if midnight <= date.with_hour(12)? {
-        Some(midnight + TimeDelta::days(1))
+    // Compare with noon of the same day
+    let noon_hour = date
+        .to_zoned(geo_location.timezone.clone())
+        .unwrap()
+        .with()
+        .hour(12)
+        .build()
+        .unwrap();
+    if midnight <= noon_hour {
+        Some(midnight.add(Span::new().days(1)))
     } else {
         Some(midnight)
     }
 }
 
-/// Returns a `DateTime` with the given timezone, made from the number of hours
-/// in UTC time
-fn date_time_from_time_of_day(date: &DateTime<Tz>, time_of_day: f64, timezone: Tz) -> DateTime<Tz> {
-    let total_seconds = time_of_day * HOUR_SECONDS;
-    let hour = (total_seconds / HOUR_SECONDS).floor() as u32;
-    let remainder = total_seconds % HOUR_SECONDS;
-    let minute = (remainder / MINUTE_SECONDS).floor() as u32;
-    let remainder = remainder % MINUTE_SECONDS;
-    let second = (remainder).floor() as u32;
-    let nanosecond = (remainder.fract() * SECOND_NANOS).round() as i64;
+/// Returns a `Zoned` datetime with the given timezone, made from the
+/// (floating-point) number of hours in UTC time
+fn date_time_from_time_of_day(date: &Date, time_of_day: f64, timezone: &TimeZone) -> Zoned {
+    // nanosecond conversion of time_of_day
+    let total_nanos = (time_of_day * HOUR_NANOS).round() as i64;
 
-    let (year, month, day) = (date.year(), date.month(), date.day());
-
-    // first get the NaiveTime from `time_of_day`, converted from UTC to our
-    // timezone
-    let time = (Utc
-        .with_ymd_and_hms(year, month, day, hour, minute, second)
+    // Create UTC datetime at midnight and add nanoseconds
+    // there must be a better way to do this...
+    let utc_dt = date
+        .to_zoned(TimeZone::UTC)
         .unwrap()
-        + TimeDelta::nanoseconds(nanosecond))
-    .with_timezone(&timezone)
-    .time();
+        .add(SignedDuration::from_nanos(total_nanos));
 
-    // then add that to the correct date
-    timezone
-        .from_local_datetime(
-            &NaiveDate::from_ymd_opt(year, month, day)
-                .unwrap()
-                .and_time(time),
-        )
-        .unwrap()
+    // Convert to target timezone.
+    // NOAA returns UTC time-of-day in [0, 24), but the corresponding UTC date
+    // can be the day before/after the target local civil date depending on
+    // timezone offset. Re-anchor to the requested local date.
+    let local_dt = utc_dt.with_time_zone(timezone.clone());
+    if local_dt.date() < *date {
+        local_dt.add(Span::new().days(1))
+    } else if local_dt.date() > *date {
+        local_dt.sub(Span::new().days(1))
+    } else {
+        local_dt
+    }
 }
 
 /// Returns local mean time (LMT) converted to regular clock time for the number
@@ -237,17 +232,13 @@ fn date_time_from_time_of_day(date: &DateTime<Tz>, time_of_day: f64, timezone: T
 /// but will adjust to the actual time zone and Daylight saving time to return
 /// LMT.
 #[must_use]
-pub fn local_mean_time(
-    date: &DateTime<Tz>,
-    geo_location: &GeoLocation,
-    hours: f64,
-) -> Option<DateTime<Tz>> {
+pub fn local_mean_time(date: &Date, geo_location: &GeoLocation, hours: f64) -> Option<Zoned> {
     if (0.0..24.0).contains(&hours) {
-        let time_of_day = (((hours - geo_location.local_mean_time_offset()) % 24.0) + 24.0) % 24.0;
+        let time_of_day = hours - geo_location.local_mean_time_offset();
         Some(date_time_from_time_of_day(
             date,
             time_of_day,
-            geo_location.timezone,
+            &geo_location.timezone,
         ))
     } else {
         None

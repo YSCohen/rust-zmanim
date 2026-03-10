@@ -4,9 +4,9 @@
 
 use std::iter::zip;
 
-use chrono::TimeZone;
 use rust_zmanim::astronomical_calculator::*;
 mod test_helper;
+use jiff::civil;
 
 #[test]
 fn test_sunrise() {
@@ -21,12 +21,9 @@ fn test_sunrise() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match sunrise(&date, &loc) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -46,12 +43,9 @@ fn test_sunset() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match sunset(&date, &loc) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -71,12 +65,9 @@ fn test_sea_level_sunrise() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match sea_level_sunrise(&date, &loc) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -96,12 +87,9 @@ fn test_sea_level_sunset() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match sea_level_sunset(&date, &loc) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -121,12 +109,9 @@ fn test_sunrise_offset_by_degrees() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match sunrise_offset_by_degrees(&date, &loc, 102.0) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -146,12 +131,9 @@ fn test_sunset_offset_by_degrees() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match sunset_offset_by_degrees(&date, &loc, 102.0) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -171,12 +153,9 @@ fn test_local_mean_time() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match local_mean_time(&date, &loc, 3.0) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -196,12 +175,9 @@ fn test_solar_noon() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match solar_noon(&date, &loc) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -221,12 +197,9 @@ fn test_solar_midnight() {
     ];
 
     for (loc, edt) in zip(locations, expected_datetime_strs) {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
         let result = match solar_midnight(&date, &loc) {
-            Some(dt) => dt.format("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
             None => String::from("None"),
         };
         assert_eq!(result, edt)
@@ -238,10 +211,7 @@ fn test_local_mean_time_invalid_hours() {
     let locations = test_helper::basic_locations();
 
     for loc in locations {
-        let date = loc
-            .timezone
-            .with_ymd_and_hms(2017, 10, 17, 0, 0, 0)
-            .unwrap();
+        let date = civil::date(2017, 10, 17);
 
         // Test out of range hours
         assert!(local_mean_time(&date, &loc, -0.1).is_none());

@@ -3,16 +3,16 @@
 
 /// 90&deg; below the vertical. Used as a basis for most calculations since the
 /// location of the sun is 90&deg; below the vertical at sunrise and sunset.
-pub const GEOMETRIC_ZENITH: f64 = 90.0;
+const GEOMETRIC_ZENITH: f64 = 90.0;
 
 /// 34 arcminutes of refraction
-pub const REFRACTION: f64 = 34.0 / 60.0;
+const REFRACTION: f64 = 34.0 / 60.0;
 
 /// 16 arcminutes for the sun's radius in the sky
-pub const SOLAR_RADIUS: f64 = 16.0 / 60.0;
+const SOLAR_RADIUS: f64 = 16.0 / 60.0;
 
 /// The commonly used average earth radius in KM
-pub const EARTH_RADIUS: f64 = 6_356.9;
+const EARTH_RADIUS: f64 = 6_356.9;
 
 /// Function to return the adjustment to the zenith required to account for the
 /// elevation.
