@@ -57,7 +57,7 @@ fn julian_centuries_from_julian_day(julian_day: f64) -> f64 {
 
 /// Convert centuries since J2000.0 to Julian day
 fn julian_day_from_julian_centuries(julian_centuries: f64) -> f64 {
-    (julian_centuries * JULIAN_DAYS_PER_CENTURY) + JULIAN_DAY_JAN_1_2000
+    julian_centuries.mul_add(JULIAN_DAYS_PER_CENTURY, JULIAN_DAY_JAN_1_2000)
 }
 
 // some astronomical functions that stand on their own
@@ -67,8 +67,7 @@ fn sun_hour_angle_at_horizon(latitude: f64, solar_dec: f64, zenith: f64, mode: &
     let solar_dec_r = solar_dec.to_radians();
     let zenith_r = zenith.to_radians();
 
-    let mut hour_angle = ((zenith_r.cos() / (lat_r.cos() * solar_dec_r.cos()))
-        - (lat_r.tan() * solar_dec_r.tan()))
+    let mut hour_angle = lat_r.tan().mul_add(-solar_dec_r.tan(), zenith_r.cos() / (lat_r.cos() * solar_dec_r.cos()))
     .acos();
 
     if *mode == Mode::SunsetMidnight {
@@ -79,26 +78,24 @@ fn sun_hour_angle_at_horizon(latitude: f64, solar_dec: f64, zenith: f64, mode: &
 
 /// Return the unitless eccentricity of earth's orbit
 fn earth_orbit_eccentricity(julian_centuries: f64) -> f64 {
-    0.016708634 - (julian_centuries * (0.000042037 + (0.0000001267 * julian_centuries))) // unitless
+    julian_centuries.mul_add(-0.0000001267f64.mul_add(julian_centuries, 0.000042037), 0.016708634) // unitless
 }
 
 /// Return the Geometric Mean Anomaly of the Sun in degrees
 fn sun_geometric_mean_anomaly(julian_centuries: f64) -> f64 {
-    let anomaly = 357.52911 + (julian_centuries * (35999.05029 - (0.0001537 * julian_centuries))); // in degrees
+    let anomaly = julian_centuries.mul_add(0.0001537f64.mul_add(-julian_centuries, 35999.05029), 357.52911); // in degrees
     anomaly % 360.0 // normalized (0...360)
 }
 
 /// Return the Geometric Mean Longitude of the Sun
 fn sun_geometric_mean_longitude(julian_centuries: f64) -> f64 {
-    let longitude = 280.46646 + (julian_centuries * (36000.76983 + (0.0003032 * julian_centuries))); // in degrees
+    let longitude = julian_centuries.mul_add(0.0003032f64.mul_add(julian_centuries, 36000.76983), 280.46646); // in degrees
     longitude % 360.0 // normalized (0...360)
 }
 
 /// Return the mean obliquity of the ecliptic (Axial tilt)
 fn mean_obliquity_of_ecliptic(julian_centuries: f64) -> f64 {
-    let seconds = 21.448
-        - (julian_centuries
-            * (46.8150 + (julian_centuries * (0.00059 - (julian_centuries * 0.001813)))));
+    let seconds = julian_centuries.mul_add(-julian_centuries.mul_add(julian_centuries.mul_add(-0.001813, 0.00059), 46.8150), 21.448);
     23.0 + ((26.0 + (seconds / 60.0)) / 60.0) // in degrees
 }
 
@@ -107,8 +104,8 @@ fn mean_obliquity_of_ecliptic(julian_centuries: f64) -> f64 {
 fn obliquity_correction(julian_centuries: f64) -> f64 {
     let obliquity_of_ecliptic = mean_obliquity_of_ecliptic(julian_centuries);
 
-    let omega = 125.04 - (1_934.136 * julian_centuries);
-    let correction = obliquity_of_ecliptic + (0.00256 * omega.to_radians().cos());
+    let omega = 1_934.136f64.mul_add(-julian_centuries, 125.04);
+    let correction = 0.00256f64.mul_add(omega.to_radians().cos(), obliquity_of_ecliptic);
     correction % 360.0 // normalized (0...360)
 }
 
@@ -129,9 +126,7 @@ fn equation_of_time(julian_centuries: f64) -> f64 {
     let sinm = (sgma).sin();
     let sin2m = (2.0 * sgma).sin();
 
-    let eq_time = (y * sin2l0) - (2.0 * eoe * sinm) + (4.0 * eoe * y * sinm * cos2l0)
-        - (0.5 * y * y * sin4l0)
-        - (1.25 * eoe * eoe * sin2m);
+    let eq_time = (1.25 * eoe * eoe).mul_add(-sin2m, (0.5 * y * y).mul_add(-sin4l0, (4.0 * eoe * y * sinm).mul_add(cos2l0, (y * sin2l0) - (2.0 * eoe * sinm))));
     eq_time.to_degrees() * 4.0 // minutes of time
 }
 
@@ -145,12 +140,12 @@ fn solar_noon_utc(julian_centuries: f64, longitude: f64) -> f64 {
     // first pass to yield approximate solar noon
     let approx_tnoon = julian_centuries_from_julian_day(century_start + (longitude / 360.0));
     let approx_eq_time = equation_of_time(approx_tnoon);
-    let approx_sol_noon = 720.0 + (longitude * 4.0) - approx_eq_time;
+    let approx_sol_noon = longitude.mul_add(4.0, 720.0) - approx_eq_time;
 
     // refinement using output of first pass
     let tnoon = julian_centuries_from_julian_day(century_start - 0.5 + (approx_sol_noon / 1_440.0));
     let eq_time = equation_of_time(tnoon);
-    720.0 + (longitude * 4.0) - eq_time
+    longitude.mul_add(4.0, 720.0) - eq_time
 }
 
 /// Return the equation of center for the sun in degrees
@@ -160,8 +155,7 @@ fn sun_equation_of_center(julian_centuries: f64) -> f64 {
     let sin2m = (2.0 * mrad).sin();
     let sin3m = (3.0 * mrad).sin();
 
-    (sinm * (1.914602 - (julian_centuries * (0.004817 + (0.000014 * julian_centuries)))))
-        + (sin2m * (0.019993 - (0.000101 * julian_centuries)))
+    sinm.mul_add(julian_centuries.mul_add(-0.000014f64.mul_add(julian_centuries, 0.004817), 1.914602), sin2m * 0.000101f64.mul_add(-julian_centuries, 0.019993))
         + (sin3m * 0.000289) // in degrees
 }
 
@@ -175,8 +169,8 @@ fn sun_true_longitude(julian_centuries: f64) -> f64 {
 /// Return the apparent longitude of the sun, in degrees
 fn sun_apparent_longitude(julian_centuries: f64) -> f64 {
     let true_longitude = sun_true_longitude(julian_centuries);
-    let omega = 125.04 - (1_934.136 * julian_centuries);
-    true_longitude - 0.00569 - (0.00478 * omega.to_radians().sin()) // in degrees
+    let omega = 1_934.136f64.mul_add(-julian_centuries, 125.04);
+    0.00478f64.mul_add(-omega.to_radians().sin(), true_longitude - 0.00569) // in degrees
 }
 
 /// Return the declination of the sun, in degrees
@@ -312,7 +306,7 @@ fn utc_solar_noon_midnight(julian_day: f64, longitude: f64, mode: &Mode) -> Opti
     // First pass for approximate solar noon to calculate equation of time
     let tnoon = julian_centuries_from_julian_day(julian_day + longitude / 360.0);
     let eot = equation_of_time(tnoon);
-    let sol_noon_utc = (longitude * 4.0) - eot; // minutes
+    let sol_noon_utc = longitude.mul_add(4.0, -eot); // minutes
 
     // second pass
     let newt = julian_centuries_from_julian_day(julian_day + sol_noon_utc / 1440.0);
@@ -321,11 +315,11 @@ fn utc_solar_noon_midnight(julian_day: f64, longitude: f64, mode: &Mode) -> Opti
         None
     } else {
         Some(
-            (if *mode == Mode::SunriseNoon {
+            longitude.mul_add(4.0, if *mode == Mode::SunriseNoon {
                 720.0
             } else {
                 1440.0
-            }) + (longitude * 4.0)
+            })
                 - eot,
         )
     }
