@@ -1,19 +1,18 @@
-//! An API that can calculate sunrise, sunset and Jewish *zmanim* (religious
-//! times) for prayers and other Jewish religious duties.
+//! Core *zmanim* calculations built on astronomical sunrise/sunset events.
 //!
-//! This module contains the main functionality of the [`rust-zmanim`](crate)
-//! library. **Elevation based *zmanim* (even sunrise and sunset) should not be
-//! used *lekula* without the guidance of a *posek***. According to Rabbi Dovid
-//! Yehudah Bursztyn in his *Zmanim Kehilchasam*, 7th edition chapter 2, section
-//! 7 (pages 181-182) and section 9 (pages 186-187), no *zmanim* besides sunrise
-//! and sunset should use elevation. However, Rabbi Yechiel Avrahom Zilber in
-//! the *Birur Halacha* Vol. 6 Ch. 58 Pages 34 and 42 is of the opinion that
-//! elevation should be accounted for in *zmanim* calculations. Related to this,
-//! Rabbi Yaakov Karp in *Shimush Zekeinim*, Ch. 1, page 17 states that
-//! obstructing horizons should be factored into *zmanim* calculations.
+//! This module provides:
+//! - direct wrappers for commonly used times (`hanetz`, `shkia`, `chatzos`),
+//! - generic combinators based on day boundaries (for example,
+//!   `sof_zman_shema`, `mincha_gedola`, `plag_hamincha`), and
+//! - flexible dawn/nightfall offsets via [`ZmanOffset`].
 //!
-//! When a *zman* will not occur these functions return `None`. See note in
-//! [`astronomical_calculator`]
+//! [`ZmanOffset`] supports three offset strategies:
+//! - degrees below the horizon,
+//! - fixed clock minutes, and
+//! - temporal (*zmaniyos*) minutes derived from a supplied *shaah zmanis*.
+//!
+//! Most public APIs return `Option<Zoned>` and propagate `None` when the
+//! underlying astronomical event does not occur.
 
 use std::ops::{Add, Sub};
 

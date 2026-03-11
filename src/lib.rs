@@ -13,40 +13,42 @@
 // <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html>
 
 //! # rust-zmanim
-//! Calculate different astronomical times including sunrise and sunset and
-//! Jewish *zmanim* or religious times for prayers and other Jewish religious
-//! duties.
+//! `rust-zmanim` calculates solar events (such as sunrise, sunset, and
+//! twilight) and Jewish *zmanim* built on those events.
 //!
-//! The [`astronomical_calculator`] provides non-religious astronomical / solar
-//! calculations such as sunrise, sunset and twilight.
+//! ## Modules
+//! - [`astronomical_calculator`]: Low-level astronomical calculations.
+//! - [`zmanim_calculator`]: Core *zmanim* building blocks.
+//! - [`complex_zmanim_calendar`]: Stateful convenience API with many predefined
+//!   *zmanim*.
 //!
-//! The [`zmanim_calculator`] contains the basics for *zmanim* calculations.
+//! ## Notes
+//! - Most APIs return `Option<Zoned>`. A result of `None` means the requested
+//!   event does not occur for the requested date/location (common in high
+//!   latitudes or for deep-twilight calculations).
+//! - This crate uses NOAA-based algorithms. Returned values can be highly
+//!   precise, but real-world observations vary with atmospheric conditions,
+//!   temperature, pressure, etc.
+//! - For religious practice (*halacha lemaaseh*), **consult competent halachic
+//!   guidance**.
+//! - **Elevation based *zmanim* (even sunrise and sunset) should not be
+//!   used *lekula* without the guidance of a *posek***. According to Rabbi Dovid
+//!   Yehudah Bursztyn in his *Zmanim Kehilchasam*, 7th edition chapter 2, section
+//!   7 (pages 181-182) and section 9 (pages 186-187), no *zmanim* besides sunrise
+//!   and sunset should use elevation. However, Rabbi Yechiel Avrahom Zilber in
+//!   the *Birur Halacha* Vol. 6 Ch. 58 Pages 34 and 42 is of the opinion that
+//!   elevation should be accounted for in *zmanim* calculations. Related to this,
+//!   Rabbi Yaakov Karp in *Shimush Zekeinim*, Ch. 1, page 17 states that
+//!   obstructing horizons should be factored into *zmanim* calculations.
 //!
-//! The [`complex_zmanim_calendar`] provides a stateful struct with many premade
-//! *zmanim* calculations, both built on the [`zmanim_calculator`] API.
+//! ## Background
+//! This crate is a Rust port which reuses a lot of code and documentation from:
+//! - [KosherJava](https://github.com/KosherJava/zmanim)
+//! - [python-zmanim](https://github.com/pinnymz/python-zmanim)
 //!
-//! This project is a port from pinnymz's [python-zmanim
-//! project](https://github.com/pinnymz/python-zmanim) and Eliyahu Hershfeld's
-//! [KosherJava project](https://github.com/KosherJava/zmanim). Much of the code
-//! is ported directly from `python-zmanim` and `KosherJava`, and almost all of
-//! the documentation is from `KosherJava`
+//! See <https://kosherjava.com> for additional background on *zmanim*.
 //!
-//! See the [KosherJava site](https://kosherjava.com) for additional information
-//! on the original Java project and *zmanim* in general.
-//!
-//! **Note:** It is important to read the technical notes on top of the
-//! [`astronomical_calculator`] documentation.
-//!
-//! ### Disclaimer
-//! I did my best to get accurate results using standardized astronomical
-//! calculations. Please use care when using the library for *halacha lemaaseh*
-//! applications. **Also**, despite the great *precision* of the returned
-//! values, the *accuracy* is nowhere near that. To quote the NOAA, whose
-//! algorithm this crate uses, "due to variations in atmospheric composition,
-//! temperature, pressure and conditions, observed values may vary from
-//! calculations"
-//!
-//! ## Example (more examples in /examples)
+//! ## Example
 //! ```rust
 //! use jiff::{civil, tz::TimeZone};
 //! use rust_zmanim::prelude::*;
@@ -123,9 +125,7 @@ pub mod zmanim_calculator;
 /// A convenience module for glob imports. `use rust_zmanim::prelude::*;`
 pub mod prelude {
     pub use crate::astronomical_calculator;
-    pub use crate::zmanim_calculator;
-
+    pub use crate::zmanim_calculator::{self, ZmanOffset};
     pub use crate::complex_zmanim_calendar::*;
     pub use crate::util::geolocation::GeoLocation;
-    pub use zmanim_calculator::ZmanOffset;
 }

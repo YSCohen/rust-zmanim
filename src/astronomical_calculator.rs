@@ -1,14 +1,19 @@
-//! An API that calculates astronomical times such as sunrise, sunset and
-//! twilight times.
+//! Astronomical calculations for sunrise, sunset, twilight, and solar transit
+//! times.
 //!
-//! **Note:** There are times when the algorithms can't calculate proper values
-//! for sunrise, sunset and twilight. This is usually caused by trying to
-//! calculate times for areas either very far North or South, where sunrise /
-//! sunset never happen on that date. This is common when calculating twilight
-//! with a deep dip below the horizon for locations as far south of the North
-//! Pole as London, in the northern hemisphere. The sun never reaches this dip
-//! at certain times of the year. When the calculations encounter this condition
-//! they will return `None`.
+//! This module exposes low-level solar event calculations that power higher
+//! level *zmanim* APIs.
+//!
+//! Most functions accept a [`Date`] and [`GeoLocation`] and return either:
+//! - UTC fractional hours (`f64`) for raw event times, or
+//! - localized [`Zoned`] datetimes for ergonomic use.
+//!
+//! Functions that calculate sunrise/sunset generally distinguish between:
+//! - elevation-adjusted calculations, and
+//! - sea-level calculations.
+//!
+//! When an event cannot be computed for the requested date/location, functions
+//! return `None`.
 
 use std::ops::{Add, Sub};
 
