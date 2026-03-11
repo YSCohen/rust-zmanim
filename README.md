@@ -1,90 +1,205 @@
-# rust-zmanim
-Calculate different astronomical times including sunrise and sunset and Jewish *zmanim* or religious times for prayers and other Jewish religious duties.
+# `rust-zmanim`
 
-The [`astronomical_calculator`] provides non-religious astronomical / solar calculations such as sunrise, sunset and twilight.
+Fast, reliable Rust APIs for sunrise/sunset and Jewish zmanim calculations from any date and location.
 
-The [`zmanim_calculator`] contains the basics for *zmanim* calculations.
+`rust-zmanim` calculates:
 
-The [`complex_zmanim_calendar`] provides a stateful struct with many premade *zmanim* calculations, both built on the [`zmanim_calculator`] API.
+- astronomical times such as sunrise, sunset, solar noon, and twilight
+- Jewish zmanim for prayers and other halachic time-based use cases
 
-This project is a port from pinnymz's [python-zmanim project](https://github.com/pinnymz/python-zmanim) and Eliyahu Hershfeld's [KosherJava project](https://github.com/KosherJava/zmanim). Much of the code is ported directly from `python-zmanim` and `KosherJava`, and almost all of the documentation is from `KosherJava`
+Astronomical events are calculated using the Jean Meeus algorithm.  
+`rust-zmanim` is ported from  [python-zmanim](https://github.com/pinnymz/python-zmanim) and [KosherJava zmanim](https://github.com/KosherJava/zmanim)
 
-See the [KosherJava site](https://kosherjava.com) for additional information on the original Java project and *zmanim* in general.
+## Quick Start
 
-**Note:** It is important to read the technical notes on top of the [`astronomical_calculator`] documentation.
+`rust-zmanim` is [on crates.io](https://crates.io/crates/rust-zmanim). Add it to your project via `Cargo.toml` or by running `cargo add rust-zmanim`.
 
-### Disclaimer
-I did my best to get accurate results using standardized astronomical calculations. Please use care when using the library for *halacha lemaaseh* applications. **Also**, despite the great *precision* of the returned values, the *accuracy* is nowhere near that. To quote the NOAA, whose algorithm this crate uses, "due to variations in atmospheric composition, temperature, pressure and conditions, observed values may vary from calculations"
+[`jiff`](https://crates.io/crates/jiff) is also required, as all times, dates, and durations are represented using `jiff` types.
 
-## Example (more examples in /examples)
+### Example Usage
+
 ```rust
 use jiff::{civil, tz::TimeZone};
 use rust_zmanim::prelude::*;
 
-let date = civil::date(2025, 7, 29);
-
-// your location here
-let beit_meir = GeoLocation {
-    latitude: 31.7975,
-    longitude: 35.0345,
-    elevation: 526.0,
+let date = civil::date(2026, 3, 11);
+let location = GeoLocation {
+    latitude: 31.778,
+    longitude: 35.234,
+    elevation: 754.0,
     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
 };
 
-// the zmanim_calculator provides some basic building blocks of zmanim
-if let Some(sunrise) = zmanim_calculator::hanetz(&date, &beit_meir, false) {
-    assert_eq!(
-        sunrise.strftime("%Y-%m-%d %H:%M:%S.%f %Z").to_string(),
-        "2025-07-29 05:53:39.574572512 IDT"
-    );
-}
-
-// zmanim_calculator also lets you make any custom tzeis, alos, etc using
-// ZmanOffset. these may be based on degrees, fixed time, or shaos zmaniyos
-if let Some(tzeis_degrees) =
-    zmanim_calculator::tzeis(&date, &beit_meir, false, &ZmanOffset::Degrees(6.13))
-{
-    assert_eq!(
-        tzeis_degrees
-            .strftime("%Y-%m-%d %H:%M:%S.%f %Z")
-            .to_string(),
-        "2025-07-29 20:06:02.501735285 IDT"
-    );
-}
-
-// there is also a ComplexZmanimCalendar struct which stores the date and
-// location, convenient for getting many zmanim for the same point in 4D space.
-// It also has many common zmanim pre-made
 let czc = ComplexZmanimCalendar {
-    geo_location: beit_meir,
+    geo_location: location,
     date,
     use_elevation: UseElevation::No,
 };
 
-if let Some(alos120) = czc.alos_120_minutes() {
-    assert_eq!(
-        alos120.strftime("%Y-%m-%d %H:%M:%S.%f %Z").to_string(),
-        "2025-07-29 03:53:39.574572512 IDT"
-    );
-}
+println!(
+    "Sunrise: {}",
+    czc.hanetz().unwrap().strftime("%H:%M:%S %Z")
+);
 
-if let Some(sz18) = czc.shaah_zmanis_mga_18_degrees() {
-    // 01:24:14.106060472
-    assert_eq!(sz18.as_nanos(), 5_054_106_060_472);
-}
-
-// the calculations will return None if the specified solar event will not
-// occur
-let north_pole = GeoLocation {
-    latitude: 90.0,
-    longitude: 0.0,
-    elevation: 0.0,
-    timezone: TimeZone::UTC,
-};
-let polar_sunset = zmanim_calculator::shkia(&date, &north_pole, false);
-assert!(polar_sunset.is_none());
+println!(
+    "Nightfall: {}",
+    czc.tzeis_baal_hatanya()
+        .unwrap()
+        .strftime("%H:%M:%S %Z")
+);
 ```
 
-[`astronomical_calculator`]: https://docs.rs/rust-zmanim/latest/rust_zmanim/astronomical_calculator/
-[`zmanim_calculator`]: https://docs.rs/rust-zmanim/latest/rust_zmanim/zmanim_calculator/
-[`complex_zmanim_calendar`]: https://docs.rs/rust-zmanim/latest/rust_zmanim/complex_zmanim_calendar/
+Most functions return `Option<Zoned>`. `None` is returned when a solar event does not occur for the given date and location — for example, near the poles during parts of summer or winter, or when requesting a dawn/nightfall angle the sun never reaches.
+
+### API Overview
+
+- `astronomical_calculator`: for low-level solar/astronomical calculations
+- `zmanim_calculator`: for stateless zmanim calculation functions (you pass `date` and `GeoLocation` each call)
+- `ComplexZmanimCalendar`: stateful struct for calculating multiple zmanim for a single date and location, with built-in methods covering both common and uncommon zmanim
+
+## Usage
+
+### 1. One-Off Calculations with `zmanim_calculator`
+
+```rust
+use jiff::{civil, tz::TimeZone};
+use rust_zmanim::prelude::*;
+
+let date = civil::date(2026, 3, 11);
+let location = GeoLocation {
+    latitude: 31.778,
+    longitude: 35.234,
+    elevation: 754.0,
+    timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
+};
+
+let hanetz = zmanim_calculator::hanetz(&date, &location, false).unwrap();
+let shkia = zmanim_calculator::shkia(&date, &location, false).unwrap();
+println!("Hanetz: {}", hanetz.strftime("%H:%M:%S %Z"));
+println!("Shkia: {}", shkia.strftime("%H:%M:%S %Z"));
+
+let sof_shema_gra = zmanim_calculator::sof_zman_shema(&hanetz, &shkia);
+println!(
+    "Sof zman shema (GRA): {}",
+    sof_shema_gra.strftime("%H:%M:%S %Z")
+);
+
+println!(
+    "Chatzos: {}",
+    zmanim_calculator::chatzos(&date, &location)
+        .unwrap()
+        .strftime("%H:%M:%S %Z")
+);
+```
+
+### 2. Custom Offsets
+
+```rust
+use jiff::{civil, tz::TimeZone};
+use rust_zmanim::prelude::*;
+
+let date = civil::date(2026, 3, 11);
+let location = GeoLocation {
+    latitude: 31.778,
+    longitude: 35.234,
+    elevation: 754.0,
+    timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
+};
+
+let tzeis_4_5 =
+    zmanim_calculator::tzeis(&date, &location, false, &ZmanOffset::Degrees(4.5)).unwrap();
+println!(
+    "Tzeis (4.5 deg): {}",
+    tzeis_4_5.strftime("%H:%M:%S %Z")
+);
+
+let alos_72 =
+    zmanim_calculator::alos(&date, &location, false, &ZmanOffset::Minutes(72.0)).unwrap();
+println!(
+    "Alos (72 min): {}",
+    alos_72.strftime("%H:%M:%S %Z")
+);
+
+// this is much easier with ComplexZmanimCalendar - see next example
+let hanetz = zmanim_calculator::hanetz(&date, &location, false).unwrap();
+let shkia = zmanim_calculator::shkia(&date, &location, false).unwrap();
+let shaah_zmanis = zmanim_calculator::shaah_zmanis(&hanetz, &shkia);
+
+let tzeis_90_zmanis = zmanim_calculator::tzeis(
+    &date,
+    &location,
+    false,
+    &ZmanOffset::MinutesZmaniyos {
+        minutes_zmaniyos: 90.0,
+        shaah_zmanis,
+    },
+)
+.unwrap();
+
+println!(
+    "Tzeis (90 min zmaniyos): {}",
+    tzeis_90_zmanis.strftime("%H:%M:%S %Z")
+);
+```
+
+### 3. Using `ComplexZmanimCalendar`
+
+```rust
+use jiff::{civil, tz::TimeZone};
+use rust_zmanim::prelude::*;
+
+let date = civil::date(2026, 3, 11);
+let location = GeoLocation {
+    latitude: 31.778,
+    longitude: 35.234,
+    elevation: 754.0,
+    timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
+};
+
+let czc = ComplexZmanimCalendar {
+    geo_location: location,
+    date,
+    use_elevation: UseElevation::No,
+};
+
+let tzeis_4_5 = czc.tzeis(&ZmanOffset::Degrees(4.5)).unwrap();
+println!("Tzeis (4.5 deg): {}", tzeis_4_5.strftime("%H:%M:%S %Z"));
+
+let alos_72 = czc.alos_72_minutes().unwrap();
+println!("Alos (72 min): {}", alos_72.strftime("%H:%M:%S %Z"));
+
+let tzeis_90_zmanis = czc.tzeis_90_minutes_zmanis().unwrap();
+println!(
+    "Tzeis (90 min zmaniyos): {}",
+    tzeis_90_zmanis.strftime("%H:%M:%S %Z")
+);
+```
+
+## Elevation Handling
+
+`ComplexZmanimCalendar` has a `use_elevation` setting that controls when elevation adjustments apply.
+
+- `UseElevation::No`: sea-level based zmanim
+- `UseElevation::HanetzShkia`: elevation for sunrise/sunset only
+- `UseElevation::All`: elevation applied broadly
+
+`zmanim_calculator` functions take a `bool` for whether they should use elevation
+
+See module docs for halachic discussion and caveats.
+
+## Accuracy and Limitations
+
+Results are mathematically precise within the bounds of the underlying model. Observed real-world times may differ due to atmospheric conditions such as pressure, temperature, and refraction. As NOAA notes, calculated and observed values can vary.
+
+Exercise appropriate caution when applying these results to practical halachic decisions.
+
+## Further Reading
+
+See runnable examples in `examples/`
+
+### Documentation
+
+- [crate docs on docs.rs](https://docs.rs/rust-zmanim/latest/rust_zmanim/)
+- [`astronomical_calculator`](https://docs.rs/rust-zmanim/latest/rust_zmanim/astronomical_calculator/)
+- [`zmanim_calculator`](https://docs.rs/rust-zmanim/latest/rust_zmanim/zmanim_calculator/)
+- [`ComplexZmanimCalendar`](https://docs.rs/rust-zmanim/latest/rust_zmanim/complex_zmanim_calendar/struct.ComplexZmanimCalendar.html)
