@@ -28,8 +28,8 @@ pub struct ComplexZmanimCalendar {
 /// the value of `use_elevation`
 ///
 /// **Elevation-based *zmanim* (even sunrise and sunset) should not be used
-/// *lekula* without the guidance of a *posek***. See the documentation of
-/// [`zmanim_calculator`] for more details.
+/// *lekula* without the guidance of a *posek***. See the [root
+/// documentation](crate) for more details.
 ///
 /// Many of the methods return `None` if the sun does not reach the specified
 /// position below the horizon at this location and date (common in polar

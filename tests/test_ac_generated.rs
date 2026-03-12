@@ -6,9 +6,9 @@
 //! [astronomical_calculator](rust_zmanim::astronomical_calculator)
 
 mod test_helper;
-use std::iter::zip;
 use jiff::civil;
 use rust_zmanim::astronomical_calculator;
+use std::iter::zip;
 
 #[test]
 fn test_sunrise() {

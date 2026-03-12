@@ -19,10 +19,10 @@ Astronomical events are calculated using the Jean Meeus algorithm.
 ### Example Usage
 
 ```rust
-use jiff::{civil, tz::TimeZone};
+use jiff::{tz::TimeZone, Zoned};
 use rust_zmanim::prelude::*;
 
-let date = civil::date(2026, 3, 11);
+let date = Zoned::now().date();
 let location = GeoLocation {
     latitude: 31.778,
     longitude: 35.234,
@@ -62,10 +62,10 @@ Most functions return `Option<Zoned>`. `None` is returned when a solar event doe
 ### 1. One-Off Calculations with `zmanim_calculator`
 
 ```rust
-use jiff::{civil, tz::TimeZone};
+use jiff::{tz::TimeZone, Zoned};
 use rust_zmanim::prelude::*;
 
-let date = civil::date(2026, 3, 11);
+let date = Zoned::now().date();
 let location = GeoLocation {
     latitude: 31.778,
     longitude: 35.234,
@@ -95,10 +95,10 @@ println!(
 ### 2. Custom Offsets
 
 ```rust
-use jiff::{civil, tz::TimeZone};
+use jiff::{tz::TimeZone, Zoned};
 use rust_zmanim::prelude::*;
 
-let date = civil::date(2026, 3, 11);
+let date = Zoned::now().date();
 let location = GeoLocation {
     latitude: 31.778,
     longitude: 35.234,
@@ -145,10 +145,10 @@ println!(
 ### 3. Using `ComplexZmanimCalendar`
 
 ```rust
-use jiff::{civil, tz::TimeZone};
+use jiff::{tz::TimeZone, Zoned};
 use rust_zmanim::prelude::*;
 
-let date = civil::date(2026, 3, 11);
+let date = Zoned::now().date();
 let location = GeoLocation {
     latitude: 31.778,
     longitude: 35.234,
