@@ -28,7 +28,7 @@ macro_rules! szks_mga_minutes_zmanis_doc {
             or ",
             $fraction,
             " of the day before and after *hanetz* and *shkia*, respectively.
-            This time is 3 *shaos zmaniyos* (temporal hours) after dawn based on
+            This time is 3 *shaos zmaniyos* (temporal hours) after *alos* based on
             the opinion of the MGA that the day is calculated from *alos* to
             *tzeis*."
         )
@@ -47,7 +47,7 @@ macro_rules! szt_mga_minutes_zmanis_doc {
             or ",
             $fraction,
             " of the day before and after *hanetz* and *shkia*, respectively.
-            This time is 4 *shaos zmaniyos* (temporal hours) after dawn based on
+            This time is 4 *shaos zmaniyos* (temporal hours) after *alos* based on
             the opinion of the MGA that the day is calculated from *alos* to
             *tzeis*."
         )
@@ -66,7 +66,7 @@ macro_rules! sz_biur_chametz_mga_minutes_zmanis_doc {
             or ",
             $fraction,
             " of the day before and after *hanetz* and *shkia*, respectively.
-            This time is 5 *shaos zmaniyos* (temporal hours) after dawn based on
+            This time is 5 *shaos zmaniyos* (temporal hours) after *alos* based on
             the opinion of the MGA that the day is calculated from *alos* to
             *tzeis*. Since this library does not implement a calendar, this
             method will return the *zman* any day of the year."
@@ -86,12 +86,12 @@ macro_rules! plag_mga_minutes_zmanis_lechumra_doc {
             or ",
             $fraction,
             " of the day before and after *hanetz* and *shkia*, respectively.
-            This time is 10.75 *shaos zmaniyos* (temporal hours) after dawn
+            This time is 10.75 *shaos zmaniyos* (temporal hours) after *alos*
             based on the opinion of the MGA that the day is calculated from
             *alos* to *tzeis*. Since *plag* by this calculation can occur after
             sunset, it should only be used *lechumra*. For more information on
             this see the documentation on [*plag
-            hamincha*](zmanim_calculator::plag_hamincha)."
+            hamincha*](crate::zmanim_calculator::plag_hamincha)."
         )
     };
 }

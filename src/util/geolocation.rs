@@ -29,7 +29,7 @@ impl GeoLocation {
     /// conversely, a user who is 1&deg; east of the 15&deg; longitude will have
     /// noon at 11:56 AM. Lakewood, N.J., whose longitude is -74.222, is 0.778
     /// away from the closest multiple of 15 at -75&deg;. This is multiplied by
-    /// 4 to yield 3 minutes and 10 seconds earlier than standard time. The
+    /// 4 to yield 3 minutes and 7 seconds earlier than standard time. The
     /// offset returned does not account for the Daylight saving time offset
     /// since this struct is unaware of dates.
     #[must_use]

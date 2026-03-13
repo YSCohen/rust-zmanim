@@ -104,7 +104,7 @@ macro_rules! mk_mga_minutes_doc {
             hours) after *alos* based on the opinion of the MGA that the day is
             calculated from *alos* to *tzeis*. For more information on this see
             the documentation on [*mincha
-            ketana*](zmanim_calculator::mincha_ketana)."
+            ketana*](crate::zmanim_calculator::mincha_ketana)."
         )
     };
 }
@@ -119,7 +119,7 @@ macro_rules! plag_mga_minutes_doc {
             time is 10.75 *shaos zmaniyos* (solar hours) after *alos* based on the
             opinion of the MGA that the day is calculated from *alos* to
             *tzeis*. For more information on this see the documentation on
-            [*mincha ketana*](zmanim_calculator::mincha_ketana)."
+            [*plag hamincha*](crate::zmanim_calculator::plag_hamincha)."
         )
     };
 }
@@ -137,7 +137,7 @@ macro_rules! plag_mga_minutes_lechumra_doc {
             *tzeis*. Since *plag* by this calculation can occur after sunset,
             it should only be used *lechumra*. For more information on this see
             the documentation on [*plag
-            hamincha*](zmanim_calculator::plag_hamincha)."
+            hamincha*](crate::zmanim_calculator::plag_hamincha)."
         )
     };
 }

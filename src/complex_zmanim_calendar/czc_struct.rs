@@ -6,7 +6,7 @@ use crate::{
     },
 };
 
-use jiff::{SignedDuration, Zoned, civil::Date};
+use jiff::{civil::Date, SignedDuration, Zoned};
 
 /// Struct to store a 4-dimensional location and settings, to simplify getting
 /// many *zmanim* for the same location. Has premade methods for many common
@@ -257,8 +257,8 @@ impl ComplexZmanimCalendar {
         Some(self.zmanim_sunrise()? + (self.shaah_zmanis_gra()? * 5))
     }
 
-    /// Returns *mincha gedola* calculated as 6.5 * *shaos zmaniyos*
-    /// (solar hours) after sunrise, according to the GRA.
+    /// Returns *mincha gedola* calculated as 6.5 *shaos zmaniyos* (solar hours)
+    /// after sunrise, according to the GRA.
     #[must_use]
     pub fn mincha_gedola_gra(&self) -> Option<Zoned> {
         Some(zmanim_calculator::mincha_gedola(
@@ -297,8 +297,8 @@ impl ComplexZmanimCalendar {
         Some(self.zmanim_sunrise()? + (self.shaah_zmanis_gra()? * 9))
     }
 
-    /// Returns *mincha ketana* calculated as 9.5 * *shaos zmaniyos*
-    /// (solar hours) after sunrise, according to the GRA.
+    /// Returns *mincha ketana* calculated as 9.5 *shaos zmaniyos* (solar hours)
+    /// after sunrise, according to the GRA.
     #[must_use]
     pub fn mincha_ketana_gra(&self) -> Option<Zoned> {
         Some(zmanim_calculator::mincha_ketana(
@@ -307,8 +307,8 @@ impl ComplexZmanimCalendar {
         ))
     }
 
-    /// Returns *plag hamincha* calculated as 10.75 * *shaos zmaniyos*
-    /// (solar hours) after sunrise, according to the GRA.
+    /// Returns *plag hamincha* calculated as 10.75 *shaos zmaniyos* (solar
+    /// hours) after sunrise, according to the GRA.
     #[must_use]
     pub fn plag_gra(&self) -> Option<Zoned> {
         Some(zmanim_calculator::plag_hamincha(
@@ -319,7 +319,7 @@ impl ComplexZmanimCalendar {
 
     /// Returns a *shaah zmanis* according to the opinion of the GRA.
     /// This calculation divides the day based on the opinion of the *GRA* that
-    /// the day runs from from sunrise to sunset. The day is split into 12 equal
+    /// the day runs from sunrise to sunset. The day is split into 12 equal
     /// parts with each one being a *shaah zmanis*
     #[must_use]
     pub fn shaah_zmanis_gra(&self) -> Option<SignedDuration> {
@@ -688,7 +688,7 @@ impl ComplexZmanimCalendar {
     /// *tzeis* 3.8&deg;. *Mincha ketana* is the preferred earliest time to
     /// pray *mincha* according to the opinion of the *Rambam* and others.
     /// For more information on this see the documentation on [*mincha
-    /// gedola*](zmanim_calculator::mincha_gedola).
+    /// ketana*](zmanim_calculator::mincha_ketana).
     #[must_use]
     pub fn mincha_ketana_ahavat_shalom(&self) -> Option<Zoned> {
         Some(zmanim_calculator::mincha_ketana(
@@ -699,7 +699,7 @@ impl ComplexZmanimCalendar {
 
     /// Returns the time of *plag hamincha* based on the opinion of
     /// Rabbi Yaakov Moshe Hillel as published in the luach of the Beis Horaah
-    /// of Yeshivat Chevrat Ahavat Shalom that that *plag hamincha* is
+    /// of Yeshivat Chevrat Ahavat Shalom that *plag hamincha* is
     /// calculated as 1.25 *shaos zmaniyos* before *tzeis* 3.8&deg; with *shaos
     /// zmaniyos* calculated based on a day starting at *alos* 16.1&deg; and
     /// ending at *tzeis* 3.8&deg;.
@@ -753,7 +753,7 @@ impl ComplexZmanimCalendar {
     /// Harari-Raful of Yeshivat Ateret Torah, that the day starts 1/10th of the
     /// day before sunrise and is usually calculated as ending 40 minutes after
     /// sunset. *Shaos zmaniyos* are calculated based on this day and added to
-    /// *alos*to reach this time. This time is 3 *shaos zmaniyos* (temporal
+    /// *alos* to reach this time. This time is 3 *shaos zmaniyos* (temporal
     /// hours) after *alos*72 zmaniyos. Note: Based on this calculation
     /// *chatzos* will not be at midday.
     #[must_use]
@@ -768,8 +768,8 @@ impl ComplexZmanimCalendar {
     /// prayers) based on the calculation of *Chacham* Yosef Harari-Raful of
     /// Yeshivat Ateret Torah, that the day starts 1/10th of the day before
     /// sunrise and is usually calculated as ending 40 minutes after sunset.
-    /// *Shaos zmaniyos* are calculated based on this day and added to *alos*to
-    /// reach this time. This time is 4 * *shaos zmaniyos* (temporal hours)
+    /// *Shaos zmaniyos* are calculated based on this day and added to *alos* to
+    /// reach this time. This time is 4 *shaos zmaniyos* (temporal hours)
     /// after *alos*72 *zmaniyos*. Note: Based on this calculation *chatzos*
     /// will not be at midday.
     #[must_use]
@@ -930,7 +930,7 @@ impl ComplexZmanimCalendar {
     /// and ends at sunset.
     ///
     /// 10.75 *shaos zmaniyos* are calculated based on
-    /// this day and added to *alos*to reach this time. This time is 10.75
+    /// this day and added to *alos* to reach this time. This time is 10.75
     /// *shaos zmaniyos* (temporal hours) after dawn based on the opinion
     /// that the day is calculated from a dawn of 16.1 degrees before
     /// sunrise to sunset. This returns the time of 10.75 * the calculated
@@ -948,7 +948,7 @@ impl ComplexZmanimCalendar {
     /// Returns the latest *zman krias shema* (time to recite
     /// *Shema* in the morning) based on the opinion that the day starts at
     /// *alos* 16.1&deg; and ends at *tzeis* 7.083&deg;. 3 *shaos zmaniyos*
-    /// are calculated based on this day and added to *alos*to reach this
+    /// are calculated based on this day and added to *alos* to reach this
     /// time. This time is 3 *shaos zmaniyos* (temporal hours) after alos
     /// 16.1&deg; based on the opinion that the day is calculated from a
     /// *alos* 16.1&deg; to *tzeis* 7.083&deg;.

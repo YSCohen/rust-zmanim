@@ -28,7 +28,7 @@ macro_rules! alos_degrees_basedon_lechumra_doc {
             which calculates to ",
             stringify!($degrees),
             "&deg; below geometric zenith. Since this time is extremely early,
-            it should only be used *lechumra* only, such as not eating after
+            it should only be used *lechumra*, such as not eating after
             this time on a fast day, and not as the start time for *mitzvos*
             that can only be performed during the day."
         )
@@ -58,7 +58,7 @@ macro_rules! alos_minutes_basedon_doc {
             based on the opinion of the *Rishonim* who stated that the time of
             the *Neshef* (twilight between dawn and sunrise) does not vary by
             the time of year or location but depends on the time it takes to
-            walk the distance of 4 mil"
+            walk the distance of 4 *mil*."
         )
     };
 }
