@@ -16,7 +16,7 @@
 
 use std::ops::{Add, Sub};
 
-use jiff::{civil::Date, SignedDuration, Zoned};
+use jiff::{SignedDuration, Zoned, civil::Date};
 
 use crate::astronomical_calculator;
 use crate::util::geolocation::GeoLocation;
@@ -86,7 +86,7 @@ pub fn sof_zman_shema(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 3.0)
 }
 
-/// Returns the latest *zman tefila* (time to recite *Shacharis* in the
+/// Returns the latest *zman tefila* (time to recite *shacharis* in the
 /// morning).
 ///
 /// It is computed as 4 *shaos zmaniyos* (temporal hours) after `day_start`,
@@ -159,8 +159,8 @@ pub fn mincha_gedola_30_minutes(date: &Date, geo_location: &GeoLocation) -> Opti
 ///
 /// Mincha gedola is the earliest time one can pray mincha. The Rambam is of the
 /// opinion that it is better to delay mincha until mincha ketana while the
-/// Rash, Tur, GRA and others are of the opinion that mincha can be prayed
-/// lechatchila starting at mincha gedola.
+/// *Rash*, *Tur*, GRA and others are of the opinion that *mincha* can be prayed
+/// *lechatchila* starting at *mincha gedola*.
 ///
 /// The time from the start of day to the end of day is divided into
 /// 12 *shaos zmaniyos*, and *mincha gedola* is calculated as 6.5 of those

@@ -1,5 +1,5 @@
-//! Basic calculations used for all sun time calculation algorithms (though
-//! currently only [the NOAA algorithm](super::noaa_calculator) is used)
+//! Basic calculations used for sun-time algorithms (though currently only
+//! [the NOAA algorithm](super::noaa_calculator) is available).
 
 /// 90&deg; below the vertical. Used as a basis for most calculations since the
 /// location of the sun is 90&deg; below the vertical at sunrise and sunset.
@@ -19,20 +19,18 @@ const EARTH_RADIUS: f64 = 6_356.9;
 ///
 /// Since a person at a higher elevation can see farther below the horizon, the
 /// calculation for sunrise / sunset is calculated below the horizon used at sea
-/// level. The algorithm used is
-///
-/// <pre>
+/// level. The algorithm used is:
+/// ```text
 /// (EARTH_RADIUS / (EARTH_RADIUS + (elevation / 1_000.0))).acos().to_degrees()
-/// </pre>
+/// ```
 ///
 /// The source of this algorithm is *Calendrical Calculations* by Edward M.
 /// Reingold and Nachum Dershowitz. An alternate algorithm that produces similar
 /// (but not completely accurate) results found in *Ma'aglay Tzedek* by Moishe
 /// Kosower and other sources is:
-///
-/// <pre>
+/// ```text
 /// 0.0347 * elevation.sqrt();
-/// </pre>
+/// ```
 #[must_use]
 pub fn elevation_adjustment(elevation: f64) -> f64 {
     (EARTH_RADIUS / (EARTH_RADIUS + (elevation / 1_000.0)))
@@ -43,13 +41,13 @@ pub fn elevation_adjustment(elevation: f64) -> f64 {
 /// Adjusts the zenith of astronomical sunrise and sunset to account for solar
 /// refraction, solar radius, and elevation.
 ///
-/// The value for the Sun's zenith and true rise/set zenith is the angle that the
-/// center of the Sun makes to a line perpendicular to the Earth's surface. If
-/// the Sun were a point and the Earth were without an atmosphere, true sunset
-/// and sunrise would correspond to a 90&deg; zenith. Because the Sun is not a
-/// point, and because the atmosphere refracts light, this 90&deg; zenith does
-/// not, in fact, correspond to true sunset or sunrise, instead the center of
-/// the Sun's disk must lie just below the horizon for the upper edge to be
+/// The value for the Sun's zenith and true rise/set zenith is the angle that
+/// the center of the Sun makes to a line perpendicular to the Earth's surface.
+/// If the Sun were a point and the Earth were without an atmosphere, true
+/// sunset and sunrise would correspond to a 90&deg; zenith. Because the Sun is
+/// not a point, and because the atmosphere refracts light, this 90&deg; zenith
+/// does not, in fact, correspond to true sunset or sunrise, instead the center
+/// of the Sun's disk must lie just below the horizon for the upper edge to be
 /// obscured. This means that a zenith of just above 90&deg; must be used. The
 /// Sun subtends an angle of 16 minutes of arc and atmospheric
 /// refraction accounts for 34 minutes or so, giving a total of 50

@@ -6,7 +6,7 @@ use crate::{
     },
 };
 
-use jiff::{civil::Date, SignedDuration, Zoned};
+use jiff::{SignedDuration, Zoned, civil::Date};
 
 /// Struct to store a 4-dimensional location and settings, to simplify getting
 /// many *zmanim* for the same location. Has premade methods for many common
@@ -223,7 +223,7 @@ impl ComplexZmanimCalendar {
     }
 
     // GRA
-    /// Returns the latest *zman shema* (time to recite *Shema* in the morning)
+    /// Returns the latest *Zman Shema* (time to recite *Shema* in the morning)
     /// that is 3 *shaos zmaniyos* (solar hours) after
     /// sunrise according the GRA. The day is
     /// calculated from sunrise to sunset.
@@ -285,8 +285,8 @@ impl ComplexZmanimCalendar {
         Some(if mg_30 > mg_gra { mg_30 } else { mg_gra })
     }
 
-    /// Returns *samuch lemincha ketana*, / near *mincha
-    /// ketana*, that is half an hour before [*mincha
+    /// Returns *samuch lemincha ketana* (near *mincha
+    /// ketana*), that is half an hour before [*mincha
     /// ketana*](ComplexZmanimCalendar::mincha_ketana_gra) or is 9 *shaos
     /// zmaniyos* (solar hours) after sunrise, calculated according to the GRA
     /// using a day starting at sunrise and ending at sunset. This is the
@@ -348,8 +348,8 @@ impl ComplexZmanimCalendar {
     /// *mitzvos* like *shofar* and *lulav* should not be done until after the
     /// normal time for [*hanetz*](ComplexZmanimCalendar::hanetz).**
     ///
-    /// Returns the *Baal Hatanya*'s *hanetz amiti* (sunrise) without elevation
-    /// adjustment. This forms the base for the *Baal Hatanya*'s dawn-based
+    /// Returns the *Baal Hatanya*'s *hanetz amiti* (sunrise). This forms the
+    /// base for the *Baal Hatanya*'s dawn-based
     /// calculations that are calculated as a dip below the horizon before
     /// sunrise. According to the *Baal Hatanya*, *hanetz amiti*, or true
     /// (halachic) sunrise, is when the top of the sun's disk is visible at an
@@ -377,8 +377,8 @@ impl ComplexZmanimCalendar {
     /// completed before the normal time for
     /// [*shkiah*](ComplexZmanimCalendar::shkia).**
     ///
-    /// Returns the *Baal Hatanya*'s *shkiah amiti* (sunset) without elevation
-    /// adjustment. This forms the base for the *Baal Hatanya*'s dusk-based
+    /// Returns the *Baal Hatanya*'s *shkiah amiti* (sunset). This forms the
+    /// base for the *Baal Hatanya*'s dusk-based
     /// calculations that are calculated as a dip below the horizon after
     /// sunset. According to the *Baal Hatanya*, *shkiah amiti*, true (halachic)
     /// sunset, is when the top of the sun's disk disappears from view at an
@@ -515,7 +515,7 @@ impl ComplexZmanimCalendar {
 
     // Rav Moshe Feinstein
     /// Returns fixed local *chatzos*. See
-    /// [`zmanim_calculator::fixed_local_chatzos`] for more details
+    /// [`crate::zmanim_calculator::fixed_local_chatzos`] for more details.
     #[must_use]
     pub fn fixed_local_chatzos(&self) -> Option<Zoned> {
         zmanim_calculator::fixed_local_chatzos(&self.date, &self.geo_location)
@@ -584,7 +584,7 @@ impl ComplexZmanimCalendar {
     /// according to the opinion of the GRA that the day is calculated from
     /// sunrise to sunset, but calculated using the first half of the day only.
     /// The half a day starts at sunrise and ends at fixed local *chatzos*. *Sof
-    /// zman Shema* is 3 *shaos zmaniyos* (solar hours) after sunrise or half of
+    /// Zman Shema* is 3 *shaos zmaniyos* (solar hours) after sunrise or half of
     /// this half-day.
     #[must_use]
     pub fn sof_zman_shema_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<Zoned> {
@@ -665,7 +665,7 @@ impl ComplexZmanimCalendar {
     /// [`mincha_gedola_gra_greater_than_30_minutes`](ComplexZmanimCalendar::mincha_gedola_gra_greater_than_30_minutes)
     /// (though that calculation is based on *mincha gedola* GRA). For more
     /// information about *mincha gedola* see the documentation on [*mincha
-    /// gedola*](zmanim_calculator::mincha_gedola).
+    /// gedola*](crate::zmanim_calculator::mincha_gedola).
     #[must_use]
     pub fn mincha_gedola_ahavat_shalom(&self) -> Option<Zoned> {
         let chatzos = self.chatzos()?;
@@ -688,7 +688,7 @@ impl ComplexZmanimCalendar {
     /// *tzeis* 3.8&deg;. *Mincha ketana* is the preferred earliest time to
     /// pray *mincha* according to the opinion of the *Rambam* and others.
     /// For more information on this see the documentation on [*mincha
-    /// ketana*](zmanim_calculator::mincha_ketana).
+    /// ketana*](crate::zmanim_calculator::mincha_ketana).
     #[must_use]
     pub fn mincha_ketana_ahavat_shalom(&self) -> Option<Zoned> {
         Some(zmanim_calculator::mincha_ketana(
@@ -784,10 +784,11 @@ impl ComplexZmanimCalendar {
     /// *Chacham* Yosef Harari-Raful of Yeshivat Ateret Torah, that the day
     /// starts 1/10th of the day before sunrise and is usually calculated as
     /// ending 40 minutes after sunset. The *Rambam* is of the opinion that it
-    /// is better to delay *mincha* until *mincha ketana* while the Ra"sh, Tur,
-    /// GRA and others are of the opinion that mincha can be prayed lechatchila
-    /// starting at mincha gedola. For more information on this see the
-    /// documentation on [*mincha gedola*](zmanim_calculator::mincha_gedola).
+    /// is better to delay *mincha* until *mincha ketana* while the *Rash*,
+    /// *Tur*, GRA and others are of the opinion that *mincha* can be prayed
+    /// *lechatchila* starting at *mincha gedola*. For more information on
+    /// this see the documentation on [*mincha
+    /// gedola*](crate::zmanim_calculator::mincha_gedola).
     /// This is calculated as 6.5 solar hours after *alos*. The calculation used
     /// is `6.5 *` [`ComplexZmanimCalendar::shaah_zmanis_ateret_torah`] after
     /// *alos*.
@@ -805,8 +806,8 @@ impl ComplexZmanimCalendar {
     /// ending 40 minutes after sunset. This is the preferred earliest time to
     /// pray *mincha* according to the opinion of the *Rambam* and others. For
     /// more information on this see the documentation on [*mincha
-    /// ketana*](zmanim_calculator::mincha_ketana). This is calculated as 9.5
-    /// solar hours after *alos*. The calculation used is 9.5 *
+    /// ketana*](crate::zmanim_calculator::mincha_ketana). This is calculated as
+    /// 9.5 solar hours after *alos*. The calculation used is 9.5 *
     /// [`ComplexZmanimCalendar::shaah_zmanis_ateret_torah`] after *alos*.
     #[must_use]
     pub fn mincha_ketana_ateret_torah(&self) -> Option<Zoned> {
@@ -1023,7 +1024,7 @@ impl ComplexZmanimCalendar {
     zmanim_for_offset!(
         |_| Some(Minutes(60.0)),
         [
-            alos_60_minutes => alos, "Returns *alos* (dawn) calculated as 60 minutes before sunrise. This is the time to walk the distance of 4 *mil* at 15 minutes a *mil*. This seems to be the opinion of the *Chavas Yair* in the *Mekor Chaim, Orach Chaim* Ch. 90, though the *Mekor Chaim* in Ch. 58 and in the *Chut Hashani* Ch. 97 states that a person walks 3 and a 1/3 *mil* in an hour, or an 18-minute *mil*. Also see the *Divrei Malkiel* Vol. 4, Ch. 20, page 34) who mentions the 15 minute *mil lechumra* by baking *matzos*. Also see the *Maharik* Ch. 173 where the questioner quoting the *Ra'avan* is of the opinion that the time to walk a *mil* is 15 minutes (5 *mil* in a little over an hour). There are many who believe that there is a *ta'us sofer* (scribeal error) in the *Ra'avan*, and it should 4 *mil* in a little over an hour, or an 18-minute *mil*. Time based offset calculations are based on the opinion of the *Rishonim* who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 4 *mil*.",
+            alos_60_minutes => alos, "Returns *alos* (dawn) calculated as 60 minutes before sunrise. This is the time to walk the distance of 4 *mil* at 15 minutes a *mil*. This seems to be the opinion of the *Chavas Yair* in the *Mekor Chaim, Orach Chaim* Ch. 90, though the *Mekor Chaim* in Ch. 58 and in the *Chut Hashani* Ch. 97 states that a person walks 3 and a 1/3 *mil* in an hour, or an 18-minute *mil*. Also see the *Divrei Malkiel* Vol. 4, Ch. 20, page 34) who mentions the 15 minute *mil lechumra* by baking *matzos*. Also see the *Maharik* Ch. 173 where the questioner quoting the *Ra'avan* is of the opinion that the time to walk a *mil* is 15 minutes (5 *mil* in a little over an hour). There are many who believe that there is a *ta'us sofer* (scribal error) in the *Ra'avan*, and it should be 4 *mil* in a little over an hour, or an 18-minute *mil*. Time based offset calculations are based on the opinion of the *Rishonim* who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 4 *mil*.",
             tzeis_60_minutes => tzeis, "Returns *tzeis hakochavim* (nightfall) based on the opinion of the *Chavas Yair* and *Divrei Malkiel* that the time to walk the distance of a mil is 15 minutes, for a total of 60 minutes for 4 *mil* after sunset. See detailed documentation explaining the 60 minute concept at [alos_60_minutes](ComplexZmanimCalendar::alos_60_minutes).",
             shaah_zmanis_mga_60_minutes => shaah_zmanis_mga, shaah_mga_minutes_doc!(60),
             plag_mga_60_minutes => plag_mga, plag_mga_minutes_doc!(60),
@@ -1131,7 +1132,7 @@ impl ComplexZmanimCalendar {
     zmanim_for_offset!(
         |_| Some(Minutes(120.0)),
         [
-            alos_120_minutes => alos, "This method should be used *lechumra* only and returns *alos* (dawn) calculated using 120 minutes before sunrise. This is based on the time to walk the distance of 5 *mil* (Ula) at 24 minutes a *mil*. Time based offset calculations for *alos* are based on the opinion of the Rishonim who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 5 *mil* (Ula). Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
+            alos_120_minutes => alos, "This method should be used *lechumra* only and returns *alos* (dawn) calculated using 120 minutes before sunrise. This is based on the time to walk the distance of 5 *mil* (Ula) at 24 minutes a *mil*. Time based offset calculations for *alos* are based on the opinion of the *Rishonim* who stated that the time of the *neshef* (time between dawn and sunrise) does not vary by the time of year or location but purely depends on the time it takes to walk the distance of 5 *mil* (Ula). Since this time is extremely early, it should only be used *lechumra*, such as not eating after this time on a fast day, and **not** as the start time for *mitzvos* that can only be performed during the day.",
             tzeis_120_minutes => tzeis, "Returns *tzeis hakochavim* (dusk) calculated as 120 minutes after sunset. For information on how this is calculated see the documentation on [alos_120_minutes](ComplexZmanimCalendar::alos_120_minutes).",
             shaah_zmanis_mga_120_minutes => shaah_zmanis_mga, shaah_mga_minutes_doc!(120),
             sof_zman_shema_mga_120_minutes => sof_zman_shema_mga, szks_mga_minutes_doc!(120),
@@ -1562,8 +1563,8 @@ impl ComplexZmanimCalendar {
     }
 }
 
-/// When to use elevation for *zmanim* calculations. See the documentation of
-/// [`zmanim_calculator`] for some discussion of this
+/// When to use elevation for *zmanim* calculations. See
+/// [`crate`] for details.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum UseElevation {
     /// Never use elevation
@@ -1576,7 +1577,7 @@ pub enum UseElevation {
 
 impl UseElevation {
     /// Convert the `UseElevation` into a `bool` for
-    /// [`zmanim_calculator`] functions. The param
+    /// [`zmanim_calculator`](crate::zmanim_calculator) functions. The param
     /// `hanetz_or_shkia` should be `true` if the calling function is
     /// calculating *hanetz* or *shkia*, and `false` otherwise
     #[must_use]
