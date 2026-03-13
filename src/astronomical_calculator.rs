@@ -227,7 +227,7 @@ fn date_time_from_time_of_day(date: &Date, time_of_day: f64, timezone: &TimeZone
 /// Returns local mean time (LMT) converted to regular clock time for the number
 /// of hours (0.0 to 23.999...) passed to this function.
 ///
-/// This time is adjusted from standard time to account for the local latitude.
+/// This time is adjusted from standard time to account for the local longitude.
 /// The 360&deg; of the globe divided by 24 calculates to 15&deg; per hour with
 /// 4 minutes per degree, so at a longitude of 0 , 15, 30 etc... noon is at
 /// exactly 12:00pm. Lakewood, N.J., with a longitude of -74.222, is 0.7906 away

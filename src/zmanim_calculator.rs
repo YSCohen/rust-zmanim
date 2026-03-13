@@ -16,7 +16,7 @@
 
 use std::ops::{Add, Sub};
 
-use jiff::{SignedDuration, Zoned, civil::Date};
+use jiff::{civil::Date, SignedDuration, Zoned};
 
 use crate::astronomical_calculator;
 use crate::util::geolocation::GeoLocation;
@@ -102,8 +102,8 @@ pub fn sof_zman_tefila(day_start: &Zoned, day_end: &Zoned) -> Zoned {
 /// function.
 ///
 /// The time from the start of day to the end of day are divided into 12 *shaos
-/// zmaniyos*, and the latest *zman tefila* is calculated as 5 of those *shaos
-/// zmaniyos* after the beginning of the day
+/// zmaniyos*, and the latest time for burning *chametz* is calculated as 5 of
+/// those *shaos zmaniyos* after the beginning of the day
 #[must_use]
 pub fn sof_zman_biur_chametz(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 5.0)
@@ -125,17 +125,17 @@ pub fn chatzos_halayla(date: &Date, geo_location: &GeoLocation) -> Option<Zoned>
 
 /// Returns the local time for fixed *chatzos*.
 ///
-/// This time is noon and midnight
-/// adjusted from standard time to account for the local latitude. The 360&deg;
-/// of the globe divided by 24 calculates to 15&deg; per hour with 4 minutes per
-/// degree, so at a longitude of 0 , 15, 30 etc... *Chatzos* is at exactly 12:00
-/// noon. This is the time of *chatzos* according to the *Aruch Hashulchan* in
-/// *Orach Chaim* 233:14 and Rabbi Moshe Feinstein in *Igros Moshe Orach Chaim*
-/// 1:24 and 2:20. Lakewood, N.J., with a longitude of -74.222, is 0.778 away
-/// from the closest multiple of 15 at -75&deg;. This is multiplied by 4 to
-/// yield 3 minutes and 7 seconds for a *chatzos* of 11:56:53. This method is
-/// not tied to the theoretical 15&deg; time zones, but will adjust to the
-/// actual time zone and Daylight saving time.
+/// This time is noon and midnight adjusted from standard time to account for
+/// the local longitude. The 360&deg; of the globe divided by 24 calculates to
+/// 15&deg; per hour with 4 minutes per degree, so at a longitude of 0 , 15, 30
+/// etc... *Chatzos* is at exactly 12:00 noon. This is the time of *chatzos*
+/// according to the *Aruch Hashulchan* in *Orach Chaim* 233:14 and Rabbi Moshe
+/// Feinstein in *Igros Moshe Orach Chaim* 1:24 and 2:20. Lakewood, N.J., with a
+/// longitude of -74.222, is 0.778 away from the closest multiple of 15 at
+/// -75&deg;. This is multiplied by 4 to yield 3 minutes and 7 seconds for a
+/// *chatzos* of 11:56:53. This method is not tied to the theoretical 15&deg;
+/// time zones, but will adjust to the actual time zone and Daylight saving
+/// time.
 #[must_use]
 pub fn fixed_local_chatzos(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     astronomical_calculator::local_mean_time(date, geo_location, 12.0)
@@ -145,7 +145,7 @@ pub fn fixed_local_chatzos(date: &Date, geo_location: &GeoLocation) -> Option<Zo
 /// of a *shaah zmanis* after *chatzos* as calculated by [`mincha_gedola`].
 ///
 /// Some use this time to delay the start of mincha in the winter when 1/2 of a
-/// *shaah zmanis* is less than 30 minutes. See One should not use this time to
+/// *shaah zmanis* is less than 30 minutes. One should not use this time to
 /// start *mincha* before the standard *mincha gedola*. See *Shulchan Aruch
 /// Orach Chayim* 234:1 and the *Shaar Hatziyon seif katan ches*.
 #[must_use]
@@ -153,13 +153,13 @@ pub fn mincha_gedola_30_minutes(date: &Date, geo_location: &GeoLocation) -> Opti
     Some(chatzos(date, geo_location)?.add(SignedDuration::from_mins(30)))
 }
 
+/// A generic function for calculating *mincha gedola* based on the
 /// start and end of the day passed to this function.
 ///
-/// Mincha gedola is the
-/// earliest time one can pray mincha. The Rambam is of the opinion that it is
-/// better to delay mincha until mincha ketana while the Rash, Tur, GRA and
-/// others are of the opinion that mincha can be prayed lechatchila starting at
-/// mincha gedola.
+/// Mincha gedola is the earliest time one can pray mincha. The Rambam is of the
+/// opinion that it is better to delay mincha until mincha ketana while the
+/// Rash, Tur, GRA and others are of the opinion that mincha can be prayed
+/// lechatchila starting at mincha gedola.
 ///
 /// The time from the start of day to the end of day are divided into 12 *shaos
 /// zmaniyos*, and *mincha gedola* is calculated as 6.5 of those *shaos
@@ -199,9 +199,9 @@ pub fn mincha_ketana(day_start: &Zoned, day_end: &Zoned) -> Zoned {
 
 /// A generic function for calculating *plag hamincha* (the earliest time that
 /// Shabbos can be started) that is halfway between [*mincha
-/// gedola*](mincha_gedola) and [*mincha ketana*](mincha_ketana), or 10.75
-/// *shaos zmaniyos* (temporal hours) after the start of the day, calculated
-/// using the start and end of the day passed to this function.
+/// ketana*](mincha_ketana) and sunset, or 10.75 *shaos zmaniyos* (temporal
+/// hours) after the start of the day, calculated using the start and end of the
+/// day passed to this function.
 #[must_use]
 pub fn plag_hamincha(day_start: &Zoned, day_end: &Zoned) -> Zoned {
     shaos_into_day(day_start, day_end, 10.75)
