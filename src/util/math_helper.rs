@@ -4,7 +4,7 @@
 /// Number of nanoseconds in a second
 pub const SECOND_NANOS: f64 = 1_000_000_000.0;
 
-/// Number of minutes in an hour
+/// Number of seconds in a minute
 pub const MINUTE_SECONDS: f64 = 60.0;
 
 /// Number of nanoseconds in a minute

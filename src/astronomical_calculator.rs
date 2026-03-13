@@ -41,31 +41,33 @@ pub const NAUTICAL_ZENITH: f64 = 102.0;
 /// Sun's zenith at astronomical twilight (108&deg;)
 pub const ASTRONOMICAL_ZENITH: f64 = 108.0;
 
-/// Returns the sunrise in UTC time without correction for time
-/// zone offset from GMT and without using daylight savings time
+/// Returns the elevation-adjusted sunrise as a UTC fractional hour.
+///
+/// No local timezone or daylight saving adjustment is applied.
 #[must_use]
 pub fn utc_sunrise(date: &Date, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, true)
 }
 
-/// Returns the sunset in UTC time without correction for time
-/// zone offset from GMT and without using daylight savings time
+/// Returns the elevation-adjusted sunset as a UTC fractional hour.
+///
+/// No local timezone or daylight saving adjustment is applied.
 #[must_use]
 pub fn utc_sunset(date: &Date, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunset(date, geo_location, zenith, true)
 }
 
-/// Returns the sunrise in UTC time without correction for
-/// elevation, time zone offset from GMT and without using daylight savings
-/// time
+/// Returns the sea-level sunrise as a UTC fractional hour.
+///
+/// No elevation, local timezone, or daylight saving adjustment is applied.
 #[must_use]
 pub fn utc_sea_level_sunrise(date: &Date, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunrise(date, geo_location, zenith, false)
 }
 
-/// Returns the sunset in UTC time without correction for
-/// elevation, time zone offset from GMT and without using daylight savings
-/// time
+/// Returns the sea-level sunset as a UTC fractional hour.
+///
+/// No elevation, local timezone, or daylight saving adjustment is applied.
 #[must_use]
 pub fn utc_sea_level_sunset(date: &Date, zenith: f64, geo_location: &GeoLocation) -> Option<f64> {
     noaa_calculator::utc_sunset(date, geo_location, zenith, false)
@@ -103,14 +105,13 @@ pub fn sunset(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     ))
 }
 
-/// Returns the sunrise without elevation adjustment, i.e. at sea level
+/// Returns the sunrise without elevation adjustment, i.e. at sea level.
 #[must_use]
 pub fn sea_level_sunrise(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     sunrise_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
 }
 
-/// Returns the sunset without elevation adjustment, i.e. at sea
-/// level
+/// Returns the sunset without elevation adjustment, i.e. at sea level.
 #[must_use]
 pub fn sea_level_sunset(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     sunset_offset_by_degrees(date, geo_location, GEOMETRIC_ZENITH)
@@ -118,10 +119,10 @@ pub fn sea_level_sunset(date: &Date, geo_location: &GeoLocation) -> Option<Zoned
 
 /// Returns time of an offset by degrees below or above the horizon of sunrise
 ///
-/// A utility function that returns the time of an offset by degrees below or
-/// above the horizon of sunrise. Note that the degree offset is from the
-/// vertical, so for a calculation of 14&deg; before sunrise, an offset of 14 +
-/// [`GEOMETRIC_ZENITH`] = 104 would have to be passed as a parameter
+/// A utility function that returns sunrise at an offset zenith.
+///
+/// The offset is measured from the vertical. For example, to calculate
+/// 14&deg; before sunrise, pass `14 + GEOMETRIC_ZENITH` (`104.0`).
 #[must_use]
 pub fn sunrise_offset_by_degrees(
     date: &Date,
@@ -137,10 +138,10 @@ pub fn sunrise_offset_by_degrees(
 
 /// Returns time of an offset by degrees below or above the horizon of sunset
 ///
-/// A utility function that returns the time of an offset by degrees below or
-/// above the horizon of sunset. Note that the degree offset is from the
-/// vertical, so for a calculation of 14&deg; after sunset, an offset of 14 +
-/// [`GEOMETRIC_ZENITH`] = 104 would have to be passed as a parameter
+/// A utility function that returns sunset at an offset zenith.
+///
+/// The offset is measured from the vertical. For example, to calculate
+/// 14&deg; after sunset, pass `14 + GEOMETRIC_ZENITH` (`104.0`).
 #[must_use]
 pub fn sunset_offset_by_degrees(
     date: &Date,
@@ -154,16 +155,16 @@ pub fn sunset_offset_by_degrees(
     ))
 }
 
-/// A utility function that will allow the calculation of a temporal (solar)
-/// hour based on the sunrise and sunset passed as parameters to this
-/// function
+/// Returns a temporal (solar) hour based on the provided sunrise and sunset.
 #[must_use]
 pub fn temporal_hour(sunrise: &Zoned, sunset: &Zoned) -> SignedDuration {
     sunset.duration_since(sunrise) / 12
 }
 
-/// Returns solar noon. It occurs when the Sun is transiting the celestial
-/// meridian, the apparent highest point in the sky
+/// Returns solar noon.
+///
+/// Solar noon occurs when the Sun transits the celestial meridian and reaches
+/// its apparent highest point in the sky.
 #[must_use]
 pub fn solar_noon(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     Some(date_time_from_time_of_day(
@@ -173,8 +174,10 @@ pub fn solar_noon(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     ))
 }
 
-/// Returns solar midnight. It occurs when the Sun closest to the nadir, or the
-/// direction pointing directly below the given location
+/// Returns solar midnight.
+///
+/// Solar midnight occurs when the Sun is closest to the nadir (the direction
+/// directly below the observer).
 #[must_use]
 pub fn solar_midnight(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
     let midnight = date_time_from_time_of_day(
@@ -224,18 +227,19 @@ fn date_time_from_time_of_day(date: &Date, time_of_day: f64, timezone: &TimeZone
     }
 }
 
-/// Returns local mean time (LMT) converted to regular clock time for the number
-/// of hours (0.0 to 23.999...) passed to this function.
+/// Returns local mean time (LMT) for `hours`  converted to regular clock time.
+///
+/// The `hours` argument must be in `[0.0, 24.0)`.
 ///
 /// This time is adjusted from standard time to account for the local longitude.
 /// The 360&deg; of the globe divided by 24 calculates to 15&deg; per hour with
 /// 4 minutes per degree, so at a longitude of 0 , 15, 30 etc... noon is at
-/// exactly 12:00pm. Lakewood, N.J., with a longitude of -74.222, is 0.7906 away
-/// from the closest multiple of 15 at -75&deg;. This is multiplied by 4 clock
-/// minutes (per degree) to yield 3 minutes and 7 seconds for a noon time of
-/// 11:56:53am. This method is not tied to the theoretical 15&deg; time zones,
-/// but will adjust to the actual time zone and Daylight saving time to return
-/// LMT.
+/// exactly 12:00 PM. Lakewood, N.J., with a longitude of -74.222, is 0.778&deg;
+/// away from -75&deg; (the nearest multiple of 15). This is multiplied by
+/// 4 clock minutes per degree to yield about 3 minutes and 7 seconds, for a
+/// local noon of approximately 11:56:53 AM. This method is not tied to the
+/// theoretical 15&deg; time zones, and it adjusts to the actual timezone and
+/// daylight saving time to return LMT.
 #[must_use]
 pub fn local_mean_time(date: &Date, geo_location: &GeoLocation, hours: f64) -> Option<Zoned> {
     if (0.0..24.0).contains(&hours) {

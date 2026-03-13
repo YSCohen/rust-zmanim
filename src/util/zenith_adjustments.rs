@@ -27,7 +27,7 @@ const EARTH_RADIUS: f64 = 6_356.9;
 ///
 /// The source of this algorithm is *Calendrical Calculations* by Edward M.
 /// Reingold and Nachum Dershowitz. An alternate algorithm that produces similar
-/// (but not completely accurate) result found in *Ma'aglay Tzedek* by Moishe
+/// (but not completely accurate) results found in *Ma'aglay Tzedek* by Moishe
 /// Kosower and other sources is:
 ///
 /// <pre>
@@ -41,9 +41,9 @@ pub fn elevation_adjustment(elevation: f64) -> f64 {
 }
 
 /// Adjusts the zenith of astronomical sunrise and sunset to account for solar
-/// refraction, solar radius and elevation.
+/// refraction, solar radius, and elevation.
 ///
-/// The value for Sun's zenith and true rise/set Zenith is the angle that the
+/// The value for the Sun's zenith and true rise/set zenith is the angle that the
 /// center of the Sun makes to a line perpendicular to the Earth's surface. If
 /// the Sun were a point and the Earth were without an atmosphere, true sunset
 /// and sunrise would correspond to a 90&deg; zenith. Because the Sun is not a
@@ -59,7 +59,7 @@ pub fn elevation_adjustment(elevation: f64) -> f64 {
 /// account for elevation if available. Note that this will only adjust the
 /// value if the zenith is exactly 90 degrees. For values below and above this
 /// no correction is done, as calculations above or below 90&deg; are usually
-/// calculated as an offset to 90&deg;
+/// calculated as an offset to 90&deg;.
 #[must_use]
 pub fn adjusted_zenith(zenith: f64, elevation: f64) -> f64 {
     if zenith != GEOMETRIC_ZENITH {

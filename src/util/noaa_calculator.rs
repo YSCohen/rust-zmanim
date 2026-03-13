@@ -6,8 +6,8 @@
 //! Branch. NOAA's implementation is based on equations from *Astronomical
 //! Algorithms* by Jean Meeus. Added to the algorithm is an adjustment of the
 //! zenith to account for elevation. The algorithm can be found in the
-//! <a href="https://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation</a>
-//! article
+//! [Wikipedia Sunrise Equation](https://en.wikipedia.org/wiki/Sunrise_equation)
+//! article.
 
 use std::ops::{Add, Sub};
 
@@ -62,7 +62,7 @@ fn julian_day_from_julian_centuries(julian_centuries: f64) -> f64 {
 }
 
 // some astronomical functions that stand on their own
-/// Return the hour angle of the sun in radians at for the latitude
+/// Return the hour angle of the sun in radians for the given latitude.
 fn sun_hour_angle_at_horizon(latitude: f64, solar_dec: f64, zenith: f64, mode: &Mode) -> f64 {
     let lat_r = latitude.to_radians();
     let solar_dec_r = solar_dec.to_radians();
@@ -210,7 +210,7 @@ fn solar_declination(julian_centuries: f64) -> f64 {
 
 /// Return the approximate UTC in minutes of a given sun position for the given
 /// day at the given location on earth. Used twice within
-/// [utc_sun_rise_set] for accuracy
+/// [`utc_sun_rise_set`] for accuracy.
 fn approximate_utc_sun_position(
     approx_julian_centuries: f64,
     latitude: f64,
@@ -229,8 +229,8 @@ fn approximate_utc_sun_position(
 
 /// Return the UTC in minutes of a given sun position for the given day at the
 /// given location on earth, ([adjusts the
-/// zenith](adjusted_zenith) for refraction, solar radius
-/// and optionally elevation)
+/// zenith](crate::util::zenith_adjustments::adjusted_zenith) for refraction,
+/// solar radius, and optionally elevation).
 fn utc_sun_rise_set(
     date: &Date,
     geo_location: &GeoLocation,
@@ -321,7 +321,7 @@ pub fn utc_sunset(
 }
 
 // noon and midnight
-/// Return the UTC of the current day's solar noon or the the upcoming midnight
+/// Return the UTC of the current day's solar noon or the upcoming midnight
 /// (about 12 hours after solar noon) of the given day at the given location on
 /// earth.
 fn utc_solar_noon_midnight(date: &Date, geo_location: &GeoLocation, mode: &Mode) -> Option<f64> {
@@ -381,7 +381,7 @@ pub fn utc_midnight(date: &Date, geo_location: &GeoLocation) -> Option<f64> {
 }
 
 /// Used internally to specify which solar event should be calculated, to a
-/// function that calculated both
+/// function that calculates both.
 #[derive(PartialEq)]
 enum Mode {
     /// Calculate sunrise (for `utc_sun_rise_set`) or noon (for
