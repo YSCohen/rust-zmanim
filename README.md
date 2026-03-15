@@ -1,10 +1,10 @@
 # `rust-zmanim`
 
-Fast, reliable Rust APIs for sunrise/sunset and Jewish zmanim calculations from any date and location.
+Fast, reliable Rust APIs for solar position and Jewish Zmanim calculations from any date and location.
 
 `rust-zmanim` calculates:
 
-- astronomical times such as sunrise, sunset, solar noon, and twilight
+- Astronomical times such as sunrise, sunset, solar noon, and twilight
 - Jewish zmanim for prayers and other halachic time-based use cases
 
 This crate uses the solar position algorithm implemented by NOAA, based on equations from *Astronomical Algorithms* by Jean Meeus. See [`noaa_calculator`](https://docs.rs/rust-zmanim/latest/rust_zmanim/util/noaa_calculator/index.html) for more details

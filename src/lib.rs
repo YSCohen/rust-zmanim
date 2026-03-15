@@ -17,10 +17,11 @@
 //! twilight) and Jewish *zmanim* built on those events.
 //!
 //! ## Modules
-//! - [`astronomical_calculator`]: Low-level astronomical calculations.
+//! - [`astronomical_calculator`]: Astronomical calculations.
 //! - [`zmanim_calculator`]: Core *zmanim* building blocks.
 //! - [`complex_zmanim_calendar`]: Stateful convenience API with many predefined
-//!   *zmanim*.
+//!   *zmanim* (See
+//!   [`ComplexZmanimCalendar`](complex_zmanim_calendar::ComplexZmanimCalendar))
 //!
 //! ## Examples
 //!

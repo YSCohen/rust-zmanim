@@ -1,6 +1,6 @@
 [package]
 name = "rust-zmanim"
-description = "Jewish Zmanim calculation APIs for any date and location"
+description = "Jewish Zmanim calculations, and solar position calculations, for any date and location"
 readme = "README.md"
 version = "0.2.1"
 edition = "2024"
