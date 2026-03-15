@@ -1,17 +1,17 @@
 //! Implementation of sunrise and sunset functions to calculate astronomical
 //! times based on the NOAA algorithm.
 //!
-//! This calculator uses the algorithm based on the implementation by the
-//! National Oceanic and Atmospheric Administration's Surface Radiation Research
-//! Branch. NOAA's implementation is based on equations from *Astronomical
-//! Algorithms* by Jean Meeus. Added to the algorithm is an adjustment of the
-//! zenith to account for elevation. The algorithm can be found in the
-//! [Wikipedia Sunrise Equation](https://en.wikipedia.org/wiki/Sunrise_equation)
-//! article.
+//! Astronomical events are calculated based on the NOAA's solar position
+//! algorithm. NOAA's
+//! [implementation](https://www.srrb.noaa.gov/highlights/sunrise/solareqns.PDF)
+//! is based on equations from *Astronomical Algorithms* by Jean Meeus. Added to
+//! the algorithm is an adjustment of the zenith to account for elevation. The
+//! algorithm can be found in the [Wikipedia Sunrise
+//! Equation](https://en.wikipedia.org/wiki/Sunrise_equation) article.
 
 use std::ops::{Add, Sub};
 
-use jiff::{Span, Zoned, civil::Date};
+use jiff::{civil::Date, Span, Zoned};
 
 use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::HOUR_SECONDS;
@@ -283,45 +283,7 @@ fn utc_sun_rise_set(
     }
 }
 
-// public interface for utc_sun_rise_set
-/// Get the UTC of sunrise in hours, adjusting the zenith for refraction, solar
-/// radius, and optionally elevation
-#[must_use]
-pub fn utc_sunrise(
-    date: &Date,
-    geo_location: &GeoLocation,
-    zenith: f64,
-    adjust_for_elevation: bool,
-) -> Option<f64> {
-    utc_sun_rise_set(
-        date,
-        geo_location,
-        zenith,
-        adjust_for_elevation,
-        &Mode::SunriseNoon,
-    )
-}
-
-/// Get the UTC of sunset in hours, adjusting the zenith for refraction, solar
-/// radius, and optionally elevation
-#[must_use]
-pub fn utc_sunset(
-    date: &Date,
-    geo_location: &GeoLocation,
-    zenith: f64,
-    adjust_for_elevation: bool,
-) -> Option<f64> {
-    utc_sun_rise_set(
-        date,
-        geo_location,
-        zenith,
-        adjust_for_elevation,
-        &Mode::SunsetMidnight,
-    )
-}
-
-// noon and midnight
-/// Return the UTC of the current day's solar noon or the upcoming midnight
+/// Returns the UTC of the current day's solar noon or the upcoming midnight
 /// (about 12 hours after solar noon) of the given day at the given location on
 /// earth.
 fn utc_solar_noon_midnight(date: &Date, geo_location: &GeoLocation, mode: &Mode) -> Option<f64> {
@@ -361,20 +323,55 @@ fn utc_solar_noon_midnight(date: &Date, geo_location: &GeoLocation, mode: &Mode)
     }
 }
 
-/// Return the UTC of solar noon for the given day at the given location on
+// public interface for utc_sun_rise_set
+/// Returns the UTC of sunrise in hours, adjusting the zenith for refraction,
+/// solar radius, and optionally elevation
+#[must_use]
+pub fn utc_sunrise(
+    date: &Date,
+    geo_location: &GeoLocation,
+    zenith: f64,
+    adjust_for_elevation: bool,
+) -> Option<f64> {
+    utc_sun_rise_set(
+        date,
+        geo_location,
+        zenith,
+        adjust_for_elevation,
+        &Mode::SunriseNoon,
+    )
+}
+
+/// Returns the UTC of sunset in hours, adjusting the zenith for refraction,
+/// solar radius, and optionally elevation
+#[must_use]
+pub fn utc_sunset(
+    date: &Date,
+    geo_location: &GeoLocation,
+    zenith: f64,
+    adjust_for_elevation: bool,
+) -> Option<f64> {
+    utc_sun_rise_set(
+        date,
+        geo_location,
+        zenith,
+        adjust_for_elevation,
+        &Mode::SunsetMidnight,
+    )
+}
+
+/// Returns the UTC of solar noon for the given day at the given location on
 /// earth. This implementation returns true solar noon as opposed to the time
-/// halfway between sunrise and sunset. Other calculators may return a more
-/// simplified calculation of halfway between sunrise and sunset.
+/// halfway between sunrise and sunset.
 #[must_use]
 pub fn utc_noon(date: &Date, geo_location: &GeoLocation) -> Option<f64> {
     utc_solar_noon_midnight(date, geo_location, &Mode::SunriseNoon)
 }
 
-/// Return the UTC of the solar midnight for the end of the given civil day at
+/// Returns the UTC of the solar midnight for the end of the given civil day at
 /// the given location on earth (about 12 hours after solar noon). This
 /// implementation returns true solar midnight as opposed to the time halfway
-/// between sunrise and sunset. Other calculators may return a more simplified
-/// calculation of halfway between sunrise and sunset.
+/// between sunrise and sunset.
 #[must_use]
 pub fn utc_midnight(date: &Date, geo_location: &GeoLocation) -> Option<f64> {
     utc_solar_noon_midnight(date, geo_location, &Mode::SunsetMidnight)

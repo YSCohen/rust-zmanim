@@ -277,9 +277,11 @@
 //! - Most APIs return `Option<Zoned>`. A result of `None` means the requested
 //!   event does not occur for the requested date/location (common in high
 //!   latitudes or for deep-twilight calculations).
-//! - This crate uses NOAA-based algorithms. Returned values can be highly
-//!   precise, but real-world observations vary with atmospheric conditions,
-//!   temperature, pressure, etc.
+//! - This crate uses the solar position algorithm implemented by NOAA, based on
+//!   equations from *Astronomical Algorithms* by Jean Meeus. See
+//!   [`noaa_calculator`](crate::util::noaa_calculator) for more details
+//! - Returned values can be highly precise, but real-world observations vary
+//!   with atmospheric conditions, temperature, pressure, etc.
 //! - For religious practice (*halacha lemaaseh*), **consult competent halachic
 //!   guidance**.
 //! - **Elevation based *zmanim* (even sunrise and sunset) should not be used
