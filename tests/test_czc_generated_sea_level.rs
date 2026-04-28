@@ -8,8 +8,10 @@
 
 mod test_helper;
 use std::iter::zip;
-// Skipped equals
-// Skipped hashCode
+
+// Skipped equals because it isn't a getter
+
+// Skipped hashCode because it isn't a getter
 
 #[test]
 fn test_alos_19_8_degrees() {
@@ -682,17 +684,28 @@ fn test_mincha_gedola_30_minutes() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getShaahZmanisAlos16Point1ToTzais3Point7
-// Skipped getShaahZmanisAlos16Point1ToTzais3Point8
-// Skipped getAteretTorahSunsetOffset
-// Skipped getSofZmanKidushLevanaBetweenMoldos
-// Skipped getSofZmanKidushLevanaBetweenMoldos
-// Skipped getSofZmanKidushLevana15Days
-// Skipped getSofZmanKidushLevana15Days
-// Skipped getTchilasZmanKidushLevana3Days
-// Skipped getTchilasZmanKidushLevana3Days
-// Skipped getTchilasZmanKidushLevana7Days
-// Skipped getTchilasZmanKidushLevana7Days
+
+// Skipped getShaahZmanisAlos16Point1ToTzais3Point7 because it doesn't return an Instant
+
+// Skipped getShaahZmanisAlos16Point1ToTzais3Point8 because it doesn't return an Instant
+
+// Skipped getAteretTorahSunsetOffset because it doesn't return an Instant
+
+// Skipped getSofZmanKidushLevanaBetweenMoldos because this library doesn't calculate molados (yet?)
+
+// Skipped getSofZmanKidushLevanaBetweenMoldos because it takes parameters
+
+// Skipped getSofZmanKidushLevana15Days because this library doesn't calculate molados (yet?)
+
+// Skipped getSofZmanKidushLevana15Days because it takes parameters
+
+// Skipped getTchilasZmanKidushLevana3Days because it takes parameters
+
+// Skipped getTchilasZmanKidushLevana3Days because this library doesn't calculate molados (yet?)
+
+// Skipped getTchilasZmanKidushLevana7Days because this library doesn't calculate molados (yet?)
+
+// Skipped getTchilasZmanKidushLevana7Days because it takes parameters
 
 #[test]
 fn test_fixed_local_chatzos() {
@@ -717,19 +730,32 @@ fn test_fixed_local_chatzos() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getShaahZmanis19Point8Degrees
-// Skipped getShaahZmanis18Degrees
-// Skipped getShaahZmanis26Degrees
-// Skipped getShaahZmanis16Point1Degrees
-// Skipped getShaahZmanis60Minutes
-// Skipped getShaahZmanis72MinutesZmanis
-// Skipped getShaahZmanis90Minutes
-// Skipped getShaahZmanis90MinutesZmanis
-// Skipped getShaahZmanis96MinutesZmanis
-// Skipped getShaahZmanisAteretTorah
-// Skipped getShaahZmanis96Minutes
-// Skipped getShaahZmanis120Minutes
-// Skipped getShaahZmanis120MinutesZmanis
+
+// Skipped getShaahZmanis19Point8Degrees because it doesn't return an Instant
+
+// Skipped getShaahZmanis18Degrees because it doesn't return an Instant
+
+// Skipped getShaahZmanis26Degrees because it doesn't return an Instant
+
+// Skipped getShaahZmanis16Point1Degrees because it doesn't return an Instant
+
+// Skipped getShaahZmanis60Minutes because it doesn't return an Instant
+
+// Skipped getShaahZmanis72MinutesZmanis because it doesn't return an Instant
+
+// Skipped getShaahZmanis90Minutes because it doesn't return an Instant
+
+// Skipped getShaahZmanis90MinutesZmanis because it doesn't return an Instant
+
+// Skipped getShaahZmanis96MinutesZmanis because it doesn't return an Instant
+
+// Skipped getShaahZmanisAteretTorah because it doesn't return an Instant
+
+// Skipped getShaahZmanis96Minutes because it doesn't return an Instant
+
+// Skipped getShaahZmanis120Minutes because it doesn't return an Instant
+
+// Skipped getShaahZmanis120MinutesZmanis because it doesn't return an Instant
 
 #[test]
 fn test_plag_mga_120_minutes_zmanis() {
@@ -1546,7 +1572,8 @@ fn test_mincha_gedola_ahavat_shalom() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getMinchaGedolaGreaterThan30
+
+// Skipped getMinchaGedolaGreaterThan30 because it takes parameters
 
 #[test]
 fn test_mincha_ketana_mga_16_1_degrees() {
@@ -2387,7 +2414,8 @@ fn test_tzeis_geonim_9_75_degrees() {
         assert_eq!(result, edt)
     }
 }
-// Skipped setAteretTorahSunsetOffset
+
+// Skipped setAteretTorahSunsetOffset because it isn't a getter
 
 #[test]
 fn test_sof_zman_shema_ateret_torah() {
@@ -2508,16 +2536,26 @@ fn test_plag_ateret_torah() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getZmanMolad
-// Skipped getSofZmanAchilasChametzGRA
-// Skipped getSofZmanAchilasChametzMGA72Minutes
-// Skipped getSofZmanAchilasChametzMGA72MinutesZmanis
-// Skipped getSofZmanAchilasChametzMGA16Point1Degrees
-// Skipped getSofZmanBiurChametzGRA
-// Skipped getSofZmanBiurChametzMGA72Minutes
-// Skipped getSofZmanBiurChametzMGA72MinutesZmanis
-// Skipped getSofZmanBiurChametzMGA16Point1Degrees
-// Skipped getShaahZmanisBaalHatanya
+
+// Skipped getZmanMolad because this library doesn't calculate molados (yet?)
+
+// Skipped getSofZmanAchilasChametzGRA because it contains a phrase which was explicitly excluded
+
+// Skipped getSofZmanAchilasChametzMGA72Minutes because it contains a phrase which was explicitly excluded
+
+// Skipped getSofZmanAchilasChametzMGA72MinutesZmanis because it contains a phrase which was explicitly excluded
+
+// Skipped getSofZmanAchilasChametzMGA16Point1Degrees because it contains a phrase which was explicitly excluded
+
+// Skipped getSofZmanBiurChametzGRA because it contains a phrase which was explicitly excluded
+
+// Skipped getSofZmanBiurChametzMGA72Minutes because it contains a phrase which was explicitly excluded
+
+// Skipped getSofZmanBiurChametzMGA72MinutesZmanis because it contains a phrase which was explicitly excluded
+
+// Skipped getSofZmanBiurChametzMGA16Point1Degrees because it contains a phrase which was explicitly excluded
+
+// Skipped getShaahZmanisBaalHatanya because it doesn't return an Instant
 
 #[test]
 fn test_alos_baal_hatanya() {
@@ -2590,8 +2628,10 @@ fn test_sof_zman_tefila_baal_hatanya() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getSofZmanAchilasChametzBaalHatanya
-// Skipped getSofZmanBiurChametzBaalHatanya
+
+// Skipped getSofZmanAchilasChametzBaalHatanya because it contains a phrase which was explicitly excluded
+
+// Skipped getSofZmanBiurChametzBaalHatanya because it contains a phrase which was explicitly excluded
 
 #[test]
 fn test_mincha_gedola_baal_hatanya() {
@@ -3000,15 +3040,6 @@ fn test_samuch_lemincha_ketana_mga_72_minutes() {
         assert_eq!(result, edt)
     }
 }
-// Skipped setUseElevation
-// Skipped getMinchaGedola
-// Skipped getMinchaGedola
-// Skipped getMinchaKetana
-// Skipped getMinchaKetana
-// Skipped getPlagHamincha
-// Skipped getPlagHamincha
-// Skipped getCandleLighting
-// Skipped getChatzosAsHalfDay
 
 #[test]
 fn test_alos_16_1_degrees() {
@@ -3033,9 +3064,8 @@ fn test_alos_16_1_degrees() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getZmanisBasedOffset
-// Skipped getSofZmanShma
-// Skipped getSofZmanShma
+
+// Skipped getChatzos because it takes parameters
 
 #[test]
 fn test_chatzos() {
@@ -3060,10 +3090,36 @@ fn test_chatzos() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getChatzos
-// Skipped getSofZmanTfila
-// Skipped getSofZmanTfila
-// Skipped isUseAstronomicalChatzosForOtherZmanim
+
+// Skipped setUseElevation because it isn't a getter
+
+// Skipped getMinchaGedola because it takes parameters
+
+// Skipped getMinchaGedola because it takes parameters
+
+// Skipped getMinchaKetana because it takes parameters
+
+// Skipped getMinchaKetana because it takes parameters
+
+// Skipped getPlagHamincha because it takes parameters
+
+// Skipped getPlagHamincha because it takes parameters
+
+// Skipped getCandleLighting because it is one of the explicitly excluded methods
+
+// Skipped getChatzosAsHalfDay because it is one of the explicitly excluded methods
+
+// Skipped getZmanisBasedOffset because it takes parameters
+
+// Skipped getSofZmanShma because it takes parameters
+
+// Skipped getSofZmanShma because it takes parameters
+
+// Skipped getSofZmanTfila because it takes parameters
+
+// Skipped getSofZmanTfila because it takes parameters
+
+// Skipped isUseAstronomicalChatzosForOtherZmanim because it isn't a getter
 
 #[test]
 fn test_tzeis_72_minutes() {
@@ -3088,7 +3144,8 @@ fn test_tzeis_72_minutes() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getHalfDayBasedZman
+
+// Skipped getHalfDayBasedZman because it takes parameters
 
 #[test]
 fn test_alos_72_minutes() {
@@ -3113,18 +3170,30 @@ fn test_alos_72_minutes() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getSofZmanAchilasChametz
-// Skipped getSofZmanBiurChametz
-// Skipped getSamuchLeMinchaKetana
-// Skipped getSamuchLeMinchaKetana
-// Skipped isUseElevation
-// Skipped isUseAstronomicalChatzos
-// Skipped getShaahZmanisBasedZman
-// Skipped getCandleLightingOffset
-// Skipped getShaahZmanisGRA
-// Skipped getHalfDayBasedShaahZmanis
-// Skipped setUseAstronomicalChatzos
-// Skipped setUseAstronomicalChatzosForOtherZmanim
+
+// Skipped getSofZmanAchilasChametz because it takes parameters
+
+// Skipped getSofZmanBiurChametz because it takes parameters
+
+// Skipped getSamuchLeMinchaKetana because it takes parameters
+
+// Skipped getSamuchLeMinchaKetana because it takes parameters
+
+// Skipped isUseElevation because it isn't a getter
+
+// Skipped isUseAstronomicalChatzos because it isn't a getter
+
+// Skipped getShaahZmanisBasedZman because it takes parameters
+
+// Skipped getCandleLightingOffset because it doesn't return an Instant
+
+// Skipped getShaahZmanisGRA because it doesn't return an Instant
+
+// Skipped getHalfDayBasedShaahZmanis because it takes parameters
+
+// Skipped setUseAstronomicalChatzos because it isn't a getter
+
+// Skipped setUseAstronomicalChatzosForOtherZmanim because it isn't a getter
 
 #[test]
 fn test_tzeis_geonim_8_5_degrees() {
@@ -3317,25 +3386,44 @@ fn test_plag_gra() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getShaahZmanis72Minutes
-// Skipped setCandleLightingOffset
-// Skipped isAssurBemlacha
-// Skipped getPercentOfShaahZmanisFromDegrees
-// Skipped toString
-// Skipped clone
-// Skipped setLocalDate
-// Skipped getSunset
-// Skipped getSunrise
-// Skipped getSeaLevelSunset
-// Skipped getSeaLevelSunrise
-// Skipped getTemporalHour
-// Skipped getTemporalHour
-// Skipped getTimeOffset
-// Skipped getTimeOffset
-// Skipped getSunriseOffsetByDegrees
-// Skipped getSunsetOffsetByDegrees
-// Skipped getLocalMeanTime
-// Skipped getLocalDate
+
+// Skipped getShaahZmanis72Minutes because it doesn't return an Instant
+
+// Skipped setCandleLightingOffset because it isn't a getter
+
+// Skipped isAssurBemlacha because it isn't a getter
+
+// Skipped getPercentOfShaahZmanisFromDegrees because it takes parameters
+
+// Skipped toString because it isn't a getter
+
+// Skipped clone because it isn't a getter
+
+// Skipped getTemporalHour because it doesn't return an Instant
+
+// Skipped getTemporalHour because it takes parameters
+
+// Skipped setLocalDate because it isn't a getter
+
+// Skipped getSunset because it is one of the explicitly excluded methods
+
+// Skipped getSunrise because it is one of the explicitly excluded methods
+
+// Skipped getSeaLevelSunset because it is one of the explicitly excluded methods
+
+// Skipped getSeaLevelSunrise because it is one of the explicitly excluded methods
+
+// Skipped getTimeOffset because it takes parameters
+
+// Skipped getTimeOffset because it takes parameters
+
+// Skipped getSunriseOffsetByDegrees because it takes parameters
+
+// Skipped getSunsetOffsetByDegrees because it takes parameters
+
+// Skipped getLocalMeanTime because it takes parameters
+
+// Skipped getLocalDate because it doesn't return an Instant
 
 #[test]
 fn test_elevation_sunrise() {
@@ -3384,23 +3472,40 @@ fn test_elevation_sunset() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getSunTransit
-// Skipped getSunTransit
-// Skipped getUTCSunrise
-// Skipped getUTCSeaLevelSunrise
-// Skipped getUTCSunset
-// Skipped getUTCSeaLevelSunset
-// Skipped setGeoLocation
-// Skipped setAstronomicalCalculator
-// Skipped getAstronomicalCalculator
-// Skipped getGeoLocation
-// Skipped toJSON
-// Skipped getBeginCivilTwilight
-// Skipped getBeginNauticalTwilight
-// Skipped getBeginAstronomicalTwilight
-// Skipped getEndCivilTwilight
-// Skipped getEndNauticalTwilight
-// Skipped getEndAstronomicalTwilight
+
+// Skipped getSunTransit because it contains a phrase which was explicitly excluded
+
+// Skipped getSunTransit because it takes parameters
+
+// Skipped getUTCSunrise because it takes parameters
+
+// Skipped getUTCSeaLevelSunrise because it takes parameters
+
+// Skipped getUTCSunset because it takes parameters
+
+// Skipped getUTCSeaLevelSunset because it takes parameters
+
+// Skipped setGeoLocation because it isn't a getter
+
+// Skipped setAstronomicalCalculator because it isn't a getter
+
+// Skipped getAstronomicalCalculator because it doesn't return an Instant
+
+// Skipped getGeoLocation because it doesn't return an Instant
+
+// Skipped toJSON because it isn't a getter
+
+// Skipped getBeginCivilTwilight because it contains a phrase which was explicitly excluded
+
+// Skipped getBeginNauticalTwilight because it contains a phrase which was explicitly excluded
+
+// Skipped getBeginAstronomicalTwilight because it contains a phrase which was explicitly excluded
+
+// Skipped getEndCivilTwilight because it contains a phrase which was explicitly excluded
+
+// Skipped getEndNauticalTwilight because it contains a phrase which was explicitly excluded
+
+// Skipped getEndAstronomicalTwilight because it contains a phrase which was explicitly excluded
 
 #[test]
 fn test_chatzos_halayla() {
@@ -3425,11 +3530,19 @@ fn test_chatzos_halayla() {
         assert_eq!(result, edt)
     }
 }
-// Skipped getSunriseSolarDipFromOffset
-// Skipped getSunsetSolarDipFromOffset
-// Skipped getClass
-// Skipped notify
-// Skipped notifyAll
-// Skipped wait
-// Skipped wait
-// Skipped wait
+
+// Skipped getSunriseSolarDipFromOffset because it takes parameters
+
+// Skipped getSunsetSolarDipFromOffset because it takes parameters
+
+// Skipped getClass because it doesn't return an Instant
+
+// Skipped notify because it isn't a getter
+
+// Skipped notifyAll because it isn't a getter
+
+// Skipped wait because it isn't a getter
+
+// Skipped wait because it isn't a getter
+
+// Skipped wait because it isn't a getter
