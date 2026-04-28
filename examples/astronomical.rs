@@ -1,6 +1,6 @@
 //! Example of using [`astronomical_calculator`] to calculate sunrise, noon, etc
 
-use jiff::{tz::TimeZone, Zoned};
+use jiff::{Zoned, tz::TimeZone};
 use rust_zmanim::prelude::*;
 
 fn main() {
