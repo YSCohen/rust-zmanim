@@ -74,75 +74,6 @@ fn shaah_zmanis_alos_16_1_to_tzeis_3_8() {
 }
 
 #[test]
-fn shaah_zmanis_mga_72_minutes_zmanis() {
-    let cals = test_helper::more_locations_czcs(false);
-    let expected_datetime_strs = [
-        Some(3984730),
-        Some(4085312),
-        Some(4056036),
-        Some(4046390),
-        None,
-        Some(4471403),
-        Some(4504182),
-        Some(4180462),
-        Some(4522956),
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_72_minutes_zmanis()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
-    }
-}
-
-#[test]
-fn shaah_zmanis_mga_16_1_degrees() {
-    let cals = test_helper::more_locations_czcs(false);
-    let expected_datetime_strs = [
-        Some(4123656),
-        Some(4127245),
-        Some(4121543),
-        Some(4128093),
-        Some(5751891),
-        Some(4368804),
-        Some(4410311),
-        Some(4145083),
-        Some(4433327),
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_16_1_degrees()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
-    }
-}
-
-#[test]
-fn shaah_zmanis_baal_hatanya() {
-    let cals = test_helper::more_locations_czcs(false);
-    let expected_datetime_strs = [
-        Some(3360579),
-        Some(3440274),
-        Some(3416844),
-        Some(3409536),
-        Some(679376),
-        Some(3757509),
-        Some(3785439),
-        Some(3516415),
-        Some(3801399),
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_baal_hatanya()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
-    }
-}
-
-#[test]
 fn shaah_zmanis_mga_19_8_degrees() {
     let cals = test_helper::more_locations_czcs(false);
     let expected_datetime_strs = [
@@ -212,6 +143,29 @@ fn shaah_zmanis_mga_26_degrees() {
 }
 
 #[test]
+fn shaah_zmanis_mga_16_1_degrees() {
+    let cals = test_helper::more_locations_czcs(false);
+    let expected_datetime_strs = [
+        Some(4123656),
+        Some(4127245),
+        Some(4121543),
+        Some(4128093),
+        Some(5751891),
+        Some(4368804),
+        Some(4410311),
+        Some(4145083),
+        Some(4433327),
+    ];
+
+    for (czc, edt) in zip(cals, expected_datetime_strs) {
+        let result = czc
+            .shaah_zmanis_mga_16_1_degrees()
+            .map_or_else(|| None, |sd| Some(sd.as_millis()));
+        within_one(result, edt)
+    }
+}
+
+#[test]
 fn shaah_zmanis_mga_60_minutes() {
     let cals = test_helper::more_locations_czcs(false);
     let expected_datetime_strs = [
@@ -235,23 +189,23 @@ fn shaah_zmanis_mga_60_minutes() {
 }
 
 #[test]
-fn shaah_zmanis_mga_72_minutes() {
+fn shaah_zmanis_mga_72_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(false);
     let expected_datetime_strs = [
-        Some(4040608),
-        Some(4124427),
-        Some(4100030),
-        Some(4091992),
+        Some(3984730),
+        Some(4085312),
+        Some(4056036),
+        Some(4046390),
         None,
-        Some(4446169),
-        Some(4473485),
-        Some(4203718),
-        Some(4489130),
+        Some(4471403),
+        Some(4504182),
+        Some(4180462),
+        Some(4522956),
     ];
 
     for (czc, edt) in zip(cals, expected_datetime_strs) {
         let result = czc
-            .shaah_zmanis_mga_72_minutes()
+            .shaah_zmanis_mga_72_minutes_zmanis()
             .map_or_else(|| None, |sd| Some(sd.as_millis()));
         within_one(result, edt)
     }
@@ -419,6 +373,29 @@ fn shaah_zmanis_mga_120_minutes_zmanis() {
 }
 
 #[test]
+fn shaah_zmanis_baal_hatanya() {
+    let cals = test_helper::more_locations_czcs(false);
+    let expected_datetime_strs = [
+        Some(3360579),
+        Some(3440274),
+        Some(3416844),
+        Some(3409536),
+        Some(679376),
+        Some(3757509),
+        Some(3785439),
+        Some(3516415),
+        Some(3801399),
+    ];
+
+    for (czc, edt) in zip(cals, expected_datetime_strs) {
+        let result = czc
+            .shaah_zmanis_baal_hatanya()
+            .map_or_else(|| None, |sd| Some(sd.as_millis()));
+        within_one(result, edt)
+    }
+}
+
+#[test]
 fn shaah_zmanis_gra() {
     let cals = test_helper::more_locations_czcs(false);
     let expected_datetime_strs = [
@@ -436,6 +413,29 @@ fn shaah_zmanis_gra() {
     for (czc, edt) in zip(cals, expected_datetime_strs) {
         let result = czc
             .shaah_zmanis_gra()
+            .map_or_else(|| None, |sd| Some(sd.as_millis()));
+        within_one(result, edt)
+    }
+}
+
+#[test]
+fn shaah_zmanis_mga_72_minutes() {
+    let cals = test_helper::more_locations_czcs(false);
+    let expected_datetime_strs = [
+        Some(4040608),
+        Some(4124427),
+        Some(4100030),
+        Some(4091992),
+        None,
+        Some(4446169),
+        Some(4473485),
+        Some(4203718),
+        Some(4489130),
+    ];
+
+    for (czc, edt) in zip(cals, expected_datetime_strs) {
+        let result = czc
+            .shaah_zmanis_mga_72_minutes()
             .map_or_else(|| None, |sd| Some(sd.as_millis()));
         within_one(result, edt)
     }

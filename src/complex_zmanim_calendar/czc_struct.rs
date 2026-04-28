@@ -1429,21 +1429,21 @@ impl ComplexZmanimCalendar {
     /// Returns the *tzeis hakochavim* (nightfall) based on the
     /// opinion of the *Geonim* calculated as 3/4 of a *mil*, based on a
     /// 22.5-minute *mil*, or 16 7/8 minutes. It is the sun's position at
-    /// 4.37&deg; below the western horizon. This is a very early *zman* and
+    /// 4.42&deg; below the western horizon. This is a very early *zman* and
     /// should not be relied on without Rabbinical guidance.
     #[must_use]
-    pub fn tzeis_geonim_4_37_degrees(&self) -> Option<Zoned> {
-        self.tzeis(&Degrees(4.37))
+    pub fn tzeis_geonim_4_42_degrees(&self) -> Option<Zoned> {
+        self.tzeis(&Degrees(4.42))
     }
 
     /// Returns the *tzeis hakochavim* (nightfall) based on the
     /// opinion of the *Geonim* calculated as 3/4 of a *mil* based on a
-    /// 24-minute *mil*, or 18 minutes. It is the sun's position at 4.61&deg;
+    /// 24-minute *mil*, or 18 minutes. It is the sun's position at 4.66&deg;
     /// below the western horizon. This is a very early *zman* and should
     /// not be relied on without Rabbinical guidance.
     #[must_use]
-    pub fn tzeis_geonim_4_61_degrees(&self) -> Option<Zoned> {
-        self.tzeis(&Degrees(4.61))
+    pub fn tzeis_geonim_4_66_degrees(&self) -> Option<Zoned> {
+        self.tzeis(&Degrees(4.66))
     }
 
     /// Returns the *tzeis* (nightfall) based on the opinion of the
