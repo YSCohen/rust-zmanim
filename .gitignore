@@ -5,3 +5,4 @@
 *.xlsx
 .~*
 lcov.info
+*.nuon
