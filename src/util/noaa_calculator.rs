@@ -11,7 +11,7 @@
 
 use std::ops::{Add, Sub};
 
-use jiff::{Span, Zoned, civil::Date};
+use jiff::{civil::Date, Span, Zoned};
 
 use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::HOUR_SECONDS;
@@ -297,30 +297,39 @@ fn utc_solar_noon_midnight(date: &Date, geo_location: &GeoLocation, mode: &Mode)
     // First pass for approximate solar noon to calculate equation of time
     let tnoon = julian_centuries_from_julian_day(julian_day + longitude / 360.0);
     let eot = equation_of_time(tnoon);
-    let sol_noon_utc = longitude.mul_add(4.0, -eot); // minutes
+    let mut sol_noon_utc = longitude.mul_add(4.0, -eot); // minutes
 
-    // second pass
-    let newt = julian_centuries_from_julian_day(julian_day + sol_noon_utc / 1440.0);
-    let eot = equation_of_time(newt);
-    if eot.is_nan() {
-        None
-    } else {
-        let minutes = longitude.mul_add(
-            4.0,
-            if *mode == Mode::SunriseNoon {
-                720.0
-            } else {
-                1440.0
-            },
-        ) - eot;
+    // two refinement passes
 
-        let time = minutes / 60.0;
-        Some(if time > 0.0 {
-            time % 24.0
+    let mut newt;
+    let mut eot;
+    let mut result_time = None;
+
+    for _i in 0..2 {
+        newt = julian_centuries_from_julian_day(julian_day + sol_noon_utc / 1440.0);
+        eot = equation_of_time(newt);
+        result_time = if eot.is_nan() {
+            None
         } else {
-            (time % 24.0) + 24.0
-        })
+            sol_noon_utc = longitude.mul_add(
+                4.0,
+                if *mode == Mode::SunriseNoon {
+                    720.0
+                } else {
+                    1440.0
+                },
+            ) - eot;
+
+            let time = sol_noon_utc / 60.0;
+            Some(if time > 0.0 {
+                time % 24.0
+            } else {
+                (time % 24.0) + 24.0
+            })
+        }
     }
+
+    result_time
 }
 
 // public interface for utc_sun_rise_set
