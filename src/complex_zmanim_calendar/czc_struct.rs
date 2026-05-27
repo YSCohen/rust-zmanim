@@ -6,7 +6,7 @@ use crate::{
     },
 };
 
-use jiff::{SignedDuration, Zoned, civil::Date};
+use jiff::{civil::Date, SignedDuration, Zoned};
 
 /// Struct to store a 4-dimensional location and settings, to simplify getting
 /// many *zmanim* for the same location. Has premade methods for many common
@@ -1457,20 +1457,24 @@ impl ComplexZmanimCalendar {
     }
 
     /// Returns the *tzeis* (nightfall) based on the opinion of the
-    /// *Geonim* calculated as 3/4 of a 24-minute *mil*, based on a mil being 24
-    /// minutes, and is calculated as 18 + 2 + 4 for a total of 24 minutes. It
-    /// is the sun's position at 5.88&deg; below the western horizon. This is a
-    /// very early *zman* and should not be relied on without Rabbinical
-    /// guidance.
-    #[must_use]
-    pub fn tzeis_geonim_5_88_degrees(&self) -> Option<Zoned> {
-        self.tzeis(&Degrees(5.88))
-    }
-
-    /// Returns the *tzeis hakochavim* (nightfall) based on the
-    /// opinion of the *Geonim* calculated at the sun's position at 5.95&deg;
-    /// below the western horizon. This is a very early *zman* and should not be
-    /// relied on without Rabbinical guidance.
+    /// *Geonim* calculated at the sun's position at 5.95&deg; below below
+    /// geometric zenith (90&deg;), calculated as the position of the sun 24
+    /// minutes after sunset in Jerusalem around the equinox / equilux. The
+    /// 24 minutes is based on the *Baal Hatanya*'s calculation of 18
+    /// minutes (3/4 of a 24 minute *mil*) + 4 minutes for [*shkia
+    /// amiti*](ComplexZmanimCalendar::shkia_amiti_baal_hatanya) + 2 minutes for
+    /// *bein hashmashos* of Rav Yosi. See *Hazmanim Bahalacha* vol II, ch.
+    /// 50, no. 5, p. 512-513, ch. 47, and *Yisrael Vehazmanim* Vol III, ch.
+    /// 13, no. 53, p. 1026. Among sources he mentions for this zman is
+    /// Rabbi Yehuda (Leo) Levi's calculations in *Jewish Chrononomy* and
+    /// other sources. Calculations show that the time is closer to
+    /// 5.93&deg; and was seemingly rounded to 5.95&deg;. Chabad calendars
+    /// usually use the 6&deg;-based
+    /// [`tzeis_baal_hatanya`](ComplexZmanimCalendar::tzeis_baal_hatanya)
+    /// that is built on this same calculation. It should be noted that Rabbi
+    /// Yedidya Manet in his *Zmanei HaHalacha Lema'aseh* (4th edition part 2,
+    /// pages and 22 and 24) lists 5.88&deg; that appears to be a drop too
+    /// early.
     #[must_use]
     pub fn tzeis_geonim_5_95_degrees(&self) -> Option<Zoned> {
         self.tzeis(&Degrees(5.95))
