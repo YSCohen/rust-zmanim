@@ -17,7 +17,7 @@
 
 use std::ops::{Add, Sub};
 
-use jiff::{SignedDuration, Span, Zoned, civil::Date, tz::TimeZone};
+use jiff::{civil::Date, tz::TimeZone, SignedDuration, Span, Zoned};
 
 use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::HOUR_NANOS;
@@ -188,11 +188,11 @@ pub fn solar_midnight(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> 
     // Compare with noon of the same day
     let noon_hour = date
         .to_zoned(geo_location.timezone.clone())
-        .unwrap()
+        .ok()?
         .with()
         .hour(12)
         .build()
-        .unwrap();
+        .ok()?;
     if midnight <= noon_hour {
         Some(midnight.add(Span::new().days(1)))
     } else {
@@ -210,7 +210,7 @@ fn date_time_from_time_of_day(date: &Date, time_of_day: f64, timezone: &TimeZone
     // there must be a better way to do this...
     let utc_dt = date
         .to_zoned(TimeZone::UTC)
-        .unwrap()
+        .unwrap() // for UTC it should always be safe
         .add(SignedDuration::from_nanos(total_nanos));
 
     // Convert to target timezone.
