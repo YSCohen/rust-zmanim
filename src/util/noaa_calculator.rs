@@ -11,7 +11,7 @@
 
 use std::ops::{Add, Sub};
 
-use jiff::{civil::Date, Span, Zoned};
+use jiff::{Span, Zoned, civil::Date};
 
 use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::HOUR_SECONDS;

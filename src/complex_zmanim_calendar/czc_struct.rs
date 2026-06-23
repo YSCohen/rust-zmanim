@@ -6,7 +6,7 @@ use crate::{
     },
 };
 
-use jiff::{civil::Date, SignedDuration, Zoned};
+use jiff::{SignedDuration, Zoned, civil::Date};
 
 /// Struct to store a 4-dimensional location and settings, to simplify getting
 /// many *zmanim* for the same location. Has premade methods for many common

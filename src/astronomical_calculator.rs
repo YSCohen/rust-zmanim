@@ -17,7 +17,7 @@
 
 use std::ops::{Add, Sub};
 
-use jiff::{civil::Date, tz::TimeZone, SignedDuration, Span, Zoned};
+use jiff::{SignedDuration, Span, Zoned, civil::Date, tz::TimeZone};
 
 use crate::util::geolocation::GeoLocation;
 use crate::util::math_helper::HOUR_NANOS;
