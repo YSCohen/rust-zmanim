@@ -9,39 +9,39 @@ fn tz(name: &str) -> TimeZone {
     TimeZone::get(name).unwrap()
 }
 
-fn lakewood() -> GeoLocation {
+pub(crate) fn lakewood() -> GeoLocation {
     GeoLocation::new(40.0721087, -74.2400243, 15.0, tz("America/New_York")).unwrap()
 }
 
-fn jerusalem() -> GeoLocation {
+pub(crate) fn jerusalem() -> GeoLocation {
     GeoLocation::new(31.7781161, 35.233804, 740.0, tz("Asia/Jerusalem")).unwrap()
 }
 
-fn los_angeles() -> GeoLocation {
+pub(crate) fn los_angeles() -> GeoLocation {
     GeoLocation::new(34.0201613, -118.6919095, 71.0, tz("America/Los_Angeles")).unwrap()
 }
 
-fn tokyo() -> GeoLocation {
+pub(crate) fn tokyo() -> GeoLocation {
     GeoLocation::new(35.6733227, 139.6403486, 40.0, tz("Asia/Tokyo")).unwrap()
 }
 
-fn arctic_nunavut() -> GeoLocation {
+pub(crate) fn arctic_nunavut() -> GeoLocation {
     GeoLocation::new(81.7449398, -64.7945858, 127.0, tz("America/Toronto")).unwrap()
 }
 
-fn samoa() -> GeoLocation {
+pub(crate) fn samoa() -> GeoLocation {
     GeoLocation::new(-13.8599098, -171.8031745, 1858.0, tz("Pacific/Apia")).unwrap()
 }
 
-fn fiji() -> GeoLocation {
+pub(crate) fn fiji() -> GeoLocation {
     GeoLocation::new(-17.633056, 178.016667, 1324.0, tz("Pacific/Fiji")).unwrap()
 }
 
-fn honolulu() -> GeoLocation {
+pub(crate) fn honolulu() -> GeoLocation {
     GeoLocation::new(21.466667, -157.966667, 10.0, tz("America/Adak")).unwrap()
 }
 
-fn niue() -> GeoLocation {
+pub(crate) fn niue() -> GeoLocation {
     GeoLocation::new(-19.053006, -169.859199, 75.0, tz("Pacific/Niue")).unwrap()
 }
 
@@ -89,8 +89,12 @@ pub(crate) fn sample_dates() -> [civil::Date; 7] {
     ]
 }
 
-/// A single calendar to be re-pointed at each location/date under test via
-/// `set_geo_location` / `set_date`; the initial values are arbitrary.
+/// The initial date and elevation mode are arbitrary
+pub(crate) fn czc_at(loc: GeoLocation) -> ComplexZmanimCalendar {
+    ComplexZmanimCalendar::new(loc, sample_dates()[0], UseElevation::All)
+}
+
+/// The initial values are arbitrary
 pub(crate) fn single_czc(use_elevation: bool) -> ComplexZmanimCalendar {
     let elev = if use_elevation {
         UseElevation::All
