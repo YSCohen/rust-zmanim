@@ -43,6 +43,7 @@
 
 - Date-varying apparent solar radius. See `zenith_adjustments`
 - Slight correction to constants
+- More correct date anchoring in edge cases 
 - More precise math in `zmanim_calculator`
 - Removed all `unwrap()` panics
 - Antimeridian handling factored out into `antimeridian_adjusted_date` and now also applied inside `utc_sun_rise_set` when adjusting the zenith (previously only used in the Julian-day path)
