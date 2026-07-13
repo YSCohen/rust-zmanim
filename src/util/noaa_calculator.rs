@@ -36,7 +36,7 @@ const JULIAN_DAYS_PER_CENTURY: f64 = 36_525.0;
 /// uses UTC+14 while its longitude of ~-171&deg; would suggest UTC-11), the
 /// date is shifted before calculating to conform with the presumption that the
 /// date only increases east of the Prime Meridian.
-fn antimeridian_adjusted_date(dt: &Zoned) -> Date {
+pub(crate) fn antimeridian_adjusted_date(dt: &Zoned) -> Date {
     let offset = dt.offset().seconds() / HOUR_SECONDS as i32;
     if offset > 12 {
         // e.g. Samoa

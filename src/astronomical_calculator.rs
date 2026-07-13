@@ -20,7 +20,7 @@ use std::{
     ops::{Add, Sub},
 };
 
-use jiff::{SignedDuration, Span, Zoned, civil::Date, tz::TimeZone};
+use jiff::{SignedDuration, Zoned, civil::Date, tz::TimeZone};
 
 use crate::util::{geolocation::GeoLocation, math_helper::HOUR_NANOS, noaa_calculator};
 
@@ -86,7 +86,8 @@ pub fn sunrise(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
     date_time_from_time_of_day(
         date,
         noaa_calculator::utc_sunrise(date, geo_location, GEOMETRIC_ZENITH, true)?,
-        &geo_location.timezone,
+        geo_location,
+        &SolarEvent::Sunrise,
     )
 }
 
@@ -102,7 +103,8 @@ pub fn sunset(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
     date_time_from_time_of_day(
         date,
         noaa_calculator::utc_sunset(date, geo_location, GEOMETRIC_ZENITH, true)?,
-        &geo_location.timezone,
+        geo_location,
+        &SolarEvent::Sunset,
     )
 }
 
@@ -133,7 +135,8 @@ pub fn sunrise_offset_by_degrees(
     date_time_from_time_of_day(
         date,
         utc_sea_level_sunrise(date, offset_zenith, geo_location)?,
-        &geo_location.timezone,
+        geo_location,
+        &SolarEvent::Sunrise,
     )
 }
 
@@ -152,7 +155,8 @@ pub fn sunset_offset_by_degrees(
     date_time_from_time_of_day(
         date,
         utc_sea_level_sunset(date, offset_zenith, geo_location)?,
-        &geo_location.timezone,
+        geo_location,
+        &SolarEvent::Sunset,
     )
 }
 
@@ -171,7 +175,8 @@ pub fn solar_noon(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
     date_time_from_time_of_day(
         date,
         noaa_calculator::utc_noon(date, geo_location)?,
-        &geo_location.timezone,
+        geo_location,
+        &SolarEvent::Noon,
     )
 }
 
@@ -181,24 +186,12 @@ pub fn solar_noon(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
 /// directly below the observer).
 #[must_use]
 pub fn solar_midnight(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
-    let midnight = date_time_from_time_of_day(
+    date_time_from_time_of_day(
         date,
         noaa_calculator::utc_midnight(date, geo_location)?,
-        &geo_location.timezone,
-    )?;
-    // Compare with noon of the same day
-    let noon_hour = date
-        .to_zoned(geo_location.timezone.clone())
-        .ok()?
-        .with()
-        .hour(12)
-        .build()
-        .ok()?;
-    if midnight <= noon_hour {
-        Some(midnight.add(Span::new().days(1)))
-    } else {
-        Some(midnight)
-    }
+        geo_location,
+        &SolarEvent::Midnight,
+    )
 }
 
 /// Returns the solar azimuth (in degrees, measured clockwise from due north) of
@@ -236,32 +229,62 @@ pub fn time_at_azimuth_90_or_270(
     date_time_from_time_of_day(
         date,
         noaa_calculator::utc_time_at_azimuth_90_or_270(date, geo_location, azimuth)?,
-        &geo_location.timezone,
+        geo_location,
+        if azimuth == 90.0 {
+            &SolarEvent::Sunrise
+        } else {
+            &SolarEvent::Sunset
+        },
     )
 }
 
-/// Returns a `Zoned` datetime with the given timezone, made from the
-/// (floating-point) number of hours in UTC time
-fn date_time_from_time_of_day(date: Date, time_of_day: f64, timezone: &TimeZone) -> Option<Zoned> {
+/// The type of solar event being calculated, used to anchor a UTC time-of-day
+/// to the correct civil date
+enum SolarEvent {
+    Sunrise,
+    Sunset,
+    Noon,
+    Midnight,
+}
+
+/// Returns a `Zoned` datetime in the location's timezone, made from the
+/// (floating-point) number of hours in UTC time.
+///
+/// NOAA returns the UTC time-of-day in `[0, 24)`, but the UTC civil date the
+/// event falls on can be the day before/after the requested local civil date,
+/// depending on the location's longitude and the event. The UTC anchor date is
+/// chosen by the event's apparent solar time, so that e.g. a sunset-type event
+/// before local dawn is anchored to the *following* civil day.
+fn date_time_from_time_of_day(
+    date: Date,
+    time_of_day: f64,
+    geo_location: &GeoLocation,
+    event: &SolarEvent,
+) -> Option<Zoned> {
+    let anchor = noaa_calculator::antimeridian_adjusted_date(
+        &date.to_zoned(geo_location.timezone.clone()).ok()?,
+    );
+
+    // apparent solar time of the event, per the longitude's natural offset
+    let local_time_hours = geo_location.longitude / 15.0 + time_of_day;
+    let anchor = match event {
+        SolarEvent::Sunrise if local_time_hours > 18.0 => anchor.yesterday().ok()?,
+        SolarEvent::Sunset if local_time_hours < 6.0 => anchor.tomorrow().ok()?,
+        SolarEvent::Midnight if local_time_hours < 12.0 => anchor.tomorrow().ok()?,
+        SolarEvent::Noon if local_time_hours < 0.0 => anchor.tomorrow().ok()?,
+        SolarEvent::Noon if local_time_hours > 24.0 => anchor.yesterday().ok()?,
+        _ => anchor,
+    };
+
+    // Create UTC datetime at midnight of the anchor date and add the
     // nanosecond conversion of time_of_day
     let total_nanos = (time_of_day * HOUR_NANOS).round() as i64;
-
-    // Create UTC datetime at midnight and add nanoseconds
-    let utc_dt = date
+    let utc_dt = anchor
         .to_zoned(TimeZone::UTC)
         .ok()?
         .add(SignedDuration::from_nanos(total_nanos));
 
-    // Convert to target timezone.
-    // NOAA returns UTC time-of-day in [0, 24), but the corresponding UTC date
-    // can be the day before/after the target local civil date depending on
-    // timezone offset. Re-anchor to the requested local date.
-    let local_dt = utc_dt.with_time_zone(timezone.clone());
-    match local_dt.date().cmp(&date) {
-        Ordering::Less => Some(local_dt.add(Span::new().days(1))),
-        Ordering::Greater => Some(local_dt.sub(Span::new().days(1))),
-        Ordering::Equal => Some(local_dt),
-    }
+    Some(utc_dt.with_time_zone(geo_location.timezone.clone()))
 }
 
 /// Returns local mean time (LMT) for `hours`  converted to regular clock time.
@@ -279,10 +302,24 @@ fn date_time_from_time_of_day(date: Date, time_of_day: f64, timezone: &TimeZone)
 /// daylight saving time to return LMT.
 #[must_use]
 pub fn local_mean_time(date: Date, geo_location: &GeoLocation, hours: f64) -> Option<Zoned> {
-    if (0.0..24.0).contains(&hours) {
-        let time_of_day = hours - geo_location.local_mean_time_offset();
-        date_time_from_time_of_day(date, time_of_day, &geo_location.timezone)
-    } else {
-        None
+    if !(0.0..24.0).contains(&hours) {
+        return None;
+    }
+    let time_of_day = hours - geo_location.local_mean_time_offset();
+    let total_nanos = (time_of_day * HOUR_NANOS).round() as i64;
+    let utc_dt = date
+        .to_zoned(TimeZone::UTC)
+        .ok()?
+        .add(SignedDuration::from_nanos(total_nanos));
+
+    // Unlike the solar events, LMT has no event type to anchor by; re-anchor
+    // to the requested local date by exactly 24 absolute hours, i.e. one UTC
+    // day (civil-day arithmetic would shift by 23/25 hours across a DST
+    // transition)
+    let local_dt = utc_dt.with_time_zone(geo_location.timezone.clone());
+    match local_dt.date().cmp(&date) {
+        Ordering::Less => Some(local_dt.add(SignedDuration::from_hours(24))),
+        Ordering::Greater => Some(local_dt.sub(SignedDuration::from_hours(24))),
+        Ordering::Equal => Some(local_dt),
     }
 }
