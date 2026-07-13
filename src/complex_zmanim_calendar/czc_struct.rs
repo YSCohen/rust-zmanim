@@ -1,4 +1,6 @@
 use crate::{
+    astronomical_calculator,
+    complex_zmanim_calendar::cache::ZmanCache,
     util::geolocation::GeoLocation,
     zmanim_calculator::{
         self,
@@ -11,16 +13,27 @@ use jiff::{SignedDuration, Zoned, civil::Date};
 /// Struct to store a 4-dimensional location and settings, to simplify getting
 /// many *zmanim* for the same location. Has premade methods for many common
 /// (and uncommon) *zmanim*. (see `impl` block)
-#[derive(Debug, Clone, PartialEq)]
+///
+/// Construct with [`ComplexZmanimCalendar::new`]. The underlying solar events
+/// are computed lazily and cached per instance, so calculating many *zmanim*
+/// for the same date and location is cheap. The cache makes this type
+/// `!Sync`; to share a calendar across threads, clone it.
+#[derive(Debug, Clone)]
 pub struct ComplexZmanimCalendar {
-    /// Location at which to calculate *zmanim*
-    pub geo_location: GeoLocation,
+    geo_location: GeoLocation,
+    date: Date,
+    use_elevation: UseElevation,
+    cache: ZmanCache,
+}
 
-    /// Day for which to calculate *zmanim*
-    pub date: Date,
-
-    /// When to account for elevation. See [`UseElevation`]
-    pub use_elevation: UseElevation,
+/// Cached solar events are ignored; two calendars are equal when their
+/// location, date, and elevation setting are equal.
+impl PartialEq for ComplexZmanimCalendar {
+    fn eq(&self, other: &Self) -> bool {
+        self.geo_location == other.geo_location
+            && self.date == other.date
+            && self.use_elevation == other.use_elevation
+    }
 }
 
 /// Where unspecified, when sunrise and sunset are mentioned in the calculation
@@ -35,70 +48,204 @@ pub struct ComplexZmanimCalendar {
 /// position below the horizon at this location and date (common in polar
 /// regions).
 impl ComplexZmanimCalendar {
+    /// Returns a new `ComplexZmanimCalendar` for the given location, day, and
+    /// elevation setting
+    #[must_use]
+    pub fn new(geo_location: GeoLocation, date: Date, use_elevation: UseElevation) -> Self {
+        Self {
+            geo_location,
+            date,
+            use_elevation,
+            cache: ZmanCache::default(),
+        }
+    }
+
+    /// Location at which to calculate *zmanim*
+    #[must_use]
+    pub fn geo_location(&self) -> &GeoLocation {
+        &self.geo_location
+    }
+
+    /// Day for which to calculate *zmanim*
+    #[must_use]
+    pub fn date(&self) -> Date {
+        self.date
+    }
+
+    /// When to account for elevation. See [`UseElevation`]
+    #[must_use]
+    pub fn use_elevation(&self) -> UseElevation {
+        self.use_elevation
+    }
+
+    /// Sets the day for which to calculate *zmanim*, clearing the cached solar
+    /// events
+    pub fn set_date(&mut self, date: Date) {
+        self.date = date;
+        self.cache = ZmanCache::default();
+    }
+
+    /// Sets the location at which to calculate *zmanim*, clearing the cached
+    /// solar events
+    pub fn set_geo_location(&mut self, geo_location: GeoLocation) {
+        self.geo_location = geo_location;
+        self.cache = ZmanCache::default();
+    }
+
+    /// Sets when to account for elevation. Cached solar events are kept, as
+    /// they are stored per physical event, not per elevation setting
+    pub fn set_use_elevation(&mut self, use_elevation: UseElevation) {
+        self.use_elevation = use_elevation;
+    }
+
+    // Cached solar events. All zmanim methods reach the astronomical layer
+    // through one of these, so each underlying event is computed only once per
+    // calendar instance.
+    fn cached_sunrise(&self, use_elevation: bool) -> Option<Zoned> {
+        let cell = if use_elevation {
+            &self.cache.elevation_sunrise
+        } else {
+            &self.cache.sea_level_sunrise
+        };
+        cell.get_or_init(|| zmanim_calculator::hanetz(self.date, &self.geo_location, use_elevation))
+            .clone()
+    }
+
+    fn cached_sunset(&self, use_elevation: bool) -> Option<Zoned> {
+        let cell = if use_elevation {
+            &self.cache.elevation_sunset
+        } else {
+            &self.cache.sea_level_sunset
+        };
+        cell.get_or_init(|| zmanim_calculator::shkia(self.date, &self.geo_location, use_elevation))
+            .clone()
+    }
+
+    fn cached_solar_noon(&self) -> Option<Zoned> {
+        self.cache
+            .solar_noon
+            .get_or_init(|| zmanim_calculator::chatzos_hayom(self.date, &self.geo_location))
+            .clone()
+    }
+
+    fn cached_solar_midnight(&self) -> Option<Zoned> {
+        self.cache
+            .solar_midnight
+            .get_or_init(|| zmanim_calculator::chatzos_halayla(self.date, &self.geo_location))
+            .clone()
+    }
+
+    fn cached_sunrise_offset_by_degrees(&self, degrees: f64) -> Option<Zoned> {
+        let key = degrees.to_bits();
+        if let Some((_, cached)) = self
+            .cache
+            .sunrise_by_degrees
+            .borrow()
+            .iter()
+            .find(|(k, _)| *k == key)
+        {
+            return cached.clone();
+        }
+        let result = astronomical_calculator::sunrise_offset_by_degrees(
+            self.date,
+            &self.geo_location,
+            astronomical_calculator::GEOMETRIC_ZENITH + degrees,
+        );
+        self.cache
+            .sunrise_by_degrees
+            .borrow_mut()
+            .push((key, result.clone()));
+        result
+    }
+
+    fn cached_sunset_offset_by_degrees(&self, degrees: f64) -> Option<Zoned> {
+        let key = degrees.to_bits();
+        if let Some((_, cached)) = self
+            .cache
+            .sunset_by_degrees
+            .borrow()
+            .iter()
+            .find(|(k, _)| *k == key)
+        {
+            return cached.clone();
+        }
+        let result = astronomical_calculator::sunset_offset_by_degrees(
+            self.date,
+            &self.geo_location,
+            astronomical_calculator::GEOMETRIC_ZENITH + degrees,
+        );
+        self.cache
+            .sunset_by_degrees
+            .borrow_mut()
+            .push((key, result.clone()));
+        result
+    }
+
     // Basics
     /// Returns *alos hashachar* (dawn) based on either declination of the sun
     /// below the horizon, a fixed time offset, or a minutes *zmaniyos*
     /// (temporal minutes) offset before sunrise
     #[must_use]
     pub fn alos(&self, offset: &ZmanOffset) -> Option<Zoned> {
-        let use_elevation = self.use_elevation.to_bool(false);
-        zmanim_calculator::alos(&self.date, &self.geo_location, use_elevation, offset)
+        match offset {
+            Degrees(deg) => self.cached_sunrise_offset_by_degrees(*deg),
+            _ => Some(zmanim_calculator::offset_before_event(
+                &self.cached_sunrise(self.use_elevation.to_bool(false))?,
+                offset,
+            )),
+        }
     }
 
     /// Returns sea level sunrise
     #[must_use]
     pub fn sea_level_sunrise(&self) -> Option<Zoned> {
-        zmanim_calculator::hanetz(&self.date, &self.geo_location, false)
+        self.cached_sunrise(false)
     }
 
     /// Returns sea level sunset
     #[must_use]
     pub fn sea_level_sunset(&self) -> Option<Zoned> {
-        zmanim_calculator::shkia(&self.date, &self.geo_location, false)
+        self.cached_sunset(false)
     }
 
     /// Returns elevation-adjusted sunrise
     #[must_use]
     pub fn elevation_sunrise(&self) -> Option<Zoned> {
-        zmanim_calculator::hanetz(&self.date, &self.geo_location, true)
+        self.cached_sunrise(true)
     }
 
     /// Returns elevation-adjusted sunset
     #[must_use]
     pub fn elevation_sunset(&self) -> Option<Zoned> {
-        zmanim_calculator::shkia(&self.date, &self.geo_location, true)
+        self.cached_sunset(true)
     }
 
     /// Returns *hanetz*, or sunrise. Will be elevation-adjusted or not
     /// depending on `use_elevation`
     #[must_use]
     pub fn hanetz(&self) -> Option<Zoned> {
-        let use_elevation = self.use_elevation.to_bool(true);
-        zmanim_calculator::hanetz(&self.date, &self.geo_location, use_elevation)
+        self.cached_sunrise(self.use_elevation.to_bool(true))
     }
 
     /// Returns *shkia*, or sunset. Will be elevation-adjusted or not depending
     /// on `use_elevation`
     #[must_use]
     pub fn shkia(&self) -> Option<Zoned> {
-        let use_elevation = self.use_elevation.to_bool(true);
-        zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)
+        self.cached_sunset(self.use_elevation.to_bool(true))
     }
 
     /// Returns sunrise, for use internally. Will be elevation-adjusted only if
     /// `use_elevation == All`
     #[must_use]
     fn zmanim_sunrise(&self) -> Option<Zoned> {
-        let use_elevation = self.use_elevation.to_bool(false);
-        zmanim_calculator::hanetz(&self.date, &self.geo_location, use_elevation)
+        self.cached_sunrise(self.use_elevation.to_bool(false))
     }
 
     /// Returns sunset, for use internally. Will be elevation-adjusted only if
     /// `use_elevation == All`
     #[must_use]
     fn zmanim_sunset(&self) -> Option<Zoned> {
-        let use_elevation = self.use_elevation.to_bool(false);
-        zmanim_calculator::shkia(&self.date, &self.geo_location, use_elevation)
+        self.cached_sunset(self.use_elevation.to_bool(false))
     }
 
     /// Returns the latest *zman krias shema* (time to recite *Shema* in the
@@ -139,14 +286,40 @@ impl ComplexZmanimCalendar {
 
     /// Returns Astronomical *chatzos* (noon)
     #[must_use]
-    pub fn chatzos(&self) -> Option<Zoned> {
-        zmanim_calculator::chatzos(&self.date, &self.geo_location)
+    pub fn chatzos_hayom(&self) -> Option<Zoned> {
+        self.cached_solar_noon()
     }
 
-    /// Returns Astronomical *chatzos halayla* (midnight)
+    /// Returns *chatzos hayom* calculated as halfway between [sea level
+    /// sunrise](ComplexZmanimCalendar::sea_level_sunrise) and [sea level
+    /// sunset](ComplexZmanimCalendar::sea_level_sunset). Many are of the
+    /// opinion that *chatzos* is calculated as the midpoint between sunrise and
+    /// sunset, despite it not being the most accurate way to calculate it. A
+    /// day starting at *alos* and ending at *tzeis* using the same time or
+    /// degree offset would also return the same time. In reality due to
+    /// lengthening or shortening of day, this is not necessarily [the exact
+    /// midpoint](ComplexZmanimCalendar::chatzos_hayom) of the day, but it is
+    /// very close. See [The Definition of
+    /// *Chatzos*](https://kosherjava.com/2020/07/02/definition-of-chatzos/)
+    /// for a detailed explanation of the ways to calculate *Chatzos*.
+    #[must_use]
+    pub fn chatzos_hayom_as_half_day(&self) -> Option<Zoned> {
+        Some(zmanim_calculator::chatzos_hayom_as_half_day(
+            &self.sea_level_sunrise()?,
+            &self.sea_level_sunset()?,
+        ))
+    }
+
+    /// Returns Astronomical *chatzos halayla* **at the end of the day** (the
+    /// last zman of the day returned by the calendar, that may actually be
+    /// after midnight of the day it is being calculated for).
+    ///
+    /// For example, if calculating it for the date of *Erev Pesach*, the
+    /// calculation will be for *Leil Pesach* to allow you to use the *zman* as
+    /// *sof zman achilas matza*.
     #[must_use]
     pub fn chatzos_halayla(&self) -> Option<Zoned> {
-        zmanim_calculator::chatzos_halayla(&self.date, &self.geo_location)
+        self.cached_solar_midnight()
     }
 
     /// Returns *mincha gedola* according to the opinion of the *Magen Avraham*
@@ -199,7 +372,7 @@ impl ComplexZmanimCalendar {
     /// [`zmanim_calculator::mincha_gedola_30_minutes`] for more details
     #[must_use]
     pub fn mincha_gedola_30_minutes(&self) -> Option<Zoned> {
-        zmanim_calculator::mincha_gedola_30_minutes(&self.date, &self.geo_location)
+        Some(self.cached_solar_noon()? + SignedDuration::from_mins(30))
     }
 
     /// Returns *tzeis* (nightfall) based on either declination of the sun below
@@ -207,8 +380,13 @@ impl ComplexZmanimCalendar {
     /// minutes) offset after sunset
     #[must_use]
     pub fn tzeis(&self, offset: &ZmanOffset) -> Option<Zoned> {
-        let use_elevation = self.use_elevation.to_bool(false);
-        zmanim_calculator::tzeis(&self.date, &self.geo_location, use_elevation, offset)
+        match offset {
+            Degrees(deg) => self.cached_sunset_offset_by_degrees(*deg),
+            _ => Some(zmanim_calculator::offset_after_event(
+                &self.cached_sunset(self.use_elevation.to_bool(false))?,
+                offset,
+            )),
+        }
     }
 
     /// Returns *shaah zmanis* (temporal hour) according to the opinion of the
@@ -282,7 +460,7 @@ impl ComplexZmanimCalendar {
     pub fn mincha_gedola_gra_greater_than_30_minutes(&self) -> Option<Zoned> {
         let mg_30 = self.mincha_gedola_30_minutes()?;
         let mg_gra = self.mincha_gedola_gra()?;
-        Some(if mg_30 > mg_gra { mg_30 } else { mg_gra })
+        Some(mg_30.max(mg_gra))
     }
 
     /// Returns *samuch lemincha ketana* (near *mincha
@@ -356,7 +534,7 @@ impl ComplexZmanimCalendar {
     /// elevation similar to the mountains of *Eretz Yisrael*. The time is
     /// calculated as the point at which the center of the sun's disk is
     /// 1.583&deg; below the horizon. This degree-based calculation can be found
-    /// in Rabbi Shalom DovBer Levine's commentary on The *Baal Hatanya*'s
+    /// in Rabbi Shalom Dov Ber Levine's commentary on The *Baal Hatanya*'s
     /// *Seder Hachnasas Shabbos*. From an elevation of 546 meters, the top of
     /// *Har Hacarmel*, the sun disappears when it is 1&deg; 35' or 1.583&deg;
     /// below the sea level horizon. This in turn is based on the *Gemara
@@ -476,7 +654,7 @@ impl ComplexZmanimCalendar {
     pub fn mincha_gedola_baal_hatanya_greater_than_30_minutes(&self) -> Option<Zoned> {
         let mg_30 = self.mincha_gedola_30_minutes()?;
         let mg_bht = self.mincha_gedola_baal_hatanya()?;
-        Some(if mg_30 > mg_bht { mg_30 } else { mg_bht })
+        Some(mg_30.max(mg_bht))
     }
 
     /// Returns the *Baal Hatanya*'s *mincha ketana*. This is the
@@ -515,10 +693,11 @@ impl ComplexZmanimCalendar {
 
     // Rav Moshe Feinstein
     /// Returns fixed local *chatzos*. See
-    /// [`crate::zmanim_calculator::fixed_local_chatzos`] for more details.
+    /// [`crate::zmanim_calculator::fixed_local_chatzos_hayom`] for more
+    /// details.
     #[must_use]
-    pub fn fixed_local_chatzos(&self) -> Option<Zoned> {
-        zmanim_calculator::fixed_local_chatzos(&self.date, &self.geo_location)
+    pub fn fixed_local_chatzos_hayom(&self) -> Option<Zoned> {
+        zmanim_calculator::fixed_local_chatzos_hayom(self.date, &self.geo_location)
     }
 
     /// Returns Rav Moshe Feinstein's opinion of the calculation of
@@ -529,10 +708,10 @@ impl ComplexZmanimCalendar {
     /// ends at fixed local *chatzos*. *Sof Zman Shema* is 3 *shaos
     /// zmaniyos* (solar hours) after *alos* or half of this half-day.
     #[must_use]
-    pub fn sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos(&self) -> Option<Zoned> {
+    pub fn sof_zman_shema_mga_alos_18_to_fixed_local_chatzos(&self) -> Option<Zoned> {
         let alos = self.alos_18_degrees()?;
-        let chatzos = self.fixed_local_chatzos()?;
-        alos.checked_add(chatzos.duration_since(&alos) / 2).ok()
+        let chatzos = self.fixed_local_chatzos_hayom()?;
+        Some(zmanim_calculator::half_day_based_zman(&alos, &chatzos, 3.0))
     }
 
     /// Returns Rav Moshe Feinstein's opinion of the calculation of
@@ -543,10 +722,10 @@ impl ComplexZmanimCalendar {
     /// and ends at fixed local *chatzos*. *Sof Zman Shema* is 3 *shaos
     /// zmaniyos* (solar hours) after this *alos* or half of this half-day.
     #[must_use]
-    pub fn sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos(&self) -> Option<Zoned> {
+    pub fn sof_zman_shema_mga_alos_16_1_to_fixed_local_chatzos(&self) -> Option<Zoned> {
         let alos = self.alos_16_1_degrees()?;
-        let chatzos = self.fixed_local_chatzos()?;
-        alos.checked_add(chatzos.duration_since(&alos) / 2).ok()
+        let chatzos = self.fixed_local_chatzos_hayom()?;
+        Some(zmanim_calculator::half_day_based_zman(&alos, &chatzos, 3.0))
     }
 
     /// Returns Rav Moshe Feinstein's opinion of the calculation of
@@ -560,8 +739,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos(&self) -> Option<Zoned> {
         let alos = self.alos_90_minutes()?;
-        let chatzos = self.fixed_local_chatzos()?;
-        alos.checked_add(chatzos.duration_since(&alos) / 2).ok()
+        let chatzos = self.fixed_local_chatzos_hayom()?;
+        Some(zmanim_calculator::half_day_based_zman(&alos, &chatzos, 3.0))
     }
 
     /// Returns Rav Moshe Feinstein's opinion of the calculation of
@@ -575,8 +754,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos(&self) -> Option<Zoned> {
         let alos = self.alos_72_minutes()?;
-        let chatzos = self.fixed_local_chatzos()?;
-        alos.checked_add(chatzos.duration_since(&alos) / 2).ok()
+        let chatzos = self.fixed_local_chatzos_hayom()?;
+        Some(zmanim_calculator::half_day_based_zman(&alos, &chatzos, 3.0))
     }
 
     /// Returns Rav Moshe Feinstein's opinion of the calculation of
@@ -589,8 +768,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn sof_zman_shema_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<Zoned> {
         let alos = self.zmanim_sunrise()?;
-        let chatzos = self.fixed_local_chatzos()?;
-        alos.checked_add(chatzos.duration_since(&alos) / 2).ok()
+        let chatzos = self.fixed_local_chatzos_hayom()?;
+        Some(zmanim_calculator::half_day_based_zman(&alos, &chatzos, 3.0))
     }
 
     /// Returns Rav Moshe Feinstein's opinion of the calculation of
@@ -603,8 +782,8 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos(&self) -> Option<Zoned> {
         let alos = self.zmanim_sunrise()?;
-        let chatzos = self.fixed_local_chatzos()?;
-        alos.checked_add(chatzos.duration_since(&alos) * 2 / 3).ok()
+        let chatzos = self.fixed_local_chatzos_hayom()?;
+        Some(zmanim_calculator::half_day_based_zman(&alos, &chatzos, 4.0))
     }
 
     /// Returns Rav Moshe Feinstein's opinion of the calculation of
@@ -612,7 +791,7 @@ impl ComplexZmanimCalendar {
     /// after fixed local *chatzos*.
     #[must_use]
     pub fn mincha_gedola_gra_fixed_local_chatzos_30_minutes(&self) -> Option<Zoned> {
-        self.fixed_local_chatzos()?
+        self.fixed_local_chatzos_hayom()?
             .checked_add(SignedDuration::from_mins(30))
             .ok()
     }
@@ -623,7 +802,7 @@ impl ComplexZmanimCalendar {
     /// that is 3.5 *shaos zmaniyos* (solar hours) after fixed local *chatzos*.
     #[must_use]
     pub fn mincha_ketana_gra_fixed_local_chatzos_to_sunset(&self) -> Option<Zoned> {
-        let chatzos = self.fixed_local_chatzos()?;
+        let chatzos = self.fixed_local_chatzos_hayom()?;
         let sunset = self.zmanim_sunset()?;
         chatzos
             .checked_add(sunset.duration_since(&chatzos) / 12 * 7)
@@ -636,7 +815,7 @@ impl ComplexZmanimCalendar {
     /// hours) after fixed local *chatzos*.
     #[must_use]
     pub fn plag_gra_fixed_local_chatzos_to_sunset(&self) -> Option<Zoned> {
-        let chatzos = self.fixed_local_chatzos()?;
+        let chatzos = self.fixed_local_chatzos_hayom()?;
         let sunset = self.zmanim_sunset()?;
         chatzos
             .checked_add(sunset.duration_since(&chatzos) / 24 * 19)
@@ -668,16 +847,14 @@ impl ComplexZmanimCalendar {
     /// gedola*](crate::zmanim_calculator::mincha_gedola).
     #[must_use]
     pub fn mincha_gedola_ahavat_shalom(&self) -> Option<Zoned> {
-        let chatzos = self.chatzos()?;
+        let chatzos = self.chatzos_hayom()?;
         let alos_16_1 = self.alos_16_1_degrees()?;
         let tzeis_3_7 = self.tzeis_geonim_3_7_degrees()?;
-        // let shaah =
-        // self.shaah_zmanis_alos_16_1_to_tzeis_3_7()?.to_duration(relative);
         let mg_as = chatzos
             .checked_add(tzeis_3_7.duration_since(&alos_16_1) / 24)
             .ok()?;
         let mg_30 = self.mincha_gedola_30_minutes()?;
-        Some(if mg_30 > mg_as { mg_30 } else { mg_as })
+        Some(mg_30.max(mg_as))
     }
 
     /// Returns the time of *mincha ketana* based on the opinion of
@@ -859,6 +1036,80 @@ impl ComplexZmanimCalendar {
         ))
     }
 
+    // Ben Ish Chai
+    /// Returns sunrise calculated as the time when the sun is directly due east
+    /// (azimuth 90&deg;) in Polar regions on days that there is no
+    /// [*hanetz*](ComplexZmanimCalendar::hanetz). If there is *hanetz* that
+    /// day, `None` is returned.
+    ///
+    /// In Polar regions (the Arctic or Antarctic circles), there are days of no
+    /// sunrise or sunset, and there are halachic opinions that during these
+    /// periods, sunrise is reached when the sun is directly due east (azimuth
+    /// 90°). The day-night boundary (sunset) in these opinions is when the sun
+    /// is directly due west (azimuth 270°) returned by
+    /// [`polar_sunset_ben_ish_chai`](ComplexZmanimCalendar::polar_sunset_ben_ish_chai).
+    /// This is the opinion of Rabbi Yehosef Schwarz in his דברי יוסף – דרך מבוא
+    /// השמש and דברי יוסף – תשובות, שאלה ח׳. This is brought down *lehalacha*
+    /// by The *Ben Ish Chai* in the רב פעלים – חלק ב׳, סוד ישרים ס׳ ד׳.
+    /// This time is close to six hours before astronomical chatzos hayom, but
+    /// depending on the time of year and location in the Arctic / Antarctic, it
+    /// can be up to 46 minutes before or after this time.
+    #[must_use]
+    pub fn polar_sunrise_ben_ish_chai(&self) -> Option<Zoned> {
+        if self.hanetz().is_none() {
+            astronomical_calculator::time_at_azimuth_90_or_270(self.date, &self.geo_location, 90.0)
+        } else {
+            None
+        }
+    }
+
+    /// Returns *Plag Hamincha* in Polar regions on days that there are no
+    /// [*hanetz*](ComplexZmanimCalendar::hanetz) and [*shkia*
+    /// ](ComplexZmanimCalendar::shkia), calculated 10.75 *shaaos zmaniyos* of a
+    /// day calculated starting at
+    /// [`polar_sunrise_ben_ish_chai`](ComplexZmanimCalendar::polar_sunrise_ben_ish_chai)
+    /// and ending at
+    /// [`polar_sunset_ben_ish_chai`](ComplexZmanimCalendar::polar_sunset_ben_ish_chai).
+    ///
+    /// This is the opinion of Rabbi Yehosef Schwarz in his דברי יוסף – דרך מבוא
+    /// השמש and דברי יוסף – תשובות, שאלה ח׳. This is brought down *lehalacha*
+    /// by The *Ben Ish Chai* in the רב פעלים – חלק ב׳, סוד ישרים ס׳ ד׳. If
+    /// there is sunrise or sunset on the set day, `None` will be returned.
+    #[must_use]
+    pub fn polar_plag_ben_ish_chai(&self) -> Option<Zoned> {
+        Some(zmanim_calculator::plag_hamincha(
+            &self.polar_sunrise_ben_ish_chai()?,
+            &self.polar_sunset_ben_ish_chai()?,
+        ))
+    }
+
+    /// Returns sunset calculated as the time when the sun is directly due west
+    /// (azimuth 270&deg;) in Polar
+    /// regions on days
+    /// that there is no [*shkia*](ComplexZmanimCalendar::shkia). If there is
+    /// *shkia* that day, `None` is returned.
+    ///
+    /// In Polar regions (the Arctic or Antarctic circles), there are days of no
+    /// sunrise or sunset, and there are halachic opinions that during these
+    /// periods, sunset (the day-night boundary) is reached when the sun is
+    /// directly due west (azimuth 270°). Sunrise in this opinion is when the
+    /// sun is directly due east (azimuth 90°) returned by
+    /// [`polar_sunrise_ben_ish_chai`](ComplexZmanimCalendar::polar_sunrise_ben_ish_chai).
+    /// This is the opinion of Rabbi Yehosef Schwarz in his דברי יוסף – דרך מבוא
+    /// השמש and דברי יוסף – תשובות, שאלה ח׳. This is brought down
+    /// *lehalacha* by The *Ben Ish Chai* in the רב פעלים – חלק ב׳, סוד
+    /// ישרים ס׳ ד׳. This time is close to six hours after astronomical chatzos
+    /// hayom, but depending on the time of year and location in the Arctic /
+    /// Antarctic, it can be up to 46 minutes before or after this time.
+    #[must_use]
+    pub fn polar_sunset_ben_ish_chai(&self) -> Option<Zoned> {
+        if self.shkia().is_none() {
+            astronomical_calculator::time_at_azimuth_90_or_270(self.date, &self.geo_location, 270.0)
+        } else {
+            None
+        }
+    }
+
     // Shach
     /// Returns the latest *zman krias shema* (time to recite *Shema* in the
     /// morning) calculated as 3 hours (regular clock hours and not *shaos
@@ -874,7 +1125,7 @@ impl ComplexZmanimCalendar {
     /// others. See *Yisrael Vehazmanim* vol. 1 7:3, page 55 - 62
     #[must_use]
     pub fn sof_zman_shema_3_hrs_before_chatzos(&self) -> Option<Zoned> {
-        self.chatzos()?
+        self.chatzos_hayom()?
             .checked_sub(SignedDuration::from_hours(3))
             .ok()
     }
@@ -885,7 +1136,7 @@ impl ComplexZmanimCalendar {
     /// *chatzos*](ComplexZmanimCalendar::sof_zman_shema_3_hrs_before_chatzos).
     #[must_use]
     pub fn sof_zman_tefila_2_hrs_before_chatzos(&self) -> Option<Zoned> {
-        self.chatzos()?
+        self.chatzos_hayom()?
             .checked_sub(SignedDuration::from_hours(2))
             .ok()
     }
@@ -917,7 +1168,7 @@ impl ComplexZmanimCalendar {
     /// dawn based on the opinion that the day is calculated from a *alos*
     /// 16.1&deg; to sunset.
     #[must_use]
-    pub fn sof_zman_shema_alos_16_1_degrees_to_sunset(&self) -> Option<Zoned> {
+    pub fn sof_zman_shema_alos_16_1_to_sunset(&self) -> Option<Zoned> {
         Some(zmanim_calculator::sof_zman_shema(
             &self.alos_16_1_degrees()?,
             &self.zmanim_sunset()?,
@@ -937,7 +1188,7 @@ impl ComplexZmanimCalendar {
     /// *shaah zmanis* after dawn. Since plag by this calculation can occur
     /// after sunset, it should only be used *lechumra*.
     #[must_use]
-    pub fn plag_alos_16_1_degrees_to_sunset(&self) -> Option<Zoned> {
+    pub fn plag_alos_16_1_to_sunset(&self) -> Option<Zoned> {
         Some(zmanim_calculator::plag_hamincha(
             &self.alos_16_1_degrees()?,
             &self.zmanim_sunset()?,
@@ -953,7 +1204,7 @@ impl ComplexZmanimCalendar {
     /// 16.1&deg; based on the opinion that the day is calculated from a
     /// *alos* 16.1&deg; to *tzeis* 7.083&deg;.
     #[must_use]
-    pub fn sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees(&self) -> Option<Zoned> {
+    pub fn sof_zman_shema_alos_16_1_to_tzeis_7_083(&self) -> Option<Zoned> {
         Some(zmanim_calculator::sof_zman_shema(
             &self.alos_16_1_degrees()?,
             &self.tzeis_geonim_7_083_degrees()?,
@@ -969,8 +1220,21 @@ impl ComplexZmanimCalendar {
     /// *tzeis* 7.083&deg;. This returns the time of 10.75 * the calculated
     /// *shaah zmanis* after dawn.
     #[must_use]
-    pub fn plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees(&self) -> Option<Zoned> {
+    pub fn plag_alos_16_1_to_tzeis_7_083(&self) -> Option<Zoned> {
         Some(zmanim_calculator::plag_hamincha(
+            &self.alos_16_1_degrees()?,
+            &self.tzeis_geonim_7_083_degrees()?,
+        ))
+    }
+
+    /// Returns a *shaah zmanis* (temporal hour) used by some *zmanim* according
+    /// to some opinions that is based on a day starting at alos 16.1&deg;
+    /// and ending tzais 8.083&deg;. This day is split into 12 equal parts
+    /// with each part being a *shaah zmanis*. Note that with this system,
+    /// *chatzos* (midday) will not be the point that the sun is halfway
+    /// across the sky.
+    pub fn shaah_zmanis_alos_16_1_to_tzeis_7_083(&self) -> Option<SignedDuration> {
+        Some(zmanim_calculator::shaah_zmanis(
             &self.alos_16_1_degrees()?,
             &self.tzeis_geonim_7_083_degrees()?,
         ))
@@ -1565,6 +1829,56 @@ impl ComplexZmanimCalendar {
     pub fn tzeis_geonim_9_75_degrees(&self) -> Option<Zoned> {
         self.tzeis(&Degrees(9.75))
     }
+
+    // Solar position / Polar regions
+    /// Returns the solar azimuth (in degrees, measured clockwise from due
+    /// north) of the sun at the given datetime for this location.
+    #[must_use]
+    pub fn solar_azimuth(&self, instant: &Zoned) -> f64 {
+        astronomical_calculator::solar_azimuth(instant, &self.geo_location)
+    }
+
+    /// Returns the solar elevation (in degrees) of the sun at the given
+    /// datetime for this location. The value is negative when the sun is below
+    /// the horizon, and is based on sea level (not adjusted for altitude).
+    #[must_use]
+    pub fn solar_elevation(&self, instant: &Zoned) -> f64 {
+        astronomical_calculator::solar_elevation(instant, &self.geo_location)
+    }
+
+    /// Returns the percentage of a *shaah zmanis* after sunset (when `sunset`
+    /// is `true`) or before sunrise (when `sunset` is `false`) for a given
+    /// `degrees` offset below the horizon.
+    ///
+    /// For the equilux where there is a 720-minute day, passing 16.1&deg; for
+    /// the location of Jerusalem will return about 1.2. This will work for any
+    /// location or date, but will typically only be of interest at the
+    /// equinox/equilux to calculate the percentage of a *shaah zmanis* for
+    /// those who want to use the *Minchas Cohen* in *Ma'amar* 2:4 and the *Pri
+    /// Chadash* who calculate *tzeis* as a percentage of the day after sunset.
+    /// While the *Minchas Cohen* only applies this to 72 minutes or a 1/10 of
+    /// the day around the world (based on the equinox / equilux in Israel),
+    /// this method allows calculations for any degree level for any location.
+    #[must_use]
+    pub fn percent_of_shaah_zmanis_from_degrees(&self, degrees: f64, sunset: bool) -> Option<f64> {
+        let sea_level_sunrise = self.sea_level_sunrise()?;
+        let sea_level_sunset = self.sea_level_sunset()?;
+        let twilight = if sunset {
+            self.tzeis(&Degrees(degrees))?
+        } else {
+            self.alos(&Degrees(degrees))?
+        };
+        let shaah_zmanis = sea_level_sunset
+            .duration_since(&sea_level_sunrise)
+            .as_secs_f64()
+            / 12.0;
+        let rise_set_to_twilight = if sunset {
+            twilight.duration_since(&sea_level_sunset).as_secs_f64()
+        } else {
+            sea_level_sunrise.duration_since(&twilight).as_secs_f64()
+        };
+        Some(rise_set_to_twilight / shaah_zmanis)
+    }
 }
 
 /// When to use elevation for *zmanim* calculations. See
@@ -1585,8 +1899,8 @@ impl UseElevation {
     /// `hanetz_or_shkia` should be `true` if the calling function is
     /// calculating *hanetz* or *shkia*, and `false` otherwise
     #[must_use]
-    pub const fn to_bool(&self, hanetz_or_shkia: bool) -> bool {
-        match &self {
+    pub const fn to_bool(self, hanetz_or_shkia: bool) -> bool {
+        match self {
             Self::No => false,
             Self::HanetzShkia => hanetz_or_shkia,
             Self::All => true,

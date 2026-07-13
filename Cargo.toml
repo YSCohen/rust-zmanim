@@ -12,3 +12,7 @@ documentation = "https://docs.rs/rust-zmanim/"
 
 [dependencies]
 jiff = "0.2"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"

@@ -24,18 +24,15 @@ use jiff::{tz::TimeZone, Zoned};
 use rust_zmanim::prelude::*;
 
 let date = Zoned::now().date();
-let location = GeoLocation {
-    latitude: 31.778,
-    longitude: 35.234,
-    elevation: 754.0,
-    timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-};
+let location = GeoLocation::new(
+    31.778,
+    35.234,
+    754.0,
+    TimeZone::get("Asia/Jerusalem").unwrap(),
+)
+.unwrap();
 
-let czc = ComplexZmanimCalendar {
-    geo_location: location,
-    date,
-    use_elevation: UseElevation::No,
-};
+let czc = ComplexZmanimCalendar::new(location, date, UseElevation::No);
 
 println!(
     "Sunrise: {}",
@@ -67,15 +64,16 @@ use jiff::{tz::TimeZone, Zoned};
 use rust_zmanim::prelude::*;
 
 let date = Zoned::now().date();
-let location = GeoLocation {
-    latitude: 31.778,
-    longitude: 35.234,
-    elevation: 754.0,
-    timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-};
+let location = GeoLocation::new(
+    31.778,
+    35.234,
+    754.0,
+    TimeZone::get("Asia/Jerusalem").unwrap(),
+)
+.unwrap();
 
-let hanetz = zmanim_calculator::hanetz(&date, &location, false).unwrap();
-let shkia = zmanim_calculator::shkia(&date, &location, false).unwrap();
+let hanetz = zmanim_calculator::hanetz(date, &location, false).unwrap();
+let shkia = zmanim_calculator::shkia(date, &location, false).unwrap();
 println!("Hanetz: {}", hanetz.strftime("%H:%M:%S %Z"));
 println!("Shkia: {}", shkia.strftime("%H:%M:%S %Z"));
 
@@ -87,7 +85,7 @@ println!(
 
 println!(
     "Chatzos: {}",
-    zmanim_calculator::chatzos(&date, &location)
+    zmanim_calculator::chatzos_hayom(date, &location)
         .unwrap()
         .strftime("%H:%M:%S %Z")
 );
@@ -100,34 +98,35 @@ use jiff::{tz::TimeZone, Zoned};
 use rust_zmanim::prelude::*;
 
 let date = Zoned::now().date();
-let location = GeoLocation {
-    latitude: 31.778,
-    longitude: 35.234,
-    elevation: 754.0,
-    timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-};
+let location = GeoLocation::new(
+    31.778,
+    35.234,
+    754.0,
+    TimeZone::get("Asia/Jerusalem").unwrap(),
+)
+.unwrap();
 
 let tzeis_4_5 =
-    zmanim_calculator::tzeis(&date, &location, false, &ZmanOffset::Degrees(4.5)).unwrap();
+    zmanim_calculator::tzeis(date, &location, false, &ZmanOffset::Degrees(4.5)).unwrap();
 println!(
     "Tzeis (4.5 deg): {}",
     tzeis_4_5.strftime("%H:%M:%S %Z")
 );
 
 let alos_72 =
-    zmanim_calculator::alos(&date, &location, false, &ZmanOffset::Minutes(72.0)).unwrap();
+    zmanim_calculator::alos(date, &location, false, &ZmanOffset::Minutes(72.0)).unwrap();
 println!(
     "Alos (72 min): {}",
     alos_72.strftime("%H:%M:%S %Z")
 );
 
 // this is much easier with ComplexZmanimCalendar - see next example
-let hanetz = zmanim_calculator::hanetz(&date, &location, false).unwrap();
-let shkia = zmanim_calculator::shkia(&date, &location, false).unwrap();
+let hanetz = zmanim_calculator::hanetz(date, &location, false).unwrap();
+let shkia = zmanim_calculator::shkia(date, &location, false).unwrap();
 let shaah_zmanis = zmanim_calculator::shaah_zmanis(&hanetz, &shkia);
 
 let tzeis_90_zmanis = zmanim_calculator::tzeis(
-    &date,
+    date,
     &location,
     false,
     &ZmanOffset::MinutesZmaniyos {
@@ -150,18 +149,15 @@ use jiff::{tz::TimeZone, Zoned};
 use rust_zmanim::prelude::*;
 
 let date = Zoned::now().date();
-let location = GeoLocation {
-    latitude: 31.778,
-    longitude: 35.234,
-    elevation: 754.0,
-    timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-};
+let location = GeoLocation::new(
+    31.778,
+    35.234,
+    754.0,
+    TimeZone::get("Asia/Jerusalem").unwrap(),
+)
+.unwrap();
 
-let czc = ComplexZmanimCalendar {
-    geo_location: location,
-    date,
-    use_elevation: UseElevation::No,
-};
+let czc = ComplexZmanimCalendar::new(location, date, UseElevation::No);
 
 let tzeis_4_5 = czc.tzeis(&ZmanOffset::Degrees(4.5)).unwrap();
 println!("Tzeis (4.5 deg): {}", tzeis_4_5.strftime("%H:%M:%S %Z"));

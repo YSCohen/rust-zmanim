@@ -1,7 +1,8 @@
 //! Core *zmanim* calculations built on astronomical sunrise/sunset events.
 //!
 //! This module provides:
-//! - direct wrappers for commonly used times (`hanetz`, `shkia`, `chatzos`),
+//! - direct wrappers for commonly used times (`hanetz`, `shkia`,
+//!   `chatzos_hayom`),
 //! - generic combinators based on day boundaries (for example,
 //!   `sof_zman_shema`, `mincha_gedola`, `plag_hamincha`), and
 //! - flexible dawn/nightfall offsets via [`ZmanOffset`].
@@ -18,9 +19,10 @@ use std::ops::{Add, Sub};
 
 use jiff::{SignedDuration, Zoned, civil::Date};
 
-use crate::astronomical_calculator;
-use crate::util::geolocation::GeoLocation;
-use crate::util::math_helper::MINUTE_NANOS;
+use crate::{
+    astronomical_calculator,
+    util::{geolocation::GeoLocation, math_helper::MINUTE_NANOS},
+};
 
 /// Returns *alos hashachar* (dawn).
 ///
@@ -30,7 +32,7 @@ use crate::util::math_helper::MINUTE_NANOS;
 /// - minutes *zmaniyos* (temporal minutes) before sunrise.
 #[must_use]
 pub fn alos(
-    date: &Date,
+    date: Date,
     geo_location: &GeoLocation,
     use_elevation: bool,
     offset: &ZmanOffset,
@@ -41,18 +43,50 @@ pub fn alos(
             geo_location,
             astronomical_calculator::GEOMETRIC_ZENITH + deg,
         ),
-        ZmanOffset::Minutes(min) => Some(
-            hanetz(date, geo_location, use_elevation)?
-                .sub(SignedDuration::from_nanos((min * MINUTE_NANOS) as i64)),
-        ),
+        _ => Some(offset_before_event(
+            &hanetz(date, geo_location, use_elevation)?,
+            offset,
+        )),
+    }
+}
+
+/// Applies a [`Minutes`](ZmanOffset::Minutes) or
+/// [`MinutesZmaniyos`](ZmanOffset::MinutesZmaniyos) offset backward from
+/// `event` (before sunrise for *alos*).
+///
+/// # Panics
+///
+/// Panics on [`ZmanOffset::Degrees`], which is not an offset from an event.
+pub(crate) fn offset_before_event(event: &Zoned, offset: &ZmanOffset) -> Zoned {
+    match offset {
+        ZmanOffset::Degrees(_) => unreachable!("degree offsets are not relative to an event"),
+        ZmanOffset::Minutes(min) => {
+            event.sub(SignedDuration::from_nanos((min * MINUTE_NANOS) as i64))
+        }
         ZmanOffset::MinutesZmaniyos {
             minutes_zmaniyos: minz,
             shaah_zmanis: shaah,
-        } => Some(offset_by_minutes_zmanis(
-            &hanetz(date, geo_location, use_elevation)?,
-            -minz,
-            *shaah,
-        )),
+        } => offset_by_minutes_zmanis(event, -minz, *shaah),
+    }
+}
+
+/// Applies a [`Minutes`](ZmanOffset::Minutes) or
+/// [`MinutesZmaniyos`](ZmanOffset::MinutesZmaniyos) offset forward from
+/// `event` (after sunset for *tzeis*).
+///
+/// # Panics
+///
+/// Panics on [`ZmanOffset::Degrees`], which is not an offset from an event.
+pub(crate) fn offset_after_event(event: &Zoned, offset: &ZmanOffset) -> Zoned {
+    match offset {
+        ZmanOffset::Degrees(_) => unreachable!("degree offsets are not relative to an event"),
+        ZmanOffset::Minutes(min) => {
+            event.add(SignedDuration::from_nanos((min * MINUTE_NANOS) as i64))
+        }
+        ZmanOffset::MinutesZmaniyos {
+            minutes_zmaniyos: minz,
+            shaah_zmanis: shaah,
+        } => offset_by_minutes_zmanis(event, *minz, *shaah),
     }
 }
 
@@ -65,7 +99,7 @@ pub fn alos(
 /// This allows relevant *zmanim* to automatically adjust to the elevation
 /// setting.
 #[must_use]
-pub fn hanetz(date: &Date, geo_location: &GeoLocation, use_elevation: bool) -> Option<Zoned> {
+pub fn hanetz(date: Date, geo_location: &GeoLocation, use_elevation: bool) -> Option<Zoned> {
     if use_elevation {
         astronomical_calculator::sunrise(date, geo_location)
     } else {
@@ -114,14 +148,14 @@ pub fn sof_zman_biur_chametz(day_start: &Zoned, day_end: &Zoned) -> Zoned {
 
 /// Returns [astronomical noon](crate::astronomical_calculator::solar_noon).
 #[must_use]
-pub fn chatzos(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
+pub fn chatzos_hayom(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
     astronomical_calculator::solar_noon(date, geo_location)
 }
 
 /// Returns [astronomical
 /// midnight](crate::astronomical_calculator::solar_midnight).
 #[must_use]
-pub fn chatzos_halayla(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
+pub fn chatzos_halayla(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
     astronomical_calculator::solar_midnight(date, geo_location)
 }
 
@@ -139,8 +173,15 @@ pub fn chatzos_halayla(date: &Date, geo_location: &GeoLocation) -> Option<Zoned>
 /// theoretical 15&deg; time zones, and it adjusts to the actual timezone and
 /// daylight saving time.
 #[must_use]
-pub fn fixed_local_chatzos(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
+pub fn fixed_local_chatzos_hayom(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
     astronomical_calculator::local_mean_time(date, geo_location, 12.0)
+}
+
+/// Returns *chatzos* (midday) calculated as halfway between `day_start` and
+/// `day_end`.
+#[must_use]
+pub fn chatzos_hayom_as_half_day(day_start: &Zoned, day_end: &Zoned) -> Zoned {
+    day_start.add(day_end.duration_since(day_start) / 2)
 }
 
 /// Returns *mincha gedola* calculated as 30 minutes after *chatzos* and not 1/2
@@ -151,8 +192,8 @@ pub fn fixed_local_chatzos(date: &Date, geo_location: &GeoLocation) -> Option<Zo
 /// start *mincha* before the standard *mincha gedola*. See *Shulchan Aruch
 /// Orach Chayim* 234:1 and the *Shaar Hatziyon seif katan ches*.
 #[must_use]
-pub fn mincha_gedola_30_minutes(date: &Date, geo_location: &GeoLocation) -> Option<Zoned> {
-    Some(chatzos(date, geo_location)?.add(SignedDuration::from_mins(30)))
+pub fn mincha_gedola_30_minutes(date: Date, geo_location: &GeoLocation) -> Option<Zoned> {
+    Some(chatzos_hayom(date, geo_location)?.add(SignedDuration::from_mins(30)))
 }
 
 /// Returns *mincha gedola* using `day_start` and `day_end`.
@@ -215,7 +256,7 @@ pub fn plag_hamincha(day_start: &Zoned, day_end: &Zoned) -> Zoned {
 /// This allows relevant *zmanim* to automatically adjust to the elevation
 /// setting.
 #[must_use]
-pub fn shkia(date: &Date, geo_location: &GeoLocation, use_elevation: bool) -> Option<Zoned> {
+pub fn shkia(date: Date, geo_location: &GeoLocation, use_elevation: bool) -> Option<Zoned> {
     if use_elevation {
         astronomical_calculator::sunset(date, geo_location)
     } else {
@@ -231,7 +272,7 @@ pub fn shkia(date: &Date, geo_location: &GeoLocation, use_elevation: bool) -> Op
 /// - *minutes zmaniyos* (temporal minutes) after sunset.
 #[must_use]
 pub fn tzeis(
-    date: &Date,
+    date: Date,
     geo_location: &GeoLocation,
     use_elevation: bool,
     offset: &ZmanOffset,
@@ -242,17 +283,10 @@ pub fn tzeis(
             geo_location,
             astronomical_calculator::GEOMETRIC_ZENITH + deg,
         ),
-        ZmanOffset::Minutes(min) => {
-            let sunset = shkia(date, geo_location, use_elevation)?;
-            Some(sunset.add(SignedDuration::from_nanos((min * MINUTE_NANOS) as i64)))
-        }
-        ZmanOffset::MinutesZmaniyos {
-            minutes_zmaniyos: minz,
-            shaah_zmanis: shaah,
-        } => {
-            let sunset = shkia(date, geo_location, use_elevation)?;
-            Some(offset_by_minutes_zmanis(&sunset, *minz, *shaah))
-        }
+        _ => Some(offset_after_event(
+            &shkia(date, geo_location, use_elevation)?,
+            offset,
+        )),
     }
 }
 
@@ -268,9 +302,8 @@ pub fn shaah_zmanis(day_start: &Zoned, day_end: &Zoned) -> SignedDuration {
 /// Returns a `Zoned` datetime which is `minutes` minutes *zmaniyos* after
 /// `time`, where `shaah_zmanis` is the length of a *shaah zmanis*.
 fn offset_by_minutes_zmanis(time: &Zoned, minutes: f64, shaah_zmanis: SignedDuration) -> Zoned {
-    time.add(SignedDuration::from_secs_f64(
-        (shaah_zmanis / 60).as_secs_f64() * minutes,
-    ))
+    let total_nanos = (shaah_zmanis.as_nanos() as f64 * (minutes / 60.0)) as i64;
+    time.add(SignedDuration::from_nanos(total_nanos))
 }
 
 /// A generic function for calculating a given number of *shaos zmaniyos*
@@ -285,6 +318,50 @@ fn shaos_into_day(day_start: &Zoned, day_end: &Zoned, shaos: f64) -> Zoned {
     offset_by_minutes_zmanis(day_start, shaos * 60.0, shaah_zmanis)
 }
 
+/// Returns the length of a *shaah zmanis* based on 1/6 of a half-day,
+/// calculated from the start to the end of the half-day passed to this
+/// function.
+///
+/// For morning-based *zmanim* the half-day runs from *alos* or *hanetz* to
+/// *chatzos*, and for afternoon-based *zmanim* it runs from *chatzos* to
+/// *shkia* or *tzeis*.
+#[must_use]
+pub fn half_day_based_shaah_zmanis(
+    start_of_half_day: &Zoned,
+    end_of_half_day: &Zoned,
+) -> SignedDuration {
+    end_of_half_day.duration_since(start_of_half_day) / 6
+}
+
+/// A generic function for calculating a *zman* based on one half of the day,
+/// split at *chatzos*.
+///
+/// The half-day is divided into 6 *shaos zmaniyos*
+/// ([`half_day_based_shaah_zmanis`]). A non-negative `hours` value offsets
+/// forward from `start_of_half_day` (used for morning *zmanim* such as *sof
+/// zman krias shema* with `hours` of 3, or *mincha gedola* as 0.5 after
+/// *chatzos*), while a negative `hours` value offsets backward from
+/// `end_of_half_day`.
+#[must_use]
+pub fn half_day_based_zman(
+    start_of_half_day: &Zoned,
+    end_of_half_day: &Zoned,
+    hours: f64,
+) -> Zoned {
+    let shaah_zmanis = half_day_based_shaah_zmanis(start_of_half_day, end_of_half_day);
+    let offset = SignedDuration::from_nanos((shaah_zmanis.as_nanos() as f64 * hours) as i64);
+    if hours >= 0.0 {
+        start_of_half_day.add(offset)
+    } else {
+        end_of_half_day.add(offset)
+    }
+}
+
+/// The way a *zman* is offset from a reference event such as sunrise or sunset.
+///
+/// Different calculation methods express their offset in different units —
+/// astronomical degrees below the horizon, fixed clock minutes, or temporal
+/// (*zmaniyos*) minutes — and this enum captures which one applies.
 #[derive(Debug, Clone, PartialEq)]
 pub enum ZmanOffset {
     /// Degrees below the horizon.

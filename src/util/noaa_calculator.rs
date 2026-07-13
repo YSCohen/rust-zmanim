@@ -9,13 +9,18 @@
 //! algorithm can be found in the [Wikipedia Sunrise
 //! Equation](https://en.wikipedia.org/wiki/Sunrise_equation) article.
 
-use std::ops::{Add, Sub};
+use std::{
+    f64::consts::PI,
+    ops::{Add, Sub},
+};
 
-use jiff::{Span, Zoned, civil::Date};
+use jiff::{Span, Zoned, civil::Date, tz::TimeZone};
 
-use crate::util::geolocation::GeoLocation;
-use crate::util::math_helper::HOUR_SECONDS;
-use crate::util::zenith_adjustments::adjusted_zenith;
+use crate::util::{
+    geolocation::GeoLocation,
+    math_helper::{HOUR_MINUTES, HOUR_SECONDS, MINUTE_SECONDS, SECOND_NANOS},
+    zenith_adjustments::adjusted_zenith,
+};
 
 // Julian Stuff
 /// The Julian day of January 1, 2000, known as J2000.0
@@ -24,24 +29,34 @@ const JULIAN_DAY_JAN_1_2000: f64 = 2_451_545.0;
 /// Julian days per century
 const JULIAN_DAYS_PER_CENTURY: f64 = 36_525.0;
 
-/// Return the Julian day (at midnight) from a Zoned datetime
-fn datetime_to_julian_day(dt: &Zoned) -> f64 {
-    // adjust for weird TZs
+/// Returns the civil date adjusted for antimeridian crossover.
+///
+/// The "absolute time" calculations are based on the longitudinal offset from
+/// UTC, so for time zones that cross the antimeridian (such as Samoa, which
+/// uses UTC+14 while its longitude of ~-171&deg; would suggest UTC-11), the
+/// date is shifted before calculating to conform with the presumption that the
+/// date only increases east of the Prime Meridian.
+fn antimeridian_adjusted_date(dt: &Zoned) -> Date {
     let offset = dt.offset().seconds() / HOUR_SECONDS as i32;
-    let date = if offset > 12 {
-        // Samoa
-        dt.sub(Span::new().days(1))
+    if offset > 12 {
+        // e.g. Samoa
+        dt.sub(Span::new().days(1)).date()
     } else if offset < -12 {
-        // nowhere?
-        dt.add(Span::new().days(1))
+        // nowhere currently AFAIK, but better safe than sorry  :)
+        dt.add(Span::new().days(1)).date()
     } else {
         // most places
-        dt.clone()
-    };
+        dt.date()
+    }
+}
 
-    let mut year = date.year() as f64;
-    let mut month = date.month() as f64;
-    let day = date.day() as f64;
+/// Returns the Julian day (at midnight) from a Zoned datetime
+fn datetime_to_julian_day(dt: &Zoned) -> f64 {
+    let date = antimeridian_adjusted_date(dt);
+
+    let mut year = f64::from(date.year());
+    let mut month = f64::from(date.month());
+    let day = f64::from(date.day());
     if month <= 2.0 {
         year -= 1.0;
         month += 12.0;
@@ -132,24 +147,24 @@ fn obliquity_correction(julian_centuries: f64) -> f64 {
 /// mean solar time
 fn equation_of_time(julian_centuries: f64) -> f64 {
     let epsilon = obliquity_correction(julian_centuries).to_radians();
-    let sgml = sun_geometric_mean_longitude(julian_centuries).to_radians();
-    let sgma = sun_geometric_mean_anomaly(julian_centuries).to_radians();
+    let mean_lon = sun_geometric_mean_longitude(julian_centuries).to_radians();
+    let mean_anom = sun_geometric_mean_anomaly(julian_centuries).to_radians();
     let eoe = earth_orbit_eccentricity(julian_centuries);
 
     let mut y = (epsilon / 2.0).tan();
     y *= y;
 
-    let sin2l0 = (2.0 * sgml).sin();
-    let sin4l0 = (4.0 * sgml).sin();
-    let cos2l0 = (2.0 * sgml).cos();
-    let sinm = (sgma).sin();
-    let sin2m = (2.0 * sgma).sin();
+    let sin2l0 = (2.0 * mean_lon).sin();
+    let sin4l0 = (4.0 * mean_lon).sin();
+    let cos2l0 = (2.0 * mean_lon).cos();
+    let sin_anom = (mean_anom).sin();
+    let sin_2_anom = (2.0 * mean_anom).sin();
 
     let eq_time = (1.25 * eoe * eoe).mul_add(
-        -sin2m,
+        -sin_2_anom,
         (0.5 * y * y).mul_add(
             -sin4l0,
-            (4.0 * eoe * y * sinm).mul_add(cos2l0, (y * sin2l0) - (2.0 * eoe * sinm)),
+            (4.0 * eoe * y * sin_anom).mul_add(cos2l0, (y * sin2l0) - (2.0 * eoe * sin_anom)),
         ),
     );
     eq_time.to_degrees() * 4.0 // minutes of time
@@ -177,13 +192,13 @@ fn solar_noon_utc(julian_centuries: f64, longitude: f64) -> f64 {
 fn sun_equation_of_center(julian_centuries: f64) -> f64 {
     let mrad = sun_geometric_mean_anomaly(julian_centuries).to_radians();
     let sinm = mrad.sin();
-    let sin2m = (2.0 * mrad).sin();
-    let sin3m = (3.0 * mrad).sin();
+    let sin_2_anom = (2.0 * mrad).sin();
+    let sin_3_anom = (3.0 * mrad).sin();
 
     sinm.mul_add(
         julian_centuries.mul_add(-0.000014f64.mul_add(julian_centuries, 0.004817), 1.914602),
-        sin2m * 0.000101f64.mul_add(-julian_centuries, 0.019993),
-    ) + (sin3m * 0.000289) // in degrees
+        sin_2_anom * 0.000101f64.mul_add(-julian_centuries, 0.019993),
+    ) + (sin_3_anom * 0.000289) // in degrees
 }
 
 /// Return the true longitude of the sun, in degrees
@@ -232,7 +247,7 @@ fn approximate_utc_sun_position(
 /// zenith](crate::util::zenith_adjustments::adjusted_zenith) for refraction,
 /// solar radius, and optionally elevation).
 fn utc_sun_rise_set(
-    date: &Date,
+    date: Date,
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
@@ -244,8 +259,10 @@ fn utc_sun_rise_set(
         0.0
     };
 
-    let adjusted_zenith = adjusted_zenith(zenith, elevation);
-    let julian_day = datetime_to_julian_day(&date.to_zoned(geo_location.timezone.clone()).unwrap());
+    let zoned = date.to_zoned(geo_location.timezone.clone()).ok()?;
+    let adjusted_date = antimeridian_adjusted_date(&zoned);
+    let adjusted_zenith = adjusted_zenith(zenith, elevation, adjusted_date);
+    let julian_day = datetime_to_julian_day(&zoned);
 
     // first pass using solar noon
     let noonmin = solar_noon_utc(
@@ -270,8 +287,15 @@ fn utc_sun_rise_set(
         -geo_location.longitude,
         adjusted_zenith,
         mode,
-    ) / 60.0;
+    );
 
+    normalize_time(time)
+}
+
+/// Converts a UTC time in minutes to fractional hours normalized into
+/// `[0, 24)`, or `None` if the input is NaN.
+fn normalize_time(minutes: f64) -> Option<f64> {
+    let time = minutes / 60.0;
     if time.is_nan() {
         None
     } else if time > 0.0 {
@@ -286,50 +310,147 @@ fn utc_sun_rise_set(
 /// Returns the UTC of the current day's solar noon or the upcoming midnight
 /// (about 12 hours after solar noon) of the given day at the given location on
 /// earth.
-fn utc_solar_noon_midnight(date: &Date, geo_location: &GeoLocation, mode: &Mode) -> Option<f64> {
-    let mut julian_day =
-        datetime_to_julian_day(&date.to_zoned(geo_location.timezone.clone()).unwrap());
+fn utc_solar_noon_midnight(date: Date, geo_location: &GeoLocation, mode: &Mode) -> Option<f64> {
+    let julian_day = datetime_to_julian_day(&date.to_zoned(geo_location.timezone.clone()).ok()?);
     let longitude = -geo_location.longitude;
+    let base_minutes = if *mode == Mode::SunriseNoon {
+        720.0
+    } else {
+        1440.0
+    };
 
-    if *mode == Mode::SunsetMidnight {
-        julian_day += 0.5;
-    }
-    // First pass for approximate solar noon to calculate equation of time
+    // First pass for approximate solar noon to calculate equation of time.
+    // Note that the first approximation deliberately omits `base_minutes`.
     let tnoon = julian_centuries_from_julian_day(julian_day + longitude / 360.0);
     let eot = equation_of_time(tnoon);
     let mut sol_noon_utc = longitude.mul_add(4.0, -eot); // minutes
 
     // two refinement passes
-
-    let mut newt;
-    let mut eot;
-    let mut result_time = None;
-
-    for _i in 0..2 {
-        newt = julian_centuries_from_julian_day(julian_day + sol_noon_utc / 1440.0);
-        eot = equation_of_time(newt);
-        result_time = if eot.is_nan() {
-            None
-        } else {
-            sol_noon_utc = longitude.mul_add(
-                4.0,
-                if *mode == Mode::SunriseNoon {
-                    720.0
-                } else {
-                    1440.0
-                },
-            ) - eot;
-
-            let time = sol_noon_utc / 60.0;
-            Some(if time > 0.0 {
-                time % 24.0
-            } else {
-                (time % 24.0) + 24.0
-            })
+    for _ in 0..2 {
+        let newt = julian_centuries_from_julian_day(julian_day + sol_noon_utc / 1440.0);
+        let eot = equation_of_time(newt);
+        if eot.is_nan() {
+            return None;
         }
+        sol_noon_utc = longitude.mul_add(4.0, base_minutes) - eot;
     }
 
-    result_time
+    normalize_time(sol_noon_utc)
+}
+
+// degree-based trig helpers, in degrees as per NOAA convention
+
+/// Sine of an angle given in degrees
+fn sin_deg(deg: f64) -> f64 {
+    deg.to_radians().sin()
+}
+
+/// Cosine of an angle given in degrees
+fn cos_deg(deg: f64) -> f64 {
+    deg.to_radians().cos()
+}
+
+/// Tangent of an angle given in degrees
+fn tan_deg(deg: f64) -> f64 {
+    deg.to_radians().tan()
+}
+
+/// Arc-cosine returning degrees
+fn acos_deg(x: f64) -> f64 {
+    x.acos().to_degrees()
+}
+
+/// Computes the sun's position at the given datetime and location, returning
+/// the solar zenith angle (in degrees), the hour angle (in radians), and the
+/// solar declination (in degrees). Shared by [`solar_elevation`] and
+/// [`solar_azimuth`]. The position is based on sea level (it is not adjusted
+/// for altitude).
+fn solar_position(instant: &Zoned, loc: &GeoLocation) -> (f64, f64, f64) {
+    let utc = instant.with_time_zone(TimeZone::UTC);
+    let fractional_day = (f64::from(utc.hour())
+        + (f64::from(utc.minute())
+            + (f64::from(utc.second()) + f64::from(utc.subsec_nanosecond()) / SECOND_NANOS)
+                / MINUTE_SECONDS)
+            / HOUR_MINUTES)
+        / 24.0;
+    let julian_day = datetime_to_julian_day(&utc) + fractional_day;
+    let julian_centuries = julian_centuries_from_julian_day(julian_day);
+    let declination = solar_declination(julian_centuries);
+    let eq_time = equation_of_time(julian_centuries);
+
+    let true_solar_time =
+        ((fractional_day + eq_time / 1_440.0 + loc.longitude / 360.0) + 2.0) % 1.0;
+    let hour_angle = true_solar_time.mul_add(2.0 * PI, -PI);
+
+    let cos_zenith = sin_deg(loc.latitude).mul_add(
+        sin_deg(declination),
+        cos_deg(loc.latitude) * cos_deg(declination) * hour_angle.cos(),
+    );
+    let zenith = acos_deg(cos_zenith.clamp(-1.0, 1.0));
+    (zenith, hour_angle, declination)
+}
+
+/// Applies an atmospheric refraction adjustment to a solar `elevation` (in
+/// degrees), returning the adjustment in degrees.
+///
+/// Note: this is a full atmospheric refraction model to report the sun's
+/// apparent elevation, distinct from
+/// [`zenith_adjustments::adjusted_zenith`](crate::util::zenith_adjustments::adjusted_zenith),
+/// which applies a fixed refraction constant for adjusting the sunrise/sunset
+/// zenith.
+fn adjust_elevation_for_refraction(elevation: f64) -> f64 {
+    if elevation > 85.0 {
+        return 0.0;
+    }
+
+    let te = tan_deg(elevation);
+    let correction = if elevation > 5.0 {
+        (58.1 / te) - (0.07 / te.powi(3)) + (0.000086 / te.powi(5))
+    } else if elevation > -0.575 {
+        elevation.mul_add(
+            elevation.mul_add(
+                elevation.mul_add(0.711f64.mul_add(elevation, -12.79), 103.4),
+                -518.2,
+            ),
+            1735.0,
+        )
+    } else {
+        -20.774 / te
+    };
+    correction / 3_600.0
+}
+
+/// Returns the UTC (in hours) of the time when the sun reaches the given
+/// `target_azimuth` for the given day at the given location. Only azimuths of
+/// 90&deg; (directly east) and 270&deg; (directly west) are supported; any
+/// other value is treated as 270&deg;.
+///
+/// Returns `None` when the azimuth is never reached for the date and location
+/// (for example in the tropics, at the poles, or on the equator).
+#[must_use]
+pub fn utc_time_at_azimuth_90_or_270(
+    date: Date,
+    geo_location: &GeoLocation,
+    target_azimuth: f64,
+) -> Option<f64> {
+    let julian_day = datetime_to_julian_day(&date.to_zoned(geo_location.timezone.clone()).ok()?);
+    let solar_noon_base = 0.5 - (geo_location.longitude / 360.0);
+    let quarter = if target_azimuth == 90.0 { 0.25 } else { 0.75 };
+    let mut date_time = solar_noon_base + quarter;
+
+    for _ in 0..3 {
+        let julian_centuries = julian_centuries_from_julian_day(julian_day + date_time);
+        // Handle Tropics, the Poles, and Equator line divisions
+        let ratio = tan_deg(solar_declination(julian_centuries)) / tan_deg(geo_location.latitude);
+        if ratio.is_nan() || !(-1.0..=1.0).contains(&ratio) {
+            return None;
+        }
+        let sign = if target_azimuth == 90.0 { -1.0 } else { 1.0 };
+        let offset = sign * (acos_deg(ratio) / 360.0);
+        date_time = solar_noon_base + offset - (equation_of_time(julian_centuries) / 1_440.0);
+    }
+
+    Some((date_time * 24.0 % 24.0 + 24.0) % 24.0)
 }
 
 // public interface for utc_sun_rise_set
@@ -337,7 +458,7 @@ fn utc_solar_noon_midnight(date: &Date, geo_location: &GeoLocation, mode: &Mode)
 /// solar radius, and optionally elevation
 #[must_use]
 pub fn utc_sunrise(
-    date: &Date,
+    date: Date,
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
@@ -355,7 +476,7 @@ pub fn utc_sunrise(
 /// solar radius, and optionally elevation
 #[must_use]
 pub fn utc_sunset(
-    date: &Date,
+    date: Date,
     geo_location: &GeoLocation,
     zenith: f64,
     adjust_for_elevation: bool,
@@ -373,7 +494,7 @@ pub fn utc_sunset(
 /// earth. This implementation returns true solar noon as opposed to the time
 /// halfway between sunrise and sunset.
 #[must_use]
-pub fn utc_noon(date: &Date, geo_location: &GeoLocation) -> Option<f64> {
+pub fn utc_noon(date: Date, geo_location: &GeoLocation) -> Option<f64> {
     utc_solar_noon_midnight(date, geo_location, &Mode::SunriseNoon)
 }
 
@@ -382,8 +503,36 @@ pub fn utc_noon(date: &Date, geo_location: &GeoLocation) -> Option<f64> {
 /// implementation returns true solar midnight as opposed to the time halfway
 /// between sunrise and sunset.
 #[must_use]
-pub fn utc_midnight(date: &Date, geo_location: &GeoLocation) -> Option<f64> {
+pub fn utc_midnight(date: Date, geo_location: &GeoLocation) -> Option<f64> {
     utc_solar_noon_midnight(date, geo_location, &Mode::SunsetMidnight)
+}
+
+/// Returns the solar elevation (in degrees) at the given datetime and
+/// location. Can be negative if the sun is below the horizon.
+#[must_use]
+pub fn solar_elevation(instant: &Zoned, geo_location: &GeoLocation) -> f64 {
+    let (zenith, _, _) = solar_position(instant, geo_location);
+    let elevation = 90.0 - zenith;
+    elevation + adjust_elevation_for_refraction(elevation)
+}
+
+/// Returns the solar azimuth (in degrees, clockwise from due north) at the
+/// given datetime and location.
+#[must_use]
+pub fn solar_azimuth(instant: &Zoned, geo_location: &GeoLocation) -> f64 {
+    let (zenith, hour_angle, declination) = solar_position(instant, geo_location);
+    let az_denominator = cos_deg(geo_location.latitude) * sin_deg(zenith);
+    let azimuth = if az_denominator.abs() > 0.001 {
+        let az = sin_deg(geo_location.latitude).mul_add(cos_deg(zenith), -sin_deg(declination))
+            / az_denominator;
+        let sign = if hour_angle > 0.0 { -1.0 } else { 1.0 };
+        acos_deg(az.clamp(-1.0, 1.0)).mul_add(-sign, 180.0)
+    } else if geo_location.latitude > 0.0 {
+        180.0
+    } else {
+        0.0
+    };
+    (azimuth + 360.0) % 360.0
 }
 
 /// Used internally to specify which solar event should be calculated, to a

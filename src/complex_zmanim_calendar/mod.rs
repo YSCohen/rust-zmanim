@@ -8,6 +8,7 @@ mod czc_macros;
 #[macro_use]
 mod doc_macros;
 
+mod cache;
 mod czc_struct;
 
 pub use czc_struct::*;

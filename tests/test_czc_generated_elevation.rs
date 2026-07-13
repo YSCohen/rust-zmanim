@@ -17,23 +17,23 @@ use std::iter::zip;
 fn test_alos_19_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:30:07 EDT",
-        "2017-10-17 05:13:59 IDT",
-        "2017-10-17 05:29:42 PDT",
-        "2017-10-17 04:15:28 JST",
+        "2017-10-17 05:30:07 -0400",
+        "2017-10-17 05:13:59 +0300",
+        "2017-10-17 05:29:42 -0700",
+        "2017-10-17 04:15:28 +0900",
         "None",
-        "2017-10-17 05:40:07 +14",
-        "2017-10-17 04:16:19 +12",
-        "2017-10-17 06:06:28 HDT",
-        "2017-10-17 04:25:07 -11",
+        "2017-10-17 05:40:07 +1400",
+        "2017-10-17 04:16:19 +1200",
+        "2017-10-17 06:06:28 -0900",
+        "2017-10-17 04:25:07 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_19_8_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_19_8_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -41,23 +41,23 @@ fn test_alos_19_8_degrees() {
 fn test_tzeis_19_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:53:34 EDT",
-        "2017-10-17 19:34:15 IDT",
-        "2017-10-17 19:49:43 PDT",
-        "2017-10-17 18:37:32 JST",
+        "2017-10-17 19:53:34 -0400",
+        "2017-10-17 19:34:15 +0300",
+        "2017-10-17 19:49:43 -0700",
+        "2017-10-17 18:37:32 +0900",
         "None",
-        "2017-10-17 20:45:24 +14",
-        "2017-10-17 19:30:43 +12",
-        "2017-10-17 20:27:21 HDT",
-        "2017-10-17 19:44:34 -11",
+        "2017-10-17 20:45:24 +1400",
+        "2017-10-17 19:30:43 +1200",
+        "2017-10-17 20:27:21 -0900",
+        "2017-10-17 19:44:34 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_19_8_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_19_8_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -65,23 +65,23 @@ fn test_tzeis_19_8_degrees() {
 fn test_alos_18_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:39:33 EDT",
-        "2017-10-17 05:22:27 IDT",
-        "2017-10-17 05:38:23 PDT",
-        "2017-10-17 04:24:20 JST",
+        "2017-10-17 05:39:33 -0400",
+        "2017-10-17 05:22:27 +0300",
+        "2017-10-17 05:38:23 -0700",
+        "2017-10-17 04:24:20 +0900",
         "None",
-        "2017-10-17 05:47:48 +14",
-        "2017-10-17 04:24:11 +12",
-        "2017-10-17 06:14:13 HDT",
-        "2017-10-17 04:33:06 -11",
+        "2017-10-17 05:47:48 +1400",
+        "2017-10-17 04:24:11 +1200",
+        "2017-10-17 06:14:13 -0900",
+        "2017-10-17 04:33:06 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_18_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_18_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -89,23 +89,23 @@ fn test_alos_18_degrees() {
 fn test_tzeis_18_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:44:09 EDT",
-        "2017-10-17 19:25:47 IDT",
-        "2017-10-17 19:41:02 PDT",
-        "2017-10-17 18:28:40 JST",
+        "2017-10-17 19:44:09 -0400",
+        "2017-10-17 19:25:47 +0300",
+        "2017-10-17 19:41:02 -0700",
+        "2017-10-17 18:28:40 +0900",
         "None",
-        "2017-10-17 20:37:43 +14",
-        "2017-10-17 19:22:50 +12",
-        "2017-10-17 20:19:36 HDT",
-        "2017-10-17 19:36:34 -11",
+        "2017-10-17 20:37:43 +1400",
+        "2017-10-17 19:22:50 +1200",
+        "2017-10-17 20:19:36 -0900",
+        "2017-10-17 19:36:34 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_18_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_18_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -113,23 +113,23 @@ fn test_tzeis_18_degrees() {
 fn test_alos_26_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 04:57:25 EDT",
-        "2017-10-17 04:44:44 IDT",
-        "2017-10-17 04:59:40 PDT",
-        "2017-10-17 03:44:47 JST",
+        "2017-10-17 04:57:25 -0400",
+        "2017-10-17 04:44:44 +0300",
+        "2017-10-17 04:59:40 -0700",
+        "2017-10-17 03:44:47 +0900",
         "None",
-        "2017-10-17 05:13:31 +14",
-        "2017-10-17 03:48:54 +12",
-        "2017-10-17 05:39:48 HDT",
-        "2017-10-17 03:57:17 -11",
+        "2017-10-17 05:13:31 +1400",
+        "2017-10-17 03:48:54 +1200",
+        "2017-10-17 05:39:48 -0900",
+        "2017-10-17 03:57:17 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_26_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_26_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -137,23 +137,23 @@ fn test_alos_26_degrees() {
 fn test_tzeis_26_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 20:26:11 EDT",
-        "2017-10-17 20:03:26 IDT",
-        "2017-10-17 20:19:41 PDT",
-        "2017-10-17 19:08:09 JST",
+        "2017-10-17 20:26:11 -0400",
+        "2017-10-17 20:03:26 +0300",
+        "2017-10-17 20:19:41 -0700",
+        "2017-10-17 19:08:09 +0900",
         "None",
-        "2017-10-17 21:12:04 +14",
-        "2017-10-17 19:58:12 +12",
-        "2017-10-17 20:54:00 HDT",
-        "2017-10-17 20:12:29 -11",
+        "2017-10-17 21:12:04 +1400",
+        "2017-10-17 19:58:12 +1200",
+        "2017-10-17 20:54:00 -0900",
+        "2017-10-17 20:12:29 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_26_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_26_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -161,23 +161,23 @@ fn test_tzeis_26_degrees() {
 fn test_tzeis_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:34:14 EDT",
-        "2017-10-17 19:16:51 IDT",
-        "2017-10-17 19:31:52 PDT",
-        "2017-10-17 18:19:19 JST",
-        "2017-10-17 21:32:57 EDT",
-        "2017-10-17 20:29:38 +14",
-        "2017-10-17 19:14:32 +12",
-        "2017-10-17 20:11:25 HDT",
-        "2017-10-17 19:28:09 -11",
+        "2017-10-17 19:34:14 -0400",
+        "2017-10-17 19:16:51 +0300",
+        "2017-10-17 19:31:52 -0700",
+        "2017-10-17 18:19:19 +0900",
+        "2017-10-17 21:32:57 -0400",
+        "2017-10-17 20:29:38 +1400",
+        "2017-10-17 19:14:32 +1200",
+        "2017-10-17 20:11:25 -0900",
+        "2017-10-17 19:28:09 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_16_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_16_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -185,23 +185,23 @@ fn test_tzeis_16_1_degrees() {
 fn test_alos_60_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 06:09:11 EDT",
-        "2017-10-17 05:39:32 IDT",
-        "2017-10-17 06:00:25 PDT",
-        "2017-10-17 04:48:20 JST",
+        "2017-10-17 06:09:11 -0400",
+        "2017-10-17 05:39:32 +0300",
+        "2017-10-17 06:00:25 -0700",
+        "2017-10-17 04:48:20 +0900",
         "None",
-        "2017-10-17 05:54:18 +14",
-        "2017-10-17 04:33:07 +12",
-        "2017-10-17 06:28:06 HDT",
-        "2017-10-17 04:46:39 -11",
+        "2017-10-17 05:54:18 +1400",
+        "2017-10-17 04:33:07 +1200",
+        "2017-10-17 06:28:06 -0900",
+        "2017-10-17 04:46:39 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_60_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_60_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -209,23 +209,23 @@ fn test_alos_60_minutes() {
 fn test_tzeis_60_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:14:38 EDT",
-        "2017-10-17 19:08:46 IDT",
-        "2017-10-17 19:19:05 PDT",
-        "2017-10-17 18:04:46 JST",
+        "2017-10-17 19:14:38 -0400",
+        "2017-10-17 19:08:46 +0300",
+        "2017-10-17 19:19:05 -0700",
+        "2017-10-17 18:04:46 +0900",
         "None",
-        "2017-10-17 20:31:07 +14",
-        "2017-10-17 19:13:47 +12",
-        "2017-10-17 20:05:44 HDT",
-        "2017-10-17 19:22:53 -11",
+        "2017-10-17 20:31:07 +1400",
+        "2017-10-17 19:13:47 +1200",
+        "2017-10-17 20:05:45 -0900",
+        "2017-10-17 19:22:53 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_60_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_60_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -233,23 +233,23 @@ fn test_tzeis_60_minutes() {
 fn test_alos_72_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 06:02:39 EDT",
-        "2017-10-17 05:30:36 IDT",
-        "2017-10-17 05:52:33 PDT",
-        "2017-10-17 04:40:41 JST",
+        "2017-10-17 06:02:38 -0400",
+        "2017-10-17 05:30:36 +0300",
+        "2017-10-17 05:52:33 -0700",
+        "2017-10-17 04:40:41 +0900",
         "None",
-        "2017-10-17 05:38:37 +14",
-        "2017-10-17 04:17:03 +12",
-        "2017-10-17 06:18:21 HDT",
-        "2017-10-17 04:31:02 -11",
+        "2017-10-17 05:38:37 +1400",
+        "2017-10-17 04:17:03 +1200",
+        "2017-10-17 06:18:21 -0900",
+        "2017-10-17 04:31:02 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_72_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_72_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -257,23 +257,23 @@ fn test_alos_72_minutes_zmanis() {
 fn test_tzeis_72_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:21:11 EDT",
-        "2017-10-17 19:17:42 IDT",
-        "2017-10-17 19:26:57 PDT",
-        "2017-10-17 18:12:25 JST",
+        "2017-10-17 19:21:11 -0400",
+        "2017-10-17 19:17:42 +0300",
+        "2017-10-17 19:26:57 -0700",
+        "2017-10-17 18:12:25 +0900",
         "None",
-        "2017-10-17 20:46:48 +14",
-        "2017-10-17 19:29:51 +12",
-        "2017-10-17 20:15:30 HDT",
-        "2017-10-17 19:38:30 -11",
+        "2017-10-17 20:46:48 +1400",
+        "2017-10-17 19:29:51 +1200",
+        "2017-10-17 20:15:30 -0900",
+        "2017-10-17 19:38:30 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_72_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_72_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -281,23 +281,23 @@ fn test_tzeis_72_minutes_zmanis() {
 fn test_alos_90_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:39:11 EDT",
-        "2017-10-17 05:09:32 IDT",
-        "2017-10-17 05:30:25 PDT",
-        "2017-10-17 04:18:20 JST",
+        "2017-10-17 05:39:11 -0400",
+        "2017-10-17 05:09:32 +0300",
+        "2017-10-17 05:30:25 -0700",
+        "2017-10-17 04:18:20 +0900",
         "None",
-        "2017-10-17 05:24:18 +14",
-        "2017-10-17 04:03:07 +12",
-        "2017-10-17 05:58:06 HDT",
-        "2017-10-17 04:16:39 -11",
+        "2017-10-17 05:24:18 +1400",
+        "2017-10-17 04:03:07 +1200",
+        "2017-10-17 05:58:06 -0900",
+        "2017-10-17 04:16:39 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_90_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_90_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -305,23 +305,23 @@ fn test_alos_90_minutes() {
 fn test_tzeis_90_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:44:38 EDT",
-        "2017-10-17 19:38:46 IDT",
-        "2017-10-17 19:49:05 PDT",
-        "2017-10-17 18:34:46 JST",
+        "2017-10-17 19:44:38 -0400",
+        "2017-10-17 19:38:46 +0300",
+        "2017-10-17 19:49:05 -0700",
+        "2017-10-17 18:34:46 +0900",
         "None",
-        "2017-10-17 21:01:07 +14",
-        "2017-10-17 19:43:47 +12",
-        "2017-10-17 20:35:44 HDT",
-        "2017-10-17 19:52:53 -11",
+        "2017-10-17 21:01:07 +1400",
+        "2017-10-17 19:43:47 +1200",
+        "2017-10-17 20:35:45 -0900",
+        "2017-10-17 19:52:53 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_90_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_90_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -329,23 +329,23 @@ fn test_tzeis_90_minutes() {
 fn test_alos_90_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:46:00 EDT",
-        "2017-10-17 05:13:22 IDT",
-        "2017-10-17 05:35:35 PDT",
-        "2017-10-17 04:23:47 JST",
+        "2017-10-17 05:46:00 -0400",
+        "2017-10-17 05:13:22 +0300",
+        "2017-10-17 05:35:35 -0700",
+        "2017-10-17 04:23:47 +0900",
         "None",
-        "2017-10-17 05:19:42 +14",
-        "2017-10-17 03:58:02 +12",
-        "2017-10-17 06:00:54 HDT",
-        "2017-10-17 04:12:08 -11",
+        "2017-10-17 05:19:42 +1400",
+        "2017-10-17 03:58:02 +1200",
+        "2017-10-17 06:00:54 -0900",
+        "2017-10-17 04:12:08 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_90_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_90_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -353,23 +353,23 @@ fn test_alos_90_minutes_zmanis() {
 fn test_tzeis_90_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:37:49 EDT",
-        "2017-10-17 19:34:56 IDT",
-        "2017-10-17 19:43:55 PDT",
-        "2017-10-17 18:29:19 JST",
+        "2017-10-17 19:37:49 -0400",
+        "2017-10-17 19:34:56 +0300",
+        "2017-10-17 19:43:55 -0700",
+        "2017-10-17 18:29:20 +0900",
         "None",
-        "2017-10-17 21:05:43 +14",
-        "2017-10-17 19:48:52 +12",
-        "2017-10-17 20:32:57 HDT",
-        "2017-10-17 19:57:24 -11",
+        "2017-10-17 21:05:43 +1400",
+        "2017-10-17 19:48:52 +1200",
+        "2017-10-17 20:32:57 -0900",
+        "2017-10-17 19:57:24 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_90_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_90_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -377,23 +377,23 @@ fn test_tzeis_90_minutes_zmanis() {
 fn test_alos_96_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:40:28 EDT",
-        "2017-10-17 05:07:38 IDT",
-        "2017-10-17 05:29:56 PDT",
-        "2017-10-17 04:18:09 JST",
+        "2017-10-17 05:40:27 -0400",
+        "2017-10-17 05:07:38 +0300",
+        "2017-10-17 05:29:55 -0700",
+        "2017-10-17 04:18:08 +0900",
         "None",
-        "2017-10-17 05:13:23 +14",
-        "2017-10-17 03:51:42 +12",
-        "2017-10-17 05:55:05 HDT",
-        "2017-10-17 04:05:50 -11",
+        "2017-10-17 05:13:24 +1400",
+        "2017-10-17 03:51:42 +1200",
+        "2017-10-17 05:55:05 -0900",
+        "2017-10-17 04:05:49 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_96_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_96_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -401,23 +401,23 @@ fn test_alos_96_minutes_zmanis() {
 fn test_tzeis_96_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:43:22 EDT",
-        "2017-10-17 19:40:40 IDT",
-        "2017-10-17 19:49:34 PDT",
-        "2017-10-17 18:34:58 JST",
+        "2017-10-17 19:43:22 -0400",
+        "2017-10-17 19:40:40 +0300",
+        "2017-10-17 19:49:35 -0700",
+        "2017-10-17 18:34:58 +0900",
         "None",
-        "2017-10-17 21:12:01 +14",
-        "2017-10-17 19:55:12 +12",
-        "2017-10-17 20:38:45 HDT",
-        "2017-10-17 20:03:42 -11",
+        "2017-10-17 21:12:01 +1400",
+        "2017-10-17 19:55:12 +1200",
+        "2017-10-17 20:38:46 -0900",
+        "2017-10-17 20:03:43 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_96_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_96_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -425,23 +425,23 @@ fn test_tzeis_96_minutes_zmanis() {
 fn test_tzeis_ateret_torah() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:54:38 EDT",
-        "2017-10-17 18:48:46 IDT",
-        "2017-10-17 18:59:05 PDT",
-        "2017-10-17 17:44:46 JST",
+        "2017-10-17 18:54:38 -0400",
+        "2017-10-17 18:48:46 +0300",
+        "2017-10-17 18:59:05 -0700",
+        "2017-10-17 17:44:46 +0900",
         "None",
-        "2017-10-17 20:11:07 +14",
-        "2017-10-17 18:53:47 +12",
-        "2017-10-17 19:45:44 HDT",
-        "2017-10-17 19:02:53 -11",
+        "2017-10-17 20:11:07 +1400",
+        "2017-10-17 18:53:47 +1200",
+        "2017-10-17 19:45:45 -0900",
+        "2017-10-17 19:02:53 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_ateret_torah().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_ateret_torah().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -449,23 +449,23 @@ fn test_tzeis_ateret_torah() {
 fn test_tzeis_geonim_3_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:29:44 EDT",
-        "2017-10-17 18:18:45 IDT",
-        "2017-10-17 18:32:17 PDT",
-        "2017-10-17 17:18:34 JST",
-        "2017-10-17 15:10:07 EDT",
-        "2017-10-17 19:37:44 +14",
-        "2017-10-17 18:21:28 +12",
-        "2017-10-17 19:18:13 HDT",
-        "2017-10-17 18:34:28 -11",
+        "2017-10-17 18:29:44 -0400",
+        "2017-10-17 18:18:45 +0300",
+        "2017-10-17 18:32:17 -0700",
+        "2017-10-17 17:18:34 +0900",
+        "2017-10-17 15:10:07 -0400",
+        "2017-10-17 19:37:44 +1400",
+        "2017-10-17 18:21:28 +1200",
+        "2017-10-17 19:18:13 -0900",
+        "2017-10-17 18:34:28 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_3_8_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_3_8_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -473,167 +473,23 @@ fn test_tzeis_geonim_3_8_degrees() {
 fn test_tzeis_geonim_3_7_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:29:12 EDT",
-        "2017-10-17 18:18:16 IDT",
-        "2017-10-17 18:31:48 PDT",
-        "2017-10-17 17:18:04 JST",
-        "2017-10-17 15:06:14 EDT",
-        "2017-10-17 19:37:19 +14",
-        "2017-10-17 18:21:02 +12",
-        "2017-10-17 19:17:47 HDT",
-        "2017-10-17 18:34:03 -11",
+        "2017-10-17 18:29:12 -0400",
+        "2017-10-17 18:18:16 +0300",
+        "2017-10-17 18:31:48 -0700",
+        "2017-10-17 17:18:04 +0900",
+        "2017-10-17 15:06:14 -0400",
+        "2017-10-17 19:37:19 +1400",
+        "2017-10-17 18:21:02 +1200",
+        "2017-10-17 19:17:47 -0900",
+        "2017-10-17 18:34:03 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_3_7_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_3_7_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
-    }
-}
-
-#[test]
-fn test_alos_96_minutes() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 05:33:11 EDT",
-        "2017-10-17 05:03:32 IDT",
-        "2017-10-17 05:24:25 PDT",
-        "2017-10-17 04:12:20 JST",
-        "None",
-        "2017-10-17 05:18:18 +14",
-        "2017-10-17 03:57:07 +12",
-        "2017-10-17 05:52:06 HDT",
-        "2017-10-17 04:10:39 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_96_minutes().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
-    }
-}
-
-#[test]
-fn test_tzeis_96_minutes() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 19:50:38 EDT",
-        "2017-10-17 19:44:46 IDT",
-        "2017-10-17 19:55:05 PDT",
-        "2017-10-17 18:40:46 JST",
-        "None",
-        "2017-10-17 21:07:07 +14",
-        "2017-10-17 19:49:47 +12",
-        "2017-10-17 20:41:44 HDT",
-        "2017-10-17 19:58:53 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_96_minutes().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
-    }
-}
-
-#[test]
-fn test_alos_120_minutes() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 05:09:11 EDT",
-        "2017-10-17 04:39:32 IDT",
-        "2017-10-17 05:00:25 PDT",
-        "2017-10-17 03:48:20 JST",
-        "None",
-        "2017-10-17 04:54:18 +14",
-        "2017-10-17 03:33:07 +12",
-        "2017-10-17 05:28:06 HDT",
-        "2017-10-17 03:46:39 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_120_minutes().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
-    }
-}
-
-#[test]
-fn test_tzeis_120_minutes() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 20:14:38 EDT",
-        "2017-10-17 20:08:46 IDT",
-        "2017-10-17 20:19:05 PDT",
-        "2017-10-17 19:04:46 JST",
-        "None",
-        "2017-10-17 21:31:07 +14",
-        "2017-10-17 20:13:47 +12",
-        "2017-10-17 21:05:44 HDT",
-        "2017-10-17 20:22:53 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_120_minutes().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
-    }
-}
-
-#[test]
-fn test_alos_120_minutes_zmanis() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 05:18:17 EDT",
-        "2017-10-17 04:44:39 IDT",
-        "2017-10-17 05:07:18 PDT",
-        "2017-10-17 03:55:36 JST",
-        "None",
-        "2017-10-17 04:48:10 +14",
-        "2017-10-17 03:26:20 +12",
-        "2017-10-17 05:31:50 HDT",
-        "2017-10-17 03:40:37 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_120_minutes_zmanis().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
-    }
-}
-
-#[test]
-fn test_tzeis_120_minutes_zmanis() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 20:05:33 EDT",
-        "2017-10-17 20:03:39 IDT",
-        "2017-10-17 20:12:12 PDT",
-        "2017-10-17 18:57:31 JST",
-        "None",
-        "2017-10-17 21:37:15 +14",
-        "2017-10-17 20:20:34 +12",
-        "2017-10-17 21:02:01 HDT",
-        "2017-10-17 20:28:55 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_120_minutes_zmanis().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -641,23 +497,167 @@ fn test_tzeis_120_minutes_zmanis() {
 fn test_tzeis_geonim_7_083_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:47:03 EDT",
-        "2017-10-17 18:34:20 IDT",
-        "2017-10-17 18:48:16 PDT",
-        "2017-10-17 17:34:52 JST",
-        "2017-10-17 16:57:02 EDT",
-        "2017-10-17 19:51:31 +14",
-        "2017-10-17 18:35:32 +12",
-        "2017-10-17 19:32:28 HDT",
-        "2017-10-17 18:48:42 -11",
+        "2017-10-17 18:47:03 -0400",
+        "2017-10-17 18:34:20 +0300",
+        "2017-10-17 18:48:16 -0700",
+        "2017-10-17 17:34:52 +0900",
+        "2017-10-17 16:57:02 -0400",
+        "2017-10-17 19:51:31 +1400",
+        "2017-10-17 18:35:32 +1200",
+        "2017-10-17 19:32:28 -0900",
+        "2017-10-17 18:48:42 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_7_083_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_7_083_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_alos_96_minutes() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 05:33:11 -0400",
+        "2017-10-17 05:03:32 +0300",
+        "2017-10-17 05:24:25 -0700",
+        "2017-10-17 04:12:20 +0900",
+        "None",
+        "2017-10-17 05:18:18 +1400",
+        "2017-10-17 03:57:07 +1200",
+        "2017-10-17 05:52:06 -0900",
+        "2017-10-17 04:10:39 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_96_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_tzeis_96_minutes() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 19:50:38 -0400",
+        "2017-10-17 19:44:46 +0300",
+        "2017-10-17 19:55:05 -0700",
+        "2017-10-17 18:40:46 +0900",
+        "None",
+        "2017-10-17 21:07:07 +1400",
+        "2017-10-17 19:49:47 +1200",
+        "2017-10-17 20:41:45 -0900",
+        "2017-10-17 19:58:53 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_96_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_alos_120_minutes() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 05:09:11 -0400",
+        "2017-10-17 04:39:32 +0300",
+        "2017-10-17 05:00:25 -0700",
+        "2017-10-17 03:48:20 +0900",
+        "None",
+        "2017-10-17 04:54:18 +1400",
+        "2017-10-17 03:33:07 +1200",
+        "2017-10-17 05:28:06 -0900",
+        "2017-10-17 03:46:39 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_120_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_tzeis_120_minutes() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 20:14:38 -0400",
+        "2017-10-17 20:08:46 +0300",
+        "2017-10-17 20:19:05 -0700",
+        "2017-10-17 19:04:46 +0900",
+        "None",
+        "2017-10-17 21:31:07 +1400",
+        "2017-10-17 20:13:47 +1200",
+        "2017-10-17 21:05:45 -0900",
+        "2017-10-17 20:22:53 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_120_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_alos_120_minutes_zmanis() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 05:18:17 -0400",
+        "2017-10-17 04:44:39 +0300",
+        "2017-10-17 05:07:18 -0700",
+        "2017-10-17 03:55:35 +0900",
+        "None",
+        "2017-10-17 04:48:10 +1400",
+        "2017-10-17 03:26:21 +1200",
+        "2017-10-17 05:31:50 -0900",
+        "2017-10-17 03:40:37 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_120_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_tzeis_120_minutes_zmanis() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 20:05:33 -0400",
+        "2017-10-17 20:03:39 +0300",
+        "2017-10-17 20:12:12 -0700",
+        "2017-10-17 18:57:31 +0900",
+        "None",
+        "2017-10-17 21:37:15 +1400",
+        "2017-10-17 20:20:34 +1200",
+        "2017-10-17 21:02:01 -0900",
+        "2017-10-17 20:28:55 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_120_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
     }
 }
 
@@ -665,71 +665,123 @@ fn test_tzeis_geonim_7_083_degrees() {
 fn test_mincha_gedola_30_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 13:12:18 EDT",
-        "2017-10-17 12:54:28 IDT",
-        "2017-10-17 13:10:05 PDT",
-        "2017-10-17 11:56:55 JST",
-        "2017-10-17 12:34:32 EDT",
-        "2017-10-17 13:42:43 +14",
-        "2017-10-17 12:23:26 +12",
-        "2017-10-17 13:47:10 HDT",
-        "2017-10-17 12:34:44 -11",
+        "2017-10-17 13:12:12 -0400",
+        "2017-10-17 12:54:22 +0300",
+        "2017-10-17 13:09:59 -0700",
+        "2017-10-17 11:56:48 +0900",
+        "2017-10-17 12:34:26 -0400",
+        "2017-10-17 13:42:36 +1400",
+        "2017-10-17 12:23:19 +1200",
+        "2017-10-17 13:47:04 -0900",
+        "2017-10-17 12:34:38 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_gedola_30_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_30_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
-// Skipped getShaahZmanisAlos16Point1ToTzais3Point7 because it doesn't return an Instant
+// Skipped getShaahZmanisAlos16Point1DegreesToTzaisGeonim3Point7Degrees because it doesn't return an Instant
 
-// Skipped getShaahZmanisAlos16Point1ToTzais3Point8 because it doesn't return an Instant
+// Skipped getMinchaGedolaGreaterThan30 because it takes parameters
+
+// Skipped getShaahZmanisAlos16Point1DegreesToTzaisGeonim3Point8Degrees because it doesn't return an Instant
 
 // Skipped getAteretTorahSunsetOffset because it doesn't return an Instant
 
-// Skipped getSofZmanKidushLevanaBetweenMoldos because this library doesn't calculate molados (yet?)
-
 // Skipped getSofZmanKidushLevanaBetweenMoldos because it takes parameters
 
-// Skipped getSofZmanKidushLevana15Days because this library doesn't calculate molados (yet?)
+// Skipped getSofZmanKidushLevanaBetweenMoldos because this library doesn't calculate molados (yet?)
 
 // Skipped getSofZmanKidushLevana15Days because it takes parameters
+
+// Skipped getSofZmanKidushLevana15Days because this library doesn't calculate molados (yet?)
 
 // Skipped getTchilasZmanKidushLevana3Days because it takes parameters
 
 // Skipped getTchilasZmanKidushLevana3Days because this library doesn't calculate molados (yet?)
 
-// Skipped getTchilasZmanKidushLevana7Days because this library doesn't calculate molados (yet?)
-
 // Skipped getTchilasZmanKidushLevana7Days because it takes parameters
 
+// Skipped getTchilasZmanKidushLevana7Days because this library doesn't calculate molados (yet?)
+
 #[test]
-fn test_fixed_local_chatzos() {
+fn test_fixed_local_chatzos_hayom() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 12:56:57 EDT",
-        "2017-10-17 12:39:03 IDT",
-        "2017-10-17 12:54:46 PDT",
-        "2017-10-17 11:41:26 JST",
-        "2017-10-17 12:19:10 EDT",
-        "2017-10-17 13:27:12 +14",
-        "2017-10-17 12:07:55 +12",
-        "2017-10-17 13:31:52 HDT",
-        "2017-10-17 12:19:26 -11",
+        "2017-10-17 12:56:57 -0400",
+        "2017-10-17 12:39:03 +0300",
+        "2017-10-17 12:54:46 -0700",
+        "2017-10-17 11:41:26 +0900",
+        "2017-10-17 12:19:10 -0400",
+        "2017-10-17 13:27:12 +1400",
+        "2017-10-17 12:07:55 +1200",
+        "2017-10-17 13:31:52 -0900",
+        "2017-10-17 12:19:26 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.fixed_local_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.fixed_local_chatzos_hayom().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
+
+#[test]
+fn test_polar_sunrise_ben_ish_chai() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "None",
+        "None",
+        "None",
+        "None",
+        "2017-10-17 05:58:59 -0400",
+        "None",
+        "None",
+        "None",
+        "None",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.polar_sunrise_ben_ish_chai().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_polar_sunset_ben_ish_chai() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "None",
+        "None",
+        "None",
+        "None",
+        "2017-10-17 18:09:59 -0400",
+        "None",
+        "None",
+        "None",
+        "None",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.polar_sunset_ben_ish_chai().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+// Skipped getPolarStartOfDayTeshuvosVehanhagos because it contains a phrase which was explicitly excluded
 
 // Skipped getShaahZmanis19Point8Degrees because it doesn't return an Instant
 
@@ -751,6 +803,8 @@ fn test_fixed_local_chatzos() {
 
 // Skipped getShaahZmanisAteretTorah because it doesn't return an Instant
 
+// Skipped getShaahZmanisAlos16Point1DegreesToTzaisGeonim7Point083Degrees because it doesn't return an Instant
+
 // Skipped getShaahZmanis96Minutes because it doesn't return an Instant
 
 // Skipped getShaahZmanis120Minutes because it doesn't return an Instant
@@ -761,23 +815,23 @@ fn test_fixed_local_chatzos() {
 fn test_plag_mga_120_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:33:07 EDT",
-        "2017-10-17 18:27:55 IDT",
-        "2017-10-17 18:37:56 PDT",
-        "2017-10-17 17:23:34 JST",
+        "2017-10-17 18:33:08 -0400",
+        "2017-10-17 18:27:55 +0300",
+        "2017-10-17 18:37:56 -0700",
+        "2017-10-17 17:23:34 +0900",
         "None",
-        "2017-10-17 19:52:08 +14",
-        "2017-10-17 18:34:55 +12",
-        "2017-10-17 19:25:07 HDT",
-        "2017-10-17 18:43:53 -11",
+        "2017-10-17 19:52:08 +1400",
+        "2017-10-17 18:34:55 +1200",
+        "2017-10-17 19:25:07 -0900",
+        "2017-10-17 18:43:53 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_120_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_120_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -785,23 +839,23 @@ fn test_plag_mga_120_minutes_zmanis() {
 fn test_plag_mga_120_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:40:19 EDT",
-        "2017-10-17 18:31:59 IDT",
-        "2017-10-17 18:43:23 PDT",
-        "2017-10-17 17:29:18 JST",
+        "2017-10-17 18:40:19 -0400",
+        "2017-10-17 18:31:59 +0300",
+        "2017-10-17 18:43:23 -0700",
+        "2017-10-17 17:29:19 +0900",
         "None",
-        "2017-10-17 19:47:17 +14",
-        "2017-10-17 18:29:33 +12",
-        "2017-10-17 19:28:04 HDT",
-        "2017-10-17 18:39:06 -11",
+        "2017-10-17 19:47:17 +1400",
+        "2017-10-17 18:29:33 +1200",
+        "2017-10-17 19:28:04 -0900",
+        "2017-10-17 18:39:06 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_120_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_120_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -809,23 +863,23 @@ fn test_plag_mga_120_minutes() {
 fn test_alos_19_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:34:19 EDT",
-        "2017-10-17 05:17:45 IDT",
-        "2017-10-17 05:33:33 PDT",
-        "2017-10-17 04:19:25 JST",
+        "2017-10-17 05:34:19 -0400",
+        "2017-10-17 05:17:45 +0300",
+        "2017-10-17 05:33:33 -0700",
+        "2017-10-17 04:19:25 +0900",
         "None",
-        "2017-10-17 05:43:32 +14",
-        "2017-10-17 04:19:49 +12",
-        "2017-10-17 06:09:55 HDT",
-        "2017-10-17 04:28:40 -11",
+        "2017-10-17 05:43:32 +1400",
+        "2017-10-17 04:19:49 +1200",
+        "2017-10-17 06:09:55 -0900",
+        "2017-10-17 04:28:40 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_19_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_19_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -833,23 +887,23 @@ fn test_alos_19_degrees() {
 fn test_misheyakir_12_85_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 06:06:30 EDT",
-        "2017-10-17 05:46:42 IDT",
-        "2017-10-17 06:03:16 PDT",
-        "2017-10-17 04:49:43 JST",
-        "2017-10-17 04:21:54 EDT",
-        "2017-10-17 06:09:38 +14",
-        "2017-10-17 04:46:34 +12",
-        "2017-10-17 06:36:25 HDT",
-        "2017-10-17 04:55:46 -11",
+        "2017-10-17 06:06:30 -0400",
+        "2017-10-17 05:46:42 +0300",
+        "2017-10-17 06:03:16 -0700",
+        "2017-10-17 04:49:43 +0900",
+        "2017-10-17 04:21:54 -0400",
+        "2017-10-17 06:09:38 +1400",
+        "2017-10-17 04:46:34 +1200",
+        "2017-10-17 06:36:25 -0900",
+        "2017-10-17 04:55:46 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.misheyakir_12_85_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.misheyakir_12_85_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -857,23 +911,23 @@ fn test_misheyakir_12_85_degrees() {
 fn test_misheyakir_11_5_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 06:13:34 EDT",
-        "2017-10-17 05:53:04 IDT",
-        "2017-10-17 06:09:47 PDT",
-        "2017-10-17 04:56:23 JST",
-        "2017-10-17 05:02:03 EDT",
-        "2017-10-17 06:15:20 +14",
-        "2017-10-17 04:52:24 +12",
-        "2017-10-17 06:42:15 HDT",
-        "2017-10-17 05:01:40 -11",
+        "2017-10-17 06:13:34 -0400",
+        "2017-10-17 05:53:04 +0300",
+        "2017-10-17 06:09:47 -0700",
+        "2017-10-17 04:56:23 +0900",
+        "2017-10-17 05:02:03 -0400",
+        "2017-10-17 06:15:20 +1400",
+        "2017-10-17 04:52:24 +1200",
+        "2017-10-17 06:42:15 -0900",
+        "2017-10-17 05:01:40 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.misheyakir_11_5_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.misheyakir_11_5_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -881,23 +935,23 @@ fn test_misheyakir_11_5_degrees() {
 fn test_misheyakir_11_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 06:16:11 EDT",
-        "2017-10-17 05:55:26 IDT",
-        "2017-10-17 06:12:13 PDT",
-        "2017-10-17 04:58:51 JST",
-        "2017-10-17 05:16:25 EDT",
-        "2017-10-17 06:17:26 +14",
-        "2017-10-17 04:54:33 +12",
-        "2017-10-17 06:44:25 HDT",
-        "2017-10-17 05:03:51 -11",
+        "2017-10-17 06:16:11 -0400",
+        "2017-10-17 05:55:26 +0300",
+        "2017-10-17 06:12:13 -0700",
+        "2017-10-17 04:58:51 +0900",
+        "2017-10-17 05:16:25 -0400",
+        "2017-10-17 06:17:26 +1400",
+        "2017-10-17 04:54:33 +1200",
+        "2017-10-17 06:44:25 -0900",
+        "2017-10-17 05:03:51 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.misheyakir_11_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.misheyakir_11_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -905,23 +959,23 @@ fn test_misheyakir_11_degrees() {
 fn test_misheyakir_10_2_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 06:20:22 EDT",
-        "2017-10-17 05:59:13 IDT",
-        "2017-10-17 06:16:05 PDT",
-        "2017-10-17 05:02:48 JST",
-        "2017-10-17 05:39:04 EDT",
-        "2017-10-17 06:20:48 +14",
-        "2017-10-17 04:58:00 +12",
-        "2017-10-17 06:47:52 HDT",
-        "2017-10-17 05:07:20 -11",
+        "2017-10-17 06:20:22 -0400",
+        "2017-10-17 05:59:13 +0300",
+        "2017-10-17 06:16:05 -0700",
+        "2017-10-17 05:02:48 +0900",
+        "2017-10-17 05:39:04 -0400",
+        "2017-10-17 06:20:48 +1400",
+        "2017-10-17 04:58:00 +1200",
+        "2017-10-17 06:47:52 -0900",
+        "2017-10-17 05:07:20 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.misheyakir_10_2_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.misheyakir_10_2_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -929,23 +983,23 @@ fn test_misheyakir_10_2_degrees() {
 fn test_misheyakir_7_65_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 06:33:46 EDT",
-        "2017-10-17 06:11:16 IDT",
-        "2017-10-17 06:28:27 PDT",
-        "2017-10-17 05:15:24 JST",
-        "2017-10-17 06:51:04 EDT",
-        "2017-10-17 06:31:32 +14",
-        "2017-10-17 05:08:58 +12",
-        "2017-10-17 06:58:55 HDT",
-        "2017-10-17 05:18:25 -11",
+        "2017-10-17 06:33:46 -0400",
+        "2017-10-17 06:11:16 +0300",
+        "2017-10-17 06:28:27 -0700",
+        "2017-10-17 05:15:24 +0900",
+        "2017-10-17 06:51:04 -0400",
+        "2017-10-17 06:31:32 +1400",
+        "2017-10-17 05:08:58 +1200",
+        "2017-10-17 06:58:55 -0900",
+        "2017-10-17 05:18:25 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.misheyakir_7_65_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.misheyakir_7_65_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -953,23 +1007,23 @@ fn test_misheyakir_7_65_degrees() {
 fn test_misheyakir_9_5_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 06:24:03 EDT",
-        "2017-10-17 06:02:31 IDT",
-        "2017-10-17 06:19:29 PDT",
-        "2017-10-17 05:06:15 JST",
-        "2017-10-17 05:58:44 EDT",
-        "2017-10-17 06:23:45 +14",
-        "2017-10-17 05:01:01 +12",
-        "2017-10-17 06:50:54 HDT",
-        "2017-10-17 05:10:23 -11",
+        "2017-10-17 06:24:03 -0400",
+        "2017-10-17 06:02:31 +0300",
+        "2017-10-17 06:19:29 -0700",
+        "2017-10-17 05:06:15 +0900",
+        "2017-10-17 05:58:44 -0400",
+        "2017-10-17 06:23:45 +1400",
+        "2017-10-17 05:01:01 +1200",
+        "2017-10-17 06:50:54 -0900",
+        "2017-10-17 05:10:23 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.misheyakir_9_5_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.misheyakir_9_5_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -977,23 +1031,23 @@ fn test_misheyakir_9_5_degrees() {
 fn test_sof_zman_shema_mga_19_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:05:59 EDT",
-        "2017-10-17 08:49:03 IDT",
-        "2017-10-17 09:04:42 PDT",
-        "2017-10-17 07:50:59 JST",
+        "2017-10-17 09:05:59 -0400",
+        "2017-10-17 08:49:03 +0300",
+        "2017-10-17 09:04:42 -0700",
+        "2017-10-17 07:50:59 +0900",
         "None",
-        "2017-10-17 09:26:27 +14",
-        "2017-10-17 08:04:55 +12",
-        "2017-10-17 09:41:41 HDT",
-        "2017-10-17 08:14:59 -11",
+        "2017-10-17 09:26:27 +1400",
+        "2017-10-17 08:04:55 +1200",
+        "2017-10-17 09:41:41 -0900",
+        "2017-10-17 08:14:59 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_19_8_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_19_8_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1001,23 +1055,23 @@ fn test_sof_zman_shema_mga_19_8_degrees() {
 fn test_sof_zman_shema_mga_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:15:41 EDT",
-        "2017-10-17 08:57:46 IDT",
-        "2017-10-17 09:13:38 PDT",
-        "2017-10-17 08:00:06 JST",
-        "2017-10-17 07:10:10 EDT",
-        "2017-10-17 09:34:18 +14",
-        "2017-10-17 08:12:59 +12",
-        "2017-10-17 09:49:40 HDT",
-        "2017-10-17 08:23:09 -11",
+        "2017-10-17 09:15:41 -0400",
+        "2017-10-17 08:57:46 +0300",
+        "2017-10-17 09:13:38 -0700",
+        "2017-10-17 08:00:06 +0900",
+        "2017-10-17 07:10:10 -0400",
+        "2017-10-17 09:34:18 +1400",
+        "2017-10-17 08:12:59 +1200",
+        "2017-10-17 09:49:40 -0900",
+        "2017-10-17 08:23:09 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_16_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_16_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1025,23 +1079,23 @@ fn test_sof_zman_shema_mga_16_1_degrees() {
 fn test_sof_zman_shema_mga_18_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:10:42 EDT",
-        "2017-10-17 08:53:17 IDT",
-        "2017-10-17 09:09:03 PDT",
-        "2017-10-17 07:55:25 JST",
+        "2017-10-17 09:10:42 -0400",
+        "2017-10-17 08:53:17 +0300",
+        "2017-10-17 09:09:03 -0700",
+        "2017-10-17 07:55:25 +0900",
         "None",
-        "2017-10-17 09:30:16 +14",
-        "2017-10-17 08:08:51 +12",
-        "2017-10-17 09:45:34 HDT",
-        "2017-10-17 08:18:58 -11",
+        "2017-10-17 09:30:16 +1400",
+        "2017-10-17 08:08:51 +1200",
+        "2017-10-17 09:45:34 -0900",
+        "2017-10-17 08:18:58 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_18_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_18_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1049,23 +1103,23 @@ fn test_sof_zman_shema_mga_18_degrees() {
 fn test_sof_zman_shema_mga_72_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:22:17 EDT",
-        "2017-10-17 08:57:23 IDT",
-        "2017-10-17 09:16:09 PDT",
-        "2017-10-17 08:03:37 JST",
+        "2017-10-17 09:22:17 -0400",
+        "2017-10-17 08:57:23 +0300",
+        "2017-10-17 09:16:09 -0700",
+        "2017-10-17 08:03:37 +0900",
         "None",
-        "2017-10-17 09:25:40 +14",
-        "2017-10-17 08:05:15 +12",
-        "2017-10-17 09:47:38 HDT",
-        "2017-10-17 08:17:54 -11",
+        "2017-10-17 09:25:40 +1400",
+        "2017-10-17 08:05:15 +1200",
+        "2017-10-17 09:47:38 -0900",
+        "2017-10-17 08:17:54 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_72_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_72_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1073,23 +1127,23 @@ fn test_sof_zman_shema_mga_72_minutes_zmanis() {
 fn test_sof_zman_shema_mga_90_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:10:33 EDT",
-        "2017-10-17 08:46:50 IDT",
-        "2017-10-17 09:05:05 PDT",
-        "2017-10-17 07:52:27 JST",
+        "2017-10-17 09:10:33 -0400",
+        "2017-10-17 08:46:50 +0300",
+        "2017-10-17 09:05:05 -0700",
+        "2017-10-17 07:52:26 +0900",
         "None",
-        "2017-10-17 09:18:30 +14",
-        "2017-10-17 07:58:17 +12",
-        "2017-10-17 09:37:31 HDT",
-        "2017-10-17 08:10:43 -11",
+        "2017-10-17 09:18:30 +1400",
+        "2017-10-17 07:58:17 +1200",
+        "2017-10-17 09:37:31 -0900",
+        "2017-10-17 08:10:43 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_90_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_90_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1097,23 +1151,23 @@ fn test_sof_zman_shema_mga_90_minutes() {
 fn test_sof_zman_shema_mga_90_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:13:58 EDT",
-        "2017-10-17 08:48:46 IDT",
-        "2017-10-17 09:07:40 PDT",
-        "2017-10-17 07:55:10 JST",
+        "2017-10-17 09:13:57 -0400",
+        "2017-10-17 08:48:46 +0300",
+        "2017-10-17 09:07:40 -0700",
+        "2017-10-17 07:55:10 +0900",
         "None",
-        "2017-10-17 09:16:12 +14",
-        "2017-10-17 07:55:45 +12",
-        "2017-10-17 09:38:55 HDT",
-        "2017-10-17 08:08:27 -11",
+        "2017-10-17 09:16:12 +1400",
+        "2017-10-17 07:55:45 +1200",
+        "2017-10-17 09:38:55 -0900",
+        "2017-10-17 08:08:27 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_90_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_90_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1121,23 +1175,23 @@ fn test_sof_zman_shema_mga_90_minutes_zmanis() {
 fn test_sof_zman_shema_mga_96_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:07:33 EDT",
-        "2017-10-17 08:43:50 IDT",
-        "2017-10-17 09:02:05 PDT",
-        "2017-10-17 07:49:27 JST",
+        "2017-10-17 09:07:33 -0400",
+        "2017-10-17 08:43:50 +0300",
+        "2017-10-17 09:02:05 -0700",
+        "2017-10-17 07:49:26 +0900",
         "None",
-        "2017-10-17 09:15:30 +14",
-        "2017-10-17 07:55:17 +12",
-        "2017-10-17 09:34:31 HDT",
-        "2017-10-17 08:07:43 -11",
+        "2017-10-17 09:15:30 +1400",
+        "2017-10-17 07:55:17 +1200",
+        "2017-10-17 09:34:31 -0900",
+        "2017-10-17 08:07:43 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_96_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_96_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1145,23 +1199,23 @@ fn test_sof_zman_shema_mga_96_minutes() {
 fn test_sof_zman_shema_mga_96_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:11:11 EDT",
-        "2017-10-17 08:45:53 IDT",
-        "2017-10-17 09:04:50 PDT",
-        "2017-10-17 07:52:21 JST",
+        "2017-10-17 09:11:11 -0400",
+        "2017-10-17 08:45:53 +0300",
+        "2017-10-17 09:04:50 -0700",
+        "2017-10-17 07:52:21 +0900",
         "None",
-        "2017-10-17 09:13:03 +14",
-        "2017-10-17 07:52:34 +12",
-        "2017-10-17 09:36:00 HDT",
-        "2017-10-17 08:05:18 -11",
+        "2017-10-17 09:13:03 +1400",
+        "2017-10-17 07:52:34 +1200",
+        "2017-10-17 09:36:00 -0900",
+        "2017-10-17 08:05:18 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_96_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_96_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1169,23 +1223,23 @@ fn test_sof_zman_shema_mga_96_minutes_zmanis() {
 fn test_sof_zman_shema_3_hrs_before_chatzos() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:42:18 EDT",
-        "2017-10-17 09:24:28 IDT",
-        "2017-10-17 09:40:05 PDT",
-        "2017-10-17 08:26:55 JST",
-        "2017-10-17 09:04:32 EDT",
-        "2017-10-17 10:12:43 +14",
-        "2017-10-17 08:53:26 +12",
-        "2017-10-17 10:17:10 HDT",
-        "2017-10-17 09:04:44 -11",
+        "2017-10-17 09:42:12 -0400",
+        "2017-10-17 09:24:22 +0300",
+        "2017-10-17 09:39:59 -0700",
+        "2017-10-17 08:26:48 +0900",
+        "2017-10-17 09:04:26 -0400",
+        "2017-10-17 10:12:36 +1400",
+        "2017-10-17 08:53:19 +1200",
+        "2017-10-17 10:17:04 -0900",
+        "2017-10-17 09:04:38 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_3_hrs_before_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_3_hrs_before_chatzos().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1193,71 +1247,71 @@ fn test_sof_zman_shema_3_hrs_before_chatzos() {
 fn test_sof_zman_shema_mga_120_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 08:55:33 EDT",
-        "2017-10-17 08:31:50 IDT",
-        "2017-10-17 08:50:05 PDT",
-        "2017-10-17 07:37:27 JST",
+        "2017-10-17 08:55:33 -0400",
+        "2017-10-17 08:31:50 +0300",
+        "2017-10-17 08:50:05 -0700",
+        "2017-10-17 07:37:26 +0900",
         "None",
-        "2017-10-17 09:03:30 +14",
-        "2017-10-17 07:43:17 +12",
-        "2017-10-17 09:22:31 HDT",
-        "2017-10-17 07:55:43 -11",
+        "2017-10-17 09:03:30 +1400",
+        "2017-10-17 07:43:17 +1200",
+        "2017-10-17 09:22:31 -0900",
+        "2017-10-17 07:55:43 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_120_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_120_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
-fn test_sof_zman_shema_alos_16_1_degrees_to_sunset() {
+fn test_sof_zman_shema_alos_16_1_to_sunset() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 08:55:47 EDT",
-        "2017-10-17 08:40:44 IDT",
-        "2017-10-17 08:55:27 PDT",
-        "2017-10-17 07:41:28 JST",
+        "2017-10-17 08:55:47 -0400",
+        "2017-10-17 08:40:44 +0300",
+        "2017-10-17 08:55:27 -0700",
+        "2017-10-17 07:41:28 +0900",
         "None",
-        "2017-10-17 09:19:41 +14",
-        "2017-10-17 07:57:48 +12",
-        "2017-10-17 09:33:14 HDT",
-        "2017-10-17 08:06:50 -11",
+        "2017-10-17 09:19:41 +1400",
+        "2017-10-17 07:57:48 +1200",
+        "2017-10-17 09:33:14 -0900",
+        "2017-10-17 08:06:50 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_alos_16_1_degrees_to_sunset().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_alos_16_1_to_sunset().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
-fn test_sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
+fn test_sof_zman_shema_alos_16_1_to_tzeis_7_083() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:03:53 EDT",
-        "2017-10-17 08:47:08 IDT",
-        "2017-10-17 09:02:44 PDT",
-        "2017-10-17 07:49:00 JST",
-        "2017-10-17 06:01:11 EDT",
-        "2017-10-17 09:24:47 +14",
-        "2017-10-17 08:03:14 +12",
-        "2017-10-17 09:39:55 HDT",
-        "2017-10-17 08:13:18 -11",
+        "2017-10-17 09:03:53 -0400",
+        "2017-10-17 08:47:08 +0300",
+        "2017-10-17 09:02:44 -0700",
+        "2017-10-17 07:49:00 +0900",
+        "2017-10-17 06:01:11 -0400",
+        "2017-10-17 09:24:47 +1400",
+        "2017-10-17 08:03:14 +1200",
+        "2017-10-17 09:39:55 -0900",
+        "2017-10-17 08:13:18 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_alos_16_1_to_tzeis_7_083().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1265,23 +1319,23 @@ fn test_sof_zman_shema_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
 fn test_sof_zman_tefila_mga_19_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:17:56 EDT",
-        "2017-10-17 10:00:44 IDT",
-        "2017-10-17 10:16:22 PDT",
-        "2017-10-17 09:02:49 JST",
+        "2017-10-17 10:17:56 -0400",
+        "2017-10-17 10:00:44 +0300",
+        "2017-10-17 10:16:22 -0700",
+        "2017-10-17 09:02:49 +0900",
         "None",
-        "2017-10-17 10:41:53 +14",
-        "2017-10-17 09:21:07 +12",
-        "2017-10-17 10:53:26 HDT",
-        "2017-10-17 09:31:36 -11",
+        "2017-10-17 10:41:53 +1400",
+        "2017-10-17 09:21:07 +1200",
+        "2017-10-17 10:53:26 -0900",
+        "2017-10-17 09:31:36 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_19_8_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_19_8_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1289,23 +1343,23 @@ fn test_sof_zman_tefila_mga_19_8_degrees() {
 fn test_sof_zman_tefila_mga_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:24:24 EDT",
-        "2017-10-17 10:06:33 IDT",
-        "2017-10-17 10:22:20 PDT",
-        "2017-10-17 09:08:55 JST",
-        "2017-10-17 08:46:02 EDT",
-        "2017-10-17 10:47:07 +14",
-        "2017-10-17 09:26:29 +12",
-        "2017-10-17 10:58:45 HDT",
-        "2017-10-17 09:37:03 -11",
+        "2017-10-17 10:24:24 -0400",
+        "2017-10-17 10:06:33 +0300",
+        "2017-10-17 10:22:20 -0700",
+        "2017-10-17 09:08:55 +0900",
+        "2017-10-17 08:46:02 -0400",
+        "2017-10-17 10:47:07 +1400",
+        "2017-10-17 09:26:29 +1200",
+        "2017-10-17 10:58:45 -0900",
+        "2017-10-17 09:37:03 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_16_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_16_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1313,23 +1367,23 @@ fn test_sof_zman_tefila_mga_16_1_degrees() {
 fn test_sof_zman_tefila_mga_18_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:21:05 EDT",
-        "2017-10-17 10:03:34 IDT",
-        "2017-10-17 10:19:16 PDT",
-        "2017-10-17 09:05:47 JST",
+        "2017-10-17 10:21:05 -0400",
+        "2017-10-17 10:03:34 +0300",
+        "2017-10-17 10:19:16 -0700",
+        "2017-10-17 09:05:47 +0900",
         "None",
-        "2017-10-17 10:44:26 +14",
-        "2017-10-17 09:23:44 +12",
-        "2017-10-17 10:56:01 HDT",
-        "2017-10-17 09:34:15 -11",
+        "2017-10-17 10:44:26 +1400",
+        "2017-10-17 09:23:44 +1200",
+        "2017-10-17 10:56:01 -0900",
+        "2017-10-17 09:34:15 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_18_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_18_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1337,23 +1391,23 @@ fn test_sof_zman_tefila_mga_18_degrees() {
 fn test_sof_zman_tefila_mga_72_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:28:49 EDT",
-        "2017-10-17 10:06:18 IDT",
-        "2017-10-17 10:24:01 PDT",
-        "2017-10-17 09:11:16 JST",
+        "2017-10-17 10:28:49 -0400",
+        "2017-10-17 10:06:18 +0300",
+        "2017-10-17 10:24:01 -0700",
+        "2017-10-17 09:11:16 +0900",
         "None",
-        "2017-10-17 10:41:21 +14",
-        "2017-10-17 09:21:19 +12",
-        "2017-10-17 10:57:24 HDT",
-        "2017-10-17 09:33:31 -11",
+        "2017-10-17 10:41:21 +1400",
+        "2017-10-17 09:21:19 +1200",
+        "2017-10-17 10:57:24 -0900",
+        "2017-10-17 09:33:31 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_72_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_72_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1361,23 +1415,23 @@ fn test_sof_zman_tefila_mga_72_minutes_zmanis() {
 fn test_sof_zman_tefila_mga_90_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:21:00 EDT",
-        "2017-10-17 09:59:17 IDT",
-        "2017-10-17 10:16:38 PDT",
-        "2017-10-17 09:03:49 JST",
+        "2017-10-17 10:21:00 -0400",
+        "2017-10-17 09:59:17 +0300",
+        "2017-10-17 10:16:38 -0700",
+        "2017-10-17 09:03:49 +0900",
         "None",
-        "2017-10-17 10:36:34 +14",
-        "2017-10-17 09:16:40 +12",
-        "2017-10-17 10:50:39 HDT",
-        "2017-10-17 09:28:44 -11",
+        "2017-10-17 10:36:34 +1400",
+        "2017-10-17 09:16:40 +1200",
+        "2017-10-17 10:50:39 -0900",
+        "2017-10-17 09:28:44 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_90_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_90_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1385,23 +1439,23 @@ fn test_sof_zman_tefila_mga_90_minutes() {
 fn test_sof_zman_tefila_mga_90_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:23:17 EDT",
-        "2017-10-17 10:00:33 IDT",
-        "2017-10-17 10:18:22 PDT",
-        "2017-10-17 09:05:38 JST",
+        "2017-10-17 10:23:17 -0400",
+        "2017-10-17 10:00:33 +0300",
+        "2017-10-17 10:18:22 -0700",
+        "2017-10-17 09:05:38 +0900",
         "None",
-        "2017-10-17 10:35:02 +14",
-        "2017-10-17 09:14:59 +12",
-        "2017-10-17 10:51:35 HDT",
-        "2017-10-17 09:27:13 -11",
+        "2017-10-17 10:35:02 +1400",
+        "2017-10-17 09:14:59 +1200",
+        "2017-10-17 10:51:35 -0900",
+        "2017-10-17 09:27:13 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_90_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_90_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1409,23 +1463,23 @@ fn test_sof_zman_tefila_mga_90_minutes_zmanis() {
 fn test_sof_zman_tefila_mga_96_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:19:00 EDT",
-        "2017-10-17 09:57:17 IDT",
-        "2017-10-17 10:14:38 PDT",
-        "2017-10-17 09:01:49 JST",
+        "2017-10-17 10:19:00 -0400",
+        "2017-10-17 09:57:17 +0300",
+        "2017-10-17 10:14:38 -0700",
+        "2017-10-17 09:01:49 +0900",
         "None",
-        "2017-10-17 10:34:34 +14",
-        "2017-10-17 09:14:40 +12",
-        "2017-10-17 10:48:39 HDT",
-        "2017-10-17 09:26:44 -11",
+        "2017-10-17 10:34:34 +1400",
+        "2017-10-17 09:14:40 +1200",
+        "2017-10-17 10:48:39 -0900",
+        "2017-10-17 09:26:44 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_96_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_96_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1433,23 +1487,23 @@ fn test_sof_zman_tefila_mga_96_minutes() {
 fn test_sof_zman_tefila_mga_96_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:21:26 EDT",
-        "2017-10-17 09:58:39 IDT",
-        "2017-10-17 10:16:29 PDT",
-        "2017-10-17 09:03:45 JST",
+        "2017-10-17 10:21:26 -0400",
+        "2017-10-17 09:58:39 +0300",
+        "2017-10-17 10:16:28 -0700",
+        "2017-10-17 09:03:45 +0900",
         "None",
-        "2017-10-17 10:32:56 +14",
-        "2017-10-17 09:12:52 +12",
-        "2017-10-17 10:49:39 HDT",
-        "2017-10-17 09:25:07 -11",
+        "2017-10-17 10:32:56 +1400",
+        "2017-10-17 09:12:52 +1200",
+        "2017-10-17 10:49:39 -0900",
+        "2017-10-17 09:25:07 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_96_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_96_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1457,23 +1511,23 @@ fn test_sof_zman_tefila_mga_96_minutes_zmanis() {
 fn test_sof_zman_tefila_mga_120_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:11:00 EDT",
-        "2017-10-17 09:49:17 IDT",
-        "2017-10-17 10:06:38 PDT",
-        "2017-10-17 08:53:49 JST",
+        "2017-10-17 10:11:00 -0400",
+        "2017-10-17 09:49:17 +0300",
+        "2017-10-17 10:06:38 -0700",
+        "2017-10-17 08:53:49 +0900",
         "None",
-        "2017-10-17 10:26:34 +14",
-        "2017-10-17 09:06:40 +12",
-        "2017-10-17 10:40:39 HDT",
-        "2017-10-17 09:18:44 -11",
+        "2017-10-17 10:26:34 +1400",
+        "2017-10-17 09:06:40 +1200",
+        "2017-10-17 10:40:39 -0900",
+        "2017-10-17 09:18:44 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_120_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_120_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1481,23 +1535,23 @@ fn test_sof_zman_tefila_mga_120_minutes() {
 fn test_sof_zman_tefila_2_hrs_before_chatzos() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:42:18 EDT",
-        "2017-10-17 10:24:28 IDT",
-        "2017-10-17 10:40:05 PDT",
-        "2017-10-17 09:26:55 JST",
-        "2017-10-17 10:04:32 EDT",
-        "2017-10-17 11:12:43 +14",
-        "2017-10-17 09:53:26 +12",
-        "2017-10-17 11:17:10 HDT",
-        "2017-10-17 10:04:44 -11",
+        "2017-10-17 10:42:12 -0400",
+        "2017-10-17 10:24:22 +0300",
+        "2017-10-17 10:39:59 -0700",
+        "2017-10-17 09:26:48 +0900",
+        "2017-10-17 10:04:26 -0400",
+        "2017-10-17 11:12:36 +1400",
+        "2017-10-17 09:53:19 +1200",
+        "2017-10-17 11:17:04 -0900",
+        "2017-10-17 10:04:38 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_2_hrs_before_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_2_hrs_before_chatzos().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1505,23 +1559,23 @@ fn test_sof_zman_tefila_2_hrs_before_chatzos() {
 fn test_mincha_gedola_mga_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 13:15:38 EDT",
-        "2017-10-17 12:58:52 IDT",
-        "2017-10-17 13:14:02 PDT",
-        "2017-10-17 12:00:44 JST",
+        "2017-10-17 13:15:38 -0400",
+        "2017-10-17 12:58:52 +0300",
+        "2017-10-17 13:14:02 -0700",
+        "2017-10-17 12:00:44 +0900",
         "None",
-        "2017-10-17 13:50:14 +14",
-        "2017-10-17 12:31:09 +12",
-        "2017-10-17 13:51:59 HDT",
-        "2017-10-17 12:42:17 -11",
+        "2017-10-17 13:50:14 +1400",
+        "2017-10-17 12:31:09 +1200",
+        "2017-10-17 13:52:00 -0900",
+        "2017-10-17 12:42:17 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_gedola_mga_72_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_mga_72_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1529,23 +1583,23 @@ fn test_mincha_gedola_mga_72_minutes() {
 fn test_mincha_gedola_mga_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 13:16:13 EDT",
-        "2017-10-17 12:58:31 IDT",
-        "2017-10-17 13:14:04 PDT",
-        "2017-10-17 12:00:55 JST",
-        "2017-10-17 12:45:42 EDT",
-        "2017-10-17 13:49:09 +14",
-        "2017-10-17 12:30:15 +12",
-        "2017-10-17 13:51:27 HDT",
-        "2017-10-17 12:41:46 -11",
+        "2017-10-17 13:16:13 -0400",
+        "2017-10-17 12:58:31 +0300",
+        "2017-10-17 13:14:04 -0700",
+        "2017-10-17 12:00:55 +0900",
+        "2017-10-17 12:45:42 -0400",
+        "2017-10-17 13:49:09 +1400",
+        "2017-10-17 12:30:15 +1200",
+        "2017-10-17 13:51:27 -0900",
+        "2017-10-17 12:41:46 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_gedola_mga_16_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_mga_16_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1553,49 +1607,71 @@ fn test_mincha_gedola_mga_16_1_degrees() {
 fn test_mincha_gedola_ahavat_shalom() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 13:13:58 EDT",
-        "2017-10-17 12:56:26 IDT",
-        "2017-10-17 13:11:56 PDT",
-        "2017-10-17 11:58:45 JST",
-        "2017-10-17 12:36:21 EDT",
-        "2017-10-17 13:46:56 +14",
-        "2017-10-17 12:27:57 +12",
-        "2017-10-17 13:49:28 HDT",
-        "2017-10-17 12:39:25 -11",
+        "2017-10-17 13:13:52 -0400",
+        "2017-10-17 12:56:19 +0300",
+        "2017-10-17 13:11:50 -0700",
+        "2017-10-17 11:58:39 +0900",
+        "2017-10-17 12:36:15 -0400",
+        "2017-10-17 13:46:50 +1400",
+        "2017-10-17 12:27:51 +1200",
+        "2017-10-17 13:49:22 -0900",
+        "2017-10-17 12:39:19 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_gedola_ahavat_shalom().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_ahavat_shalom().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
-// Skipped getMinchaGedolaGreaterThan30 because it takes parameters
+#[test]
+fn test_mincha_gedola_gra_greater_than_30_minutes() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 13:12:12 -0400",
+        "2017-10-17 12:54:22 +0300",
+        "2017-10-17 13:09:59 -0700",
+        "2017-10-17 11:56:48 +0900",
+        "None",
+        "2017-10-17 13:44:14 +1400",
+        "2017-10-17 12:25:09 +1200",
+        "2017-10-17 13:47:04 -0900",
+        "2017-10-17 12:36:17 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_gra_greater_than_30_minutes().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
 
 #[test]
 fn test_mincha_ketana_mga_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 16:42:24 EDT",
-        "2017-10-17 16:24:53 IDT",
-        "2017-10-17 16:40:08 PDT",
-        "2017-10-17 15:27:19 JST",
-        "2017-10-17 17:33:18 EDT",
-        "2017-10-17 17:27:36 +14",
-        "2017-10-17 16:10:46 +12",
-        "2017-10-17 17:18:43 HDT",
-        "2017-10-17 16:23:26 -11",
+        "2017-10-17 16:42:24 -0400",
+        "2017-10-17 16:24:53 +0300",
+        "2017-10-17 16:40:08 -0700",
+        "2017-10-17 15:27:19 +0900",
+        "2017-10-17 17:33:18 -0400",
+        "2017-10-17 17:27:36 +1400",
+        "2017-10-17 16:10:46 +1200",
+        "2017-10-17 17:18:43 -0900",
+        "2017-10-17 16:23:26 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_ketana_mga_16_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_ketana_mga_16_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1603,23 +1679,23 @@ fn test_mincha_ketana_mga_16_1_degrees() {
 fn test_mincha_ketana_ahavat_shalom() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 15:51:21 EDT",
-        "2017-10-17 15:38:53 IDT",
-        "2017-10-17 15:52:58 PDT",
-        "2017-10-17 14:39:13 JST",
-        "2017-10-17 12:30:13 EDT",
-        "2017-10-17 16:46:31 +14",
-        "2017-10-17 15:28:45 +12",
-        "2017-10-17 16:36:35 HDT",
-        "2017-10-17 15:40:56 -11",
+        "2017-10-17 15:51:21 -0400",
+        "2017-10-17 15:38:53 +0300",
+        "2017-10-17 15:52:58 -0700",
+        "2017-10-17 14:39:13 +0900",
+        "2017-10-17 12:30:13 -0400",
+        "2017-10-17 16:46:31 +1400",
+        "2017-10-17 15:28:45 +1200",
+        "2017-10-17 16:36:35 -0900",
+        "2017-10-17 15:40:56 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_ketana_ahavat_shalom().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_ketana_ahavat_shalom().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1627,23 +1703,23 @@ fn test_mincha_ketana_ahavat_shalom() {
 fn test_mincha_ketana_mga_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 16:38:00 EDT",
-        "2017-10-17 16:27:11 IDT",
-        "2017-10-17 16:39:42 PDT",
-        "2017-10-17 15:25:51 JST",
+        "2017-10-17 16:38:00 -0400",
+        "2017-10-17 16:27:11 +0300",
+        "2017-10-17 16:39:42 -0700",
+        "2017-10-17 15:25:51 +0900",
         "None",
-        "2017-10-17 17:35:27 +14",
-        "2017-10-17 16:17:19 +12",
-        "2017-10-17 17:22:24 HDT",
-        "2017-10-17 16:27:20 -11",
+        "2017-10-17 17:35:27 +1400",
+        "2017-10-17 16:17:19 +1200",
+        "2017-10-17 17:22:24 -0900",
+        "2017-10-17 16:27:20 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_ketana_mga_72_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_ketana_mga_72_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1651,23 +1727,23 @@ fn test_mincha_ketana_mga_72_minutes() {
 fn test_plag_mga_60_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:52:49 EDT",
-        "2017-10-17 17:44:29 IDT",
-        "2017-10-17 17:55:53 PDT",
-        "2017-10-17 16:41:48 JST",
+        "2017-10-17 17:52:49 -0400",
+        "2017-10-17 17:44:29 +0300",
+        "2017-10-17 17:55:53 -0700",
+        "2017-10-17 16:41:49 +0900",
         "None",
-        "2017-10-17 18:59:47 +14",
-        "2017-10-17 17:42:03 +12",
-        "2017-10-17 18:40:34 HDT",
-        "2017-10-17 17:51:36 -11",
+        "2017-10-17 18:59:47 +1400",
+        "2017-10-17 17:42:03 +1200",
+        "2017-10-17 18:40:34 -0900",
+        "2017-10-17 17:51:36 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_60_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_60_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1675,23 +1751,23 @@ fn test_plag_mga_60_minutes() {
 fn test_plag_mga_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:02:19 EDT",
-        "2017-10-17 17:53:59 IDT",
-        "2017-10-17 18:05:23 PDT",
-        "2017-10-17 16:51:18 JST",
+        "2017-10-17 18:02:19 -0400",
+        "2017-10-17 17:53:59 +0300",
+        "2017-10-17 18:05:23 -0700",
+        "2017-10-17 16:51:19 +0900",
         "None",
-        "2017-10-17 19:09:17 +14",
-        "2017-10-17 17:51:33 +12",
-        "2017-10-17 18:50:04 HDT",
-        "2017-10-17 18:01:06 -11",
+        "2017-10-17 19:09:17 +1400",
+        "2017-10-17 17:51:33 +1200",
+        "2017-10-17 18:50:04 -0900",
+        "2017-10-17 18:01:06 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_72_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_72_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1699,23 +1775,23 @@ fn test_plag_mga_72_minutes() {
 fn test_plag_mga_90_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:16:34 EDT",
-        "2017-10-17 18:08:14 IDT",
-        "2017-10-17 18:19:38 PDT",
-        "2017-10-17 17:05:33 JST",
+        "2017-10-17 18:16:34 -0400",
+        "2017-10-17 18:08:14 +0300",
+        "2017-10-17 18:19:38 -0700",
+        "2017-10-17 17:05:34 +0900",
         "None",
-        "2017-10-17 19:23:32 +14",
-        "2017-10-17 18:05:48 +12",
-        "2017-10-17 19:04:19 HDT",
-        "2017-10-17 18:15:21 -11",
+        "2017-10-17 19:23:32 +1400",
+        "2017-10-17 18:05:48 +1200",
+        "2017-10-17 19:04:19 -0900",
+        "2017-10-17 18:15:21 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_90_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_90_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1723,23 +1799,23 @@ fn test_plag_mga_90_minutes() {
 fn test_plag_mga_96_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:21:19 EDT",
-        "2017-10-17 18:12:59 IDT",
-        "2017-10-17 18:24:23 PDT",
-        "2017-10-17 17:10:18 JST",
+        "2017-10-17 18:21:19 -0400",
+        "2017-10-17 18:12:59 +0300",
+        "2017-10-17 18:24:23 -0700",
+        "2017-10-17 17:10:19 +0900",
         "None",
-        "2017-10-17 19:28:17 +14",
-        "2017-10-17 18:10:33 +12",
-        "2017-10-17 19:09:04 HDT",
-        "2017-10-17 18:20:06 -11",
+        "2017-10-17 19:28:17 +1400",
+        "2017-10-17 18:10:33 +1200",
+        "2017-10-17 19:09:04 -0900",
+        "2017-10-17 18:20:06 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_96_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_96_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1747,23 +1823,23 @@ fn test_plag_mga_96_minutes() {
 fn test_plag_mga_96_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:15:34 EDT",
-        "2017-10-17 18:09:44 IDT",
-        "2017-10-17 18:20:02 PDT",
-        "2017-10-17 17:05:43 JST",
+        "2017-10-17 18:15:34 -0400",
+        "2017-10-17 18:09:44 +0300",
+        "2017-10-17 18:20:02 -0700",
+        "2017-10-17 17:05:43 +0900",
         "None",
-        "2017-10-17 19:32:10 +14",
-        "2017-10-17 18:14:50 +12",
-        "2017-10-17 19:06:42 HDT",
-        "2017-10-17 18:23:56 -11",
+        "2017-10-17 19:32:10 +1400",
+        "2017-10-17 18:14:50 +1200",
+        "2017-10-17 19:06:43 -0900",
+        "2017-10-17 18:23:56 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_96_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_96_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1771,23 +1847,23 @@ fn test_plag_mga_96_minutes_zmanis() {
 fn test_plag_mga_90_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:11:10 EDT",
-        "2017-10-17 18:05:11 IDT",
-        "2017-10-17 18:15:33 PDT",
-        "2017-10-17 17:01:15 JST",
+        "2017-10-17 18:11:11 -0400",
+        "2017-10-17 18:05:11 +0300",
+        "2017-10-17 18:15:33 -0700",
+        "2017-10-17 17:01:15 +0900",
         "None",
-        "2017-10-17 19:27:10 +14",
-        "2017-10-17 18:09:49 +12",
-        "2017-10-17 19:02:06 HDT",
-        "2017-10-17 18:18:56 -11",
+        "2017-10-17 19:27:10 +1400",
+        "2017-10-17 18:09:49 +1200",
+        "2017-10-17 19:02:06 -0900",
+        "2017-10-17 18:18:56 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_90_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_90_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1795,23 +1871,23 @@ fn test_plag_mga_90_minutes_zmanis() {
 fn test_plag_mga_72_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:58:00 EDT",
-        "2017-10-17 17:51:32 IDT",
-        "2017-10-17 18:02:07 PDT",
-        "2017-10-17 16:47:52 JST",
+        "2017-10-17 17:58:00 -0400",
+        "2017-10-17 17:51:32 +0300",
+        "2017-10-17 18:02:07 -0700",
+        "2017-10-17 16:47:52 +0900",
         "None",
-        "2017-10-17 19:12:12 +14",
-        "2017-10-17 17:54:46 +12",
-        "2017-10-17 18:48:18 HDT",
-        "2017-10-17 18:03:58 -11",
+        "2017-10-17 19:12:12 +1400",
+        "2017-10-17 17:54:46 +1200",
+        "2017-10-17 18:48:18 -0900",
+        "2017-10-17 18:03:58 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_72_minutes_zmanis().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_72_minutes_zmanis().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1819,23 +1895,23 @@ fn test_plag_mga_72_minutes_zmanis() {
 fn test_plag_mga_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:08:19 EDT",
-        "2017-10-17 17:50:52 IDT",
-        "2017-10-17 18:06:00 PDT",
-        "2017-10-17 16:53:19 JST",
-        "2017-10-17 19:33:08 EDT",
-        "2017-10-17 18:58:37 +14",
-        "2017-10-17 17:42:39 +12",
-        "2017-10-17 18:45:04 HDT",
-        "2017-10-17 17:55:48 -11",
+        "2017-10-17 18:08:19 -0400",
+        "2017-10-17 17:50:52 +0300",
+        "2017-10-17 18:06:00 -0700",
+        "2017-10-17 16:53:19 +0900",
+        "2017-10-17 19:33:08 -0400",
+        "2017-10-17 18:58:37 +1400",
+        "2017-10-17 17:42:39 +1200",
+        "2017-10-17 18:45:04 -0900",
+        "2017-10-17 17:55:48 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_16_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_16_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1843,23 +1919,23 @@ fn test_plag_mga_16_1_degrees() {
 fn test_plag_mga_19_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:23:38 EDT",
-        "2017-10-17 18:04:38 IDT",
-        "2017-10-17 18:20:08 PDT",
-        "2017-10-17 17:07:44 JST",
+        "2017-10-17 18:23:38 -0400",
+        "2017-10-17 18:04:38 +0300",
+        "2017-10-17 18:20:08 -0700",
+        "2017-10-17 17:07:44 +0900",
         "None",
-        "2017-10-17 19:11:06 +14",
-        "2017-10-17 17:55:28 +12",
-        "2017-10-17 18:57:40 HDT",
-        "2017-10-17 18:08:48 -11",
+        "2017-10-17 19:11:06 +1400",
+        "2017-10-17 17:55:28 +1200",
+        "2017-10-17 18:57:40 -0900",
+        "2017-10-17 18:08:48 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_19_8_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_19_8_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1867,23 +1943,23 @@ fn test_plag_mga_19_8_degrees() {
 fn test_plag_mga_26_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:49:27 EDT",
-        "2017-10-17 18:27:44 IDT",
-        "2017-10-17 18:43:51 PDT",
-        "2017-10-17 17:31:58 JST",
+        "2017-10-17 18:49:27 -0400",
+        "2017-10-17 18:27:44 +0300",
+        "2017-10-17 18:43:51 -0700",
+        "2017-10-17 17:31:58 +0900",
         "None",
-        "2017-10-17 19:32:13 +14",
-        "2017-10-17 18:17:14 +12",
-        "2017-10-17 19:18:46 HDT",
-        "2017-10-17 18:30:54 -11",
+        "2017-10-17 19:32:13 +1400",
+        "2017-10-17 18:17:14 +1200",
+        "2017-10-17 19:18:46 -0900",
+        "2017-10-17 18:30:54 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_26_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_26_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1891,71 +1967,71 @@ fn test_plag_mga_26_degrees() {
 fn test_plag_mga_18_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:16:10 EDT",
-        "2017-10-17 17:57:56 IDT",
-        "2017-10-17 18:13:15 PDT",
-        "2017-10-17 17:00:43 JST",
+        "2017-10-17 18:16:10 -0400",
+        "2017-10-17 17:57:56 +0300",
+        "2017-10-17 18:13:15 -0700",
+        "2017-10-17 17:00:43 +0900",
         "None",
-        "2017-10-17 19:05:01 +14",
-        "2017-10-17 17:49:13 +12",
-        "2017-10-17 18:51:33 HDT",
-        "2017-10-17 18:02:27 -11",
+        "2017-10-17 19:05:01 +1400",
+        "2017-10-17 17:49:13 +1200",
+        "2017-10-17 18:51:33 -0900",
+        "2017-10-17 18:02:27 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_mga_18_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_mga_18_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
-fn test_plag_alos_16_1_degrees_to_sunset() {
+fn test_plag_alos_16_1_to_sunset() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 16:57:01 EDT",
-        "2017-10-17 16:49:53 IDT",
-        "2017-10-17 17:00:48 PDT",
-        "2017-10-17 15:46:32 JST",
+        "2017-10-17 16:57:01 -0400",
+        "2017-10-17 16:49:53 +0300",
+        "2017-10-17 17:00:48 -0700",
+        "2017-10-17 15:46:32 +0900",
         "None",
-        "2017-10-17 18:06:12 +14",
-        "2017-10-17 16:48:14 +12",
-        "2017-10-17 17:46:13 HDT",
-        "2017-10-17 16:57:19 -11",
+        "2017-10-17 18:06:11 +1400",
+        "2017-10-17 16:48:14 +1200",
+        "2017-10-17 17:46:14 -0900",
+        "2017-10-17 16:57:19 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_alos_16_1_degrees_to_sunset().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_alos_16_1_to_sunset().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
-fn test_plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
+fn test_plag_alos_16_1_to_tzeis_7_083() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:26:03 EDT",
-        "2017-10-17 17:12:46 IDT",
-        "2017-10-17 17:26:57 PDT",
-        "2017-10-17 16:13:30 JST",
-        "2017-10-17 15:25:56 EDT",
-        "2017-10-17 18:24:29 +14",
-        "2017-10-17 17:07:43 +12",
-        "2017-10-17 18:10:10 HDT",
-        "2017-10-17 17:20:27 -11",
+        "2017-10-17 17:26:03 -0400",
+        "2017-10-17 17:12:46 +0300",
+        "2017-10-17 17:26:57 -0700",
+        "2017-10-17 16:13:30 +0900",
+        "2017-10-17 15:25:56 -0400",
+        "2017-10-17 18:24:29 +1400",
+        "2017-10-17 17:07:43 +1200",
+        "2017-10-17 18:10:10 -0900",
+        "2017-10-17 17:20:27 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_alos_16_1_to_tzeis_7_083().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1963,23 +2039,23 @@ fn test_plag_alos_16_1_degrees_to_tzeis_geonim_7_083_degrees() {
 fn test_plag_ahavat_shalom() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:10:33 EDT",
-        "2017-10-17 16:58:49 IDT",
-        "2017-10-17 17:12:37 PDT",
-        "2017-10-17 15:58:54 JST",
-        "2017-10-17 13:50:10 EDT",
-        "2017-10-17 18:12:08 +14",
-        "2017-10-17 16:55:07 +12",
-        "2017-10-17 17:57:24 HDT",
-        "2017-10-17 17:07:42 -11",
+        "2017-10-17 17:10:33 -0400",
+        "2017-10-17 16:58:49 +0300",
+        "2017-10-17 17:12:37 -0700",
+        "2017-10-17 15:58:54 +0900",
+        "2017-10-17 13:50:10 -0400",
+        "2017-10-17 18:12:08 +1400",
+        "2017-10-17 16:55:07 +1200",
+        "2017-10-17 17:57:24 -0900",
+        "2017-10-17 17:07:42 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_ahavat_shalom().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_ahavat_shalom().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -1987,23 +2063,23 @@ fn test_plag_ahavat_shalom() {
 fn test_bein_hashmashos_rt_13_24_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:19:17 EDT",
-        "2017-10-17 19:03:23 IDT",
-        "2017-10-17 19:18:04 PDT",
-        "2017-10-17 18:05:15 JST",
-        "2017-10-17 19:51:46 EDT",
-        "2017-10-17 20:17:30 +14",
-        "2017-10-17 19:02:06 +12",
-        "2017-10-17 19:59:05 HDT",
-        "2017-10-17 19:15:34 -11",
+        "2017-10-17 19:19:17 -0400",
+        "2017-10-17 19:03:23 +0300",
+        "2017-10-17 19:18:04 -0700",
+        "2017-10-17 18:05:15 +0900",
+        "2017-10-17 19:51:46 -0400",
+        "2017-10-17 20:17:30 +1400",
+        "2017-10-17 19:02:06 +1200",
+        "2017-10-17 19:59:05 -0900",
+        "2017-10-17 19:15:34 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_rt_13_24_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_rt_13_24_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2011,23 +2087,23 @@ fn test_bein_hashmashos_rt_13_24_degrees() {
 fn test_bein_hashmashos_rt_58_5_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:13:08 EDT",
-        "2017-10-17 19:07:16 IDT",
-        "2017-10-17 19:17:35 PDT",
-        "2017-10-17 18:03:16 JST",
+        "2017-10-17 19:13:08 -0400",
+        "2017-10-17 19:07:16 +0300",
+        "2017-10-17 19:17:35 -0700",
+        "2017-10-17 18:03:16 +0900",
         "None",
-        "2017-10-17 20:29:37 +14",
-        "2017-10-17 19:12:17 +12",
-        "2017-10-17 20:04:14 HDT",
-        "2017-10-17 19:21:23 -11",
+        "2017-10-17 20:29:37 +1400",
+        "2017-10-17 19:12:17 +1200",
+        "2017-10-17 20:04:15 -0900",
+        "2017-10-17 19:21:23 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_rt_58_5_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_rt_58_5_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2035,23 +2111,23 @@ fn test_bein_hashmashos_rt_58_5_minutes() {
 fn test_bein_hashmashos_rt_13_5_minutes_before_7_083_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:33:33 EDT",
-        "2017-10-17 18:20:50 IDT",
-        "2017-10-17 18:34:46 PDT",
-        "2017-10-17 17:21:22 JST",
-        "2017-10-17 16:43:32 EDT",
-        "2017-10-17 19:38:01 +14",
-        "2017-10-17 18:22:02 +12",
-        "2017-10-17 19:18:58 HDT",
-        "2017-10-17 18:35:12 -11",
+        "2017-10-17 18:33:33 -0400",
+        "2017-10-17 18:20:50 +0300",
+        "2017-10-17 18:34:46 -0700",
+        "2017-10-17 17:21:22 +0900",
+        "2017-10-17 16:43:32 -0400",
+        "2017-10-17 19:38:01 +1400",
+        "2017-10-17 18:22:02 +1200",
+        "2017-10-17 19:18:58 -0900",
+        "2017-10-17 18:35:12 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_rt_13_5_minutes_before_7_083_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_rt_13_5_minutes_before_7_083_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2059,23 +2135,23 @@ fn test_bein_hashmashos_rt_13_5_minutes_before_7_083_degrees() {
 fn test_bein_hashmashos_rt_2_stars() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:42:09 EDT",
-        "2017-10-17 18:32:32 IDT",
-        "2017-10-17 18:44:17 PDT",
-        "2017-10-17 17:30:34 JST",
+        "2017-10-17 18:42:10 -0400",
+        "2017-10-17 18:32:32 +0300",
+        "2017-10-17 18:44:17 -0700",
+        "2017-10-17 17:30:34 +0900",
         "None",
-        "2017-10-17 19:51:43 +14",
-        "2017-10-17 18:35:07 +12",
-        "2017-10-17 19:28:25 HDT",
-        "2017-10-17 18:45:32 -11",
+        "2017-10-17 19:51:43 +1400",
+        "2017-10-17 18:35:07 +1200",
+        "2017-10-17 19:28:25 -0900",
+        "2017-10-17 18:45:32 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_rt_2_stars().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_rt_2_stars().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2083,23 +2159,23 @@ fn test_bein_hashmashos_rt_2_stars() {
 fn test_bein_hashmashos_yereim_18_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:56:38 EDT",
-        "2017-10-17 17:50:46 IDT",
-        "2017-10-17 18:01:05 PDT",
-        "2017-10-17 16:46:46 JST",
+        "2017-10-17 17:56:38 -0400",
+        "2017-10-17 17:50:46 +0300",
+        "2017-10-17 18:01:05 -0700",
+        "2017-10-17 16:46:46 +0900",
         "None",
-        "2017-10-17 19:13:07 +14",
-        "2017-10-17 17:55:47 +12",
-        "2017-10-17 18:47:44 HDT",
-        "2017-10-17 18:04:53 -11",
+        "2017-10-17 19:13:07 +1400",
+        "2017-10-17 17:55:47 +1200",
+        "2017-10-17 18:47:45 -0900",
+        "2017-10-17 18:04:53 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_yereim_18_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_yereim_18_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2107,23 +2183,23 @@ fn test_bein_hashmashos_yereim_18_minutes() {
 fn test_bein_hashmashos_yereim_3_05_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:53:07 EDT",
-        "2017-10-17 17:45:56 IDT",
-        "2017-10-17 17:58:35 PDT",
-        "2017-10-17 16:44:11 JST",
+        "2017-10-17 17:53:07 -0400",
+        "2017-10-17 17:45:56 +0300",
+        "2017-10-17 17:58:35 -0700",
+        "2017-10-17 16:44:11 +0900",
         "None",
-        "2017-10-17 19:09:06 +14",
-        "2017-10-17 17:52:16 +12",
-        "2017-10-17 18:48:19 HDT",
-        "2017-10-17 18:05:00 -11",
+        "2017-10-17 19:09:06 +1400",
+        "2017-10-17 17:52:16 +1200",
+        "2017-10-17 18:48:19 -0900",
+        "2017-10-17 18:05:00 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_yereim_3_05_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_yereim_3_05_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2131,23 +2207,23 @@ fn test_bein_hashmashos_yereim_3_05_degrees() {
 fn test_bein_hashmashos_yereim_16_875_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:57:46 EDT",
-        "2017-10-17 17:51:54 IDT",
-        "2017-10-17 18:02:13 PDT",
-        "2017-10-17 16:47:54 JST",
+        "2017-10-17 17:57:46 -0400",
+        "2017-10-17 17:51:54 +0300",
+        "2017-10-17 18:02:13 -0700",
+        "2017-10-17 16:47:54 +0900",
         "None",
-        "2017-10-17 19:14:14 +14",
-        "2017-10-17 17:56:55 +12",
-        "2017-10-17 18:48:52 HDT",
-        "2017-10-17 18:06:00 -11",
+        "2017-10-17 19:14:14 +1400",
+        "2017-10-17 17:56:54 +1200",
+        "2017-10-17 18:48:52 -0900",
+        "2017-10-17 18:06:00 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_yereim_16_875_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_yereim_16_875_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2155,23 +2231,23 @@ fn test_bein_hashmashos_yereim_16_875_minutes() {
 fn test_bein_hashmashos_yereim_2_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:54:28 EDT",
-        "2017-10-17 17:47:09 IDT",
-        "2017-10-17 17:59:49 PDT",
-        "2017-10-17 16:45:27 JST",
+        "2017-10-17 17:54:28 -0400",
+        "2017-10-17 17:47:09 +0300",
+        "2017-10-17 17:59:49 -0700",
+        "2017-10-17 16:45:27 +0900",
         "None",
-        "2017-10-17 19:10:09 +14",
-        "2017-10-17 17:53:20 +12",
-        "2017-10-17 18:49:24 HDT",
-        "2017-10-17 18:06:04 -11",
+        "2017-10-17 19:10:09 +1400",
+        "2017-10-17 17:53:20 +1200",
+        "2017-10-17 18:49:24 -0900",
+        "2017-10-17 18:06:04 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_yereim_2_8_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_yereim_2_8_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2179,23 +2255,23 @@ fn test_bein_hashmashos_yereim_2_8_degrees() {
 fn test_bein_hashmashos_yereim_13_5_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:01:08 EDT",
-        "2017-10-17 17:55:16 IDT",
-        "2017-10-17 18:05:35 PDT",
-        "2017-10-17 16:51:16 JST",
+        "2017-10-17 18:01:08 -0400",
+        "2017-10-17 17:55:16 +0300",
+        "2017-10-17 18:05:35 -0700",
+        "2017-10-17 16:51:16 +0900",
         "None",
-        "2017-10-17 19:17:37 +14",
-        "2017-10-17 18:00:17 +12",
-        "2017-10-17 18:52:14 HDT",
-        "2017-10-17 18:09:23 -11",
+        "2017-10-17 19:17:37 +1400",
+        "2017-10-17 18:00:17 +1200",
+        "2017-10-17 18:52:15 -0900",
+        "2017-10-17 18:09:23 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_yereim_13_5_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_yereim_13_5_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2203,23 +2279,23 @@ fn test_bein_hashmashos_yereim_13_5_minutes() {
 fn test_bein_hashmashos_yereim_2_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:58:15 EDT",
-        "2017-10-17 17:50:31 IDT",
-        "2017-10-17 18:03:17 PDT",
-        "2017-10-17 16:49:00 JST",
+        "2017-10-17 17:58:15 -0400",
+        "2017-10-17 17:50:31 +0300",
+        "2017-10-17 18:03:17 -0700",
+        "2017-10-17 16:49:00 +0900",
         "None",
-        "2017-10-17 19:13:04 +14",
-        "2017-10-17 17:56:18 +12",
-        "2017-10-17 18:52:28 HDT",
-        "2017-10-17 18:09:04 -11",
+        "2017-10-17 19:13:04 +1400",
+        "2017-10-17 17:56:18 +1200",
+        "2017-10-17 18:52:28 -0900",
+        "2017-10-17 18:09:04 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.bein_hashmashos_yereim_2_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.bein_hashmashos_yereim_2_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2227,23 +2303,23 @@ fn test_bein_hashmashos_yereim_2_1_degrees() {
 fn test_tzeis_geonim_5_95_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:41:05 EDT",
-        "2017-10-17 18:28:57 IDT",
-        "2017-10-17 18:42:46 PDT",
-        "2017-10-17 17:29:15 JST",
-        "2017-10-17 16:23:10 EDT",
-        "2017-10-17 19:46:46 +14",
-        "2017-10-17 18:30:40 +12",
-        "2017-10-17 19:27:33 HDT",
-        "2017-10-17 18:43:47 -11",
+        "2017-10-17 18:41:05 -0400",
+        "2017-10-17 18:28:57 +0300",
+        "2017-10-17 18:42:46 -0700",
+        "2017-10-17 17:29:15 +0900",
+        "2017-10-17 16:23:10 -0400",
+        "2017-10-17 19:46:46 +1400",
+        "2017-10-17 18:30:40 +1200",
+        "2017-10-17 19:27:33 -0900",
+        "2017-10-17 18:43:47 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_5_95_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_5_95_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2251,23 +2327,23 @@ fn test_tzeis_geonim_5_95_degrees() {
 fn test_tzeis_geonim_4_66_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:34:17 EDT",
-        "2017-10-17 18:22:50 IDT",
-        "2017-10-17 18:36:29 PDT",
-        "2017-10-17 17:22:51 JST",
-        "2017-10-17 15:41:20 EDT",
-        "2017-10-17 19:41:21 +14",
-        "2017-10-17 18:25:09 +12",
-        "2017-10-17 19:21:57 HDT",
-        "2017-10-17 18:38:12 -11",
+        "2017-10-17 18:34:17 -0400",
+        "2017-10-17 18:22:50 +0300",
+        "2017-10-17 18:36:29 -0700",
+        "2017-10-17 17:22:51 +0900",
+        "2017-10-17 15:41:20 -0400",
+        "2017-10-17 19:41:21 +1400",
+        "2017-10-17 18:25:09 +1200",
+        "2017-10-17 19:21:57 -0900",
+        "2017-10-17 18:38:12 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_4_66_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_4_66_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2275,23 +2351,23 @@ fn test_tzeis_geonim_4_66_degrees() {
 fn test_tzeis_geonim_4_42_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:33:01 EDT",
-        "2017-10-17 18:21:42 IDT",
-        "2017-10-17 18:35:19 PDT",
-        "2017-10-17 17:21:39 JST",
-        "2017-10-17 15:32:58 EDT",
-        "2017-10-17 19:40:20 +14",
-        "2017-10-17 18:24:07 +12",
-        "2017-10-17 19:20:55 HDT",
-        "2017-10-17 18:37:09 -11",
+        "2017-10-17 18:33:01 -0400",
+        "2017-10-17 18:21:42 +0300",
+        "2017-10-17 18:35:19 -0700",
+        "2017-10-17 17:21:39 +0900",
+        "2017-10-17 15:32:58 -0400",
+        "2017-10-17 19:40:20 +1400",
+        "2017-10-17 18:24:07 +1200",
+        "2017-10-17 19:20:55 -0900",
+        "2017-10-17 18:37:09 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_4_42_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_4_42_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2299,23 +2375,23 @@ fn test_tzeis_geonim_4_42_degrees() {
 fn test_tzeis_geonim_4_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:35:01 EDT",
-        "2017-10-17 18:23:30 IDT",
-        "2017-10-17 18:37:10 PDT",
-        "2017-10-17 17:23:32 JST",
-        "2017-10-17 15:46:07 EDT",
-        "2017-10-17 19:41:56 +14",
-        "2017-10-17 18:25:45 +12",
-        "2017-10-17 19:22:34 HDT",
-        "2017-10-17 18:38:48 -11",
+        "2017-10-17 18:35:01 -0400",
+        "2017-10-17 18:23:30 +0300",
+        "2017-10-17 18:37:10 -0700",
+        "2017-10-17 17:23:32 +0900",
+        "2017-10-17 15:46:07 -0400",
+        "2017-10-17 19:41:56 +1400",
+        "2017-10-17 18:25:45 +1200",
+        "2017-10-17 19:22:34 -0900",
+        "2017-10-17 18:38:48 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_4_8_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_4_8_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2323,23 +2399,23 @@ fn test_tzeis_geonim_4_8_degrees() {
 fn test_tzeis_geonim_6_45_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:43:43 EDT",
-        "2017-10-17 18:31:20 IDT",
-        "2017-10-17 18:45:12 PDT",
-        "2017-10-17 17:31:44 JST",
-        "2017-10-17 16:38:21 EDT",
-        "2017-10-17 19:48:52 +14",
-        "2017-10-17 18:32:49 +12",
-        "2017-10-17 19:29:43 HDT",
-        "2017-10-17 18:45:57 -11",
+        "2017-10-17 18:43:43 -0400",
+        "2017-10-17 18:31:20 +0300",
+        "2017-10-17 18:45:12 -0700",
+        "2017-10-17 17:31:44 +0900",
+        "2017-10-17 16:38:21 -0400",
+        "2017-10-17 19:48:52 +1400",
+        "2017-10-17 18:32:49 +1200",
+        "2017-10-17 19:29:43 -0900",
+        "2017-10-17 18:45:57 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_6_45_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_6_45_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2347,23 +2423,23 @@ fn test_tzeis_geonim_6_45_degrees() {
 fn test_tzeis_geonim_7_67_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:50:08 EDT",
-        "2017-10-17 18:37:06 IDT",
-        "2017-10-17 18:51:07 PDT",
-        "2017-10-17 17:37:46 JST",
-        "2017-10-17 17:13:54 EDT",
-        "2017-10-17 19:54:00 +14",
-        "2017-10-17 18:38:03 +12",
-        "2017-10-17 19:35:01 HDT",
-        "2017-10-17 18:51:15 -11",
+        "2017-10-17 18:50:08 -0400",
+        "2017-10-17 18:37:06 +0300",
+        "2017-10-17 18:51:07 -0700",
+        "2017-10-17 17:37:46 +0900",
+        "2017-10-17 17:13:54 -0400",
+        "2017-10-17 19:54:00 +1400",
+        "2017-10-17 18:38:03 +1200",
+        "2017-10-17 19:35:01 -0900",
+        "2017-10-17 18:51:15 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_7_67_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_7_67_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2371,23 +2447,23 @@ fn test_tzeis_geonim_7_67_degrees() {
 fn test_tzeis_geonim_9_3_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:58:41 EDT",
-        "2017-10-17 18:44:49 IDT",
-        "2017-10-17 18:59:01 PDT",
-        "2017-10-17 17:45:49 JST",
-        "2017-10-17 17:59:32 EDT",
-        "2017-10-17 20:00:51 +14",
-        "2017-10-17 18:45:04 +12",
-        "2017-10-17 19:42:04 HDT",
-        "2017-10-17 18:58:20 -11",
+        "2017-10-17 18:58:41 -0400",
+        "2017-10-17 18:44:49 +0300",
+        "2017-10-17 18:59:01 -0700",
+        "2017-10-17 17:45:49 +0900",
+        "2017-10-17 17:59:32 -0400",
+        "2017-10-17 20:00:51 +1400",
+        "2017-10-17 18:45:04 +1200",
+        "2017-10-17 19:42:04 -0900",
+        "2017-10-17 18:58:20 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_9_3_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_9_3_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2395,23 +2471,23 @@ fn test_tzeis_geonim_9_3_degrees() {
 fn test_tzeis_geonim_9_75_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:01:02 EDT",
-        "2017-10-17 18:46:56 IDT",
-        "2017-10-17 19:01:12 PDT",
-        "2017-10-17 17:48:03 JST",
-        "2017-10-17 18:11:59 EDT",
-        "2017-10-17 20:02:45 +14",
-        "2017-10-17 18:47:01 +12",
-        "2017-10-17 19:44:01 HDT",
-        "2017-10-17 19:00:18 -11",
+        "2017-10-17 19:01:02 -0400",
+        "2017-10-17 18:46:56 +0300",
+        "2017-10-17 19:01:12 -0700",
+        "2017-10-17 17:48:03 +0900",
+        "2017-10-17 18:11:59 -0400",
+        "2017-10-17 20:02:45 +1400",
+        "2017-10-17 18:47:01 +1200",
+        "2017-10-17 19:44:01 -0900",
+        "2017-10-17 19:00:18 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_9_75_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_9_75_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2421,23 +2497,23 @@ fn test_tzeis_geonim_9_75_degrees() {
 fn test_sof_zman_shema_ateret_torah() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:15:39 EDT",
-        "2017-10-17 08:50:09 IDT",
-        "2017-10-17 09:09:11 PDT",
-        "2017-10-17 07:56:43 JST",
+        "2017-10-17 09:15:38 -0400",
+        "2017-10-17 08:50:09 +0300",
+        "2017-10-17 09:09:11 -0700",
+        "2017-10-17 07:56:42 +0900",
         "None",
-        "2017-10-17 09:16:44 +14",
-        "2017-10-17 07:56:14 +12",
-        "2017-10-17 09:40:12 HDT",
-        "2017-10-17 08:09:00 -11",
+        "2017-10-17 09:16:45 +1400",
+        "2017-10-17 07:56:14 +1200",
+        "2017-10-17 09:40:12 -0900",
+        "2017-10-17 08:09:00 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_ateret_torah().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_ateret_torah().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2445,23 +2521,23 @@ fn test_sof_zman_shema_ateret_torah() {
 fn test_sof_zman_tefila_ateret_torah() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:19:58 EDT",
-        "2017-10-17 09:56:40 IDT",
-        "2017-10-17 10:14:44 PDT",
-        "2017-10-17 09:02:03 JST",
+        "2017-10-17 10:19:58 -0400",
+        "2017-10-17 09:56:40 +0300",
+        "2017-10-17 10:14:44 -0700",
+        "2017-10-17 09:02:03 +0900",
         "None",
-        "2017-10-17 10:29:27 +14",
-        "2017-10-17 09:09:18 +12",
-        "2017-10-17 10:47:29 HDT",
-        "2017-10-17 09:21:39 -11",
+        "2017-10-17 10:29:27 +1400",
+        "2017-10-17 09:09:18 +1200",
+        "2017-10-17 10:47:29 -0900",
+        "2017-10-17 09:21:39 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_ateret_torah().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_ateret_torah().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2469,23 +2545,23 @@ fn test_sof_zman_tefila_ateret_torah() {
 fn test_mincha_gedola_ateret_torah() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 13:00:48 EDT",
-        "2017-10-17 12:42:57 IDT",
-        "2017-10-17 12:58:35 PDT",
-        "2017-10-17 11:45:24 JST",
+        "2017-10-17 13:00:48 -0400",
+        "2017-10-17 12:42:57 +0300",
+        "2017-10-17 12:58:35 -0700",
+        "2017-10-17 11:45:24 +0900",
         "None",
-        "2017-10-17 13:31:13 +14",
-        "2017-10-17 12:11:57 +12",
-        "2017-10-17 13:35:41 HDT",
-        "2017-10-17 12:23:17 -11",
+        "2017-10-17 13:31:13 +1400",
+        "2017-10-17 12:11:57 +1200",
+        "2017-10-17 13:35:41 -0900",
+        "2017-10-17 12:23:17 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_gedola_ateret_torah().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_ateret_torah().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2493,23 +2569,23 @@ fn test_mincha_gedola_ateret_torah() {
 fn test_mincha_ketana_ateret_torah() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 16:13:48 EDT",
-        "2017-10-17 16:02:29 IDT",
-        "2017-10-17 16:15:13 PDT",
-        "2017-10-17 15:01:25 JST",
+        "2017-10-17 16:13:48 -0400",
+        "2017-10-17 16:02:29 +0300",
+        "2017-10-17 16:15:13 -0700",
+        "2017-10-17 15:01:25 +0900",
         "None",
-        "2017-10-17 17:09:21 +14",
-        "2017-10-17 15:51:08 +12",
-        "2017-10-17 16:57:32 HDT",
-        "2017-10-17 16:01:15 -11",
+        "2017-10-17 17:09:21 +1400",
+        "2017-10-17 15:51:08 +1200",
+        "2017-10-17 16:57:32 -0900",
+        "2017-10-17 16:01:15 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_ketana_ateret_torah().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_ketana_ateret_torah().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2517,23 +2593,23 @@ fn test_mincha_ketana_ateret_torah() {
 fn test_plag_ateret_torah() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:34:13 EDT",
-        "2017-10-17 17:25:38 IDT",
-        "2017-10-17 17:37:09 PDT",
-        "2017-10-17 16:23:06 JST",
+        "2017-10-17 17:34:13 -0400",
+        "2017-10-17 17:25:38 +0300",
+        "2017-10-17 17:37:09 -0700",
+        "2017-10-17 16:23:06 +0900",
         "None",
-        "2017-10-17 18:40:14 +14",
-        "2017-10-17 17:22:27 +12",
-        "2017-10-17 18:21:38 HDT",
-        "2017-10-17 17:32:04 -11",
+        "2017-10-17 18:40:14 +1400",
+        "2017-10-17 17:22:27 +1200",
+        "2017-10-17 18:21:38 -0900",
+        "2017-10-17 17:32:04 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_ateret_torah().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_ateret_torah().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2561,23 +2637,23 @@ fn test_plag_ateret_torah() {
 fn test_alos_baal_hatanya() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:45:19 EDT",
-        "2017-10-17 05:27:38 IDT",
-        "2017-10-17 05:43:42 PDT",
-        "2017-10-17 04:29:46 JST",
-        "2017-10-17 01:36:59 EDT",
-        "2017-10-17 05:52:28 +14",
-        "2017-10-17 04:28:59 +12",
-        "2017-10-17 06:18:57 HDT",
-        "2017-10-17 04:37:58 -11",
+        "2017-10-17 05:45:19 -0400",
+        "2017-10-17 05:27:38 +0300",
+        "2017-10-17 05:43:42 -0700",
+        "2017-10-17 04:29:46 +0900",
+        "2017-10-17 01:36:59 -0400",
+        "2017-10-17 05:52:28 +1400",
+        "2017-10-17 04:28:59 +1200",
+        "2017-10-17 06:18:57 -0900",
+        "2017-10-17 04:37:58 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_baal_hatanya().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_baal_hatanya().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2585,23 +2661,23 @@ fn test_alos_baal_hatanya() {
 fn test_sof_zman_shema_baal_hatanya() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:53:53 EDT",
-        "2017-10-17 09:32:08 IDT",
-        "2017-10-17 09:48:54 PDT",
-        "2017-10-17 08:36:04 JST",
-        "2017-10-17 11:28:48 EDT",
-        "2017-10-17 10:04:50 +14",
-        "2017-10-17 08:44:11 +12",
-        "2017-10-17 10:21:06 HDT",
-        "2017-10-17 08:54:42 -11",
+        "2017-10-17 09:53:53 -0400",
+        "2017-10-17 09:32:08 +0300",
+        "2017-10-17 09:48:54 -0700",
+        "2017-10-17 08:36:04 +0900",
+        "2017-10-17 11:28:48 -0400",
+        "2017-10-17 10:04:50 +1400",
+        "2017-10-17 08:44:11 +1200",
+        "2017-10-17 10:21:06 -0900",
+        "2017-10-17 08:54:42 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_baal_hatanya().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_baal_hatanya().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2609,23 +2685,23 @@ fn test_sof_zman_shema_baal_hatanya() {
 fn test_sof_zman_tefila_baal_hatanya() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:49:54 EDT",
-        "2017-10-17 10:29:28 IDT",
-        "2017-10-17 10:45:51 PDT",
-        "2017-10-17 09:32:54 JST",
-        "2017-10-17 11:40:07 EDT",
-        "2017-10-17 11:07:27 +14",
-        "2017-10-17 09:47:16 +12",
-        "2017-10-17 11:19:43 HDT",
-        "2017-10-17 09:58:03 -11",
+        "2017-10-17 10:49:54 -0400",
+        "2017-10-17 10:29:28 +0300",
+        "2017-10-17 10:45:51 -0700",
+        "2017-10-17 09:32:54 +0900",
+        "2017-10-17 11:40:07 -0400",
+        "2017-10-17 11:07:27 +1400",
+        "2017-10-17 09:47:16 +1200",
+        "2017-10-17 11:19:43 -0900",
+        "2017-10-17 09:58:03 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_baal_hatanya().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_baal_hatanya().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2637,23 +2713,23 @@ fn test_sof_zman_tefila_baal_hatanya() {
 fn test_mincha_gedola_baal_hatanya() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 13:09:55 EDT",
-        "2017-10-17 12:52:49 IDT",
-        "2017-10-17 13:08:13 PDT",
-        "2017-10-17 11:54:58 JST",
-        "2017-10-17 12:08:26 EDT",
-        "2017-10-17 13:44:01 +14",
-        "2017-10-17 12:25:00 +12",
-        "2017-10-17 13:46:14 HDT",
-        "2017-10-17 12:36:27 -11",
+        "2017-10-17 13:09:55 -0400",
+        "2017-10-17 12:52:49 +0300",
+        "2017-10-17 13:08:13 -0700",
+        "2017-10-17 11:54:58 +0900",
+        "2017-10-17 12:08:26 -0400",
+        "2017-10-17 13:44:01 +1400",
+        "2017-10-17 12:25:00 +1200",
+        "2017-10-17 13:46:14 -0900",
+        "2017-10-17 12:36:27 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_gedola_baal_hatanya().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_baal_hatanya().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2661,23 +2737,23 @@ fn test_mincha_gedola_baal_hatanya() {
 fn test_mincha_ketana_baal_hatanya() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 15:57:57 EDT",
-        "2017-10-17 15:44:50 IDT",
-        "2017-10-17 15:59:04 PDT",
-        "2017-10-17 14:45:26 JST",
-        "2017-10-17 12:42:24 EDT",
-        "2017-10-17 16:51:54 +14",
-        "2017-10-17 15:34:16 +12",
-        "2017-10-17 16:42:03 HDT",
-        "2017-10-17 15:46:31 -11",
+        "2017-10-17 15:57:57 -0400",
+        "2017-10-17 15:44:50 +0300",
+        "2017-10-17 15:59:04 -0700",
+        "2017-10-17 14:45:26 +0900",
+        "2017-10-17 12:42:24 -0400",
+        "2017-10-17 16:51:54 +1400",
+        "2017-10-17 15:34:16 +1200",
+        "2017-10-17 16:42:03 -0900",
+        "2017-10-17 15:46:31 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_ketana_baal_hatanya().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_ketana_baal_hatanya().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2685,23 +2761,23 @@ fn test_mincha_ketana_baal_hatanya() {
 fn test_plag_baal_hatanya() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:07:57 EDT",
-        "2017-10-17 16:56:30 IDT",
-        "2017-10-17 17:10:15 PDT",
-        "2017-10-17 15:56:28 JST",
-        "2017-10-17 12:56:33 EDT",
-        "2017-10-17 18:10:10 +14",
-        "2017-10-17 16:53:08 +12",
-        "2017-10-17 17:55:18 HDT",
-        "2017-10-17 17:05:43 -11",
+        "2017-10-17 17:07:57 -0400",
+        "2017-10-17 16:56:30 +0300",
+        "2017-10-17 17:10:15 -0700",
+        "2017-10-17 15:56:28 +0900",
+        "2017-10-17 12:56:33 -0400",
+        "2017-10-17 18:10:10 +1400",
+        "2017-10-17 16:53:08 +1200",
+        "2017-10-17 17:55:18 -0900",
+        "2017-10-17 17:05:43 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_baal_hatanya().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_baal_hatanya().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2709,71 +2785,71 @@ fn test_plag_baal_hatanya() {
 fn test_tzeis_baal_hatanya() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:41:21 EDT",
-        "2017-10-17 18:29:12 IDT",
-        "2017-10-17 18:43:00 PDT",
-        "2017-10-17 17:29:30 JST",
-        "2017-10-17 16:24:42 EDT",
-        "2017-10-17 19:46:58 +14",
-        "2017-10-17 18:30:53 +12",
-        "2017-10-17 19:27:46 HDT",
-        "2017-10-17 18:44:00 -11",
+        "2017-10-17 18:41:21 -0400",
+        "2017-10-17 18:29:12 +0300",
+        "2017-10-17 18:43:00 -0700",
+        "2017-10-17 17:29:30 +0900",
+        "2017-10-17 16:24:42 -0400",
+        "2017-10-17 19:46:58 +1400",
+        "2017-10-17 18:30:53 +1200",
+        "2017-10-17 19:27:46 -0900",
+        "2017-10-17 18:44:00 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_baal_hatanya().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_baal_hatanya().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
-fn test_sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos() {
+fn test_sof_zman_shema_mga_alos_18_to_fixed_local_chatzos() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:18:15 EDT",
-        "2017-10-17 09:00:45 IDT",
-        "2017-10-17 09:16:34 PDT",
-        "2017-10-17 08:02:53 JST",
+        "2017-10-17 09:18:15 -0400",
+        "2017-10-17 09:00:45 +0300",
+        "2017-10-17 09:16:34 -0700",
+        "2017-10-17 08:02:53 +0900",
         "None",
-        "2017-10-17 09:37:30 +14",
-        "2017-10-17 08:16:03 +12",
-        "2017-10-17 09:53:02 HDT",
-        "2017-10-17 08:26:16 -11",
+        "2017-10-17 09:37:30 +1400",
+        "2017-10-17 08:16:03 +1200",
+        "2017-10-17 09:53:02 -0900",
+        "2017-10-17 08:26:16 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_alos_18_to_fixed_local_chatzos().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
-fn test_sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos() {
+fn test_sof_zman_shema_mga_alos_16_1_to_fixed_local_chatzos() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:23:13 EDT",
-        "2017-10-17 09:05:14 IDT",
-        "2017-10-17 09:21:10 PDT",
-        "2017-10-17 08:07:34 JST",
-        "2017-10-17 07:20:52 EDT",
-        "2017-10-17 09:41:32 +14",
-        "2017-10-17 08:20:12 +12",
-        "2017-10-17 09:57:08 HDT",
-        "2017-10-17 08:30:28 -11",
+        "2017-10-17 09:23:13 -0400",
+        "2017-10-17 09:05:14 +0300",
+        "2017-10-17 09:21:10 -0700",
+        "2017-10-17 08:07:34 +0900",
+        "2017-10-17 07:20:52 -0400",
+        "2017-10-17 09:41:32 +1400",
+        "2017-10-17 08:20:12 +1200",
+        "2017-10-17 09:57:08 -0900",
+        "2017-10-17 08:30:28 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_alos_16_1_to_fixed_local_chatzos().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2781,23 +2857,23 @@ fn test_sof_zman_shema_mga_16_1_degrees_to_fixed_local_chatzos() {
 fn test_sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:18:04 EDT",
-        "2017-10-17 08:54:18 IDT",
-        "2017-10-17 09:12:35 PDT",
-        "2017-10-17 07:59:53 JST",
+        "2017-10-17 09:18:04 -0400",
+        "2017-10-17 08:54:18 +0300",
+        "2017-10-17 09:12:35 -0700",
+        "2017-10-17 07:59:53 +0900",
         "None",
-        "2017-10-17 09:25:45 +14",
-        "2017-10-17 08:05:31 +12",
-        "2017-10-17 09:44:59 HDT",
-        "2017-10-17 08:18:03 -11",
+        "2017-10-17 09:25:45 +1400",
+        "2017-10-17 08:05:31 +1200",
+        "2017-10-17 09:44:59 -0900",
+        "2017-10-17 08:18:02 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2805,23 +2881,23 @@ fn test_sof_zman_shema_mga_90_minutes_to_fixed_local_chatzos() {
 fn test_sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:27:04 EDT",
-        "2017-10-17 09:03:18 IDT",
-        "2017-10-17 09:21:35 PDT",
-        "2017-10-17 08:08:53 JST",
+        "2017-10-17 09:27:04 -0400",
+        "2017-10-17 09:03:18 +0300",
+        "2017-10-17 09:21:35 -0700",
+        "2017-10-17 08:08:53 +0900",
         "None",
-        "2017-10-17 09:34:45 +14",
-        "2017-10-17 08:14:31 +12",
-        "2017-10-17 09:53:59 HDT",
-        "2017-10-17 08:27:03 -11",
+        "2017-10-17 09:34:45 +1400",
+        "2017-10-17 08:14:31 +1200",
+        "2017-10-17 09:53:59 -0900",
+        "2017-10-17 08:27:02 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2829,23 +2905,23 @@ fn test_sof_zman_shema_mga_72_minutes_to_fixed_local_chatzos() {
 fn test_sof_zman_shema_gra_sunrise_to_fixed_local_chatzos() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:03:04 EDT",
-        "2017-10-17 09:39:18 IDT",
-        "2017-10-17 09:57:35 PDT",
-        "2017-10-17 08:44:53 JST",
+        "2017-10-17 10:03:04 -0400",
+        "2017-10-17 09:39:18 +0300",
+        "2017-10-17 09:57:35 -0700",
+        "2017-10-17 08:44:53 +0900",
         "None",
-        "2017-10-17 10:10:45 +14",
-        "2017-10-17 08:50:31 +12",
-        "2017-10-17 10:29:59 HDT",
-        "2017-10-17 09:03:03 -11",
+        "2017-10-17 10:10:45 +1400",
+        "2017-10-17 08:50:31 +1200",
+        "2017-10-17 10:29:59 -0900",
+        "2017-10-17 09:03:02 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_gra_sunrise_to_fixed_local_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_gra_sunrise_to_fixed_local_chatzos().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2853,23 +2929,23 @@ fn test_sof_zman_shema_gra_sunrise_to_fixed_local_chatzos() {
 fn test_sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 11:01:02 EDT",
-        "2017-10-17 10:39:13 IDT",
-        "2017-10-17 10:56:39 PDT",
-        "2017-10-17 09:43:44 JST",
+        "2017-10-17 11:01:02 -0400",
+        "2017-10-17 10:39:13 +0300",
+        "2017-10-17 10:56:39 -0700",
+        "2017-10-17 09:43:44 +0900",
         "None",
-        "2017-10-17 11:16:14 +14",
-        "2017-10-17 09:56:19 +12",
-        "2017-10-17 11:30:36 HDT",
-        "2017-10-17 10:08:30 -11",
+        "2017-10-17 11:16:14 +1400",
+        "2017-10-17 09:56:19 +1200",
+        "2017-10-17 11:30:36 -0900",
+        "2017-10-17 10:08:30 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2877,23 +2953,23 @@ fn test_sof_zman_tefila_gra_sunrise_to_fixed_local_chatzos() {
 fn test_mincha_gedola_gra_fixed_local_chatzos_30_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 13:26:57 EDT",
-        "2017-10-17 13:09:03 IDT",
-        "2017-10-17 13:24:46 PDT",
-        "2017-10-17 12:11:26 JST",
-        "2017-10-17 12:49:10 EDT",
-        "2017-10-17 13:57:12 +14",
-        "2017-10-17 12:37:55 +12",
-        "2017-10-17 14:01:52 HDT",
-        "2017-10-17 12:49:26 -11",
+        "2017-10-17 13:26:57 -0400",
+        "2017-10-17 13:09:03 +0300",
+        "2017-10-17 13:24:46 -0700",
+        "2017-10-17 12:11:26 +0900",
+        "2017-10-17 12:49:10 -0400",
+        "2017-10-17 13:57:12 +1400",
+        "2017-10-17 12:37:55 +1200",
+        "2017-10-17 14:01:52 -0900",
+        "2017-10-17 12:49:26 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_gedola_gra_fixed_local_chatzos_30_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_gra_fixed_local_chatzos_30_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2901,23 +2977,23 @@ fn test_mincha_gedola_gra_fixed_local_chatzos_30_minutes() {
 fn test_mincha_ketana_gra_fixed_local_chatzos_to_sunset() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 16:02:16 EDT",
-        "2017-10-17 15:51:23 IDT",
-        "2017-10-17 16:03:57 PDT",
-        "2017-10-17 14:50:03 JST",
+        "2017-10-17 16:02:16 -0400",
+        "2017-10-17 15:51:23 +0300",
+        "2017-10-17 16:03:57 -0700",
+        "2017-10-17 14:50:03 +0900",
         "None",
-        "2017-10-17 16:59:29 +14",
-        "2017-10-17 15:41:21 +12",
-        "2017-10-17 16:46:37 HDT",
-        "2017-10-17 15:51:26 -11",
+        "2017-10-17 16:59:29 +1400",
+        "2017-10-17 15:41:20 +1200",
+        "2017-10-17 16:46:37 -0900",
+        "2017-10-17 15:51:26 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_ketana_gra_fixed_local_chatzos_to_sunset().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_ketana_gra_fixed_local_chatzos_to_sunset().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2925,23 +3001,23 @@ fn test_mincha_ketana_gra_fixed_local_chatzos_to_sunset() {
 fn test_plag_gra_fixed_local_chatzos_to_sunset() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:08:27 EDT",
-        "2017-10-17 17:00:05 IDT",
-        "2017-10-17 17:11:31 PDT",
-        "2017-10-17 15:57:24 JST",
+        "2017-10-17 17:08:27 -0400",
+        "2017-10-17 17:00:05 +0300",
+        "2017-10-17 17:11:31 -0700",
+        "2017-10-17 15:57:25 +0900",
         "None",
-        "2017-10-17 18:15:18 +14",
-        "2017-10-17 16:57:34 +12",
-        "2017-10-17 17:56:11 HDT",
-        "2017-10-17 17:07:10 -11",
+        "2017-10-17 18:15:18 +1400",
+        "2017-10-17 16:57:34 +1200",
+        "2017-10-17 17:56:11 -0900",
+        "2017-10-17 17:07:10 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_gra_fixed_local_chatzos_to_sunset().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_gra_fixed_local_chatzos_to_sunset().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2949,23 +3025,23 @@ fn test_plag_gra_fixed_local_chatzos_to_sunset() {
 fn test_tzeis_50_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:04:38 EDT",
-        "2017-10-17 18:58:46 IDT",
-        "2017-10-17 19:09:05 PDT",
-        "2017-10-17 17:54:46 JST",
+        "2017-10-17 19:04:38 -0400",
+        "2017-10-17 18:58:46 +0300",
+        "2017-10-17 19:09:05 -0700",
+        "2017-10-17 17:54:46 +0900",
         "None",
-        "2017-10-17 20:21:07 +14",
-        "2017-10-17 19:03:47 +12",
-        "2017-10-17 19:55:44 HDT",
-        "2017-10-17 19:12:53 -11",
+        "2017-10-17 20:21:07 +1400",
+        "2017-10-17 19:03:47 +1200",
+        "2017-10-17 19:55:45 -0900",
+        "2017-10-17 19:12:53 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_50_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_50_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2973,23 +3049,23 @@ fn test_tzeis_50_minutes() {
 fn test_samuch_lemincha_ketana_gra() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 15:28:17 EDT",
-        "2017-10-17 15:16:28 IDT",
-        "2017-10-17 15:29:25 PDT",
-        "2017-10-17 14:15:40 JST",
+        "2017-10-17 15:28:17 -0400",
+        "2017-10-17 15:16:28 +0300",
+        "2017-10-17 15:29:25 -0700",
+        "2017-10-17 14:15:40 +0900",
         "None",
-        "2017-10-17 16:21:55 +14",
-        "2017-10-17 15:03:37 +12",
-        "2017-10-17 16:11:20 HDT",
-        "2017-10-17 15:13:49 -11",
+        "2017-10-17 16:21:55 +1400",
+        "2017-10-17 15:03:37 +1200",
+        "2017-10-17 16:11:20 -0900",
+        "2017-10-17 15:13:49 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.samuch_lemincha_ketana_gra().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.samuch_lemincha_ketana_gra().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -2997,23 +3073,23 @@ fn test_samuch_lemincha_ketana_gra() {
 fn test_samuch_lemincha_ketana_mga_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 16:08:03 EDT",
-        "2017-10-17 15:50:29 IDT",
-        "2017-10-17 16:05:48 PDT",
-        "2017-10-17 14:52:55 JST",
-        "2017-10-17 16:45:22 EDT",
-        "2017-10-17 16:51:11 +14",
-        "2017-10-17 15:34:01 +12",
-        "2017-10-17 16:44:10 HDT",
-        "2017-10-17 15:46:29 -11",
+        "2017-10-17 16:08:03 -0400",
+        "2017-10-17 15:50:29 +0300",
+        "2017-10-17 16:05:48 -0700",
+        "2017-10-17 14:52:55 +0900",
+        "2017-10-17 16:45:22 -0400",
+        "2017-10-17 16:51:11 +1400",
+        "2017-10-17 15:34:01 +1200",
+        "2017-10-17 16:44:10 -0900",
+        "2017-10-17 15:46:29 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.samuch_lemincha_ketana_mga_16_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.samuch_lemincha_ketana_mga_16_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3021,25 +3097,51 @@ fn test_samuch_lemincha_ketana_mga_16_1_degrees() {
 fn test_samuch_lemincha_ketana_mga_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 16:04:17 EDT",
-        "2017-10-17 15:52:28 IDT",
-        "2017-10-17 16:05:25 PDT",
-        "2017-10-17 14:51:40 JST",
+        "2017-10-17 16:04:17 -0400",
+        "2017-10-17 15:52:28 +0300",
+        "2017-10-17 16:05:25 -0700",
+        "2017-10-17 14:51:40 +0900",
         "None",
-        "2017-10-17 16:57:55 +14",
-        "2017-10-17 15:39:37 +12",
-        "2017-10-17 16:47:20 HDT",
-        "2017-10-17 15:49:49 -11",
+        "2017-10-17 16:57:55 +1400",
+        "2017-10-17 15:39:37 +1200",
+        "2017-10-17 16:47:20 -0900",
+        "2017-10-17 15:49:49 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.samuch_lemincha_ketana_mga_72_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.samuch_lemincha_ketana_mga_72_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
+
+#[test]
+fn test_polar_plag_ben_ish_chai() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "None",
+        "None",
+        "None",
+        "None",
+        "2017-10-17 16:53:50 -0400",
+        "None",
+        "None",
+        "None",
+        "None",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.polar_plag_ben_ish_chai().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+// Skipped getPolarPlagHaminchaTeshuvosVehanhagos because it contains a phrase which was explicitly excluded
 
 // Skipped setUseElevation because it isn't a getter
 
@@ -3057,29 +3159,29 @@ fn test_samuch_lemincha_ketana_mga_72_minutes() {
 
 // Skipped getCandleLighting because it is one of the explicitly excluded methods
 
-// Skipped getChatzosAsHalfDay because it is one of the explicitly excluded methods
+// Skipped getChatzosHalayla because it is one of the explicitly excluded methods
 
 #[test]
 fn test_alos_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:49:30 EDT",
-        "2017-10-17 05:31:24 IDT",
-        "2017-10-17 05:47:34 PDT",
-        "2017-10-17 04:33:42 JST",
-        "2017-10-17 02:22:35 EDT",
-        "2017-10-17 05:55:52 +14",
-        "2017-10-17 04:32:28 +12",
-        "2017-10-17 06:22:24 HDT",
-        "2017-10-17 04:41:29 -11",
+        "2017-10-17 05:49:30 -0400",
+        "2017-10-17 05:31:24 +0300",
+        "2017-10-17 05:47:34 -0700",
+        "2017-10-17 04:33:42 +0900",
+        "2017-10-17 02:22:35 -0400",
+        "2017-10-17 05:55:52 +1400",
+        "2017-10-17 04:32:28 +1200",
+        "2017-10-17 06:22:24 -0900",
+        "2017-10-17 04:41:29 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_16_1_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_16_1_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3090,30 +3192,28 @@ fn test_alos_16_1_degrees() {
 // Skipped getSofZmanShma because it takes parameters
 
 #[test]
-fn test_chatzos() {
+fn test_chatzos_hayom() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 12:42:18 EDT",
-        "2017-10-17 12:24:28 IDT",
-        "2017-10-17 12:40:05 PDT",
-        "2017-10-17 11:26:55 JST",
-        "2017-10-17 12:04:32 EDT",
-        "2017-10-17 13:12:43 +14",
-        "2017-10-17 11:53:26 +12",
-        "2017-10-17 13:17:10 HDT",
-        "2017-10-17 12:04:44 -11",
+        "2017-10-17 12:42:12 -0400",
+        "2017-10-17 12:24:22 +0300",
+        "2017-10-17 12:39:59 -0700",
+        "2017-10-17 11:26:48 +0900",
+        "2017-10-17 12:04:26 -0400",
+        "2017-10-17 13:12:36 +1400",
+        "2017-10-17 11:53:19 +1200",
+        "2017-10-17 13:17:04 -0900",
+        "2017-10-17 12:04:38 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.chatzos().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.chatzos_hayom().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
-
-// Skipped getChatzos because it takes parameters
 
 // Skipped getSofZmanTfila because it takes parameters
 
@@ -3125,23 +3225,23 @@ fn test_chatzos() {
 fn test_tzeis_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 19:26:38 EDT",
-        "2017-10-17 19:20:46 IDT",
-        "2017-10-17 19:31:05 PDT",
-        "2017-10-17 18:16:46 JST",
+        "2017-10-17 19:26:38 -0400",
+        "2017-10-17 19:20:46 +0300",
+        "2017-10-17 19:31:05 -0700",
+        "2017-10-17 18:16:46 +0900",
         "None",
-        "2017-10-17 20:43:07 +14",
-        "2017-10-17 19:25:47 +12",
-        "2017-10-17 20:17:44 HDT",
-        "2017-10-17 19:34:53 -11",
+        "2017-10-17 20:43:07 +1400",
+        "2017-10-17 19:25:47 +1200",
+        "2017-10-17 20:17:45 -0900",
+        "2017-10-17 19:34:53 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_72_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_72_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3151,23 +3251,47 @@ fn test_tzeis_72_minutes() {
 fn test_alos_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 05:57:11 EDT",
-        "2017-10-17 05:27:32 IDT",
-        "2017-10-17 05:48:25 PDT",
-        "2017-10-17 04:36:20 JST",
+        "2017-10-17 05:57:11 -0400",
+        "2017-10-17 05:27:32 +0300",
+        "2017-10-17 05:48:25 -0700",
+        "2017-10-17 04:36:20 +0900",
         "None",
-        "2017-10-17 05:42:18 +14",
-        "2017-10-17 04:21:07 +12",
-        "2017-10-17 06:16:06 HDT",
-        "2017-10-17 04:34:39 -11",
+        "2017-10-17 05:42:18 +1400",
+        "2017-10-17 04:21:07 +1200",
+        "2017-10-17 06:16:06 -0900",
+        "2017-10-17 04:34:39 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.alos_72_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.alos_72_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_mincha_gedola_gra() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 13:09:38 -0400",
+        "2017-10-17 12:52:52 +0300",
+        "2017-10-17 13:08:02 -0700",
+        "2017-10-17 11:54:44 +0900",
+        "None",
+        "2017-10-17 13:44:14 +1400",
+        "2017-10-17 12:25:09 +1200",
+        "2017-10-17 13:46:00 -0900",
+        "2017-10-17 12:36:17 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_gedola_gra().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3183,11 +3307,39 @@ fn test_alos_72_minutes() {
 
 // Skipped isUseAstronomicalChatzos because it isn't a getter
 
+#[test]
+fn test_chatzos_hayom_as_half_day() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-17 12:41:55 -0400",
+        "2017-10-17 12:24:09 +0300",
+        "2017-10-17 12:39:45 -0700",
+        "2017-10-17 11:26:33 +0900",
+        "None",
+        "2017-10-17 13:12:42 +1400",
+        "2017-10-17 11:53:27 +1200",
+        "2017-10-17 13:16:55 -0900",
+        "2017-10-17 12:04:46 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.chatzos_hayom_as_half_day().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+// Skipped getChatzos because it takes parameters
+
 // Skipped getShaahZmanisBasedZman because it takes parameters
 
 // Skipped getCandleLightingOffset because it doesn't return an Instant
 
 // Skipped getShaahZmanisGRA because it doesn't return an Instant
+
+// Skipped isAssurBemelacha because it isn't a getter
 
 // Skipped getHalfDayBasedShaahZmanis because it takes parameters
 
@@ -3199,23 +3351,23 @@ fn test_alos_72_minutes() {
 fn test_tzeis_geonim_8_5_degrees() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 18:54:29 EDT",
-        "2017-10-17 18:41:02 IDT",
-        "2017-10-17 18:55:09 PDT",
-        "2017-10-17 17:41:52 JST",
-        "2017-10-17 17:37:18 EDT",
-        "2017-10-17 19:57:29 +14",
-        "2017-10-17 18:41:38 +12",
-        "2017-10-17 19:38:36 HDT",
-        "2017-10-17 18:54:51 -11",
+        "2017-10-17 18:54:29 -0400",
+        "2017-10-17 18:41:02 +0300",
+        "2017-10-17 18:55:09 -0700",
+        "2017-10-17 17:41:52 +0900",
+        "2017-10-17 17:37:18 -0400",
+        "2017-10-17 19:57:29 +1400",
+        "2017-10-17 18:41:38 +1200",
+        "2017-10-17 19:38:36 -0900",
+        "2017-10-17 18:54:51 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.tzeis_geonim_8_5_degrees().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.tzeis_geonim_8_5_degrees().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3223,23 +3375,23 @@ fn test_tzeis_geonim_8_5_degrees() {
 fn test_sof_zman_shema_gra() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:55:33 EDT",
-        "2017-10-17 09:31:50 IDT",
-        "2017-10-17 09:50:05 PDT",
-        "2017-10-17 08:37:27 JST",
+        "2017-10-17 09:55:33 -0400",
+        "2017-10-17 09:31:50 +0300",
+        "2017-10-17 09:50:05 -0700",
+        "2017-10-17 08:37:26 +0900",
         "None",
-        "2017-10-17 10:03:30 +14",
-        "2017-10-17 08:43:17 +12",
-        "2017-10-17 10:22:31 HDT",
-        "2017-10-17 08:55:43 -11",
+        "2017-10-17 10:03:30 +1400",
+        "2017-10-17 08:43:17 +1200",
+        "2017-10-17 10:22:31 -0900",
+        "2017-10-17 08:55:43 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_gra().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_gra().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3247,23 +3399,23 @@ fn test_sof_zman_shema_gra() {
 fn test_sof_zman_shema_mga_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 09:19:33 EDT",
-        "2017-10-17 08:55:50 IDT",
-        "2017-10-17 09:14:05 PDT",
-        "2017-10-17 08:01:27 JST",
+        "2017-10-17 09:19:33 -0400",
+        "2017-10-17 08:55:50 +0300",
+        "2017-10-17 09:14:05 -0700",
+        "2017-10-17 08:01:26 +0900",
         "None",
-        "2017-10-17 09:27:30 +14",
-        "2017-10-17 08:07:17 +12",
-        "2017-10-17 09:46:31 HDT",
-        "2017-10-17 08:19:43 -11",
+        "2017-10-17 09:27:30 +1400",
+        "2017-10-17 08:07:17 +1200",
+        "2017-10-17 09:46:31 -0900",
+        "2017-10-17 08:19:43 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_shema_mga_72_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_shema_mga_72_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3271,23 +3423,23 @@ fn test_sof_zman_shema_mga_72_minutes() {
 fn test_sof_zman_tefila_gra() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:51:00 EDT",
-        "2017-10-17 10:29:17 IDT",
-        "2017-10-17 10:46:38 PDT",
-        "2017-10-17 09:33:49 JST",
+        "2017-10-17 10:51:00 -0400",
+        "2017-10-17 10:29:17 +0300",
+        "2017-10-17 10:46:38 -0700",
+        "2017-10-17 09:33:49 +0900",
         "None",
-        "2017-10-17 11:06:34 +14",
-        "2017-10-17 09:46:40 +12",
-        "2017-10-17 11:20:39 HDT",
-        "2017-10-17 09:58:44 -11",
+        "2017-10-17 11:06:34 +1400",
+        "2017-10-17 09:46:40 +1200",
+        "2017-10-17 11:20:39 -0900",
+        "2017-10-17 09:58:44 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_gra().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_gra().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3295,47 +3447,23 @@ fn test_sof_zman_tefila_gra() {
 fn test_sof_zman_tefila_mga_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 10:27:00 EDT",
-        "2017-10-17 10:05:17 IDT",
-        "2017-10-17 10:22:38 PDT",
-        "2017-10-17 09:09:49 JST",
+        "2017-10-17 10:27:00 -0400",
+        "2017-10-17 10:05:17 +0300",
+        "2017-10-17 10:22:38 -0700",
+        "2017-10-17 09:09:49 +0900",
         "None",
-        "2017-10-17 10:42:34 +14",
-        "2017-10-17 09:22:40 +12",
-        "2017-10-17 10:56:39 HDT",
-        "2017-10-17 09:34:44 -11",
+        "2017-10-17 10:42:34 +1400",
+        "2017-10-17 09:22:40 +1200",
+        "2017-10-17 10:56:39 -0900",
+        "2017-10-17 09:34:44 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.sof_zman_tefila_mga_72_minutes().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.sof_zman_tefila_mga_72_minutes().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
-    }
-}
-
-#[test]
-fn test_mincha_gedola_gra() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 13:09:38 EDT",
-        "2017-10-17 12:52:52 IDT",
-        "2017-10-17 13:08:02 PDT",
-        "2017-10-17 11:54:44 JST",
-        "None",
-        "2017-10-17 13:44:14 +14",
-        "2017-10-17 12:25:09 +12",
-        "2017-10-17 13:45:59 HDT",
-        "2017-10-17 12:36:17 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_gedola_gra().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3343,23 +3471,23 @@ fn test_mincha_gedola_gra() {
 fn test_mincha_ketana_gra() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 15:56:00 EDT",
-        "2017-10-17 15:45:11 IDT",
-        "2017-10-17 15:57:42 PDT",
-        "2017-10-17 14:43:51 JST",
+        "2017-10-17 15:56:00 -0400",
+        "2017-10-17 15:45:11 +0300",
+        "2017-10-17 15:57:42 -0700",
+        "2017-10-17 14:43:51 +0900",
         "None",
-        "2017-10-17 16:53:27 +14",
-        "2017-10-17 15:35:19 +12",
-        "2017-10-17 16:40:24 HDT",
-        "2017-10-17 15:45:20 -11",
+        "2017-10-17 16:53:27 +1400",
+        "2017-10-17 15:35:19 +1200",
+        "2017-10-17 16:40:24 -0900",
+        "2017-10-17 15:45:20 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.mincha_ketana_gra().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.mincha_ketana_gra().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -3367,31 +3495,29 @@ fn test_mincha_ketana_gra() {
 fn test_plag_gra() {
     let cals = test_helper::more_locations_czcs(true);
     let expected_datetime_strs = [
-        "2017-10-17 17:05:19 EDT",
-        "2017-10-17 16:56:59 IDT",
-        "2017-10-17 17:08:23 PDT",
-        "2017-10-17 15:54:18 JST",
+        "2017-10-17 17:05:19 -0400",
+        "2017-10-17 16:56:59 +0300",
+        "2017-10-17 17:08:23 -0700",
+        "2017-10-17 15:54:19 +0900",
         "None",
-        "2017-10-17 18:12:17 +14",
-        "2017-10-17 16:54:33 +12",
-        "2017-10-17 17:53:04 HDT",
-        "2017-10-17 17:04:06 -11",
+        "2017-10-17 18:12:17 +1400",
+        "2017-10-17 16:54:33 +1200",
+        "2017-10-17 17:53:04 -0900",
+        "2017-10-17 17:04:06 -1100",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.plag_gra().map_or_else(
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.plag_gra().map_or_else(
             || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
         );
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
 // Skipped getShaahZmanis72Minutes because it doesn't return an Instant
 
 // Skipped setCandleLightingOffset because it isn't a getter
-
-// Skipped isAssurBemlacha because it isn't a getter
 
 // Skipped getPercentOfShaahZmanisFromDegrees because it takes parameters
 
@@ -3409,11 +3535,9 @@ fn test_plag_gra() {
 
 // Skipped getSeaLevelSunrise because it is one of the explicitly excluded methods
 
-// Skipped getTemporalHour because it doesn't return an Instant
-
 // Skipped getTemporalHour because it takes parameters
 
-// Skipped getTimeOffset because it takes parameters
+// Skipped getTemporalHour because it doesn't return an Instant
 
 // Skipped getTimeOffset because it takes parameters
 
@@ -3425,57 +3549,39 @@ fn test_plag_gra() {
 
 // Skipped getLocalDate because it doesn't return an Instant
 
-#[test]
-fn test_elevation_sunrise() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 07:09:11 EDT",
-        "2017-10-17 06:39:32 IDT",
-        "2017-10-17 07:00:25 PDT",
-        "2017-10-17 05:48:20 JST",
-        "None",
-        "2017-10-17 06:54:18 +14",
-        "2017-10-17 05:33:07 +12",
-        "2017-10-17 07:28:06 HDT",
-        "2017-10-17 05:46:39 -11",
-    ];
+// Skipped getTimeAtAzimuth90Or270 because it takes parameters
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.elevation_sunrise().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
-    }
-}
+// Skipped getAstronomicalCalculator because it doesn't return an Instant
 
-#[test]
-fn test_elevation_sunset() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-17 18:14:38 EDT",
-        "2017-10-17 18:08:46 IDT",
-        "2017-10-17 18:19:05 PDT",
-        "2017-10-17 17:04:46 JST",
-        "None",
-        "2017-10-17 19:31:07 +14",
-        "2017-10-17 18:13:47 +12",
-        "2017-10-17 19:05:44 HDT",
-        "2017-10-17 18:22:53 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.elevation_sunset().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
-    }
-}
+// Skipped getGeoLocation because it doesn't return an Instant
 
 // Skipped getSunTransit because it contains a phrase which was explicitly excluded
 
 // Skipped getSunTransit because it takes parameters
+
+#[test]
+fn test_chatzos_halayla() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_datetime_strs = [
+        "2017-10-18 00:42:06 -0400",
+        "2017-10-18 00:24:16 +0300",
+        "2017-10-18 00:39:53 -0700",
+        "2017-10-17 23:26:42 +0900",
+        "2017-10-18 00:04:20 -0400",
+        "2017-10-18 01:12:30 +1400",
+        "2017-10-17 23:53:13 +1200",
+        "2017-10-18 01:16:58 -0900",
+        "2017-10-18 00:04:32 -1100",
+    ];
+
+    for (czc, expected) in zip(cals, expected_datetime_strs) {
+        let actual = czc.chatzos_halayla().map_or_else(
+            || String::from("None"),
+            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %z").to_string(),
+        );
+        assert_eq!(expected, actual)
+    }
+}
 
 // Skipped getUTCSunrise because it takes parameters
 
@@ -3488,10 +3594,6 @@ fn test_elevation_sunset() {
 // Skipped setGeoLocation because it isn't a getter
 
 // Skipped setAstronomicalCalculator because it isn't a getter
-
-// Skipped getAstronomicalCalculator because it doesn't return an Instant
-
-// Skipped getGeoLocation because it doesn't return an Instant
 
 // Skipped toJSON because it isn't a getter
 
@@ -3506,30 +3608,6 @@ fn test_elevation_sunset() {
 // Skipped getEndNauticalTwilight because it contains a phrase which was explicitly excluded
 
 // Skipped getEndAstronomicalTwilight because it contains a phrase which was explicitly excluded
-
-#[test]
-fn test_chatzos_halayla() {
-    let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        "2017-10-18 00:42:12 EDT",
-        "2017-10-18 00:24:22 IDT",
-        "2017-10-18 00:39:59 PDT",
-        "2017-10-17 23:26:48 JST",
-        "2017-10-18 00:04:26 EDT",
-        "2017-10-18 01:12:36 +14",
-        "2017-10-17 23:53:19 +12",
-        "2017-10-18 01:17:04 HDT",
-        "2017-10-18 00:04:38 -11",
-    ];
-
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc.chatzos_halayla().map_or_else(
-            || String::from("None"),
-            |dt| dt.strftime("%Y-%m-%d %H:%M:%S %Z").to_string(),
-        );
-        assert_eq!(result, edt)
-    }
-}
 
 // Skipped getSunriseSolarDipFromOffset because it takes parameters
 

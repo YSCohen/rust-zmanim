@@ -9,24 +9,15 @@ fn main() {
     let today = Zoned::now().date();
 
     // your location here
-    let kosel = GeoLocation {
-        latitude: 31.777,
-        longitude: 35.234,
-        elevation: 700.0,
-        timezone: jerusalem,
-    };
+    let kosel = GeoLocation::new(31.777, 35.234, 700.0, jerusalem).unwrap();
 
-    let czc = ComplexZmanimCalendar {
-        geo_location: kosel,
-        date: today,
-        use_elevation: UseElevation::No,
-    };
+    let czc = ComplexZmanimCalendar::new(kosel, today, UseElevation::No);
 
     let alos = czc.alos_baal_hatanya().unwrap();
     let hanetz = czc.hanetz().unwrap();
     let szks = czc.sof_zman_shema_baal_hatanya().unwrap();
     let szt = czc.sof_zman_tefila_baal_hatanya().unwrap();
-    let chatzos = czc.chatzos().unwrap();
+    let chatzos = czc.chatzos_hayom().unwrap();
     let mg = czc.mincha_gedola_baal_hatanya().unwrap();
     let mk = czc.mincha_ketana_baal_hatanya().unwrap();
     let plag = czc.plag_baal_hatanya().unwrap();

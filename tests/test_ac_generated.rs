@@ -14,24 +14,24 @@ use std::iter::zip;
 fn test_sunrise() {
     let locations = test_helper::more_locations();
     let expected_datetime_strs = [
-        "2017-10-17 07:09:11.774 EDT",
-        "2017-10-17 06:39:32.181 IDT",
-        "2017-10-17 07:00:25.493 PDT",
-        "2017-10-17 05:48:20.524 JST",
+        "2017-10-17 07:09:11.571 -0400",
+        "2017-10-17 06:39:32.238 +0300",
+        "2017-10-17 07:00:25.354 -0700",
+        "2017-10-17 05:48:20.360 +0900",
         "None",
-        "2017-10-17 06:54:18.384 +14",
-        "2017-10-17 05:33:07.500 +12",
-        "2017-10-17 07:28:06.993 HDT",
-        "2017-10-17 05:46:39.827 -11",
+        "2017-10-17 06:54:18.595 +1400",
+        "2017-10-17 05:33:07.634 +1200",
+        "2017-10-17 07:28:06.821 -0900",
+        "2017-10-17 05:46:39.708 -1100",
     ];
 
-    for (loc, edt) in zip(locations, expected_datetime_strs) {
+    for (loc, expected) in zip(locations, expected_datetime_strs) {
         let date = civil::date(2017, 10, 17);
-        let result = match astronomical_calculator::sunrise(&date, &loc) {
-            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+        let actual = match astronomical_calculator::sunrise(date, &loc) {
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %z").to_string(),
             None => String::from("None"),
         };
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -39,24 +39,24 @@ fn test_sunrise() {
 fn test_sea_level_sunrise() {
     let locations = test_helper::more_locations();
     let expected_datetime_strs = [
-        "2017-10-17 07:09:51.650 EDT",
-        "2017-10-17 06:43:43.041 IDT",
-        "2017-10-17 07:01:45.354 PDT",
-        "2017-10-17 05:49:21.664 JST",
+        "2017-10-17 07:09:51.403 -0400",
+        "2017-10-17 06:43:42.820 +0300",
+        "2017-10-17 07:01:45.127 -0700",
+        "2017-10-17 05:49:21.432 +0900",
         "None",
-        "2017-10-17 07:00:05.702 +14",
-        "2017-10-17 05:38:06.416 +12",
-        "2017-10-17 07:28:33.601 HDT",
-        "2017-10-17 05:47:51.637 -11",
+        "2017-10-17 07:00:05.528 +1400",
+        "2017-10-17 05:38:06.219 +1200",
+        "2017-10-17 07:28:33.400 -0900",
+        "2017-10-17 05:47:51.439 -1100",
     ];
 
-    for (loc, edt) in zip(locations, expected_datetime_strs) {
+    for (loc, expected) in zip(locations, expected_datetime_strs) {
         let date = civil::date(2017, 10, 17);
-        let result = match astronomical_calculator::sea_level_sunrise(&date, &loc) {
-            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+        let actual = match astronomical_calculator::sea_level_sunrise(date, &loc) {
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %z").to_string(),
             None => String::from("None"),
         };
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -64,24 +64,24 @@ fn test_sea_level_sunrise() {
 fn test_sunset() {
     let locations = test_helper::more_locations();
     let expected_datetime_strs = [
-        "2017-10-17 18:14:38.792 EDT",
-        "2017-10-17 18:08:46.872 IDT",
-        "2017-10-17 18:19:05.519 PDT",
-        "2017-10-17 17:04:46.663 JST",
+        "2017-10-17 18:14:38.994 -0400",
+        "2017-10-17 18:08:46.815 +0300",
+        "2017-10-17 18:19:05.657 -0700",
+        "2017-10-17 17:04:46.827 +0900",
         "None",
-        "2017-10-17 19:31:07.447 +14",
-        "2017-10-17 18:13:47.545 +12",
-        "2017-10-17 19:05:44.828 HDT",
-        "2017-10-17 18:22:53.118 -11",
+        "2017-10-17 19:31:07.236 +1400",
+        "2017-10-17 18:13:47.410 +1200",
+        "2017-10-17 19:05:45.001 -0900",
+        "2017-10-17 18:22:53.237 -1100",
     ];
 
-    for (loc, edt) in zip(locations, expected_datetime_strs) {
+    for (loc, expected) in zip(locations, expected_datetime_strs) {
         let date = civil::date(2017, 10, 17);
-        let result = match astronomical_calculator::sunset(&date, &loc) {
-            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+        let actual = match astronomical_calculator::sunset(date, &loc) {
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %z").to_string(),
             None => String::from("None"),
         };
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -89,24 +89,24 @@ fn test_sunset() {
 fn test_sea_level_sunset() {
     let locations = test_helper::more_locations();
     let expected_datetime_strs = [
-        "2017-10-17 18:13:58.954 EDT",
-        "2017-10-17 18:04:36.171 IDT",
-        "2017-10-17 18:17:45.714 PDT",
-        "2017-10-17 17:03:45.571 JST",
+        "2017-10-17 18:13:59.201 -0400",
+        "2017-10-17 18:04:36.392 +0300",
+        "2017-10-17 18:17:45.941 -0700",
+        "2017-10-17 17:03:45.802 +0900",
         "None",
-        "2017-10-17 19:25:19.737 +14",
-        "2017-10-17 18:08:48.238 +12",
-        "2017-10-17 19:05:18.226 HDT",
-        "2017-10-17 18:21:41.208 -11",
+        "2017-10-17 19:25:19.911 +1400",
+        "2017-10-17 18:08:48.435 +1200",
+        "2017-10-17 19:05:18.428 -0900",
+        "2017-10-17 18:21:41.407 -1100",
     ];
 
-    for (loc, edt) in zip(locations, expected_datetime_strs) {
+    for (loc, expected) in zip(locations, expected_datetime_strs) {
         let date = civil::date(2017, 10, 17);
-        let result = match astronomical_calculator::sea_level_sunset(&date, &loc) {
-            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+        let actual = match astronomical_calculator::sea_level_sunset(date, &loc) {
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %z").to_string(),
             None => String::from("None"),
         };
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -114,24 +114,24 @@ fn test_sea_level_sunset() {
 fn test_solar_noon() {
     let locations = test_helper::more_locations();
     let expected_datetime_strs = [
-        "2017-10-17 12:42:18.881 EDT",
-        "2017-10-17 12:24:28.945 IDT",
-        "2017-10-17 12:40:05.813 PDT",
-        "2017-10-17 11:26:55.034 JST",
-        "2017-10-17 12:04:32.300 EDT",
-        "2017-10-17 13:12:43.198 +14",
-        "2017-10-17 11:53:26.075 +12",
-        "2017-10-17 13:17:10.419 HDT",
-        "2017-10-17 12:04:44.224 -11",
+        "2017-10-17 12:42:12.781 -0400",
+        "2017-10-17 12:24:22.754 +0300",
+        "2017-10-17 12:39:59.750 -0700",
+        "2017-10-17 11:26:48.756 +0900",
+        "2017-10-17 12:04:26.192 -0400",
+        "2017-10-17 13:12:36.880 +1400",
+        "2017-10-17 11:53:19.765 +1200",
+        "2017-10-17 13:17:04.390 -0900",
+        "2017-10-17 12:04:38.204 -1100",
     ];
 
-    for (loc, edt) in zip(locations, expected_datetime_strs) {
+    for (loc, expected) in zip(locations, expected_datetime_strs) {
         let date = civil::date(2017, 10, 17);
-        let result = match astronomical_calculator::solar_noon(&date, &loc) {
-            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+        let actual = match astronomical_calculator::solar_noon(date, &loc) {
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %z").to_string(),
             None => String::from("None"),
         };
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }
 
@@ -139,23 +139,23 @@ fn test_solar_noon() {
 fn test_solar_midnight() {
     let locations = test_helper::more_locations();
     let expected_datetime_strs = [
-        "2017-10-18 00:42:12.782 EDT",
-        "2017-10-18 00:24:22.754 IDT",
-        "2017-10-18 00:39:59.751 PDT",
-        "2017-10-17 23:26:48.756 JST",
-        "2017-10-18 00:04:26.193 EDT",
-        "2017-10-18 01:12:36.881 +14",
-        "2017-10-17 23:53:19.766 +12",
-        "2017-10-18 01:17:04.390 HDT",
-        "2017-10-18 00:04:38.205 -11",
+        "2017-10-18 00:42:06.833 -0400",
+        "2017-10-18 00:24:16.713 +0300",
+        "2017-10-18 00:39:53.840 -0700",
+        "2017-10-17 23:26:42.627 +0900",
+        "2017-10-18 00:04:20.236 -0400",
+        "2017-10-18 01:12:30.711 +1400",
+        "2017-10-17 23:53:13.604 +1200",
+        "2017-10-18 01:16:58.513 -0900",
+        "2017-10-18 00:04:32.338 -1100",
     ];
 
-    for (loc, edt) in zip(locations, expected_datetime_strs) {
+    for (loc, expected) in zip(locations, expected_datetime_strs) {
         let date = civil::date(2017, 10, 17);
-        let result = match astronomical_calculator::solar_midnight(&date, &loc) {
-            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %Z").to_string(),
+        let actual = match astronomical_calculator::solar_midnight(date, &loc) {
+            Some(dt) => dt.strftime("%Y-%m-%d %H:%M:%S.%3f %z").to_string(),
             None => String::from("None"),
         };
-        assert_eq!(result, edt)
+        assert_eq!(expected, actual)
     }
 }

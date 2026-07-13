@@ -8,21 +8,16 @@ fn main() {
     let today = Zoned::now().date();
 
     // your location here
-    let kosel = GeoLocation {
-        latitude: 31.777,
-        longitude: 35.234,
-        elevation: 700.0,
-        timezone: jerusalem,
-    };
+    let kosel = GeoLocation::new(31.777, 35.234, 700.0, jerusalem).unwrap();
 
     let dawn = astronomical_calculator::sunrise_offset_by_degrees(
-        &today,
+        today,
         &kosel,
         astronomical_calculator::ASTRONOMICAL_ZENITH,
     )
     .unwrap();
-    let sunrise = astronomical_calculator::sunrise(&today, &kosel).unwrap();
-    let noon = astronomical_calculator::solar_noon(&today, &kosel).unwrap();
+    let sunrise = astronomical_calculator::sunrise(today, &kosel).unwrap();
+    let noon = astronomical_calculator::solar_noon(today, &kosel).unwrap();
 
     println!(
         "

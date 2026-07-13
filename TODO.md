@@ -1,0 +1,19 @@
+- [ ] add chatzos halayla as half night?
+- [ ] comments
+    - [ ] make sure has all content from KJ
+    - [ ] more uniformity
+    - [ ] minimize
+        - [ ] concentrate information to earliest possible place
+        - [ ] add links everywhere else
+        - [ ] minimal comment macros
+- [ ] gen tests
+    - [ ] multi-date generated tests (DST/solstice)
+    - [ ] more locations?
+    - [ ] calc for many locs and dates with one czc (also tests cache invalidation)
+- [ ] combine the basic README somehow, so can be shared
+    - [ ] import markdown in rust docs?
+    - [ ] also the basic.rs code should be imported?
+    - [ ] README up to date?
+- [ ] make sure all funcs in all modules are in sensible order
+- [ ] more linting? make sure float conversion etc is correct
+- [ ] add Teshuvos Vehanhagos zmanim (only after KJ finalizes impl and docs)

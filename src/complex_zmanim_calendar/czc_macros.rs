@@ -1,3 +1,12 @@
+/// Generates *zman* accessor methods that each compute a
+/// [`ZmanOffset`](crate::zmanim_calculator::ZmanOffset) via a
+/// closure and forward it to the matching calculation method.
+///
+/// The main entry point takes an offset-producing expression and a list of
+/// `method_name => zman_type, doc` triples. For each triple it emits a `pub fn`
+/// that evaluates the offset closure and calls `self.<zman_type>(&offset)`. The
+/// `shaah_zmanis_mga` type is handled specially because it returns
+/// `Option<SignedDuration>` rather than `Option<Zoned>`.
 #[macro_export]
 macro_rules! zmanim_for_offset {
     // Main entry point

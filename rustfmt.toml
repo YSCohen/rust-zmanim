@@ -1,1 +1,4 @@
 wrap_comments = true
+imports_granularity = "Crate"
+
+ignore = ["tests/"]

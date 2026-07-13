@@ -5,438 +5,615 @@
 //! this is a set of tests for the *shaah zmanis* methods of
 //! [ComplexZmanimCalendar](rust_zmanim::complex_zmanim_calendar::ComplexZmanimCalendar),
 //! using elevation-adjusted calculations.
-//! Because KosherJava returns *shaah zmanis* values as `long` of milliseconds,
-//! these tests only check for within 1 millisecond
 
 mod test_helper;
+use jiff::{RoundMode, SignedDurationRound, Unit};
 use std::iter::zip;
-
-/// assert that the two values are either both `None`, or both `Some` with the
-/// values within 1 of each other
-fn within_one(a: Option<i128>, b: Option<i128>) {
-    match a {
-        None => assert_eq!(b, None),
-        Some(val_a) => {
-            if let Some(val_b) = b {
-                // assert they are within 1ms
-                assert!((val_a - val_b).abs() < 2)
-            } else {
-                panic!()
-            }
-        }
-    }
-}
 
 #[test]
 fn test_shaah_zmanis_alos_16_1_to_tzeis_3_7() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(3798553),
-        Some(3834368),
-        Some(3821167),
-        Some(3821830),
-        Some(3818308),
-        Some(4107270),
-        Some(4142837),
-        Some(3876885),
-        Some(4162759),
+    let expected_duration_strs = [
+        "PT1H3M18.553S",
+        "PT1H3M54.368S",
+        "PT1H3M41.167S",
+        "PT1H3M41.83S",
+        "PT1H3M38.308S",
+        "PT1H8M27.27S",
+        "PT1H9M2.837S",
+        "PT1H4M36.885S",
+        "PT1H9M22.759S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_alos_16_1_to_tzeis_3_7()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_3_7().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_alos_16_1_to_tzeis_3_8() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(3801199),
-        Some(3836747),
-        Some(3823608),
-        Some(3824319),
-        Some(3837725),
-        Some(4109366),
-        Some(4144976),
-        Some(3879059),
-        Some(4164919),
+    let expected_duration_strs = [
+        "PT1H3M21.199S",
+        "PT1H3M56.747S",
+        "PT1H3M43.608S",
+        "PT1H3M44.319S",
+        "PT1H3M57.725S",
+        "PT1H8M29.366S",
+        "PT1H9M4.976S",
+        "PT1H4M39.059S",
+        "PT1H9M24.919S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_alos_16_1_to_tzeis_3_8()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_3_8().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_19_8_degrees() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4317265),
-        Some(4301331),
-        Some(4300103),
-        Some(4310323),
-        None,
-        Some(4526376),
-        Some(4572067),
-        Some(4304389),
-        Some(4597302),
+    let expected_duration_strs = [
+        "PT1H11M57.265S",
+        "PT1H11M41.331S",
+        "PT1H11M40.103S",
+        "PT1H11M50.323S",
+        "None",
+        "PT1H15M26.376S",
+        "PT1H16M12.067S",
+        "PT1H11M44.389S",
+        "PT1H16M37.302S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_19_8_degrees()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_19_8_degrees().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_18_degrees() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4223015),
-        Some(4216641),
-        Some(4213227),
-        Some(4221645),
-        None,
-        Some(4449606),
-        Some(4493213),
-        Some(4226918),
-        Some(4517339),
+    let expected_duration_strs = [
+        "PT1H10M23.015S",
+        "PT1H10M16.641S",
+        "PT1H10M13.227S",
+        "PT1H10M21.645S",
+        "None",
+        "PT1H14M9.606S",
+        "PT1H14M53.212S",
+        "PT1H10M26.918S",
+        "PT1H15M17.339S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_18_degrees()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_18_degrees().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_26_degrees() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4643865),
-        Some(4593504),
-        Some(4600050),
-        Some(4616844),
-        None,
-        Some(4792749),
-        Some(4846485),
-        Some(4570963),
-        Some(4876044),
+    let expected_duration_strs = [
+        "PT1H17M23.865S",
+        "PT1H16M33.504S",
+        "PT1H16M40.05S",
+        "PT1H16M56.844S",
+        "None",
+        "PT1H19M52.748S",
+        "PT1H20M46.485S",
+        "PT1H16M10.963S",
+        "PT1H21M16.044S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_26_degrees()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_26_degrees().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_16_1_degrees() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4123656),
-        Some(4127245),
-        Some(4121543),
-        Some(4128093),
-        Some(5751891),
-        Some(4368804),
-        Some(4410311),
-        Some(4145083),
-        Some(4433327),
+    let expected_duration_strs = [
+        "PT1H8M43.656S",
+        "PT1H8M47.245S",
+        "PT1H8M41.543S",
+        "PT1H8M48.093S",
+        "PT1H35M51.891S",
+        "PT1H12M48.804S",
+        "PT1H13M30.311S",
+        "PT1H9M5.083S",
+        "PT1H13M53.327S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_16_1_degrees()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_16_1_degrees().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_60_minutes() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(3927251),
-        Some(4046224),
-        Some(3993335),
-        Some(3982178),
-        None,
-        Some(4384088),
-        Some(4403337),
-        Some(4088152),
-        Some(4381107),
+    let expected_duration_strs = [
+        "PT1H5M27.285S",
+        "PT1H7M26.214S",
+        "PT1H6M33.358S",
+        "PT1H6M22.205S",
+        "None",
+        "PT1H13M4.053S",
+        "PT1H13M23.314S",
+        "PT1H8M8.181S",
+        "PT1H13M1.127S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_60_minutes()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_60_minutes().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_72_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(3992701),
-        Some(4135468),
-        Some(4072002),
-        Some(4058613),
-        None,
-        Some(4540906),
-        Some(4564004),
-        Some(4185783),
-        Some(4537328),
+    let expected_duration_strs = [
+        "PT1H6M32.742S",
+        "PT1H8M55.457S",
+        "PT1H7M52.03S",
+        "PT1H7M38.646S",
+        "None",
+        "PT1H15M40.864S",
+        "PT1H16M3.977S",
+        "PT1H9M45.817S",
+        "PT1H15M37.352S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_72_minutes_zmanis()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_72_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_90_minutes() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4227251),
-        Some(4346224),
-        Some(4293335),
-        Some(4282178),
-        None,
-        Some(4684088),
-        Some(4703337),
-        Some(4388152),
-        Some(4681107),
+    let expected_duration_strs = [
+        "PT1H10M27.285S",
+        "PT1H12M26.214S",
+        "PT1H11M33.358S",
+        "PT1H11M22.205S",
+        "None",
+        "PT1H18M4.053S",
+        "PT1H18M23.314S",
+        "PT1H13M8.181S",
+        "PT1H18M1.127S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_90_minutes()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_90_minutes().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_90_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4159064),
-        Some(4307780),
-        Some(4241669),
-        Some(4227722),
-        None,
-        Some(4730110),
-        Some(4754171),
-        Some(4360190),
-        Some(4726384),
+    let expected_duration_strs = [
+        "PT1H9M19.106S",
+        "PT1H11M47.768S",
+        "PT1H10M41.698S",
+        "PT1H10M27.756S",
+        "None",
+        "PT1H18M50.066S",
+        "PT1H19M14.143S",
+        "PT1H12M40.227S",
+        "PT1H18M46.409S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_90_minutes_zmanis()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_90_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_96_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4214518),
-        Some(4365217),
-        Some(4298224),
-        Some(4284092),
-        None,
-        Some(4793178),
-        Some(4817560),
-        Some(4418326),
-        Some(4789402),
+    let expected_duration_strs = [
+        "PT1H10M14.561S",
+        "PT1H12M45.205S",
+        "PT1H11M38.254S",
+        "PT1H11M24.127S",
+        "None",
+        "PT1H19M53.134S",
+        "PT1H20M17.531S",
+        "PT1H13M38.363S",
+        "PT1H19M49.428S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_96_minutes_zmanis()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_96_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_ateret_torah() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(3859976),
-        Some(3990846),
-        Some(3932669),
-        Some(3920396),
-        None,
-        Some(4362497),
-        Some(4383670),
-        Some(4036968),
-        Some(4359218),
+    let expected_duration_strs = [
+        "PT1H4M20.013S",
+        "PT1H6M30.836S",
+        "PT1H5M32.694S",
+        "PT1H5M20.426S",
+        "None",
+        "PT1H12M42.458S",
+        "PT1H13M3.646S",
+        "PT1H7M16.999S",
+        "PT1H12M39.24S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_ateret_torah()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_ateret_torah().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
+    }
+}
+
+#[test]
+fn test_shaah_zmanis_alos_16_1_to_tzeis_7_083() {
+    let cals = test_helper::more_locations_czcs(true);
+    let expected_duration_strs = [
+        "PT1H4M47.768S",
+        "PT1H5M14.657S",
+        "PT1H5M3.545S",
+        "PT1H5M5.813S",
+        "PT1H12M52.249S",
+        "PT1H9M38.283S",
+        "PT1H10M15.336S",
+        "PT1H5M50.326S",
+        "PT1H10M36.024S",
+    ];
+
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_7_083().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_96_minutes() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4287251),
-        Some(4406224),
-        Some(4353335),
-        Some(4342178),
-        None,
-        Some(4744088),
-        Some(4763337),
-        Some(4448152),
-        Some(4741107),
+    let expected_duration_strs = [
+        "PT1H11M27.285S",
+        "PT1H13M26.214S",
+        "PT1H12M33.358S",
+        "PT1H12M22.205S",
+        "None",
+        "PT1H19M4.053S",
+        "PT1H19M23.314S",
+        "PT1H14M8.181S",
+        "PT1H19M1.127S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_96_minutes()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_96_minutes().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_120_minutes() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4527251),
-        Some(4646224),
-        Some(4593335),
-        Some(4582178),
-        None,
-        Some(4984088),
-        Some(5003337),
-        Some(4688152),
-        Some(4981107),
+    let expected_duration_strs = [
+        "PT1H15M27.285S",
+        "PT1H17M26.214S",
+        "PT1H16M33.358S",
+        "PT1H16M22.205S",
+        "None",
+        "PT1H23M4.053S",
+        "PT1H23M23.314S",
+        "PT1H18M8.181S",
+        "PT1H23M1.127S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_120_minutes()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_120_minutes().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_120_minutes_zmanis() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4436335),
-        Some(4594965),
-        Some(4524447),
-        Some(4509570),
-        None,
-        Some(5045451),
-        Some(5071116),
-        Some(4650870),
-        Some(5041476),
+    let expected_duration_strs = [
+        "PT1H13M56.38S",
+        "PT1H16M34.952S",
+        "PT1H15M24.478S",
+        "PT1H15M9.607S",
+        "None",
+        "PT1H24M5.404S",
+        "PT1H24M31.086S",
+        "PT1H17M30.908S",
+        "PT1H24M1.503S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_120_minutes_zmanis()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_120_minutes_zmanis().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_baal_hatanya() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(3360579),
-        Some(3440274),
-        Some(3416844),
-        Some(3409536),
-        Some(679376),
-        Some(3757509),
-        Some(3785439),
-        Some(3516415),
-        Some(3801399),
+    let expected_duration_strs = [
+        "PT56M0.579S",
+        "PT57M20.274S",
+        "PT56M56.844S",
+        "PT56M49.536S",
+        "PT11M19.376S",
+        "PT1H2M37.509S",
+        "PT1H3M5.439S",
+        "PT58M36.415S",
+        "PT1H3M21.399S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_baal_hatanya()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_baal_hatanya().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_gra() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(3327251),
-        Some(3446224),
-        Some(3393335),
-        Some(3382178),
-        None,
-        Some(3784088),
-        Some(3803337),
-        Some(3488152),
-        Some(3781107),
+    let expected_duration_strs = [
+        "PT55M27.285S",
+        "PT57M26.214S",
+        "PT56M33.358S",
+        "PT56M22.205S",
+        "None",
+        "PT1H3M4.053S",
+        "PT1H3M23.314S",
+        "PT58M8.181S",
+        "PT1H3M1.127S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_gra()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_gra().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_72_minutes() {
     let cals = test_helper::more_locations_czcs(true);
-    let expected_datetime_strs = [
-        Some(4047251),
-        Some(4166224),
-        Some(4113335),
-        Some(4102178),
-        None,
-        Some(4504088),
-        Some(4523337),
-        Some(4208152),
-        Some(4501107),
+    let expected_duration_strs = [
+        "PT1H7M27.285S",
+        "PT1H9M26.214S",
+        "PT1H8M33.358S",
+        "PT1H8M22.205S",
+        "None",
+        "PT1H15M4.053S",
+        "PT1H15M23.314S",
+        "PT1H10M8.181S",
+        "PT1H15M1.127S",
     ];
 
-    for (czc, edt) in zip(cals, expected_datetime_strs) {
-        let result = czc
-            .shaah_zmanis_mga_72_minutes()
-            .map_or_else(|| None, |sd| Some(sd.as_millis()));
-        within_one(result, edt)
+    for (czc, expected) in zip(cals, expected_duration_strs) {
+        let actual = czc.shaah_zmanis_mga_72_minutes().map_or_else(
+            || String::from("None"),
+            |sd| {
+                sd.round(
+                    SignedDurationRound::new()
+                        .smallest(Unit::Millisecond)
+                        .mode(RoundMode::Trunc),
+                )
+                .unwrap()
+                .to_string()
+            },
+        );
+        assert_eq!(expected, actual)
     }
 }

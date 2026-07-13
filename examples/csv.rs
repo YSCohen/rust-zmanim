@@ -6,12 +6,7 @@ use rust_zmanim::prelude::*;
 fn main() {
     let new_york = TimeZone::get("America/New_York").unwrap();
 
-    let yeshiva = GeoLocation {
-        latitude: 40.8506041,
-        longitude: -73.9297205,
-        elevation: 0.0,
-        timezone: new_york,
-    };
+    let yeshiva = GeoLocation::new(40.8506041, -73.9297205, 0.0, new_york).unwrap();
 
     println!(
         "Date, Alos 19.8°, Alos 18°, Misheyakir 6.5°, Hanetz, SZKS, SZT, Chatzos, MG, MK, Plag, Shkia, Tzeis 6°"
@@ -19,12 +14,9 @@ fn main() {
 
     let mut date = civil::date(2027, 1, 1);
     let end = civil::date(2027, 12, 30);
+    let mut czc = ComplexZmanimCalendar::new(yeshiva, date, UseElevation::No);
     while date <= end {
-        let czc = ComplexZmanimCalendar {
-            geo_location: yeshiva.clone(),
-            date,
-            use_elevation: UseElevation::No,
-        };
+        czc.set_date(date);
 
         println!(
             "{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}",
@@ -37,7 +29,7 @@ fn main() {
             czc.hanetz().unwrap().strftime("%H:%M:%S"),
             czc.sof_zman_shema_gra().unwrap().strftime("%H:%M:%S"),
             czc.sof_zman_tefila_gra().unwrap().strftime("%H:%M:%S"),
-            czc.chatzos().unwrap().strftime("%H:%M:%S"),
+            czc.chatzos_hayom().unwrap().strftime("%H:%M:%S"),
             czc.mincha_gedola_gra().unwrap().strftime("%H:%M:%S"),
             czc.mincha_ketana_gra().unwrap().strftime("%H:%M:%S"),
             czc.plag_gra().unwrap().strftime("%H:%M:%S"),

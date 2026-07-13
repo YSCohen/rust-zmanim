@@ -31,14 +31,15 @@
 //! use rust_zmanim::prelude::*;
 //!
 //! let date = Zoned::now().date();
-//! let location = GeoLocation {
-//!     latitude: 31.778,
-//!     longitude: 35.234,
-//!     elevation: 754.0,
-//!     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! };
+//! let location = GeoLocation::new(
+//!     31.778,
+//!     35.234,
+//!     754.0,
+//!     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! )
+//! .unwrap();
 //!
-//! let hanetz = zmanim_calculator::hanetz(&date, &location, false).unwrap();
+//! let hanetz = zmanim_calculator::hanetz(date, &location, false).unwrap();
 //! println!("Hanetz: {}", hanetz.strftime("%H:%M:%S %Z"));
 //! ```
 //!
@@ -48,31 +49,33 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
-//! let shkia = zmanim_calculator::shkia(&date, &location, false).unwrap();
+//! let shkia = zmanim_calculator::shkia(date, &location, false).unwrap();
 //! println!("Shkia: {}", shkia.strftime("%H:%M:%S %Z"));
 //! ```
 //!
-//! ### `zmanim_calculator`: [*Chatzos*](zmanim_calculator::chatzos) (Solar Noon)
+//! ### `zmanim_calculator`: [*Chatzos*](zmanim_calculator::chatzos_hayom) (Solar Noon)
 //! ```rust
 //! # use jiff::{tz::TimeZone, Zoned};
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
-//! let chatzos = zmanim_calculator::chatzos(&date, &location).unwrap();
+//! let chatzos = zmanim_calculator::chatzos_hayom(date, &location).unwrap();
 //! println!("Chatzos: {}", chatzos.strftime("%H:%M:%S %Z"));
 //! ```
 //!
@@ -82,15 +85,16 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
 //! let alos_72 =
-//!     zmanim_calculator::alos(&date, &location, false, &ZmanOffset::Minutes(72.0)).unwrap();
+//!     zmanim_calculator::alos(date, &location, false, &ZmanOffset::Minutes(72.0)).unwrap();
 //! println!("Alos (72 min): {}", alos_72.strftime("%H:%M:%S %Z"));
 //! ```
 //!
@@ -100,15 +104,16 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
 //! let tzeis_4_5 =
-//!     zmanim_calculator::tzeis(&date, &location, false, &ZmanOffset::Degrees(4.5)).unwrap();
+//!     zmanim_calculator::tzeis(date, &location, false, &ZmanOffset::Degrees(4.5)).unwrap();
 //! println!("Tzeis (4.5 deg): {}", tzeis_4_5.strftime("%H:%M:%S %Z"));
 //! ```
 //!
@@ -118,15 +123,16 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
-//! let hanetz = zmanim_calculator::hanetz(&date, &location, false).unwrap();
-//! let shkia = zmanim_calculator::shkia(&date, &location, false).unwrap();
+//! let hanetz = zmanim_calculator::hanetz(date, &location, false).unwrap();
+//! let shkia = zmanim_calculator::shkia(date, &location, false).unwrap();
 //! // this is a GRA shaah zmanis, based on sunrise and sunset
 //! let shaah_zmanis_gra = zmanim_calculator::shaah_zmanis(&hanetz, &shkia);
 //!
@@ -136,9 +142,9 @@
 //!     shaah_zmanis: shaah_zmanis_gra,
 //! };
 //! let alos_50_zmanis =
-//!     zmanim_calculator::alos(&date, &location, false, &offset_50_zmanis).unwrap();
+//!     zmanim_calculator::alos(date, &location, false, &offset_50_zmanis).unwrap();
 //! let tzeis_50_zmanis =
-//!     zmanim_calculator::tzeis(&date, &location, false, &offset_50_zmanis).unwrap();
+//!     zmanim_calculator::tzeis(date, &location, false, &offset_50_zmanis).unwrap();
 //!
 //! // calculate Sof Zman Shema according to the Magen Avraham, that it is
 //! // calculated from alos to tzeis
@@ -155,18 +161,15 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
-//! let czc = ComplexZmanimCalendar {
-//!     geo_location: location,
-//!     date,
-//!     use_elevation: UseElevation::No,
-//! };
+//! let czc = ComplexZmanimCalendar::new(location, date, UseElevation::No);
 //!
 //! println!("Hanetz: {}", czc.hanetz().unwrap().strftime("%H:%M:%S %Z"));
 //! println!("Shkia: {}", czc.shkia().unwrap().strftime("%H:%M:%S %Z"));
@@ -178,18 +181,15 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
-//! # let czc = ComplexZmanimCalendar {
-//! #     geo_location: location,
-//! #     date,
-//! #     use_elevation: UseElevation::No,
-//! # };
+//! # let czc = ComplexZmanimCalendar::new(location, date, UseElevation::No);
 //! #
 //! println!("Alos (72 min): {}", czc.alos_72_minutes().unwrap().strftime("%H:%M:%S %Z"));
 //! ```
@@ -200,18 +200,15 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
-//! # let czc = ComplexZmanimCalendar {
-//! #     geo_location: location,
-//! #     date,
-//! #     use_elevation: UseElevation::No,
-//! # };
+//! # let czc = ComplexZmanimCalendar::new(location, date, UseElevation::No);
 //! #
 //! let tzeis_7_083 = czc.tzeis(&ZmanOffset::Degrees(7.083)).unwrap();
 //! println!("Tzeis (7.083 deg): {}", tzeis_7_083.strftime("%H:%M:%S %Z"));
@@ -223,18 +220,15 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
-//! # let czc = ComplexZmanimCalendar {
-//! #     geo_location: location,
-//! #     date,
-//! #     use_elevation: UseElevation::No,
-//! # };
+//! # let czc = ComplexZmanimCalendar::new(location, date, UseElevation::No);
 //! #
 //! let tzeis_90_zmanis = czc.tzeis_90_minutes_zmanis().unwrap();
 //! println!(
@@ -249,24 +243,16 @@
 //! # use rust_zmanim::prelude::*;
 //! #
 //! # let date = Zoned::now().date();
-//! # let location = GeoLocation {
-//! #     latitude: 31.778,
-//! #     longitude: 35.234,
-//! #     elevation: 754.0,
-//! #     timezone: TimeZone::get("Asia/Jerusalem").unwrap(),
-//! # };
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
 //! #
-//! let sea_level = ComplexZmanimCalendar {
-//!     geo_location: location.clone(),
-//!     date,
-//!     use_elevation: UseElevation::No,
-//! };
-//!
-//! let elevated = ComplexZmanimCalendar {
-//!     geo_location: location,
-//!     date,
-//!     use_elevation: UseElevation::HanetzShkia,
-//! };
+//! let sea_level = ComplexZmanimCalendar::new(location.clone(), date, UseElevation::No);
+//! let elevated = ComplexZmanimCalendar::new(location, date, UseElevation::HanetzShkia);
 //!
 //! let sea_level_hanetz = sea_level.hanetz().unwrap();
 //! let elevated_hanetz = elevated.hanetz().unwrap();
@@ -304,6 +290,9 @@
 //! See the [KosherJava website](https://kosherjava.com) for additional
 //! background on *zmanim*.
 
+#![warn(missing_docs)]
+#![warn(clippy::unwrap_used)]
+
 pub mod astronomical_calculator;
 pub mod complex_zmanim_calendar;
 pub mod util;
@@ -311,8 +300,10 @@ pub mod zmanim_calculator;
 
 /// A convenience module for glob imports. `use rust_zmanim::prelude::*;`
 pub mod prelude {
-    pub use crate::astronomical_calculator;
-    pub use crate::complex_zmanim_calendar::*;
-    pub use crate::util::geolocation::GeoLocation;
-    pub use crate::zmanim_calculator::{self, ZmanOffset};
+    pub use crate::{
+        astronomical_calculator,
+        complex_zmanim_calendar::*,
+        util::geolocation::GeoLocation,
+        zmanim_calculator::{self, ZmanOffset},
+    };
 }
