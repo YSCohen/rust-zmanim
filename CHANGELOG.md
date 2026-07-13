@@ -15,9 +15,11 @@
 
 3. functions throughout library take `Date`, not `&Date` (`Date` is `Copy`)
 
-4. some functions/methods renamed/changed:
+4. functions changed:
     - `tzeis_geonim_4_37_degrees` -> `tzeis_geonim_4_42_degrees`
     - `tzeis_geonim_4_61_degrees` -> `tzeis_geonim_4_66_degrees`
+
+5. functions renamed:
     - `chatzos` -> `chatzos_hayom` (in `zmanim_calculator` and CZC)
     - `fixed_local_chatzos` -> `fixed_local_chatzos_hayom` (in `zmanim_calculator` and CZC)
     - `sof_zman_shema_mga_18_degrees_to_fixed_local_chatzos` -> `..._mga_alos_18_to_fixed_local_chatzos`
