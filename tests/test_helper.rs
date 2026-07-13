@@ -70,13 +70,33 @@ pub(crate) fn more_locations() -> [GeoLocation; 9] {
     ]
 }
 
-// TODO: replce this whole system in tests with a single czc that changes loc
-pub(crate) fn more_locations_czcs(use_elevation: bool) -> [ComplexZmanimCalendar; 9] {
+/// Labels for [`more_locations`], in the same order, for assert messages.
+pub(crate) fn location_labels() -> [&'static str; 9] {
+    ["LW", "JM", "LA", "TK", "AN", "SM", "FJ", "HU", "NI"]
+}
+
+/// The dates exercised by every generated test, in the same order as
+/// `Helpers.SAMPLE_DATES` in the test generator.
+pub(crate) fn sample_dates() -> [civil::Date; 7] {
+    [
+        civil::date(2024, 2, 29),  // leap day
+        civil::date(2025, 10, 17), // autumn mid-season
+        civil::date(2025, 11, 2),  // US DST fall-back
+        civil::date(2025, 12, 21), // winter solstice
+        civil::date(2026, 3, 8),   // US DST spring-forward
+        civil::date(2026, 3, 20),  // spring equinox
+        civil::date(2026, 6, 21),  // summer solstice
+    ]
+}
+
+/// A single calendar to be re-pointed at each location/date under test via
+/// `set_geo_location` / `set_date`; the initial values are arbitrary.
+pub(crate) fn single_czc(use_elevation: bool) -> ComplexZmanimCalendar {
     let elev = if use_elevation {
         UseElevation::All
     } else {
         UseElevation::No
     };
 
-    more_locations().map(|loc| ComplexZmanimCalendar::new(loc, civil::date(2017, 10, 17), elev))
+    ComplexZmanimCalendar::new(lakewood(), sample_dates()[0], elev)
 }

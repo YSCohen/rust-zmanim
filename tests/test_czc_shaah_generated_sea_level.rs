@@ -12,608 +12,2280 @@ use std::iter::zip;
 
 #[test]
 fn test_shaah_zmanis_alos_16_1_to_tzeis_3_7() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H3M18.553S",
-        "PT1H3M54.368S",
-        "PT1H3M41.167S",
-        "PT1H3M41.83S",
-        "PT1H3M38.308S",
-        "PT1H8M27.27S",
-        "PT1H9M2.837S",
-        "PT1H4M36.885S",
-        "PT1H9M22.759S",
+        // LW
+        [
+            "PT1H4M21.96S",
+            "PT1H3M17.702S",
+            "PT1H14.444S",
+            "PT55M19.234S",
+            "PT1H5M59.56S",
+            "PT1H8M41.804S",
+            "PT1H25M32.85S",
+        ],
+        // JM
+        [
+            "PT1H4M35.149S",
+            "PT1H3M53.747S",
+            "PT1H1M40.464S",
+            "PT58M6.813S",
+            "PT1H5M46.268S",
+            "PT1H7M44.703S",
+            "PT1H19M44.413S",
+        ],
+        // LA
+        [
+            "PT1H4M34.202S",
+            "PT1H3M40.49S",
+            "PT1H1M15.135S",
+            "PT57M23.954S",
+            "PT1H5M52.073S",
+            "PT1H8M1.573S",
+            "PT1H21M6.175S",
+        ],
+        // TK
+        [
+            "PT1H4M23.15S",
+            "PT1H3M41.105S",
+            "PT1H1M5.059S",
+            "PT56M51.355S",
+            "PT1H5M45.814S",
+            "PT1H8M3.384S",
+            "PT1H22M11.543S",
+        ],
+        // AN
+        [
+            "None",
+            "PT1H3M27.242S",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H8M11.99S",
+            "PT1H8M27.568S",
+            "PT1H9M35.735S",
+            "PT1H11M42.678S",
+            "PT1H7M39.64S",
+            "PT1H6M49.935S",
+            "PT1H3M16.844S",
+        ],
+        // FJ
+        [
+            "PT1H8M43.133S",
+            "PT1H9M3.214S",
+            "PT1H10M28.96S",
+            "PT1H13M7.032S",
+            "PT1H8M2.037S",
+            "PT1H6M58.382S",
+            "PT1H2M13.832S",
+        ],
+        // HU
+        [
+            "PT1H5M8.321S",
+            "PT1H4M36.501S",
+            "PT1H3M15.182S",
+            "PT1H1M9.884S",
+            "PT1H5M52.797S",
+            "PT1H7M7.4S",
+            "PT1H14M39.275S",
+        ],
+        // NI
+        [
+            "PT1H8M50.005S",
+            "PT1H9M23.167S",
+            "PT1H10M55.532S",
+            "PT1H13M40.587S",
+            "PT1H8M5.586S",
+            "PT1H6M56.766S",
+            "PT1H1M50.008S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_3_7().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_3_7().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_alos_16_1_to_tzeis_3_8() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H3M21.199S",
-        "PT1H3M56.747S",
-        "PT1H3M43.608S",
-        "PT1H3M44.319S",
-        "PT1H3M57.725S",
-        "PT1H8M29.366S",
-        "PT1H9M4.976S",
-        "PT1H4M39.059S",
-        "PT1H9M24.919S",
+        // LW
+        [
+            "PT1H4M24.593S",
+            "PT1H3M20.348S",
+            "PT1H17.168S",
+            "PT55M22.188S",
+            "PT1H6M2.179S",
+            "PT1H8M44.424S",
+            "PT1H25M36.047S",
+        ],
+        // JM
+        [
+            "PT1H4M37.519S",
+            "PT1H3M56.127S",
+            "PT1H1M42.901S",
+            "PT58M9.418S",
+            "PT1H5M48.626S",
+            "PT1H7M47.059S",
+            "PT1H19M47.147S",
+        ],
+        // LA
+        [
+            "PT1H4M36.632S",
+            "PT1H3M42.931S",
+            "PT1H1M17.64S",
+            "PT57M26.637S",
+            "PT1H5M54.49S",
+            "PT1H8M3.99S",
+            "PT1H21M9.011S",
+        ],
+        // TK
+        [
+            "PT1H4M25.631S",
+            "PT1H3M43.595S",
+            "PT1H1M7.614S",
+            "PT56M54.103S",
+            "PT1H5M48.281S",
+            "PT1H8M5.85S",
+            "PT1H22M14.463S",
+        ],
+        // AN
+        [
+            "None",
+            "PT1H3M46.741S",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H8M14.075S",
+            "PT1H8M29.664S",
+            "PT1H9M37.881S",
+            "PT1H11M44.957S",
+            "PT1H7M41.71S",
+            "PT1H6M51.995S",
+            "PT1H3M19.086S",
+        ],
+        // FJ
+        [
+            "PT1H8M45.258S",
+            "PT1H9M5.353S",
+            "PT1H10M31.153S",
+            "PT1H13M9.369S",
+            "PT1H8M4.147S",
+            "PT1H7M0.48S",
+            "PT1H2M16.119S",
+        ],
+        // HU
+        [
+            "PT1H5M10.484S",
+            "PT1H4M38.676S",
+            "PT1H3M17.404S",
+            "PT1H1M12.233S",
+            "PT1H5M54.95S",
+            "PT1H7M9.551S",
+            "PT1H14M41.688S",
+        ],
+        // NI
+        [
+            "PT1H8M52.147S",
+            "PT1H9M25.328S",
+            "PT1H10M57.751S",
+            "PT1H13M42.95S",
+            "PT1H8M7.712S",
+            "PT1H6M58.881S",
+            "PT1H1M52.316S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_3_8().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_3_8().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_19_8_degrees() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H11M57.265S",
-        "PT1H11M41.331S",
-        "PT1H11M40.103S",
-        "PT1H11M50.323S",
-        "None",
-        "PT1H15M26.376S",
-        "PT1H16M12.067S",
-        "PT1H11M44.389S",
-        "PT1H16M37.302S",
+        // LW
+        [
+            "PT1H13M1.058S",
+            "PT1H11M56.423S",
+            "PT1H8M59.401S",
+            "PT1H4M31.854S",
+            "PT1H14M40.561S",
+            "PT1H17M31.503S",
+            "PT1H38M37.014S",
+        ],
+        // JM
+        [
+            "PT1H12M21.803S",
+            "PT1H11M40.724S",
+            "PT1H9M33.617S",
+            "PT1H6M22.975S",
+            "PT1H13M33.293S",
+            "PT1H15M36.218S",
+            "PT1H29M47.115S",
+        ],
+        // LA
+        [
+            "PT1H12M32.897S",
+            "PT1H11M39.439S",
+            "PT1H9M20.375S",
+            "PT1H5M52.938S",
+            "PT1H13M51.559S",
+            "PT1H16M6.597S",
+            "PT1H31M43.488S",
+        ],
+        // TK
+        [
+            "PT1H12M31.677S",
+            "PT1H11M49.61S",
+            "PT1H9M19.565S",
+            "PT1H5M30.855S",
+            "PT1H13M55.202S",
+            "PT1H16M18.696S",
+            "PT1H33M19.565S",
+        ],
+        // AN
+        [
+            "None",
+            "None",
+            "PT1H24M33.453S",
+            "PT43M35.699S",
+            "None",
+            "None",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H15M8.382S",
+            "PT1H15M26.721S",
+            "PT1H16M47.798S",
+            "PT1H19M27.969S",
+            "PT1H14M32.026S",
+            "PT1H13M38.508S",
+            "PT1H10M35.089S",
+        ],
+        // FJ
+        [
+            "PT1H15M49.179S",
+            "PT1H16M12.498S",
+            "PT1H17M52.961S",
+            "PT1H21M8.9S",
+            "PT1H15M3.43S",
+            "PT1H13M55.132S",
+            "PT1H9M38.799S",
+        ],
+        // HU
+        [
+            "PT1H12M14.692S",
+            "PT1H11M44.026S",
+            "PT1H10M29.399S",
+            "PT1H8M44.459S",
+            "PT1H12M58.583S",
+            "PT1H14M15.129S",
+            "PT1H23M2.912S",
+        ],
+        // NI
+        [
+            "PT1H15M59.661S",
+            "PT1H16M37.769S",
+            "PT1H18M25.897S",
+            "PT1H21M49.897S",
+            "PT1H15M10.478S",
+            "PT1H13M56.948S",
+            "PT1H9M18.168S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_19_8_degrees().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_19_8_degrees().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_18_degrees() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H10M23.015S",
-        "PT1H10M16.641S",
-        "PT1H10M13.227S",
-        "PT1H10M21.645S",
-        "None",
-        "PT1H14M9.606S",
-        "PT1H14M53.212S",
-        "PT1H10M26.918S",
-        "PT1H15M17.339S",
+        // LW
+        [
+            "PT1H11M26.449S",
+            "PT1H10M22.176S",
+            "PT1H7M25.086S",
+            "PT1H2M54.339S",
+            "PT1H13M5.008S",
+            "PT1H15M53.234S",
+            "PT1H35M44.579S",
+        ],
+        // JM
+        [
+            "PT1H10M57.029S",
+            "PT1H10M16.035S",
+            "PT1H8M8.429S",
+            "PT1H4M54.651S",
+            "PT1H12M8.112S",
+            "PT1H14M9.597S",
+            "PT1H27M47.359S",
+        ],
+        // LA
+        [
+            "PT1H11M5.861S",
+            "PT1H10M12.565S",
+            "PT1H7M53.074S",
+            "PT1H4M22.522S",
+            "PT1H12M23.983S",
+            "PT1H14M37.283S",
+            "PT1H29M34.613S",
+        ],
+        // TK
+        [
+            "PT1H11M2.844S",
+            "PT1H10M20.933S",
+            "PT1H7M50.601S",
+            "PT1H3M58.724S",
+            "PT1H12M25.774S",
+            "PT1H14M47.38S",
+            "PT1H31M2.274S",
+        ],
+        // AN
+        [
+            "None",
+            "None",
+            "PT1H15M6.267S",
+            "PT33M21.912S",
+            "None",
+            "None",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H13M52.125S",
+            "PT1H14M9.941S",
+            "PT1H15M28.256S",
+            "PT1H18M1.27S",
+            "PT1H13M16.664S",
+            "PT1H12M24.067S",
+            "PT1H9M15.956S",
+        ],
+        // FJ
+        [
+            "PT1H14M30.939S",
+            "PT1H14M53.632S",
+            "PT1H16M30.864S",
+            "PT1H19M38.407S",
+            "PT1H13M46.257S",
+            "PT1H12M39.107S",
+            "PT1H8M18.684S",
+        ],
+        // HU
+        [
+            "PT1H10M57.328S",
+            "PT1H10M26.553S",
+            "PT1H9M11.018S",
+            "PT1H7M22.852S",
+            "PT1H11M41.156S",
+            "PT1H12M57.038S",
+            "PT1H21M27.38S",
+        ],
+        // NI
+        [
+            "PT1H14M40.696S",
+            "PT1H15M17.793S",
+            "PT1H17M2.43S",
+            "PT1H20M17.69S",
+            "PT1H13M52.62S",
+            "PT1H12M40.278S",
+            "PT1H7M57.565S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_18_degrees().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_18_degrees().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_26_degrees() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H17M23.865S",
-        "PT1H16M33.504S",
-        "PT1H16M40.05S",
-        "PT1H16M56.844S",
-        "None",
-        "PT1H19M52.748S",
-        "PT1H20M46.485S",
-        "PT1H16M10.963S",
-        "PT1H21M16.044S",
+        // LW
+        [
+            "PT1H18M29.938S",
+            "PT1H17M22.998S",
+            "PT1H14M23.616S",
+            "PT1H10M3.471S",
+            "PT1H20M14.506S",
+            "PT1H23M18.623S",
+            "PT1H54M21.612S",
+        ],
+        // JM
+        [
+            "PT1H17M14.769S",
+            "PT1H16M32.889S",
+            "PT1H14M26.04S",
+            "PT1H11M24.132S",
+            "PT1H18M28.615S",
+            "PT1H20M38.401S",
+            "PT1H37M27.335S",
+        ],
+        // LA
+        [
+            "PT1H17M34.096S",
+            "PT1H16M39.375S",
+            "PT1H14M20.09S",
+            "PT1H11M1.004S",
+            "PT1H18M55.752S",
+            "PT1H21M19.073S",
+            "PT1H40M14.963S",
+        ],
+        // TK
+        [
+            "PT1H17M39.307S",
+            "PT1H16M56.115S",
+            "PT1H14M25.141S",
+            "PT1H10M44.601S",
+            "PT1H19M6.144S",
+            "PT1H21M38.718S",
+            "PT1H42M43.89S",
+        ],
+        // AN
+        [
+            "None",
+            "None",
+            "None",
+            "PT1H13M15.604S",
+            "None",
+            "None",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H19M32.719S",
+            "PT1H19M53.134S",
+            "PT1H21M25.129S",
+            "PT1H24M33.88S",
+            "PT1H18M52.777S",
+            "PT1H17M55.441S",
+            "PT1H15M6.822S",
+        ],
+        // FJ
+        [
+            "PT1H20M21.109S",
+            "PT1H20M46.965S",
+            "PT1H22M40.468S",
+            "PT1H26M30.862S",
+            "PT1H19M31.006S",
+            "PT1H18M17.881S",
+            "PT1H14M13.414S",
+        ],
+        // HU
+        [
+            "PT1H16M41.189S",
+            "PT1H16M10.603S",
+            "PT1H14M58.428S",
+            "PT1H13M23.736S",
+            "PT1H17M25.756S",
+            "PT1H18M45.481S",
+            "PT1H28M46.671S",
+        ],
+        // NI
+        [
+            "PT1H20M34.334S",
+            "PT1H21M16.565S",
+            "PT1H23M18.907S",
+            "PT1H27M19.203S",
+            "PT1H19M40.596S",
+            "PT1H18M22.021S",
+            "PT1H13M54.286S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_26_degrees().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_26_degrees().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_16_1_degrees() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H8M43.656S",
-        "PT1H8M47.245S",
-        "PT1H8M41.543S",
-        "PT1H8M48.093S",
-        "PT1H35M51.891S",
-        "PT1H12M48.804S",
-        "PT1H13M30.311S",
-        "PT1H9M5.083S",
-        "PT1H13M53.327S",
+        // LW
+        [
+            "PT1H9M46.843S",
+            "PT1H8M42.819S",
+            "PT1H5M45.313S",
+            "PT1H1M10.664S",
+            "PT1H11M24.625S",
+            "PT1H14M10.425S",
+            "PT1H32M58.234S",
+        ],
+        // JM
+        [
+            "PT1H9M27.609S",
+            "PT1H8M46.638S",
+            "PT1H6M38.308S",
+            "PT1H3M20.915S",
+            "PT1H10M38.384S",
+            "PT1H12M38.583S",
+            "PT1H25M45.471S",
+        ],
+        // LA
+        [
+            "PT1H9M34.098S",
+            "PT1H8M40.88S",
+            "PT1H6M20.712S",
+            "PT1H2M46.523S",
+            "PT1H10M51.793S",
+            "PT1H13M3.534S",
+            "PT1H27M24.532S",
+        ],
+        // TK
+        [
+            "PT1H9M29.203S",
+            "PT1H8M47.382S",
+            "PT1H6M16.489S",
+            "PT1H2M20.87S",
+            "PT1H10M51.664S",
+            "PT1H13M11.583S",
+            "PT1H28M44.809S",
+        ],
+        // AN
+        [
+            "None",
+            "PT1H35M40.277S",
+            "PT1H6M0.451S",
+            "PT18M39.929S",
+            "None",
+            "None",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H12M31.831S",
+            "PT1H12M49.129S",
+            "PT1H14M4.695S",
+            "PT1H16M30.594S",
+            "PT1H11M57.254S",
+            "PT1H11M5.55S",
+            "PT1H7M52.283S",
+        ],
+        // FJ
+        [
+            "PT1H13M8.641S",
+            "PT1H13M30.718S",
+            "PT1H15M4.762S",
+            "PT1H18M4.049S",
+            "PT1H12M25.004S",
+            "PT1H11M18.957S",
+            "PT1H6M53.903S",
+        ],
+        // HU
+        [
+            "PT1H9M35.645S",
+            "PT1H9M4.715S",
+            "PT1H7M48.129S",
+            "PT1H5M56.423S",
+            "PT1H10M19.466S",
+            "PT1H11M34.761S",
+            "PT1H19M48.163S",
+        ],
+        // NI
+        [
+            "PT1H13M17.661S",
+            "PT1H13M53.767S",
+            "PT1H15M34.97S",
+            "PT1H18M41.673S",
+            "PT1H12M30.665S",
+            "PT1H11M19.458S",
+            "PT1H6M32.241S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_16_1_degrees().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_16_1_degrees().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_60_minutes() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H5M20.649S",
-        "PT1H6M44.464S",
-        "PT1H6M20.067S",
-        "PT1H6M12.03S",
-        "None",
-        "PT1H12M6.198S",
-        "PT1H12M33.518S",
-        "PT1H8M3.752S",
-        "PT1H12M49.163S",
+        // LW
+        [
+            "PT1H6M26.422S",
+            "PT1H5M19.768S",
+            "PT1H2M6.094S",
+            "PT56M36.414S",
+            "PT1H8M5.018S",
+            "PT1H10M44.217S",
+            "PT1H25M7.169S",
+        ],
+        // JM
+        [
+            "PT1H7M27.027S",
+            "PT1H6M43.818S",
+            "PT1H4M22.178S",
+            "PT1H22.352S",
+            "PT1H8M39.403S",
+            "PT1H10M36.531S",
+            "PT1H21M8.059S",
+        ],
+        // LA
+        [
+            "PT1H7M15.242S",
+            "PT1H6M19.363S",
+            "PT1H3M45.122S",
+            "PT59M26.315S",
+            "PT1H8M34.232S",
+            "PT1H10M41.92S",
+            "PT1H22M7.001S",
+        ],
+        // TK
+        [
+            "PT1H6M55.088S",
+            "PT1H6M11.28S",
+            "PT1H3M26.235S",
+            "PT58M42.883S",
+            "PT1H8M19S",
+            "PT1H10M34.75S",
+            "PT1H22M52.917S",
+        ],
+        // AN
+        [
+            "PT33M27.917S",
+            "None",
+            "None",
+            "None",
+            "PT51M31.862S",
+            "PT1H14M0.34S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H11M52.44S",
+            "PT1H12M6.46S",
+            "PT1H13M4.572S",
+            "PT1H14M44.795S",
+            "PT1H11M23.143S",
+            "PT1H10M36.08S",
+            "PT1H6M32.311S",
+        ],
+        // FJ
+        [
+            "PT1H12M15.501S",
+            "PT1H12M33.854S",
+            "PT1H13M48.445S",
+            "PT1H15M56.888S",
+            "PT1H11M37.839S",
+            "PT1H10M37.284S",
+            "PT1H5M21.935S",
+        ],
+        // HU
+        [
+            "PT1H8M37.068S",
+            "PT1H8M3.344S",
+            "PT1H6M34.597S",
+            "PT1H4M8.258S",
+            "PT1H9M22.911S",
+            "PT1H10M37.19S",
+            "PT1H17M12.68S",
+        ],
+        // NI
+        [
+            "PT1H12M19.287S",
+            "PT1H12M49.528S",
+            "PT1H14M10.045S",
+            "PT1H16M24.927S",
+            "PT1H11M38.322S",
+            "PT1H10M32.553S",
+            "PT1H4M54.705S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_60_minutes().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_60_minutes().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_72_minutes_zmanis() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H6M24.779S",
-        "PT1H8M5.357S",
-        "PT1H7M36.081S",
-        "PT1H7M26.437S",
-        "None",
-        "PT1H14M31.438S",
-        "PT1H15M4.221S",
-        "PT1H9M40.502S",
-        "PT1H15M22.996S",
+        // LW
+        [
+            "PT1H7M43.707S",
+            "PT1H6M23.722S",
+            "PT1H2M31.313S",
+            "PT55M55.697S",
+            "PT1H9M42.021S",
+            "PT1H12M53.061S",
+            "PT1H30M8.602S",
+        ],
+        // JM
+        [
+            "PT1H8M56.433S",
+            "PT1H8M4.581S",
+            "PT1H5M14.614S",
+            "PT1H26.823S",
+            "PT1H10M23.284S",
+            "PT1H12M43.837S",
+            "PT1H25M21.67S",
+        ],
+        // LA
+        [
+            "PT1H8M42.29S",
+            "PT1H7M35.236S",
+            "PT1H4M30.146S",
+            "PT59M19.578S",
+            "PT1H10M17.079S",
+            "PT1H12M50.304S",
+            "PT1H26M32.402S",
+        ],
+        // TK
+        [
+            "PT1H8M18.106S",
+            "PT1H7M25.536S",
+            "PT1H4M7.483S",
+            "PT58M27.459S",
+            "PT1H9M58.801S",
+            "PT1H12M41.701S",
+            "PT1H27M27.5S",
+        ],
+        // AN
+        [
+            "PT28M9.501S",
+            "None",
+            "None",
+            "None",
+            "PT49M50.235S",
+            "PT1H16M48.408S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H14M14.928S",
+            "PT1H14M31.752S",
+            "PT1H15M41.486S",
+            "PT1H17M41.754S",
+            "PT1H13M39.772S",
+            "PT1H12M43.296S",
+            "PT1H7M50.773S",
+        ],
+        // FJ
+        [
+            "PT1H14M42.601S",
+            "PT1H15M4.625S",
+            "PT1H16M34.134S",
+            "PT1H19M8.266S",
+            "PT1H13M57.407S",
+            "PT1H12M44.741S",
+            "PT1H6M26.322S",
+        ],
+        // HU
+        [
+            "PT1H10M20.482S",
+            "PT1H9M40.013S",
+            "PT1H7M53.516S",
+            "PT1H4M57.91S",
+            "PT1H11M15.494S",
+            "PT1H12M44.628S",
+            "PT1H20M39.216S",
+        ],
+        // NI
+        [
+            "PT1H14M47.144S",
+            "PT1H15M23.434S",
+            "PT1H17M0.055S",
+            "PT1H19M41.913S",
+            "PT1H13M57.987S",
+            "PT1H12M39.064S",
+            "PT1H5M53.646S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_72_minutes_zmanis().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_72_minutes_zmanis().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_90_minutes() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H10M20.649S",
-        "PT1H11M44.464S",
-        "PT1H11M20.067S",
-        "PT1H11M12.03S",
-        "None",
-        "PT1H17M6.198S",
-        "PT1H17M33.518S",
-        "PT1H13M3.752S",
-        "PT1H17M49.163S",
+        // LW
+        [
+            "PT1H11M26.422S",
+            "PT1H10M19.768S",
+            "PT1H7M6.094S",
+            "PT1H1M36.414S",
+            "PT1H13M5.018S",
+            "PT1H15M44.217S",
+            "PT1H30M7.169S",
+        ],
+        // JM
+        [
+            "PT1H12M27.027S",
+            "PT1H11M43.818S",
+            "PT1H9M22.178S",
+            "PT1H5M22.352S",
+            "PT1H13M39.403S",
+            "PT1H15M36.531S",
+            "PT1H26M8.059S",
+        ],
+        // LA
+        [
+            "PT1H12M15.242S",
+            "PT1H11M19.363S",
+            "PT1H8M45.122S",
+            "PT1H4M26.315S",
+            "PT1H13M34.232S",
+            "PT1H15M41.92S",
+            "PT1H27M7.001S",
+        ],
+        // TK
+        [
+            "PT1H11M55.088S",
+            "PT1H11M11.28S",
+            "PT1H8M26.235S",
+            "PT1H3M42.883S",
+            "PT1H13M19S",
+            "PT1H15M34.75S",
+            "PT1H27M52.917S",
+        ],
+        // AN
+        [
+            "PT38M27.917S",
+            "None",
+            "None",
+            "None",
+            "PT56M31.862S",
+            "PT1H19M0.34S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H16M52.44S",
+            "PT1H17M6.46S",
+            "PT1H18M4.572S",
+            "PT1H19M44.795S",
+            "PT1H16M23.143S",
+            "PT1H15M36.08S",
+            "PT1H11M32.311S",
+        ],
+        // FJ
+        [
+            "PT1H17M15.501S",
+            "PT1H17M33.854S",
+            "PT1H18M48.445S",
+            "PT1H20M56.888S",
+            "PT1H16M37.839S",
+            "PT1H15M37.284S",
+            "PT1H10M21.935S",
+        ],
+        // HU
+        [
+            "PT1H13M37.068S",
+            "PT1H13M3.344S",
+            "PT1H11M34.597S",
+            "PT1H9M8.258S",
+            "PT1H14M22.911S",
+            "PT1H15M37.19S",
+            "PT1H22M12.68S",
+        ],
+        // NI
+        [
+            "PT1H17M19.287S",
+            "PT1H17M49.528S",
+            "PT1H19M10.045S",
+            "PT1H21M24.927S",
+            "PT1H16M38.322S",
+            "PT1H15M32.553S",
+            "PT1H9M54.705S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_90_minutes().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_90_minutes().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_90_minutes_zmanis() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H9M10.812S",
-        "PT1H10M55.58S",
-        "PT1H10M25.084S",
-        "PT1H10M15.038S",
-        "None",
-        "PT1H17M37.748S",
-        "PT1H18M11.897S",
-        "PT1H12M34.69S",
-        "PT1H18M31.454S",
+        // LW
+        [
+            "PT1H10M33.028S",
+            "PT1H9M9.711S",
+            "PT1H5M7.618S",
+            "PT58M15.518S",
+            "PT1H12M36.272S",
+            "PT1H15M55.272S",
+            "PT1H33M53.961S",
+        ],
+        // JM
+        [
+            "PT1H11M48.784S",
+            "PT1H10M54.772S",
+            "PT1H7M57.723S",
+            "PT1H2M57.941S",
+            "PT1H13M19.254S",
+            "PT1H15M45.664S",
+            "PT1H28M55.073S",
+        ],
+        // LA
+        [
+            "PT1H11M34.052S",
+            "PT1H10M24.204S",
+            "PT1H7M11.402S",
+            "PT1H1M47.894S",
+            "PT1H13M12.79S",
+            "PT1H15M52.4S",
+            "PT1H30M8.752S",
+        ],
+        // TK
+        [
+            "PT1H11M8.861S",
+            "PT1H10M14.1S",
+            "PT1H6M47.794S",
+            "PT1H53.603S",
+            "PT1H12M53.751S",
+            "PT1H15M43.438S",
+            "PT1H31M6.146S",
+        ],
+        // AN
+        [
+            "PT29M19.897S",
+            "None",
+            "None",
+            "None",
+            "PT51M54.828S",
+            "PT1H20M0.425S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H17M20.55S",
+            "PT1H17M38.075S",
+            "PT1H18M50.715S",
+            "PT1H20M55.994S",
+            "PT1H16M43.929S",
+            "PT1H15M45.1S",
+            "PT1H10M40.388S",
+        ],
+        // FJ
+        [
+            "PT1H17M49.376S",
+            "PT1H18M12.318S",
+            "PT1H19M45.557S",
+            "PT1H22M26.111S",
+            "PT1H17M2.299S",
+            "PT1H15M46.605S",
+            "PT1H9M12.418S",
+        ],
+        // HU
+        [
+            "PT1H13M16.336S",
+            "PT1H12M34.181S",
+            "PT1H10M43.246S",
+            "PT1H7M40.323S",
+            "PT1H14M13.639S",
+            "PT1H15M46.488S",
+            "PT1H24M0.85S",
+        ],
+        // NI
+        [
+            "PT1H17M54.108S",
+            "PT1H18M31.91S",
+            "PT1H20M12.557S",
+            "PT1H23M1.159S",
+            "PT1H17M2.903S",
+            "PT1H15M40.692S",
+            "PT1H8M38.381S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_90_minutes_zmanis().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_90_minutes_zmanis().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_96_minutes_zmanis() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H10M6.156S",
-        "PT1H11M52.321S",
-        "PT1H11M21.419S",
-        "PT1H11M11.239S",
-        "None",
-        "PT1H18M39.851S",
-        "PT1H19M14.456S",
-        "PT1H13M32.752S",
-        "PT1H19M34.274S",
+        // LW
+        [
+            "PT1H11M29.469S",
+            "PT1H10M5.04S",
+            "PT1H5M59.719S",
+            "PT59M2.125S",
+            "PT1H13M34.356S",
+            "PT1H16M56.009S",
+            "PT1H35M9.08S",
+        ],
+        // JM
+        [
+            "PT1H12M46.235S",
+            "PT1H11M51.503S",
+            "PT1H8M52.093S",
+            "PT1H3M48.313S",
+            "PT1H14M17.911S",
+            "PT1H16M46.273S",
+            "PT1H30M6.208S",
+        ],
+        // LA
+        [
+            "PT1H12M31.306S",
+            "PT1H11M20.527S",
+            "PT1H8M5.155S",
+            "PT1H2M37.333S",
+            "PT1H14M11.361S",
+            "PT1H16M53.098S",
+            "PT1H31M20.869S",
+        ],
+        // TK
+        [
+            "PT1H12M5.779S",
+            "PT1H11M10.288S",
+            "PT1H7M41.232S",
+            "PT1H1M42.318S",
+            "PT1H13M52.067S",
+            "PT1H16M44.017S",
+            "PT1H32M19.028S",
+        ],
+        // AN
+        [
+            "PT29M43.362S",
+            "None",
+            "None",
+            "None",
+            "PT52M36.359S",
+            "PT1H21M4.431S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H18M22.424S",
+            "PT1H18M40.182S",
+            "PT1H19M53.791S",
+            "PT1H22M0.74S",
+            "PT1H17M45.315S",
+            "PT1H16M45.701S",
+            "PT1H11M36.927S",
+        ],
+        // FJ
+        [
+            "PT1H18M51.635S",
+            "PT1H19M14.882S",
+            "PT1H20M49.364S",
+            "PT1H23M32.059S",
+            "PT1H18M3.93S",
+            "PT1H16M47.227S",
+            "PT1H10M7.784S",
+        ],
+        // HU
+        [
+            "PT1H14M14.954S",
+            "PT1H13M32.236S",
+            "PT1H11M39.822S",
+            "PT1H8M34.461S",
+            "PT1H15M13.021S",
+            "PT1H16M47.108S",
+            "PT1H25M8.062S",
+        ],
+        // NI
+        [
+            "PT1H18M56.43S",
+            "PT1H19M34.736S",
+            "PT1H21M16.724S",
+            "PT1H24M7.575S",
+            "PT1H18M4.541S",
+            "PT1H16M41.234S",
+            "PT1H9M33.293S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_96_minutes_zmanis().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_96_minutes_zmanis().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_ateret_torah() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H4M12.714S",
-        "PT1H5M44.91S",
-        "PT1H5M18.074S",
-        "PT1H5M9.233S",
-        "None",
-        "PT1H11M38.818S",
-        "PT1H12M8.869S",
-        "PT1H7M12.127S",
-        "PT1H12M26.08S",
+        // LW
+        [
+            "PT1H5M25.065S",
+            "PT1H4M11.745S",
+            "PT1H38.704S",
+            "PT54M36.056S",
+            "PT1H7M13.52S",
+            "PT1H10M8.639S",
+            "PT1H25M57.885S",
+        ],
+        // JM
+        [
+            "PT1H6M31.73S",
+            "PT1H5M44.2S",
+            "PT1H3M8.396S",
+            "PT58M44.588S",
+            "PT1H7M51.344S",
+            "PT1H10M0.184S",
+            "PT1H21M34.864S",
+        ],
+        // LA
+        [
+            "PT1H6M18.766S",
+            "PT1H5M17.3S",
+            "PT1H2M27.634S",
+            "PT57M42.947S",
+            "PT1H7M45.656S",
+            "PT1H10M6.112S",
+            "PT1H22M39.702S",
+        ],
+        // TK
+        [
+            "PT1H5M56.597S",
+            "PT1H5M8.408S",
+            "PT1H2M6.859S",
+            "PT56M55.171S",
+            "PT1H7M28.901S",
+            "PT1H9M58.225S",
+            "PT1H23M30.209S",
+        ],
+        // AN
+        [
+            "PT29M8.709S",
+            "None",
+            "None",
+            "None",
+            "PT49M1.048S",
+            "PT1H13M44.374S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H11M23.684S",
+            "PT1H11M39.106S",
+            "PT1H12M43.029S",
+            "PT1H14M33.274S",
+            "PT1H10M51.458S",
+            "PT1H9M59.688S",
+            "PT1H5M31.542S",
+        ],
+        // FJ
+        [
+            "PT1H11M49.051S",
+            "PT1H12M9.239S",
+            "PT1H13M31.29S",
+            "PT1H15M52.577S",
+            "PT1H11M7.623S",
+            "PT1H10M1.012S",
+            "PT1H4M14.128S",
+        ],
+        // HU
+        [
+            "PT1H7M48.775S",
+            "PT1H7M11.679S",
+            "PT1H5M34.056S",
+            "PT1H2M53.084S",
+            "PT1H8M39.203S",
+            "PT1H10M0.909S",
+            "PT1H17M15.948S",
+        ],
+        // NI
+        [
+            "PT1H11M53.215S",
+            "PT1H12M26.481S",
+            "PT1H13M55.05S",
+            "PT1H16M23.42S",
+            "PT1H11M8.154S",
+            "PT1H9M55.809S",
+            "PT1H3M44.175S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_ateret_torah().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_ateret_torah().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_alos_16_1_to_tzeis_7_083() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H4M47.768S",
-        "PT1H5M14.657S",
-        "PT1H5M3.545S",
-        "PT1H5M5.813S",
-        "PT1H12M52.249S",
-        "PT1H9M38.283S",
-        "PT1H10M15.336S",
-        "PT1H5M50.326S",
-        "PT1H10M36.024S",
+        // LW
+        [
+            "PT1H5M50.836S",
+            "PT1H4M46.925S",
+            "PT1H1M45.998S",
+            "PT56M57.907S",
+            "PT1H7M28.089S",
+            "PT1H10M10.608S",
+            "PT1H27M23.614S",
+        ],
+        // JM
+        [
+            "PT1H5M55.178S",
+            "PT1H5M14.042S",
+            "PT1H3M2.557S",
+            "PT59M34.191S",
+            "PT1H7M5.97S",
+            "PT1H9M4.484S",
+            "PT1H21M18.21S",
+        ],
+        // LA
+        [
+            "PT1H5M56.253S",
+            "PT1H5M2.875S",
+            "PT1H2M39.449S",
+            "PT58M53.88S",
+            "PT1H7M13.806S",
+            "PT1H9M23.451S",
+            "PT1H22M43.644S",
+        ],
+        // TK
+        [
+            "PT1H5M46.911S",
+            "PT1H5M5.094S",
+            "PT1H2M31.027S",
+            "PT58M23.377S",
+            "PT1H7M9.222S",
+            "PT1H9M26.917S",
+            "PT1H23M52.1S",
+        ],
+        // AN
+        [
+            "None",
+            "PT1H12M42.482S",
+            "PT38M55.153S",
+            "None",
+            "None",
+            "None",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H9M22.603S",
+            "PT1H9M38.588S",
+            "PT1H10M48.538S",
+            "PT1H13M0.104S",
+            "PT1H8M49.739S",
+            "PT1H7M59.622S",
+            "PT1H4M32.486S",
+        ],
+        // FJ
+        [
+            "PT1H9M55.178S",
+            "PT1H10M15.72S",
+            "PT1H11M43.418S",
+            "PT1H14M26.539S",
+            "PT1H9M13.513S",
+            "PT1H8M9.384S",
+            "PT1H3M30.928S",
+        ],
+        // HU
+        [
+            "PT1H6M21.434S",
+            "PT1H5M49.948S",
+            "PT1H4M30.146S",
+            "PT1H2M28.959S",
+            "PT1H7M5.609S",
+            "PT1H8M20.192S",
+            "PT1H16M1.493S",
+        ],
+        // NI
+        [
+            "PT1H10M2.604S",
+            "PT1H10M36.44S",
+            "PT1H12M10.867S",
+            "PT1H15M1.025S",
+            "PT1H9M17.618S",
+            "PT1H8M8.342S",
+            "PT1H3M7.77S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_7_083().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_alos_16_1_to_tzeis_7_083().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_96_minutes() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H11M20.649S",
-        "PT1H12M44.464S",
-        "PT1H12M20.067S",
-        "PT1H12M12.03S",
-        "None",
-        "PT1H18M6.198S",
-        "PT1H18M33.518S",
-        "PT1H14M3.752S",
-        "PT1H18M49.163S",
+        // LW
+        [
+            "PT1H12M26.422S",
+            "PT1H11M19.768S",
+            "PT1H8M6.094S",
+            "PT1H2M36.414S",
+            "PT1H14M5.018S",
+            "PT1H16M44.217S",
+            "PT1H31M7.169S",
+        ],
+        // JM
+        [
+            "PT1H13M27.027S",
+            "PT1H12M43.818S",
+            "PT1H10M22.178S",
+            "PT1H6M22.352S",
+            "PT1H14M39.403S",
+            "PT1H16M36.531S",
+            "PT1H27M8.059S",
+        ],
+        // LA
+        [
+            "PT1H13M15.242S",
+            "PT1H12M19.363S",
+            "PT1H9M45.122S",
+            "PT1H5M26.315S",
+            "PT1H14M34.232S",
+            "PT1H16M41.92S",
+            "PT1H28M7.001S",
+        ],
+        // TK
+        [
+            "PT1H12M55.088S",
+            "PT1H12M11.28S",
+            "PT1H9M26.235S",
+            "PT1H4M42.883S",
+            "PT1H14M19S",
+            "PT1H16M34.75S",
+            "PT1H28M52.917S",
+        ],
+        // AN
+        [
+            "PT39M27.917S",
+            "None",
+            "None",
+            "None",
+            "PT57M31.862S",
+            "PT1H20M0.34S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H17M52.44S",
+            "PT1H18M6.46S",
+            "PT1H19M4.572S",
+            "PT1H20M44.795S",
+            "PT1H17M23.143S",
+            "PT1H16M36.08S",
+            "PT1H12M32.311S",
+        ],
+        // FJ
+        [
+            "PT1H18M15.501S",
+            "PT1H18M33.854S",
+            "PT1H19M48.445S",
+            "PT1H21M56.888S",
+            "PT1H17M37.839S",
+            "PT1H16M37.284S",
+            "PT1H11M21.935S",
+        ],
+        // HU
+        [
+            "PT1H14M37.068S",
+            "PT1H14M3.344S",
+            "PT1H12M34.597S",
+            "PT1H10M8.258S",
+            "PT1H15M22.911S",
+            "PT1H16M37.19S",
+            "PT1H23M12.68S",
+        ],
+        // NI
+        [
+            "PT1H18M19.287S",
+            "PT1H18M49.528S",
+            "PT1H20M10.045S",
+            "PT1H22M24.927S",
+            "PT1H17M38.322S",
+            "PT1H16M32.553S",
+            "PT1H10M54.705S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_96_minutes().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_96_minutes().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_120_minutes() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H15M20.649S",
-        "PT1H16M44.464S",
-        "PT1H16M20.067S",
-        "PT1H16M12.03S",
-        "None",
-        "PT1H22M6.198S",
-        "PT1H22M33.518S",
-        "PT1H18M3.752S",
-        "PT1H22M49.163S",
+        // LW
+        [
+            "PT1H16M26.422S",
+            "PT1H15M19.768S",
+            "PT1H12M6.094S",
+            "PT1H6M36.414S",
+            "PT1H18M5.018S",
+            "PT1H20M44.217S",
+            "PT1H35M7.169S",
+        ],
+        // JM
+        [
+            "PT1H17M27.027S",
+            "PT1H16M43.818S",
+            "PT1H14M22.178S",
+            "PT1H10M22.352S",
+            "PT1H18M39.403S",
+            "PT1H20M36.531S",
+            "PT1H31M8.059S",
+        ],
+        // LA
+        [
+            "PT1H17M15.242S",
+            "PT1H16M19.363S",
+            "PT1H13M45.122S",
+            "PT1H9M26.315S",
+            "PT1H18M34.232S",
+            "PT1H20M41.92S",
+            "PT1H32M7.001S",
+        ],
+        // TK
+        [
+            "PT1H16M55.088S",
+            "PT1H16M11.28S",
+            "PT1H13M26.235S",
+            "PT1H8M42.883S",
+            "PT1H18M19S",
+            "PT1H20M34.75S",
+            "PT1H32M52.917S",
+        ],
+        // AN
+        [
+            "PT43M27.917S",
+            "None",
+            "None",
+            "None",
+            "PT1H1M31.862S",
+            "PT1H24M0.34S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H21M52.44S",
+            "PT1H22M6.46S",
+            "PT1H23M4.572S",
+            "PT1H24M44.795S",
+            "PT1H21M23.143S",
+            "PT1H20M36.08S",
+            "PT1H16M32.311S",
+        ],
+        // FJ
+        [
+            "PT1H22M15.501S",
+            "PT1H22M33.854S",
+            "PT1H23M48.445S",
+            "PT1H25M56.888S",
+            "PT1H21M37.839S",
+            "PT1H20M37.284S",
+            "PT1H15M21.935S",
+        ],
+        // HU
+        [
+            "PT1H18M37.068S",
+            "PT1H18M3.344S",
+            "PT1H16M34.597S",
+            "PT1H14M8.258S",
+            "PT1H19M22.911S",
+            "PT1H20M37.19S",
+            "PT1H27M12.68S",
+        ],
+        // NI
+        [
+            "PT1H22M19.287S",
+            "PT1H22M49.528S",
+            "PT1H24M10.045S",
+            "PT1H26M24.927S",
+            "PT1H21M38.322S",
+            "PT1H20M32.553S",
+            "PT1H14M54.705S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_120_minutes().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_120_minutes().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_120_minutes_zmanis() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H13M47.533S",
-        "PT1H15M39.285S",
-        "PT1H15M6.757S",
-        "PT1H14M56.041S",
-        "None",
-        "PT1H22M48.264S",
-        "PT1H23M24.69S",
-        "PT1H17M25.003S",
-        "PT1H23M45.551S",
+        // LW
+        [
+            "PT1H15M15.23S",
+            "PT1H13M46.358S",
+            "PT1H9M28.126S",
+            "PT1H2M8.552S",
+            "PT1H17M26.69S",
+            "PT1H20M58.956S",
+            "PT1H40M9.558S",
+        ],
+        // JM
+        [
+            "PT1H16M36.036S",
+            "PT1H15M38.424S",
+            "PT1H12M29.571S",
+            "PT1H7M9.803S",
+            "PT1H18M12.538S",
+            "PT1H20M48.708S",
+            "PT1H34M50.745S",
+        ],
+        // LA
+        [
+            "PT1H16M20.322S",
+            "PT1H15M5.818S",
+            "PT1H11M40.163S",
+            "PT1H5M55.087S",
+            "PT1H18M5.643S",
+            "PT1H20M55.893S",
+            "PT1H36M9.335S",
+        ],
+        // TK
+        [
+            "PT1H15M53.451S",
+            "PT1H14M55.04S",
+            "PT1H11M14.981S",
+            "PT1H4M57.177S",
+            "PT1H17M45.334S",
+            "PT1H20M46.334S",
+            "PT1H37M10.556S",
+        ],
+        // AN
+        [
+            "PT31M17.223S",
+            "None",
+            "None",
+            "None",
+            "PT55M22.483S",
+            "PT1H25M20.454S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H22M29.92S",
+            "PT1H22M48.613S",
+            "PT1H24M6.096S",
+            "PT1H26M19.727S",
+            "PT1H21M50.858S",
+            "PT1H20M48.107S",
+            "PT1H15M23.081S",
+        ],
+        // FJ
+        [
+            "PT1H23M0.668S",
+            "PT1H23M25.139S",
+            "PT1H25M4.594S",
+            "PT1H27M55.851S",
+            "PT1H22M10.452S",
+            "PT1H20M49.712S",
+            "PT1H13M49.246S",
+        ],
+        // HU
+        [
+            "PT1H18M9.425S",
+            "PT1H17M24.459S",
+            "PT1H15M26.129S",
+            "PT1H12M11.011S",
+            "PT1H19M10.549S",
+            "PT1H20M49.587S",
+            "PT1H29M36.907S",
+        ],
+        // NI
+        [
+            "PT1H23M5.716S",
+            "PT1H23M46.038S",
+            "PT1H25M33.394S",
+            "PT1H28M33.237S",
+            "PT1H22M11.096S",
+            "PT1H20M43.404S",
+            "PT1H13M12.94S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_120_minutes_zmanis().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_120_minutes_zmanis().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_baal_hatanya() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT56M0.579S",
-        "PT57M20.274S",
-        "PT56M56.844S",
-        "PT56M49.536S",
-        "PT11M19.376S",
-        "PT1H2M37.509S",
-        "PT1H3M5.439S",
-        "PT58M36.415S",
-        "PT1H3M21.399S",
+        // LW
+        [
+            "PT57M5.953S",
+            "PT55M59.703S",
+            "PT52M47.348S",
+            "PT47M21.484S",
+            "PT58M44.254S",
+            "PT1H1M23.349S",
+            "PT1H15M53.919S",
+        ],
+        // JM
+        [
+            "PT58M2.556S",
+            "PT57M19.631S",
+            "PT54M58.93S",
+            "PT51M1.75S",
+            "PT59M14.712S",
+            "PT1H1M11.753S",
+            "PT1H11M48.534S",
+        ],
+        // LA
+        [
+            "PT57M51.679S",
+            "PT56M56.144S",
+            "PT54M22.929S",
+            "PT50M6.98S",
+            "PT59M10.439S",
+            "PT1H1M18.047S",
+            "PT1H12M48.866S",
+        ],
+        // TK
+        [
+            "PT57M32.311S",
+            "PT56M48.789S",
+            "PT54M4.819S",
+            "PT49M24.594S",
+            "PT58M55.965S",
+            "PT1H1M11.608S",
+            "PT1H13M35.935S",
+        ],
+        // AN
+        [
+            "PT28M59.344S",
+            "PT10M54.412S",
+            "None",
+            "None",
+            "PT45M22.155S",
+            "PT1H7M31.32S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H2M23.556S",
+            "PT1H2M37.773S",
+            "PT1H3M36.544S",
+            "PT1H5M18.56S",
+            "PT1H1M54.081S",
+            "PT1H1M6.916S",
+            "PT57M6.285S",
+        ],
+        // FJ
+        [
+            "PT1H2M47.219S",
+            "PT1H3M5.778S",
+            "PT1H4M21.077S",
+            "PT1H6M31.447S",
+            "PT1H2M9.369S",
+            "PT1H1M8.702S",
+            "PT55M56.651S",
+        ],
+        // HU
+        [
+            "PT59M9.465S",
+            "PT58M36.01S",
+            "PT57M7.981S",
+            "PT54M43.558S",
+            "PT59M55.144S",
+            "PT1H1M9.364S",
+            "PT1H7M48.693S",
+        ],
+        // NI
+        [
+            "PT1H2M51.243S",
+            "PT1H3M21.767S",
+            "PT1H4M43.028S",
+            "PT1H6M59.844S",
+            "PT1H2M10.095S",
+            "PT1H1M4.229S",
+            "PT55M29.758S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_baal_hatanya().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_baal_hatanya().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_gra() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT55M20.649S",
-        "PT56M44.464S",
-        "PT56M20.067S",
-        "PT56M12.03S",
-        "None",
-        "PT1H2M6.198S",
-        "PT1H2M33.518S",
-        "PT58M3.752S",
-        "PT1H2M49.163S",
+        // LW
+        [
+            "PT56M26.422S",
+            "PT55M19.768S",
+            "PT52M6.094S",
+            "PT46M36.414S",
+            "PT58M5.018S",
+            "PT1H44.217S",
+            "PT1H15M7.169S",
+        ],
+        // JM
+        [
+            "PT57M27.027S",
+            "PT56M43.818S",
+            "PT54M22.178S",
+            "PT50M22.352S",
+            "PT58M39.403S",
+            "PT1H36.531S",
+            "PT1H11M8.059S",
+        ],
+        // LA
+        [
+            "PT57M15.242S",
+            "PT56M19.363S",
+            "PT53M45.122S",
+            "PT49M26.315S",
+            "PT58M34.232S",
+            "PT1H41.92S",
+            "PT1H12M7.001S",
+        ],
+        // TK
+        [
+            "PT56M55.088S",
+            "PT56M11.28S",
+            "PT53M26.235S",
+            "PT48M42.883S",
+            "PT58M19S",
+            "PT1H34.75S",
+            "PT1H12M52.917S",
+        ],
+        // AN
+        [
+            "PT23M27.917S",
+            "None",
+            "None",
+            "None",
+            "PT41M31.862S",
+            "PT1H4M0.34S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H1M52.44S",
+            "PT1H2M6.46S",
+            "PT1H3M4.572S",
+            "PT1H4M44.795S",
+            "PT1H1M23.143S",
+            "PT1H36.08S",
+            "PT56M32.311S",
+        ],
+        // FJ
+        [
+            "PT1H2M15.501S",
+            "PT1H2M33.854S",
+            "PT1H3M48.445S",
+            "PT1H5M56.888S",
+            "PT1H1M37.839S",
+            "PT1H37.284S",
+            "PT55M21.935S",
+        ],
+        // HU
+        [
+            "PT58M37.068S",
+            "PT58M3.344S",
+            "PT56M34.597S",
+            "PT54M8.258S",
+            "PT59M22.911S",
+            "PT1H37.19S",
+            "PT1H7M12.68S",
+        ],
+        // NI
+        [
+            "PT1H2M19.287S",
+            "PT1H2M49.528S",
+            "PT1H4M10.045S",
+            "PT1H6M24.927S",
+            "PT1H1M38.322S",
+            "PT1H32.553S",
+            "PT54M54.705S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_gra().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_gra().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }
 
 #[test]
 fn test_shaah_zmanis_mga_72_minutes() {
-    let cals = test_helper::more_locations_czcs(false);
+    let mut czc = test_helper::single_czc(false);
     let expected_duration_strs = [
-        "PT1H7M20.649S",
-        "PT1H8M44.464S",
-        "PT1H8M20.067S",
-        "PT1H8M12.03S",
-        "None",
-        "PT1H14M6.198S",
-        "PT1H14M33.518S",
-        "PT1H10M3.752S",
-        "PT1H14M49.163S",
+        // LW
+        [
+            "PT1H8M26.422S",
+            "PT1H7M19.768S",
+            "PT1H4M6.094S",
+            "PT58M36.414S",
+            "PT1H10M5.018S",
+            "PT1H12M44.217S",
+            "PT1H27M7.169S",
+        ],
+        // JM
+        [
+            "PT1H9M27.027S",
+            "PT1H8M43.818S",
+            "PT1H6M22.178S",
+            "PT1H2M22.352S",
+            "PT1H10M39.403S",
+            "PT1H12M36.531S",
+            "PT1H23M8.059S",
+        ],
+        // LA
+        [
+            "PT1H9M15.242S",
+            "PT1H8M19.363S",
+            "PT1H5M45.122S",
+            "PT1H1M26.315S",
+            "PT1H10M34.232S",
+            "PT1H12M41.92S",
+            "PT1H24M7.001S",
+        ],
+        // TK
+        [
+            "PT1H8M55.088S",
+            "PT1H8M11.28S",
+            "PT1H5M26.235S",
+            "PT1H42.883S",
+            "PT1H10M19S",
+            "PT1H12M34.75S",
+            "PT1H24M52.917S",
+        ],
+        // AN
+        [
+            "PT35M27.917S",
+            "None",
+            "None",
+            "None",
+            "PT53M31.862S",
+            "PT1H16M0.34S",
+            "None",
+        ],
+        // SM
+        [
+            "PT1H13M52.44S",
+            "PT1H14M6.46S",
+            "PT1H15M4.572S",
+            "PT1H16M44.795S",
+            "PT1H13M23.143S",
+            "PT1H12M36.08S",
+            "PT1H8M32.311S",
+        ],
+        // FJ
+        [
+            "PT1H14M15.501S",
+            "PT1H14M33.854S",
+            "PT1H15M48.445S",
+            "PT1H17M56.888S",
+            "PT1H13M37.839S",
+            "PT1H12M37.284S",
+            "PT1H7M21.935S",
+        ],
+        // HU
+        [
+            "PT1H10M37.068S",
+            "PT1H10M3.344S",
+            "PT1H8M34.597S",
+            "PT1H6M8.258S",
+            "PT1H11M22.911S",
+            "PT1H12M37.19S",
+            "PT1H19M12.68S",
+        ],
+        // NI
+        [
+            "PT1H14M19.287S",
+            "PT1H14M49.528S",
+            "PT1H16M10.045S",
+            "PT1H18M24.927S",
+            "PT1H13M38.322S",
+            "PT1H12M32.553S",
+            "PT1H6M54.705S",
+        ],
     ];
 
-    for (czc, expected) in zip(cals, expected_duration_strs) {
-        let actual = czc.shaah_zmanis_mga_72_minutes().map_or_else(
-            || String::from("None"),
-            |sd| {
-                sd.round(
-                    SignedDurationRound::new()
-                        .smallest(Unit::Millisecond)
-                        .mode(RoundMode::Trunc),
-                )
-                .unwrap()
-                .to_string()
-            },
-        );
-        assert_eq!(expected, actual)
+    for ((loc, label), per_loc) in zip(
+        zip(test_helper::more_locations(), test_helper::location_labels()),
+        expected_duration_strs,
+    ) {
+        czc.set_geo_location(loc);
+        for (date, expected) in zip(test_helper::sample_dates(), per_loc) {
+            czc.set_date(date);
+            let actual = czc.shaah_zmanis_mga_72_minutes().map_or_else(
+                || String::from("None"),
+                |sd| {
+                    sd.round(
+                        SignedDurationRound::new()
+                            .smallest(Unit::Millisecond)
+                            .mode(RoundMode::Trunc),
+                    )
+                    .unwrap()
+                    .to_string()
+                },
+            );
+            assert_eq!(expected, actual, "at {label} on {date}");
+        }
     }
 }

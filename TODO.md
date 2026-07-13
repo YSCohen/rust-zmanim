@@ -7,9 +7,8 @@
         - [ ] add links everywhere else
         - [ ] minimal comment macros
 - [ ] gen tests
-    - [ ] multi-date generated tests (DST/solstice)
     - [ ] more locations?
-    - [ ] calc for many locs and dates with one czc (also tests cache invalidation)
+    - [ ] break up CZC tests. by location?
 - [ ] combine the basic README somehow, so can be shared
     - [ ] import markdown in rust docs?
     - [ ] also the basic.rs code should be imported?
