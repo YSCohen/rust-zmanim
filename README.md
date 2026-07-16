@@ -47,13 +47,15 @@ println!(
 );
 ```
 
-Most functions return `Option<Zoned>`. `None` is returned when a solar event does not occur for the given date and location — for example, near the poles during parts of summer or winter, or when requesting a dawn/nightfall angle the sun never reaches.
+Most functions return `Option<Zoned>`. `None` is returned when a solar event does not occur for the given date and location - for example, near the poles during parts of summer or winter, or when requesting a dawn/nightfall angle the sun never reaches.
+
+`GeoLocation::new` validates its inputs (latitude, longitude, elevation) and returns `Result<GeoLocation, GeoLocationError>`.
 
 ### API Overview
 
 - `astronomical_calculator`: for low-level solar/astronomical calculations
 - `zmanim_calculator`: for stateless zmanim calculation functions (you pass `date` and `GeoLocation` each call)
-- `ComplexZmanimCalendar`: stateful struct for calculating multiple zmanim for a single date and location, with built-in methods covering both common and uncommon zmanim
+- `ComplexZmanimCalendar`: stateful struct for calculating multiple zmanim for a single date and location, with built-in methods covering both common and uncommon zmanim. Underlying solar events are lazily computed and cached per instance (`set_date`/`set_geo_location` clear the cache)
 
 ## Usage
 
@@ -170,6 +172,38 @@ println!(
     "Tzeis (90 min zmaniyos): {}",
     tzeis_90_zmanis.strftime("%H:%M:%S %Z")
 );
+```
+
+### 4. Looking Up Zmanim by Name with the Registry
+
+`ALL_ZMANIM` enumerates every zero-argument zman method on `ComplexZmanimCalendar`, and `find_zman` looks one up by name - useful for frontends that select zmanim at runtime.
+
+```rust
+use jiff::{tz::TimeZone, Zoned};
+use rust_zmanim::prelude::*;
+
+let date = Zoned::now().date();
+let location = GeoLocation::new(
+    31.778,
+    35.234,
+    754.0,
+    TimeZone::get("Asia/Jerusalem").unwrap(),
+)
+.unwrap();
+
+let czc = ComplexZmanimCalendar::new(location, date, UseElevation::No);
+
+let entry = find_zman("sof_zman_shema_gra").unwrap();
+match (entry.compute)(&czc) {
+    Some(ZmanValue::Time(time)) => println!("{}: {}", entry.name, time.strftime("%H:%M:%S %Z")),
+    Some(ZmanValue::Duration(duration)) => println!("{}: {duration:#}", entry.name),
+    None => println!("{}: does not occur", entry.name),
+}
+
+// or iterate over every zman
+for entry in ALL_ZMANIM {
+    // ...
+}
 ```
 
 ## Elevation Handling

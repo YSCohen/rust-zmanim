@@ -39,6 +39,7 @@
 - `half_day_based_shaah_zmanis`, `half_day_based_zman` in `zmanim_calculator`
 - `shaah_zmanis_alos_16_1_to_tzeis_7_083` in CZC
 - `percent_of_shaah_zmanis_from_degrees(degrees, sunset)` in CZC
+- Zman registry: `ALL_ZMANIM`, `ZmanEntry`, `ZmanKind`, `ZmanValue`, `find_zman` in `complex_zmanim_calendar` (and prelude), enumerating every zero-arg zman accessor for name-based lookup/iteration
 - [no API change] Per-instance lazy caching for `ComplexZmanimCalendar`
 
 ### Internal correctness / accuracy fixes
@@ -57,4 +58,5 @@
 - Lots of refactoring, deduplication, cleanup, &c
 - Much more/better docs
 - More examples
-- More/better tests, generated from latest KosherJava commit
+- Much more generated tests, which are much more comprehensive
+    - generated from latest KosherJava commit

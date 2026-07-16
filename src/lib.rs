@@ -260,10 +260,43 @@
 //! println!("Elevated hanetz:  {}", elevated_hanetz.strftime("%H:%M:%S %Z"));
 //! ```
 //!
+//! ### `ComplexZmanimCalendar`: Look Up *Zmanim* by Name with the [Registry](complex_zmanim_calendar::ALL_ZMANIM)
+//! ```rust
+//! # use jiff::{tz::TimeZone, Zoned};
+//! # use rust_zmanim::prelude::*;
+//! #
+//! # let date = Zoned::now().date();
+//! # let location = GeoLocation::new(
+//! #     31.778,
+//! #     35.234,
+//! #     754.0,
+//! #     TimeZone::get("Asia/Jerusalem").unwrap(),
+//! # )
+//! # .unwrap();
+//! #
+//! # let czc = ComplexZmanimCalendar::new(location, date, UseElevation::No);
+//! #
+//! let entry = find_zman("sof_zman_shema_gra").unwrap();
+//! match (entry.compute)(&czc) {
+//!     Some(ZmanValue::Time(time)) => println!("{}: {}", entry.name, time.strftime("%H:%M:%S %Z")),
+//!     Some(ZmanValue::Duration(duration)) => println!("{}: {duration:#}", entry.name),
+//!     None => println!("{}: does not occur", entry.name),
+//! }
+//!
+//! // or iterate over every zman
+//! for entry in ALL_ZMANIM {
+//!     // ...
+//! }
+//! ```
+//!
 //! ## Notes
 //! - Most APIs return `Option<Zoned>`. A result of `None` means the requested
 //!   event does not occur for the requested date/location (common in high
 //!   latitudes or for deep-twilight calculations).
+//! - [`ComplexZmanimCalendar`](complex_zmanim_calendar::ComplexZmanimCalendar)
+//!   lazily computes and caches the underlying solar events per instance, so
+//!   each event is calculated at most once no matter how many *zmanim* are
+//!   requested. The `set_date` and `set_geo_location` setters clear the cache.
 //! - This crate uses the solar position algorithm implemented by NOAA, based on
 //!   equations from *Astronomical Algorithms* by Jean Meeus. See
 //!   [`noaa_calculator`](crate::util::noaa_calculator) for more details

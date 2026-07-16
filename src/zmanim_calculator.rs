@@ -359,9 +359,9 @@ pub fn half_day_based_zman(
 
 /// The way a *zman* is offset from a reference event such as sunrise or sunset.
 ///
-/// Different calculation methods express their offset in different units —
+/// Different calculation methods express their offset in different units -
 /// astronomical degrees below the horizon, fixed clock minutes, or temporal
-/// (*zmaniyos*) minutes — and this enum captures which one applies.
+/// (*zmaniyos*) minutes - and this enum captures which one applies.
 #[derive(Debug, Clone, PartialEq)]
 pub enum ZmanOffset {
     /// Degrees below the horizon.
