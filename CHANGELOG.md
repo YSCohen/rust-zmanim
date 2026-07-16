@@ -1,4 +1,4 @@
-# 0.3.0 (WIP)
+# 0.3.0
 Many (not all) of the changes from KosherJava 3.0, and many other fixes and improvements
 
 ### Breaking API changes

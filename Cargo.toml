@@ -2,7 +2,7 @@
 name = "rust-zmanim"
 description = "Jewish Zmanim calculations, and solar position calculations, for any date and location"
 readme = "README.md"
-version = "0.2.1"
+version = "0.3.0"
 edition = "2024"
 license = "LGPL-2.1-or-later"
 categories = ["date-and-time", "science", "mathematics"]
