@@ -1,4 +1,5 @@
 # 0.3.0 (WIP)
+Many (not all) of the changes from KosherJava 3.0, and many other fixes and improvements
 
 ### Breaking API changes
 
@@ -34,7 +35,7 @@
 
 - `solar_azimuth`, `solar_elevation` in `astronomical_calculator` and CZC
 - `polar_sunrise_ben_ish_chai`, `polar_sunset_ben_ish_chai`, `polar_plag_ben_ish_chai` in CZC
-    - using new `astronomical_calculator::time_at_azimuth_90_or_270`
+    - using new `astronomical_calculator::time_at_azimuth`
 - `chatzos_hayom_as_half_day` in `zmanim_calculator` and CZC
 - `half_day_based_shaah_zmanis`, `half_day_based_zman` in `zmanim_calculator`
 - `shaah_zmanis_alos_16_1_to_tzeis_7_083` in CZC
@@ -46,7 +47,9 @@
 
 - Date-varying apparent solar radius. See `zenith_adjustments`
 - Slight correction to constants
-- More correct date anchoring in edge cases 
+- More correct date anchoring in edge cases
+- Fixed border bug in time normalization
+- Better antimeridian adjustment algorithm from KJ 3
 - More precise math in `zmanim_calculator`
 - Removed all `unwrap()` panics
 - Antimeridian handling factored out into `antimeridian_adjusted_date` and now also applied inside `utc_sun_rise_set` when adjusting the zenith (previously only used in the Julian-day path)
