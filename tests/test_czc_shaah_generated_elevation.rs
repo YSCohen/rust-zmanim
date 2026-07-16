@@ -104,6 +104,16 @@ fn test_shaah_zmanis_alos_16_1_to_tzeis_3_7() {
             "PT1H6M56.766S",
             "PT1H1M50.008S",
         ],
+        // CI
+        [
+            "PT1H14M49.064S",
+            "PT1H15M50.525S",
+            "PT1H20M19.981S",
+            "PT1H29M23.855S",
+            "PT1H12M42.304S",
+            "PT1H9M25.97S",
+            "PT53M47.946S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -223,6 +233,16 @@ fn test_shaah_zmanis_alos_16_1_to_tzeis_3_8() {
             "PT1H8M7.712S",
             "PT1H6M58.881S",
             "PT1H1M52.316S",
+        ],
+        // CI
+        [
+            "PT1H14M51.933S",
+            "PT1H15M53.433S",
+            "PT1H20M23.048S",
+            "PT1H29M27.39S",
+            "PT1H12M45.128S",
+            "PT1H9M28.753S",
+            "PT53M51.138S",
         ],
     ];
 
@@ -344,6 +364,16 @@ fn test_shaah_zmanis_mga_19_8_degrees() {
             "PT1H13M56.948S",
             "PT1H9M18.168S",
         ],
+        // CI
+        [
+            "PT1H24M59.153S",
+            "PT1H26M14.63S",
+            "PT1H31M53.277S",
+            "PT1H45M51.201S",
+            "PT1H22M32.077S",
+            "PT1H18M53.402S",
+            "PT1H3M37.723S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -463,6 +493,16 @@ fn test_shaah_zmanis_mga_18_degrees() {
             "PT1H13M52.62S",
             "PT1H12M40.278S",
             "PT1H7M57.565S",
+        ],
+        // CI
+        [
+            "PT1H23M0.972S",
+            "PT1H24M13.104S",
+            "PT1H29M32.118S",
+            "PT1H41M41.161S",
+            "PT1H20M39.491S",
+            "PT1H17M7.108S",
+            "PT1H1M54.222S",
         ],
     ];
 
@@ -584,6 +624,16 @@ fn test_shaah_zmanis_mga_26_degrees() {
             "PT1H18M22.021S",
             "PT1H13M54.286S",
         ],
+        // CI
+        [
+            "PT1H32M17.781S",
+            "PT1H33M50.878S",
+            "PT1H41M27.208S",
+            "None",
+            "PT1H29M22.283S",
+            "PT1H25M12.698S",
+            "PT1H9M29.247S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -703,6 +753,16 @@ fn test_shaah_zmanis_mga_16_1_degrees() {
             "PT1H12M30.665S",
             "PT1H11M19.458S",
             "PT1H6M32.241S",
+        ],
+        // CI
+        [
+            "PT1H20M59.367S",
+            "PT1H22M8.496S",
+            "PT1H27M10.357S",
+            "PT1H38M2.521S",
+            "PT1H18M42.952S",
+            "PT1H15M16.282S",
+            "PT1H4.071S",
         ],
     ];
 
@@ -824,6 +884,16 @@ fn test_shaah_zmanis_mga_60_minutes() {
             "PT1H10M44.316S",
             "PT1H5M7.638S",
         ],
+        // CI
+        [
+            "PT1H16M24.925S",
+            "PT1H17M21.14S",
+            "PT1H21M12.173S",
+            "PT1H28M5.35S",
+            "PT1H14M29.966S",
+            "PT1H11M25.9S",
+            "PT55M1.992S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -943,6 +1013,16 @@ fn test_shaah_zmanis_mga_72_minutes_zmanis() {
             "PT1H14M12.16S",
             "PT1H12M53.179S",
             "PT1H6M9.166S",
+        ],
+        // CI
+        [
+            "PT1H19M41.91S",
+            "PT1H20M49.368S",
+            "PT1H25M26.608S",
+            "PT1H33M42.42S",
+            "PT1H17M23.959S",
+            "PT1H13M43.081S",
+            "PT54M2.39S",
         ],
     ];
 
@@ -1064,6 +1144,16 @@ fn test_shaah_zmanis_mga_90_minutes() {
             "PT1H15M44.316S",
             "PT1H10M7.638S",
         ],
+        // CI
+        [
+            "PT1H21M24.925S",
+            "PT1H22M21.14S",
+            "PT1H26M12.173S",
+            "PT1H33M5.35S",
+            "PT1H19M29.966S",
+            "PT1H16M25.9S",
+            "PT1H1.992S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -1183,6 +1273,16 @@ fn test_shaah_zmanis_mga_90_minutes_zmanis() {
             "PT1H17M17.667S",
             "PT1H15M55.395S",
             "PT1H8M54.548S",
+        ],
+        // CI
+        [
+            "PT1H23M1.156S",
+            "PT1H24M11.425S",
+            "PT1H29M0.217S",
+            "PT1H37M36.688S",
+            "PT1H20M37.457S",
+            "PT1H16M47.376S",
+            "PT56M17.49S",
         ],
     ];
 
@@ -1304,6 +1404,16 @@ fn test_shaah_zmanis_mga_96_minutes_zmanis() {
             "PT1H16M56.134S",
             "PT1H9M49.675S",
         ],
+        // CI
+        [
+            "PT1H24M7.572S",
+            "PT1H25M18.778S",
+            "PT1H30M11.42S",
+            "PT1H38M54.777S",
+            "PT1H21M41.957S",
+            "PT1H17M48.807S",
+            "PT57M2.523S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -1423,6 +1533,16 @@ fn test_shaah_zmanis_ateret_torah() {
             "PT1H11M21.147S",
             "PT1H10M8.747S",
             "PT1H3M58.402S",
+        ],
+        // CI
+        [
+            "PT1H16M23.417S",
+            "PT1H17M25.254S",
+            "PT1H21M39.391S",
+            "PT1H29M13.885S",
+            "PT1H14M16.962S",
+            "PT1H10M54.491S",
+            "PT52M52.191S",
         ],
     ];
 
@@ -1544,6 +1664,16 @@ fn test_shaah_zmanis_alos_16_1_to_tzeis_7_083() {
             "PT1H8M8.342S",
             "PT1H3M7.77S",
         ],
+        // CI
+        [
+            "PT1H16M26.934S",
+            "PT1H17M29.873S",
+            "PT1H22M5.402S",
+            "PT1H31M27.323S",
+            "PT1H14M18.399S",
+            "PT1H11M0.354S",
+            "PT55M34.204S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -1663,6 +1793,16 @@ fn test_shaah_zmanis_mga_96_minutes() {
             "PT1H17M50.133S",
             "PT1H16M44.316S",
             "PT1H11M7.638S",
+        ],
+        // CI
+        [
+            "PT1H22M24.925S",
+            "PT1H23M21.14S",
+            "PT1H27M12.173S",
+            "PT1H34M5.35S",
+            "PT1H20M29.966S",
+            "PT1H17M25.9S",
+            "PT1H1M1.992S",
         ],
     ];
 
@@ -1784,6 +1924,16 @@ fn test_shaah_zmanis_mga_120_minutes() {
             "PT1H20M44.316S",
             "PT1H15M7.638S",
         ],
+        // CI
+        [
+            "PT1H26M24.925S",
+            "PT1H27M21.14S",
+            "PT1H31M12.173S",
+            "PT1H38M5.35S",
+            "PT1H24M29.966S",
+            "PT1H21M25.9S",
+            "PT1H5M1.992S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -1903,6 +2053,16 @@ fn test_shaah_zmanis_mga_120_minutes_zmanis() {
             "PT1H22M26.845S",
             "PT1H20M59.088S",
             "PT1H13M30.184S",
+        ],
+        // CI
+        [
+            "PT1H28M33.233S",
+            "PT1H29M48.187S",
+            "PT1H34M56.231S",
+            "PT1H44M7.134S",
+            "PT1H25M59.955S",
+            "PT1H21M54.534S",
+            "PT1H2.656S",
         ],
     ];
 
@@ -2024,6 +2184,16 @@ fn test_shaah_zmanis_baal_hatanya() {
             "PT1H1M4.229S",
             "PT55M29.758S",
         ],
+        // CI
+        [
+            "PT1H6M35.864S",
+            "PT1H7M32.27S",
+            "PT1H11M23.753S",
+            "PT1H18M18.325S",
+            "PT1H4M40.789S",
+            "PT1H1M36.662S",
+            "PT45M15.02S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -2144,6 +2314,16 @@ fn test_shaah_zmanis_gra() {
             "PT1H44.316S",
             "PT55M7.638S",
         ],
+        // CI
+        [
+            "PT1H6M24.925S",
+            "PT1H7M21.14S",
+            "PT1H11M12.173S",
+            "PT1H18M5.35S",
+            "PT1H4M29.966S",
+            "PT1H1M25.9S",
+            "PT45M1.992S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -2263,6 +2443,16 @@ fn test_shaah_zmanis_mga_72_minutes() {
             "PT1H13M50.133S",
             "PT1H12M44.316S",
             "PT1H7M7.638S",
+        ],
+        // CI
+        [
+            "PT1H18M24.925S",
+            "PT1H19M21.14S",
+            "PT1H23M12.173S",
+            "PT1H30M5.35S",
+            "PT1H16M29.966S",
+            "PT1H13M25.9S",
+            "PT57M1.992S",
         ],
     ];
 

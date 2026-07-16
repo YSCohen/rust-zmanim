@@ -104,6 +104,16 @@ fn test_shaah_zmanis_alos_16_1_to_tzeis_3_7() {
             "PT1H6M56.766S",
             "PT1H1M50.008S",
         ],
+        // CI
+        [
+            "PT1H14M49.064S",
+            "PT1H15M50.525S",
+            "PT1H20M19.981S",
+            "PT1H29M23.855S",
+            "PT1H12M42.304S",
+            "PT1H9M25.97S",
+            "PT53M47.946S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -223,6 +233,16 @@ fn test_shaah_zmanis_alos_16_1_to_tzeis_3_8() {
             "PT1H8M7.712S",
             "PT1H6M58.881S",
             "PT1H1M52.316S",
+        ],
+        // CI
+        [
+            "PT1H14M51.933S",
+            "PT1H15M53.433S",
+            "PT1H20M23.048S",
+            "PT1H29M27.39S",
+            "PT1H12M45.128S",
+            "PT1H9M28.753S",
+            "PT53M51.138S",
         ],
     ];
 
@@ -344,6 +364,16 @@ fn test_shaah_zmanis_mga_19_8_degrees() {
             "PT1H13M56.948S",
             "PT1H9M18.168S",
         ],
+        // CI
+        [
+            "PT1H24M59.153S",
+            "PT1H26M14.63S",
+            "PT1H31M53.277S",
+            "PT1H45M51.201S",
+            "PT1H22M32.077S",
+            "PT1H18M53.402S",
+            "PT1H3M37.723S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -463,6 +493,16 @@ fn test_shaah_zmanis_mga_18_degrees() {
             "PT1H13M52.62S",
             "PT1H12M40.278S",
             "PT1H7M57.565S",
+        ],
+        // CI
+        [
+            "PT1H23M0.972S",
+            "PT1H24M13.104S",
+            "PT1H29M32.118S",
+            "PT1H41M41.161S",
+            "PT1H20M39.491S",
+            "PT1H17M7.108S",
+            "PT1H1M54.222S",
         ],
     ];
 
@@ -584,6 +624,16 @@ fn test_shaah_zmanis_mga_26_degrees() {
             "PT1H18M22.021S",
             "PT1H13M54.286S",
         ],
+        // CI
+        [
+            "PT1H32M17.781S",
+            "PT1H33M50.878S",
+            "PT1H41M27.208S",
+            "None",
+            "PT1H29M22.283S",
+            "PT1H25M12.698S",
+            "PT1H9M29.247S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -703,6 +753,16 @@ fn test_shaah_zmanis_mga_16_1_degrees() {
             "PT1H12M30.665S",
             "PT1H11M19.458S",
             "PT1H6M32.241S",
+        ],
+        // CI
+        [
+            "PT1H20M59.367S",
+            "PT1H22M8.496S",
+            "PT1H27M10.357S",
+            "PT1H38M2.521S",
+            "PT1H18M42.952S",
+            "PT1H15M16.282S",
+            "PT1H4.071S",
         ],
     ];
 
@@ -824,6 +884,16 @@ fn test_shaah_zmanis_mga_60_minutes() {
             "PT1H10M32.553S",
             "PT1H4M54.705S",
         ],
+        // CI
+        [
+            "PT1H15M53.366S",
+            "PT1H16M49.329S",
+            "PT1H20M38.91S",
+            "PT1H27M27.713S",
+            "PT1H13M58.801S",
+            "PT1H10M55.031S",
+            "PT54M25.468S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -943,6 +1013,16 @@ fn test_shaah_zmanis_mga_72_minutes_zmanis() {
             "PT1H13M57.987S",
             "PT1H12M39.064S",
             "PT1H5M53.646S",
+        ],
+        // CI
+        [
+            "PT1H19M4.039S",
+            "PT1H20M11.195S",
+            "PT1H24M46.692S",
+            "PT1H32M57.255S",
+            "PT1H16M46.561S",
+            "PT1H13M6.037S",
+            "PT53M18.562S",
         ],
     ];
 
@@ -1064,6 +1144,16 @@ fn test_shaah_zmanis_mga_90_minutes() {
             "PT1H15M32.553S",
             "PT1H9M54.705S",
         ],
+        // CI
+        [
+            "PT1H20M53.366S",
+            "PT1H21M49.329S",
+            "PT1H25M38.91S",
+            "PT1H32M27.713S",
+            "PT1H18M58.801S",
+            "PT1H15M55.031S",
+            "PT59M25.468S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -1183,6 +1273,16 @@ fn test_shaah_zmanis_mga_90_minutes_zmanis() {
             "PT1H17M2.903S",
             "PT1H15M40.692S",
             "PT1H8M38.381S",
+        ],
+        // CI
+        [
+            "PT1H22M21.707S",
+            "PT1H23M31.661S",
+            "PT1H28M18.637S",
+            "PT1H36M49.641S",
+            "PT1H19M58.501S",
+            "PT1H16M8.789S",
+            "PT55M31.835S",
         ],
     ];
 
@@ -1304,6 +1404,16 @@ fn test_shaah_zmanis_mga_96_minutes_zmanis() {
             "PT1H16M41.234S",
             "PT1H9M33.293S",
         ],
+        // CI
+        [
+            "PT1H23M27.597S",
+            "PT1H24M38.484S",
+            "PT1H29M29.286S",
+            "PT1H38M7.103S",
+            "PT1H21M2.481S",
+            "PT1H17M9.706S",
+            "PT56M16.259S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -1423,6 +1533,16 @@ fn test_shaah_zmanis_ateret_torah() {
             "PT1H11M8.154S",
             "PT1H9M55.809S",
             "PT1H3M44.175S",
+        ],
+        // CI
+        [
+            "PT1H15M48.702S",
+            "PT1H16M50.262S",
+            "PT1H21M2.801S",
+            "PT1H28M32.484S",
+            "PT1H13M42.681S",
+            "PT1H10M20.534S",
+            "PT52M12.015S",
         ],
     ];
 
@@ -1544,6 +1664,16 @@ fn test_shaah_zmanis_alos_16_1_to_tzeis_7_083() {
             "PT1H8M8.342S",
             "PT1H3M7.77S",
         ],
+        // CI
+        [
+            "PT1H16M26.934S",
+            "PT1H17M29.873S",
+            "PT1H22M5.402S",
+            "PT1H31M27.323S",
+            "PT1H14M18.399S",
+            "PT1H11M0.354S",
+            "PT55M34.204S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -1663,6 +1793,16 @@ fn test_shaah_zmanis_mga_96_minutes() {
             "PT1H17M38.322S",
             "PT1H16M32.553S",
             "PT1H10M54.705S",
+        ],
+        // CI
+        [
+            "PT1H21M53.366S",
+            "PT1H22M49.329S",
+            "PT1H26M38.91S",
+            "PT1H33M27.713S",
+            "PT1H19M58.801S",
+            "PT1H16M55.031S",
+            "PT1H25.468S",
         ],
     ];
 
@@ -1784,6 +1924,16 @@ fn test_shaah_zmanis_mga_120_minutes() {
             "PT1H20M32.553S",
             "PT1H14M54.705S",
         ],
+        // CI
+        [
+            "PT1H25M53.366S",
+            "PT1H26M49.329S",
+            "PT1H30M38.91S",
+            "PT1H37M27.713S",
+            "PT1H23M58.801S",
+            "PT1H20M55.031S",
+            "PT1H4M25.468S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -1903,6 +2053,16 @@ fn test_shaah_zmanis_mga_120_minutes_zmanis() {
             "PT1H22M11.096S",
             "PT1H20M43.404S",
             "PT1H13M12.94S",
+        ],
+        // CI
+        [
+            "PT1H27M51.154S",
+            "PT1H29M5.772S",
+            "PT1H34M11.88S",
+            "PT1H43M16.95S",
+            "PT1H25M18.402S",
+            "PT1H21M13.375S",
+            "PT59M13.957S",
         ],
     ];
 
@@ -2024,6 +2184,16 @@ fn test_shaah_zmanis_baal_hatanya() {
             "PT1H1M4.229S",
             "PT55M29.758S",
         ],
+        // CI
+        [
+            "PT1H6M35.864S",
+            "PT1H7M32.27S",
+            "PT1H11M23.753S",
+            "PT1H18M18.325S",
+            "PT1H4M40.789S",
+            "PT1H1M36.662S",
+            "PT45M15.02S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -2144,6 +2314,16 @@ fn test_shaah_zmanis_gra() {
             "PT1H32.553S",
             "PT54M54.705S",
         ],
+        // CI
+        [
+            "PT1H5M53.366S",
+            "PT1H6M49.329S",
+            "PT1H10M38.91S",
+            "PT1H17M27.713S",
+            "PT1H3M58.801S",
+            "PT1H55.031S",
+            "PT44M25.468S",
+        ],
     ];
 
     for ((loc, label), per_loc) in zip(
@@ -2263,6 +2443,16 @@ fn test_shaah_zmanis_mga_72_minutes() {
             "PT1H13M38.322S",
             "PT1H12M32.553S",
             "PT1H6M54.705S",
+        ],
+        // CI
+        [
+            "PT1H17M53.366S",
+            "PT1H18M49.329S",
+            "PT1H22M38.91S",
+            "PT1H29M27.713S",
+            "PT1H15M58.801S",
+            "PT1H12M55.031S",
+            "PT56M25.468S",
         ],
     ];
 

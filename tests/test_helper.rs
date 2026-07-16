@@ -45,6 +45,10 @@ pub(crate) fn niue() -> GeoLocation {
     GeoLocation::new(-19.053006, -169.859199, 75.0, tz("Pacific/Niue")).unwrap()
 }
 
+pub(crate) fn chatham_islands() -> GeoLocation {
+    GeoLocation::new(-44.00, -176.50, 299.0, tz("Pacific/Chatham")).unwrap()
+}
+
 pub(crate) fn basic_locations() -> [GeoLocation; 6] {
     [
         lakewood(),
@@ -56,7 +60,7 @@ pub(crate) fn basic_locations() -> [GeoLocation; 6] {
     ]
 }
 
-pub(crate) fn more_locations() -> [GeoLocation; 9] {
+pub(crate) fn more_locations() -> [GeoLocation; 10] {
     [
         lakewood(),
         jerusalem(),
@@ -67,12 +71,13 @@ pub(crate) fn more_locations() -> [GeoLocation; 9] {
         fiji(),
         honolulu(),
         niue(),
+        chatham_islands(),
     ]
 }
 
 /// Labels for [`more_locations`], in the same order, for assert messages.
-pub(crate) fn location_labels() -> [&'static str; 9] {
-    ["LW", "JM", "LA", "TK", "AN", "SM", "FJ", "HU", "NI"]
+pub(crate) fn location_labels() -> [&'static str; 10] {
+    ["LW", "JM", "LA", "TK", "AN", "SM", "FJ", "HU", "NI", "CI"]
 }
 
 /// The dates exercised by every generated test, in the same order as
