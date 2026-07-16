@@ -16,10 +16,13 @@ use std::{
 
 use jiff::{Span, Zoned, civil::Date, tz::TimeZone};
 
-use crate::util::{
-    geolocation::GeoLocation,
-    math_helper::{HOUR_MINUTES, HOUR_SECONDS, MINUTE_SECONDS, SECOND_NANOS},
-    zenith_adjustments::adjusted_zenith,
+use crate::{
+    astronomical_calculator::Azimuth,
+    util::{
+        geolocation::GeoLocation,
+        math_helper::{HOUR_MINUTES, HOUR_SECONDS, MINUTE_SECONDS, SECOND_NANOS},
+        zenith_adjustments::adjusted_zenith,
+    },
 };
 
 // Julian Stuff
@@ -428,25 +431,27 @@ fn adjust_elevation_for_refraction(elevation: f64) -> f64 {
     correction / 3_600.0
 }
 
-/// Returns the UTC (in hours) of the time when the sun reaches the given
-/// `target_azimuth` for the given day at the given location. Only azimuths of
-/// 90&deg; (directly east) and 270&deg; (directly west) are supported; any
-/// other value is treated as 270&deg;.
+/// Returns the UTC (in hours) of the time when the sun is directly due
+/// [east](Azimuth::East) (azimuth 90&deg;) or due [west](Azimuth::West)
+/// (azimuth 270&deg;) for the given day at the given location.
 ///
 /// Returns `None` when the azimuth is never reached for the date and location
 /// (for example in the tropics, at the poles, or on the equator).
 #[must_use]
-pub fn utc_time_at_azimuth_90_or_270(
+pub fn utc_time_at_azimuth(
     date: Date,
     geo_location: &GeoLocation,
-    target_azimuth: f64,
+    target_azimuth: Azimuth,
 ) -> Option<f64> {
     let julian_day = datetime_to_julian_day(
         &date.to_zoned(geo_location.timezone.clone()).ok()?,
         geo_location.longitude,
     );
     let solar_noon_base = 0.5 - (geo_location.longitude / 360.0);
-    let quarter = if target_azimuth == 90.0 { 0.25 } else { 0.75 };
+    let quarter = match target_azimuth {
+        Azimuth::East => 0.25,
+        Azimuth::West => 0.75,
+    };
     let mut date_time = solar_noon_base + quarter;
 
     for _ in 0..3 {
@@ -456,7 +461,10 @@ pub fn utc_time_at_azimuth_90_or_270(
         if ratio.is_nan() || !(-1.0..=1.0).contains(&ratio) {
             return None;
         }
-        let sign = if target_azimuth == 90.0 { -1.0 } else { 1.0 };
+        let sign = match target_azimuth {
+            Azimuth::East => -1.0,
+            Azimuth::West => 1.0,
+        };
         let offset = sign * (acos_deg(ratio) / 360.0);
         date_time = solar_noon_base + offset - (equation_of_time(julian_centuries) / 1_440.0);
     }

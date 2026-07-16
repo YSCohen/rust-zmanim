@@ -1057,7 +1057,11 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn polar_sunrise_ben_ish_chai(&self) -> Option<Zoned> {
         if self.hanetz().is_none() {
-            astronomical_calculator::time_at_azimuth_90_or_270(self.date, &self.geo_location, 90.0)
+            astronomical_calculator::time_at_azimuth(
+                self.date,
+                &self.geo_location,
+                astronomical_calculator::Azimuth::East,
+            )
         } else {
             None
         }
@@ -1104,7 +1108,11 @@ impl ComplexZmanimCalendar {
     #[must_use]
     pub fn polar_sunset_ben_ish_chai(&self) -> Option<Zoned> {
         if self.shkia().is_none() {
-            astronomical_calculator::time_at_azimuth_90_or_270(self.date, &self.geo_location, 270.0)
+            astronomical_calculator::time_at_azimuth(
+                self.date,
+                &self.geo_location,
+                astronomical_calculator::Azimuth::West,
+            )
         } else {
             None
         }

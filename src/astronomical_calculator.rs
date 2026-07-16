@@ -209,10 +209,18 @@ pub fn solar_elevation(instant: &Zoned, geo_location: &GeoLocation) -> f64 {
     noaa_calculator::solar_elevation(instant, geo_location)
 }
 
-/// Returns the time at which the sun reaches an azimuth of 90&deg; (directly
-/// east) or 270&deg; (directly west). Only azimuths of 90&deg; (directly east)
-/// and 270&deg; (directly west) are supported; any other value is treated as
-/// 270&deg;.
+/// A cardinal direction on the horizon, identifying the two solar azimuths
+/// used by [`time_at_azimuth`] for polar *zmanim*.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Azimuth {
+    /// Due east, an azimuth of 90&deg;. Treated as sunrise in polar regions.
+    East,
+    /// Due west, an azimuth of 270&deg;. Treated as sunset in polar regions.
+    West,
+}
+
+/// Returns the time at which the sun is directly due [east](Azimuth::East)
+/// (azimuth 90&deg;) or due [west](Azimuth::West) (azimuth 270&deg;).
 ///
 /// This is used in polar regions on days when there is no sunrise or sunset,
 /// where some *halachic* opinions treat sunrise as the time the sun is directly
@@ -221,19 +229,18 @@ pub fn solar_elevation(instant: &Zoned, geo_location: &GeoLocation) -> f64 {
 /// Returns `None` when the azimuth is never reached for the requested date and
 /// location.
 #[must_use]
-pub fn time_at_azimuth_90_or_270(
+pub fn time_at_azimuth(
     date: Date,
     geo_location: &GeoLocation,
-    azimuth: f64,
+    azimuth: Azimuth,
 ) -> Option<Zoned> {
     date_time_from_time_of_day(
         date,
-        noaa_calculator::utc_time_at_azimuth_90_or_270(date, geo_location, azimuth)?,
+        noaa_calculator::utc_time_at_azimuth(date, geo_location, azimuth)?,
         geo_location,
-        if azimuth == 90.0 {
-            &SolarEvent::Sunrise
-        } else {
-            &SolarEvent::Sunset
+        match azimuth {
+            Azimuth::East => &SolarEvent::Sunrise,
+            Azimuth::West => &SolarEvent::Sunset,
         },
     )
 }
