@@ -7,7 +7,6 @@
 /// that evaluates the offset closure and calls `self.<zman_type>(&offset)`. The
 /// `shaah_zmanis_mga` type is handled specially because it returns
 /// `Option<SignedDuration>` rather than `Option<Zoned>`.
-#[macro_export]
 macro_rules! zmanim_for_offset {
     // Main entry point
     ($offset_fn:expr, [$($fn_name:ident => $zman_type:ident, $doc:expr),* $(,)?]) => {
