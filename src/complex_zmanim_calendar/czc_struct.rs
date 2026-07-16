@@ -1796,10 +1796,10 @@ impl ComplexZmanimCalendar {
     /// minutes in Rabbi Simcha Bunim Cohen's The radiance of Shabbos as the
     /// earliest *zman* for New York. This *zman* is also listed in the *Divrei
     /// Shalom* Vol. III, chapter 75, and *Beis Av"i* Vol. III, chapter 117.
-    /// This *zman* is also listed in the *Divrei Shalom* etc. chapter 177
-    /// (FIXME - could not be located). Since this *zman* depends on the level
-    /// of light, Rabbi Yaakov Shakow presented this degree-based calculation to
-    /// Rabbi Rabbi Shmuel Kamenetsky who agreed to it.
+    /// This *zman* is also listed in the *Divrei Shalom* etc. chapter 177.
+    /// Since this *zman* depends on the level of light, Rabbi Yaakov Shakow
+    /// presented this degree-based calculation to Rabbi Rabbi Shmuel
+    /// Kamenetsky who agreed to it.
     #[must_use]
     pub fn tzeis_geonim_7_67_degrees(&self) -> Option<Zoned> {
         self.tzeis(&Degrees(7.67))
