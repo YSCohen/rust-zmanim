@@ -1,9 +1,13 @@
 - [ ] add chatzos halayla as half night?
+- [ ] add generic `mincha_gedola_greater_than_30` in CZC
+- [ ] more mutable settings in CZC
+    - `useAstronomicalChatzosForOtherZmanim`
 - [ ] docs
     - [ ] make sure has all relevant content from KJ
     - [ ] more uniformity
     - [ ] minimize: concentrate information to "earliest" possible place add links everywhere else
         - [ ] also in doc macros
+- [ ] add Meeus Calculator & SPA Calculator
 - [ ] gen tests - more locations?
 - [ ] organize
 - [ ] more linting? make sure float conversion etc is correct
