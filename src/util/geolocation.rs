@@ -16,8 +16,6 @@ pub struct GeoLocation {
     pub(crate) timezone: TimeZone,
 }
 
-// TODO: should this be using some error library? like thiserror?
-// TODO: should this implement std err?
 /// An invalid [`GeoLocation`] parameter, returned by [`GeoLocation::new`]. The
 /// contained value is the rejected input.
 #[derive(Debug, Clone, Copy, PartialEq)]
