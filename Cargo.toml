@@ -9,6 +9,7 @@ categories = ["date-and-time", "science", "mathematics"]
 keywords = ["zmanim", "jewish", "time", "sunset", "sunrise"]
 repository = "https://github.com/YSCohen/rust-zmanim"
 documentation = "https://docs.rs/rust-zmanim/"
+exclude = ["tests/"]
 
 [dependencies]
 jiff = "0.2"
