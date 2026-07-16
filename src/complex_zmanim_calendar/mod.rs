@@ -10,5 +10,7 @@ mod doc_macros;
 
 mod cache;
 mod czc_struct;
+mod registry;
 
 pub use czc_struct::*;
+pub use registry::*;
