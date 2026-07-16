@@ -1183,7 +1183,6 @@ impl ComplexZmanimCalendar {
         ))
     }
 
-    // seems like this method was removed from KJ
     /// This method should be used *lechumra* only and returns the time of *plag
     /// hamincha* based on the opinion that the day starts at *alos* 16.1&deg;
     /// and ends at sunset.
@@ -1237,10 +1236,11 @@ impl ComplexZmanimCalendar {
 
     /// Returns a *shaah zmanis* (temporal hour) used by some *zmanim* according
     /// to some opinions that is based on a day starting at alos 16.1&deg;
-    /// and ending tzais 8.083&deg;. This day is split into 12 equal parts
+    /// and ending tzais 7.083&deg;. This day is split into 12 equal parts
     /// with each part being a *shaah zmanis*. Note that with this system,
     /// *chatzos* (midday) will not be the point that the sun is halfway
     /// across the sky.
+    #[must_use]
     pub fn shaah_zmanis_alos_16_1_to_tzeis_7_083(&self) -> Option<SignedDuration> {
         Some(zmanim_calculator::shaah_zmanis(
             &self.alos_16_1_degrees()?,
