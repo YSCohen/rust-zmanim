@@ -263,6 +263,7 @@ fn date_time_from_time_of_day(
 ) -> Option<Zoned> {
     let anchor = noaa_calculator::antimeridian_adjusted_date(
         &date.to_zoned(geo_location.timezone.clone()).ok()?,
+        geo_location.longitude,
     );
 
     // apparent solar time of the event, per the longitude's natural offset

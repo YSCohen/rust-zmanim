@@ -36,23 +36,30 @@ const JULIAN_DAYS_PER_CENTURY: f64 = 36_525.0;
 /// uses UTC+14 while its longitude of ~-171&deg; would suggest UTC-11), the
 /// date is shifted before calculating to conform with the presumption that the
 /// date only increases east of the Prime Meridian.
-pub(crate) fn antimeridian_adjusted_date(dt: &Zoned) -> Date {
-    let offset = dt.offset().seconds() / HOUR_SECONDS as i32;
-    if offset > 12 {
-        // e.g. Samoa
-        dt.sub(Span::new().days(1)).date()
-    } else if offset < -12 {
-        // nowhere currently AFAIK, but better safe than sorry  :)
+///
+/// The adjustment compares the location's local mean time offset
+/// (`longitude / 15` hours) against the actual timezone offset in effect at
+/// `dt` (including any daylight saving adjustment). Only timezones that cross
+/// the antimeridian reach the &plusmn;20 hour threshold that triggers a shift.
+pub(crate) fn antimeridian_adjusted_date(dt: &Zoned, longitude: f64) -> Date {
+    let local_hours_offset =
+        longitude / 15.0 - f64::from(dt.offset().seconds()) / HOUR_SECONDS;
+    if local_hours_offset >= 20.0 {
+        // offset 20+ hours in the future: no known timezone crosses the
+        // antimeridian to the west, but better safe than sorry
         dt.add(Span::new().days(1)).date()
+    } else if local_hours_offset <= -20.0 {
+        // offset 20+ hours in the past, e.g. Samoa
+        dt.sub(Span::new().days(1)).date()
     } else {
-        // most places
+        // 99% of the world: no adjustment
         dt.date()
     }
 }
 
 /// Returns the Julian day (at midnight) from a Zoned datetime
-fn datetime_to_julian_day(dt: &Zoned) -> f64 {
-    let date = antimeridian_adjusted_date(dt);
+fn datetime_to_julian_day(dt: &Zoned, longitude: f64) -> f64 {
+    let date = antimeridian_adjusted_date(dt, longitude);
 
     let mut year = f64::from(date.year());
     let mut month = f64::from(date.month());
@@ -260,9 +267,9 @@ fn utc_sun_rise_set(
     };
 
     let zoned = date.to_zoned(geo_location.timezone.clone()).ok()?;
-    let adjusted_date = antimeridian_adjusted_date(&zoned);
+    let adjusted_date = antimeridian_adjusted_date(&zoned, geo_location.longitude);
     let adjusted_zenith = adjusted_zenith(zenith, elevation, adjusted_date);
-    let julian_day = datetime_to_julian_day(&zoned);
+    let julian_day = datetime_to_julian_day(&zoned, geo_location.longitude);
 
     // first pass using solar noon
     let noonmin = solar_noon_utc(
@@ -297,21 +304,22 @@ fn utc_sun_rise_set(
 fn normalize_time(minutes: f64) -> Option<f64> {
     let time = minutes / 60.0;
     if time.is_nan() {
-        None
-    } else if time > 0.0 {
-        // ensure that the time is < 24
-        Some(time % 24.0)
-    } else {
-        // and >= 0
-        Some(time % 24.0 + 24.0)
+        return None;
     }
+    let wrapped = time % 24.0;
+    // `%` keeps the sign of the dividend, so a negative input wraps to
+    // `(-24, 0]`; add 24 to bring it into `[0, 24)`. An exact 0.0 stays 0.0.
+    Some(if wrapped < 0.0 { wrapped + 24.0 } else { wrapped })
 }
 
 /// Returns the UTC of the current day's solar noon or the upcoming midnight
 /// (about 12 hours after solar noon) of the given day at the given location on
 /// earth.
 fn utc_solar_noon_midnight(date: Date, geo_location: &GeoLocation, mode: &Mode) -> Option<f64> {
-    let julian_day = datetime_to_julian_day(&date.to_zoned(geo_location.timezone.clone()).ok()?);
+    let julian_day = datetime_to_julian_day(
+        &date.to_zoned(geo_location.timezone.clone()).ok()?,
+        geo_location.longitude,
+    );
     let longitude = -geo_location.longitude;
     let base_minutes = if *mode == Mode::SunriseNoon {
         720.0
@@ -373,7 +381,7 @@ fn solar_position(instant: &Zoned, loc: &GeoLocation) -> (f64, f64, f64) {
                 / MINUTE_SECONDS)
             / HOUR_MINUTES)
         / 24.0;
-    let julian_day = datetime_to_julian_day(&utc) + fractional_day;
+    let julian_day = datetime_to_julian_day(&utc, loc.longitude) + fractional_day;
     let julian_centuries = julian_centuries_from_julian_day(julian_day);
     let declination = solar_declination(julian_centuries);
     let eq_time = equation_of_time(julian_centuries);
@@ -433,7 +441,10 @@ pub fn utc_time_at_azimuth_90_or_270(
     geo_location: &GeoLocation,
     target_azimuth: f64,
 ) -> Option<f64> {
-    let julian_day = datetime_to_julian_day(&date.to_zoned(geo_location.timezone.clone()).ok()?);
+    let julian_day = datetime_to_julian_day(
+        &date.to_zoned(geo_location.timezone.clone()).ok()?,
+        geo_location.longitude,
+    );
     let solar_noon_base = 0.5 - (geo_location.longitude / 360.0);
     let quarter = if target_azimuth == 90.0 { 0.25 } else { 0.75 };
     let mut date_time = solar_noon_base + quarter;
