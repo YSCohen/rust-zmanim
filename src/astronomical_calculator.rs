@@ -229,11 +229,7 @@ pub enum Azimuth {
 /// Returns `None` when the azimuth is never reached for the requested date and
 /// location.
 #[must_use]
-pub fn time_at_azimuth(
-    date: Date,
-    geo_location: &GeoLocation,
-    azimuth: Azimuth,
-) -> Option<Zoned> {
+pub fn time_at_azimuth(date: Date, geo_location: &GeoLocation, azimuth: Azimuth) -> Option<Zoned> {
     date_time_from_time_of_day(
         date,
         noaa_calculator::utc_time_at_azimuth(date, geo_location, azimuth)?,

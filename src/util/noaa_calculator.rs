@@ -45,8 +45,7 @@ const JULIAN_DAYS_PER_CENTURY: f64 = 36_525.0;
 /// `dt` (including any daylight saving adjustment). Only timezones that cross
 /// the antimeridian reach the &plusmn;20 hour threshold that triggers a shift.
 pub(crate) fn antimeridian_adjusted_date(dt: &Zoned, longitude: f64) -> Date {
-    let local_hours_offset =
-        longitude / 15.0 - f64::from(dt.offset().seconds()) / HOUR_SECONDS;
+    let local_hours_offset = longitude / 15.0 - f64::from(dt.offset().seconds()) / HOUR_SECONDS;
     if local_hours_offset >= 20.0 {
         // offset 20+ hours in the future: no known timezone crosses the
         // antimeridian to the west, but better safe than sorry
@@ -312,7 +311,11 @@ fn normalize_time(minutes: f64) -> Option<f64> {
     let wrapped = time % 24.0;
     // `%` keeps the sign of the dividend, so a negative input wraps to
     // `(-24, 0]`; add 24 to bring it into `[0, 24)`. An exact 0.0 stays 0.0.
-    Some(if wrapped < 0.0 { wrapped + 24.0 } else { wrapped })
+    Some(if wrapped < 0.0 {
+        wrapped + 24.0
+    } else {
+        wrapped
+    })
 }
 
 /// Returns the UTC of the current day's solar noon or the upcoming midnight
